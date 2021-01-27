@@ -1,0 +1,17 @@
+{
+  "name": "incentiveDB",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "directus start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "directus": "^9.0.0-rc.32",
+    "mysql": "^2.18.1"
+  }
+}
