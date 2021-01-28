@@ -42,11 +42,11 @@ A web-based front end service (allowing users to login to the ID, download the m
 
 ### Admin' Service
 
-Directus comes with a pre-packaged admin' app' that we can use to assign different user roles etc.
+Directus comes with a pre-packaged admin' app' that we can use to assign different user roles - _need to do more research into the capabilities of directus_.
 
 ### MiniDapp
 
-IM is to be a version of FutureCash, plus a background process capable of sending _y_ amount of tokens on _x_ date from a user _z_ to a _null address_.
+IM is to be a version of FutureCash, plus a background process capable of sending _y_ amount of tokens on _x_ date from user _z_ to a _null address_.
 
 ### Server-side Minima Processes
 
