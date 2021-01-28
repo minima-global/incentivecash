@@ -30,7 +30,7 @@ To meet the [functional requirements](#functional-requirements), above, IS shoul
 
 ### ID
 
-The incentive database will be [MySQL](https://www.mysql.com/), fronted up by the headless CMS [directus](https://directus.io/), which gives "an instant app and API for your SQL database" (their words).
+The incentive database will be [MySQL](https://www.mysql.com/), fronted up by the headless CMS [directus](https://directus.io/), which gives, "a real-time API and intuitive Admin' App' for your custom database" (their words).
 
 #### ID Design
 
