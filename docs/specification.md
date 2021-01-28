@@ -18,11 +18,11 @@ The incentive system (IS) should, where possible, be automated:
 
 ### Roles
 
-[Users] should be able to sign up and login to a service (possibly using a referral code), where they can download an incentive MiniDapp, and afterwards, claim their _assigned_ IT simply by running Minima. They should also be able to see and modify their profile and see a summary of their IT amounts and a log of stuff they've done. They should be able to distribute any referral codes that they've been assigned.
+Users should be able to sign up and login to a service (possibly using a referral code), where they can download an incentive MiniDapp, and afterwards, claim their _assigned_ IT simply by running Minima. They should also be able to see and modify their profile and see a summary of their IT amounts and a log of stuff they've done. They should be able to distribute any referral codes that they've been assigned.
 
-[Incentive Admins] (Minima staff) should be able to assign IT to users for _xyz_ reason. They should also be able to assign referral codes to users. They can browse all ID information, which could include, "How many users do we have?", "How many incentive tokens have we distributed?", "How many users are logged in?" etc. In other words, _stats_, _stats_ and more _STATS_!
+Incentive Admins (Minima staff) should be able to assign IT to users for _xyz_ reason. They should also be able to assign referral codes to users. They can browse all ID information, which could include, "How many users do we have?", "How many incentive tokens have we distributed?", "How many users are logged in?" etc. In other words, _stats_, _stats_ and more _STATS_!
 
-[System Admins] should be able to manage all ID tables, create and delete users, plus all the **Incentive Admins** tasks.
+System Admins should be able to manage all ID tables, create and delete users, plus all the **Incentive Admins** tasks.
 
 ## IS Requirements
 
