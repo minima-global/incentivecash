@@ -14,7 +14,7 @@ The incentive system (IS) should, where possible, be automated:
 2. _Bob_ logs into the incentive system (IS), and downloads and installs the incentive MiniDapp (IM)
 3. _Bob_ opens IM, whereupon it creates a Minima transaction on IS (somehow), which updates IM with the IT allocated to _Bob_
 4. At _x_ specified date (how?), a background process running within IM sends _y_ amount of tokens to a _null address_ (burning the tokens)
-5. A process running on IS is monitoring that _null address_, so it sees that _Bob_ has sent _y_ tokens to the _null address_ and updates the ID accordingly (which means that _Bob_ will be due the requisite amount Minima at Mainnet launch)
+5. A process running on IS is monitoring that _null address_, so it sees that _Bob_ has sent _y_ tokens to the _null address_ and updates the ID accordingly (which means that _Bob_ will be due the requisite amount of Minima at Mainnet launch)
 
 ### Roles
 
