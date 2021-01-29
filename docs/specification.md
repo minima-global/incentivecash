@@ -34,6 +34,10 @@ The incentive database will be [MySQL](https://www.mysql.com/), fronted up by th
 
 According to the docs, _Directus dynamically generates custom API endpoints based on your SQL database's custom schema_ - in other words, we need to get database schema _right_.
 
+### Server
+
+A server is needed, running Ubuntu and Apache/nginx.
+
 #### ID Design
 
 ![](./images/dbase.png)
