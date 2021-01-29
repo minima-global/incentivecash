@@ -4,7 +4,7 @@ This document describes the requirements for the incentive cash system.
 
 ## Functional Requirements
 
-Below describes the basic functioning of the incentive mechanism.
+Below describes the basic functioning of incentives.
 
 ### The Incentive System
 
