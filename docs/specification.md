@@ -28,15 +28,15 @@ The incentive system (IS) should, where possible, be automated:
 
 To meet the [functional requirements](#functional-requirements), above, IS should implement the following:
 
+### Server
+
+A server is needed, running Ubuntu and Apache/nginx.
+
 ### ID
 
 The incentive database will be [MySQL](https://www.mysql.com/), fronted up by the headless CMS [directus](https://directus.io/), which gives, "a real-time API and intuitive Admin' App' for your custom database" (their words).
 
 According to the docs, _Directus dynamically generates custom API endpoints based on your SQL database's custom schema_ - in other words, we need to get database schema _right_.
-
-### Server
-
-A server is needed, running Ubuntu and Apache/nginx.
 
 #### ID Design
 
