@@ -1,4 +1,6 @@
 .awcache
 *.log
-incentiveDB/node_modules
-incentiveDB/node_modules/*
+node_modules
+node_modules/*
+build
+build/*
