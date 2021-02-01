@@ -96,15 +96,15 @@ export const login = (props: Props) => {
                 <Grid container>
                     <Grid item xs={12} sm={3}>
                       <Button
-                        id='loginButton'
+                        data-for='loginButton'
+                        data-tip
+                        size='large'
                         type='submit'
                         variant="contained"
                         color="primary"
                         disabled={isSubmitting}
                         endIcon={<RightCircleOutlined spin={isSubmitting}/>}
-                      >
-                        {LoginConfig.loginButton}
-                      </Button>
+                      />
                       <ReactTooltip
                         id='loginButton'
                         place="bottom"
