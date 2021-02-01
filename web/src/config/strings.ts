@@ -71,7 +71,7 @@ class Login {
 
   static readonly email = 'email'
   static readonly password = 'password'
-  static readonly loginButton = 'Login'
+  static readonly loginButton = 'Submit'
 }
 
 export { App,
