@@ -18,8 +18,7 @@ export const setActivePage = (page: string) => {
     if ( ( page === Local.home ) ||
          ( page === Local.about ) ||
          ( page === Local.help ) ||
-         ( page === Local.contact ) ||
-         ( page === Local.login ) ) {
+         ( page === Local.contact ) ) {
 
       dispatch(write({data: appData})(AppDataActionTypes.APPDATA_SUCCESS))
 

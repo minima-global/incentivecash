@@ -11,7 +11,6 @@ import Paper from '@material-ui/core/Paper'
 import Input from '@material-ui/core/Input'
 import Fade from '@material-ui/core/Fade'
 
-import { Home } from './home'
 import { Content } from '../content'
 import { App } from '../../config/strings'
 
@@ -65,11 +64,6 @@ const main = (props: Props) => {
 
       setLoading(false)
       setIcons([homeActiveIcon, loginIcon, helpIcon, infoIcon, contactIcon])
-
-    } else if ( props.appData.activePage === Local.login ) {
-
-      setLoading(false)
-      setIcons([homeIcon, loginActiveIcon, helpIcon, infoIcon, contactIcon])
 
     } else if ( props.appData.activePage === Local.help ) {
 
@@ -190,7 +184,7 @@ const main = (props: Props) => {
 
       <Grid item container className={classes.footer} justify="center" xs={12}>
 
-        <Grid item container justify="flex-start" xs={2}>
+        <Grid item container justify="center" xs={2}>
 
          <NavLink to={Local.home}>
             <IconButton
@@ -213,32 +207,6 @@ const main = (props: Props) => {
               {Help.homeTip}
             </ReactTooltip>
          </NavLink>
-
-        </Grid>
-
-        <Grid item container justify="flex-end" xs={2}>
-
-          <NavLink to={Local.login}>
-            <IconButton
-              color="primary"
-              aria-label={Help.loginTip}
-              component="span"
-              size="small">
-              <img
-               data-for={loginIcon}
-               data-tip
-               src={icons[1]}
-               className={classes.footerIcon}
-             />
-             </IconButton>
-             <ReactTooltip
-               id={loginIcon}
-               place="top"
-               effect="solid"
-             >
-               {Help.loginTip}
-             </ReactTooltip>
-          </NavLink>
 
         </Grid>
 
