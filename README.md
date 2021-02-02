@@ -1,2 +1,3 @@
-# incentivecash
-The Incentive Scheme Server and MiniDAPP 
+# Incentive Cash
+
+The Incentive Scheme Server and MiniDAPP.
