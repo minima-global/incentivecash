@@ -19,10 +19,11 @@ import hrFirstMobile from '../../images/hrFirstMobile.svg'
 
 import { themeStyles, themeStylesMobile } from '../../styles'
 
-import { AppDispatch } from '../../store/types'
+import { AppDispatch, SignIn } from '../../store/types'
 import { setActivePage } from '../../store/app/appData/actions'
+import { login } from '../../store/app/server/actions'
 
-import { Local, GeneralError, Help, Login as LoginConfig } from '../../config'
+import { Local, GeneralError, Help, User } from '../../config'
 
 const loginSchema = Yup.object().shape({
   userEmail: Yup.string()
@@ -34,6 +35,7 @@ const loginSchema = Yup.object().shape({
 
 interface DispatchProps {
   setActivePage: (page: string) => void
+  login: (user: SignIn) => void
 }
 
 type Props = DispatchProps
@@ -41,7 +43,6 @@ type Props = DispatchProps
 export const home = (props: Props) => {
 
   const [user, setUser] = useState({email: "", password: ""})
-  const [isSubmitting, setSubmit] = useState(false)
 
   let classes = themeStyles()
   let hr = hrFirst
@@ -58,7 +59,7 @@ export const home = (props: Props) => {
     <Grid container alignItems="flex-start">
       <Grid item container justify="flex-start" xs={12}>
         <Typography variant="h2">
-          {LoginConfig.heading}
+          {User.heading}
         </Typography>
       </Grid>
       <Grid item container xs={12} alignItems="flex-start">
@@ -71,13 +72,11 @@ export const home = (props: Props) => {
         validationSchema={loginSchema}
         onSubmit={(values: any) => {
 
-          setSubmit(true)
-
-          /*const userInfo: User = {
+          const userInfo: SignIn = {
               email: values.userEmail,
-              password:  values.password
+              password:  values.userPassword
           }
-          props.handleSubmit(userInfo)*/
+          props.login(userInfo)
         }}
       >
         {(formProps: FormikProps<any>) => (
@@ -85,38 +84,33 @@ export const home = (props: Props) => {
             <FormControl fullWidth={true}>
                 <Field
                   name='userEmail'
-                  label={LoginConfig.email}
+                  label={User.email}
                   component={TextField}
                 />
                 <Field
                   name='userPassword'
-                  label={LoginConfig.password}
+                  label={User.password}
                   component={TextField}
                 />
-                <Grid container>
-                    <Grid item xs={12} sm={3}>
-                      <Button
-                        data-for='loginButton'
-                        data-tip
-                        size='large'
-                        type='submit'
-                        variant="contained"
-                        color="primary"
-                        disabled={isSubmitting}
-                      >
-                        {LoginConfig.loginButton}
-                      </Button>
-                      <ReactTooltip
-                        id='loginButton'
-                        place="bottom"
-                        effect="solid"
-                      >
-                        {Help.loginTip}
-                      </ReactTooltip>
-                    </Grid>
-                    <Grid item xs={12} sm={9}>
-                        &nbsp;
-                    </Grid>
+                <Grid item container justify="flex-start">
+                  <Button
+                    data-for='loginButton'
+                    data-tip
+                    style={{textTransform: 'none'}}
+                    size='medium'
+                    type='submit'
+                    variant="contained"
+                    color="primary"
+                  >
+                    {User.loginButton}
+                  </Button>
+                  <ReactTooltip
+                    id='loginButton'
+                    place="bottom"
+                    effect="solid"
+                  >
+                    {Help.loginTip}
+                  </ReactTooltip>
                 </Grid>
             </FormControl>
           </Form>
@@ -128,7 +122,8 @@ export const home = (props: Props) => {
 
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
  return {
-   setActivePage: (page: string) => dispatch(setActivePage(page))
+   setActivePage: (page: string) => dispatch(setActivePage(page)),
+   login: (user: SignIn) => dispatch(login(user))
  }
 }
 

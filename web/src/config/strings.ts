@@ -63,13 +63,16 @@ class Contact {
   static readonly info = [`To report a technical problem, please email a brief description of the issue to ${App.bugEmail}.`,`For all other enquires, please email ${App.author} at ${App.email}.`]
 }
 
-class Login {
+class User {
 
   static readonly heading = 'Sign In'
 
   static readonly email = 'Email'
   static readonly password = 'Password'
   static readonly loginButton = 'Sign In'
+
+  static readonly loginSuccess = 'Success'
+  static readonly loginFailure = 'Failure'
 }
 
 export { App,
@@ -79,5 +82,5 @@ export { App,
          About,
          Help,
          Contact,
-         Login
+         User
        }
