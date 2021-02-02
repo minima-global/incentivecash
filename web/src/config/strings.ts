@@ -19,8 +19,6 @@ class Paths {
   static readonly about = 'About'
   static readonly help = 'Help'
   static readonly contact = 'Contact'
-
-  static readonly login = 'Login'
 }
 
 class GeneralError {
@@ -54,8 +52,8 @@ class Help {
   static readonly aboutTip = 'About'
   static readonly sortTip = "Sort"
 
-  static readonly loginTip = 'Login'
-  static readonly logoutTip = 'Logout'
+  static readonly loginTip = 'Sign In'
+  static readonly logoutTip = 'Sign Out'
 }
 
 class Contact {
@@ -67,11 +65,11 @@ class Contact {
 
 class Login {
 
-  static readonly heading = 'Login'
+  static readonly heading = 'Sign In'
 
-  static readonly email = 'email'
-  static readonly password = 'password'
-  static readonly loginButton = 'Submit'
+  static readonly email = 'Email'
+  static readonly password = 'Password'
+  static readonly loginButton = 'Sign In'
 }
 
 export { App,
