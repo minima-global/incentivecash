@@ -28,7 +28,7 @@ export const login = (user: SignIn) => {
     dispatch(write({data: txData})(TxActionTypes.TX_INIT))
 
     const url = `${Remote.serverURL}${Remote.userLogin}`
-    console.log('URL: ', url)
+    //console.log('URL: ', url)
     fetch(url, {
       method: 'POST',
       headers: {
@@ -64,37 +64,40 @@ export const login = (user: SignIn) => {
           info: {}
         }
 
-        console.log("login data: ", userData)
+        //console.log("login data: ", userData)
 
         dispatch(write({data: txData})(TxActionTypes.TX_SUCCESS))
-        dispatch(write({data: userData})( UserActionTypes.USER_INIT))
+        dispatch(write({data: userData})(UserActionTypes.USER_INIT))
         /*setTimeout(() => {
             history.push(`${Local.user}`)
         }, Misc.successLoginDelay)*/
     })
     .catch(error => {
-       console.log(`${UserConfig.loginFailure}: ${error.message} at ${dateText}`)
+       //console.log(`${UserConfig.loginFailure}: ${error.message} at ${dateText}`)
        dispatch(write({data: txData})(TxActionTypes.TX_FAILURE))
     })
   }
 }
 
-/*export const getInfo = (details: UserProps) => {
-  return async (dispatch: AppDispatch) => {
+export const getUser = () => {
+  return async (dispatch: AppDispatch, getState: Function) => {
 
+     let state = getState()
+     const jwt = state.userData.data.accessToken
+     console.log("jwt: ", jwt)
      let d = new Date(Date.now())
       let dateText = d.toString()
       let txData = {
-          code: 404,
-          summary: `${User.errorUser}: Failed to fetch at ${dateText}`,
-          info: {}
+          code: "404",
+          summary: `${UserConfig.getUserFailure}`,
+          time: `${dateText}`
       }
 
-      const url = `${Remote.secure}${Remote.server}${Remote.user}`
+      const url = `${Remote.serverURL}${Remote.userPath}`
       fetch(url, {
         method: 'GET',
         headers: {
-            Authorization: `Bearer ${details.jwt}`
+            Authorization: `Bearer ${jwt}`
         }
       })
       .then(response => {
@@ -104,9 +107,9 @@ export const login = (user: SignIn) => {
             return response.json()
             .then(data => {
                 const txData = {
-                    code: status,
-                    summary: `${User.errorUser}: ${statusText} at ${dateText}`,
-                    info: data
+                    code: status.toString(),
+                    summary: `${UserConfig.getUserFailure}: ${statusText}`,
+                    time: `${dateText}`
                 }
                 throw new Error(statusText)
             })
@@ -114,17 +117,17 @@ export const login = (user: SignIn) => {
         return response.json()
       })
       .then(data => {
-          const userData = {
-              email: details.email,
-              jwt: details.jwt,
-              info: data.data
-          }
-          dispatch(write({data: userData})(AccountActionTypes.ACCOUNT_SUCCESS))
+        const userData = {
+          accessToken: state.userData.data.accessToken,
+          refreshToken: state.userData.data.refreshToken,
+          info: data.data
+        }
+        dispatch(write({data: userData})(UserActionTypes.USER_SUCCESS))
 
       })
      .catch(error => {
-          console.log(`${User.errorUser}: ${error.message} at ${dateText}`)
-          dispatch(write({data: txData})(FormActionTypes.FORM_FAILURE))
+          //console.log(`${UserConfig.getUserFailure}: ${error.message} at ${dateText}`)
+          dispatch(write({data: txData})(TxActionTypes.TX_FAILURE))
      })
   }
-}*/
+}
