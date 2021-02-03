@@ -63,11 +63,11 @@ export const home = (props: Props) => {
     hr = hrFirstMobile
   }
 
-  props.setActivePage(Local.home)
   let history = useHistory()
 
   useEffect(() => {
 
+    props.setActivePage(Local.home)
     let pushTimeout: any
 
     const txSummary: string = props.tx.summary
