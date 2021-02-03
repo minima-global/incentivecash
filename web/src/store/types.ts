@@ -7,6 +7,7 @@ import { Decimal } from 'decimal.js'
 export interface ApplicationState {
   appData: AppDataProps
   userData: UserProps
+  collectionData: CollectionProps,
   tx: TxProps
 }
 
@@ -58,6 +59,15 @@ export interface UserProps extends PayloadProps {
   data: User
 }
 
+// Collections
+export interface Collection {
+  info: []
+}
+
+export interface CollectionProps extends PayloadProps {
+  data: Collection
+}
+
 //Tx stuff
 export interface TxData {
   code: string
@@ -88,4 +98,10 @@ export const enum UserActionTypes {
   USER_INIT = '@@UserActionTypes/USER_INIT',
   USER_SUCCESS = '@@UserActionTypes/USER_SUCCESS',
   USER_FAILURE = '@@UserActionTypes/USER_FAILURE'
+}
+
+export const enum TableActionTypes {
+  TABLE_INIT = '@@TableActionTypes/TABLE_INIT',
+  TABLE_SUCCESS = '@@TableActionTypes/TABLE_SUCCESS',
+  TABLE_FAILURE = '@@TableActionTypes/TABLE_FAILURE'
 }

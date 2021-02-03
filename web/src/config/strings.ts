@@ -67,7 +67,8 @@ class Contact {
 
 class User {
 
-  static readonly heading = 'Sign In'
+  static readonly loginHeading = 'Sign In'
+  static readonly userHeading = 'User'
 
   static readonly email = 'Email'
   static readonly password = 'Password'
@@ -78,6 +79,9 @@ class User {
 
   static readonly getUserSuccess = 'Success'
   static readonly getUserFailure = 'Failure'
+
+  static readonly getCollectionSuccess = 'Success'
+  static readonly getCollectionFailure = 'Failure'
 }
 
 export { App,
