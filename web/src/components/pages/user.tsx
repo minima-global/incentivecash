@@ -22,6 +22,8 @@ import {
 import { setActivePage } from '../../store/app/appData/actions'
 import { getUser } from '../../store/app/server/actions'
 
+import { getKeyedList } from '../../utils'
+
 import { Local, GeneralError, Help, User as UserConfig, Misc } from '../../config'
 
 interface StateProps {
@@ -37,7 +39,7 @@ type Props = StateProps & DispatchProps
 
 export const user = (props: Props) => {
 
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState([] as string[])
   let isFirstRun = useRef(true)
 
   let classes = themeStyles()
@@ -48,28 +50,34 @@ export const user = (props: Props) => {
     hr = hrFirstMobile
   }
 
-  props.setActivePage(Local.user)
-
   useEffect(() => {
 
     if ( isFirstRun.current ) {
 
-        isFirstRun.current = false
-        props.getUser()
+      props.setActivePage(Local.user)
+      isFirstRun.current = false
+      props.getUser()
 
     } else if (props.user.info) {
 
-      setUser(props.user.info)
-      console.log("User!", props.user.info)
+      const user = getKeyedList(props.user.info)
+      setUser(user)
+      //console.log("User!", props.user.info)
     }
 
   }, [props.user])
 
-
   return (
-    <p>
-      blah
-    </p>
+    <ul>
+      {user.map((item, index) => {
+
+        return (
+          <React.Fragment key={index}>
+              <li>{item}</li>
+          </React.Fragment>
+        )
+      })}
+    </ul>
   )
 }
 

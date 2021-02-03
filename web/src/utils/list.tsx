@@ -10,7 +10,7 @@ export const getList = (props: String[]): string => {
 
 export const getKeyedList = (props: Object): string[] =>
   Object.entries(props).map((entry) =>
-    `${entry[0]}: ${entry[1]}<br/>`
+    `${entry[0]}: ${entry[1]}`
   )
 
 // https://medium.com/javascript-scene/curry-and-function-composition-2c208d774983

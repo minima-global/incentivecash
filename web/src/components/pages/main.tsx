@@ -64,7 +64,7 @@ const main = (props: Props) => {
 
     } else if ( props.appData.activePage === Local.user ) {
 
-      setIcons([homeIcon, userActiveIcon, helpActiveIcon, infoIcon, contactIcon])
+      setIcons([homeIcon, userActiveIcon, helpIcon, infoIcon, contactIcon])
 
     } else if ( props.appData.activePage === Local.help ) {
 

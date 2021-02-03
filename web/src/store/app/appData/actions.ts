@@ -16,6 +16,7 @@ export const setActivePage = (page: string) => {
     }
 
     if ( ( page === Local.home ) ||
+         ( page === Local.user ) ||
          ( page === Local.about ) ||
          ( page === Local.help ) ||
          ( page === Local.contact ) ) {
