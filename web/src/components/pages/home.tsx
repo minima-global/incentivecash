@@ -93,7 +93,7 @@ export const home = (props: Props) => {
     <Grid container alignItems="flex-start">
       <Grid item container justify="flex-start" xs={12}>
         <Typography variant="h2">
-          {User.heading}
+          {User.loginHeading}
         </Typography>
       </Grid>
       <Grid item container xs={12} alignItems="flex-start">

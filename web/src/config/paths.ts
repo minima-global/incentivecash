@@ -17,6 +17,8 @@ class Remote {
   static readonly serverURL = 'http://localhost:8055'
   static readonly userLogin = '/auth/login'
   static readonly userPath = '/users/me'
+  static readonly itemsPath = '/items'
+  static readonly rewardsPath = '/reward'
 }
 
 export { Config, Local, Remote }

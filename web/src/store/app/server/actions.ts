@@ -5,6 +5,7 @@ import {
   UserActionTypes,
   User,
   SignIn,
+  TableActionTypes,
   TxActionTypes,
   TxData
 } from '../../types'
@@ -15,8 +16,6 @@ import { write } from '../../actions'
 
 export const login = (user: SignIn) => {
   return async (dispatch: AppDispatch) => {
-
-    //let history = useHistory()
 
     let d = new Date(Date.now())
     let dateText = d.toString()
@@ -84,7 +83,6 @@ export const getUser = () => {
 
      let state = getState()
      const jwt = state.userData.data.accessToken
-     console.log("jwt: ", jwt)
      let d = new Date(Date.now())
       let dateText = d.toString()
       let txData = {
@@ -127,6 +125,56 @@ export const getUser = () => {
       })
      .catch(error => {
           //console.log(`${UserConfig.getUserFailure}: ${error.message} at ${dateText}`)
+          dispatch(write({data: txData})(TxActionTypes.TX_FAILURE))
+     })
+  }
+}
+
+export const getCollection = (url: string) => {
+  return async (dispatch: AppDispatch, getState: Function) => {
+
+     let state = getState()
+     const jwt = state.userData.data.accessToken
+     //console.log("this jwt: ", jwt)
+     let d = new Date(Date.now())
+      let dateText = d.toString()
+      let txData = {
+          code: "404",
+          summary: `${UserConfig.getCollectionFailure}`,
+          time: `${dateText}`
+      }
+
+      fetch(url, {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${jwt}`
+        }
+      })
+      .then(response => {
+        if (!response.ok) {
+            const status = response.status
+            const statusText = response.statusText
+            return response.json()
+            .then(data => {
+                const txData = {
+                    code: status.toString(),
+                    summary: `${UserConfig.getCollectionFailure}: ${statusText}`,
+                    time: `${dateText}`
+                }
+                throw new Error(statusText)
+            })
+        }
+        return response.json()
+      })
+      .then(data => {
+        const collectionData = {
+          info: data.data
+        }
+        //console.log("New Collection: ", collectionData)
+        dispatch(write({data: collectionData})(TableActionTypes.TABLE_SUCCESS))
+
+      })
+     .catch(error => {
           dispatch(write({data: txData})(TxActionTypes.TX_FAILURE))
      })
   }
