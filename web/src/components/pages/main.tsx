@@ -33,9 +33,8 @@ import contactActiveIcon from '../../images/contactActiveIcon.svg'
 
 import homeIcon from '../../images/homeIcon.svg'
 import homeActiveIcon from '../../images/homeActiveIcon.svg'
-
-import loginIcon from '../../images/login01.svg'
-import loginActiveIcon from '../../images/login01Active.svg'
+import userIcon from '../../images/userIcon.svg'
+import userActiveIcon from '../../images/userActiveIcon.svg'
 
 //import logoIcon from '../../images/logo.svg'
 import minimaIcon from '../../images/minimaLogo.png'
@@ -52,8 +51,7 @@ type Props =  MainStateProps
 
 const main = (props: Props) => {
 
-  const [isLoading, setLoading] = useState(true)
-  const [icons, setIcons] = useState([homeActiveIcon, loginIcon, helpIcon, infoIcon, contactIcon])
+  const [icons, setIcons] = useState([homeActiveIcon, userIcon, helpIcon, infoIcon, contactIcon])
 
   const classes = isMobile ? themeStylesMobile() : themeStyles()
 
@@ -62,23 +60,23 @@ const main = (props: Props) => {
     //console.log("main with: ", props.appData.activePage)
     if ( props.appData.activePage === Local.home ) {
 
-      setLoading(false)
-      setIcons([homeActiveIcon, loginIcon, helpIcon, infoIcon, contactIcon])
+      setIcons([homeActiveIcon, userIcon, helpIcon, infoIcon, contactIcon])
+
+    } else if ( props.appData.activePage === Local.user ) {
+
+      setIcons([homeIcon, userActiveIcon, helpActiveIcon, infoIcon, contactIcon])
 
     } else if ( props.appData.activePage === Local.help ) {
 
-      setLoading(false)
-      setIcons([homeIcon, loginIcon, helpActiveIcon, infoIcon, contactIcon])
+      setIcons([homeIcon, userIcon, helpActiveIcon, infoIcon, contactIcon])
 
     } else if ( props.appData.activePage === Local.about ) {
 
-      setLoading(false)
-      setIcons([homeIcon, loginIcon, helpIcon, infoActiveIcon, contactIcon])
+      setIcons([homeIcon, userIcon, helpIcon, infoActiveIcon, contactIcon])
 
     } else if ( props.appData.activePage === Local.contact ) {
 
-      setLoading(false)
-      setIcons([homeIcon, loginIcon, helpIcon, infoIcon, contactActiveIcon])
+      setIcons([homeIcon, userIcon, helpIcon, infoIcon, contactActiveIcon])
 
     }
   }, [props.appData])
@@ -205,6 +203,32 @@ const main = (props: Props) => {
               effect="solid"
             >
               {Help.homeTip}
+            </ReactTooltip>
+         </NavLink>
+
+        </Grid>
+
+        <Grid item container justify="center" xs={2}>
+
+         <NavLink to={Local.user}>
+            <IconButton
+             color="primary"
+             aria-label={Help.userTip}
+             component="span"
+             size="small">
+             <img
+              data-for={userIcon}
+              data-tip
+              src={icons[1]}
+              className={classes.footerIcon}
+            />
+            </IconButton>
+            <ReactTooltip
+              id={userIcon}
+              place="top"
+              effect="solid"
+            >
+              {Help.userTip}
             </ReactTooltip>
          </NavLink>
 
