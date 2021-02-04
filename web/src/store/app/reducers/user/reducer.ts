@@ -4,7 +4,26 @@ const initialState: UserProps = {
   data: {
     accessToken: "",
     refreshToken: "",
-    info: {}
+    info: {
+      avatar: "",
+      description: "",
+      email: "",
+      first_name: "",
+      id: "",
+      language: "",
+      last_access: "",
+      last_name: "",
+      last_page: "",
+      location: "",
+      password: "",
+      role: "",
+      status: "",
+      tags: "",
+      tfa_secret: "",
+      theme: "",
+      title: "",
+      token: ""
+    }
   }
 }
 

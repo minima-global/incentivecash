@@ -20,6 +20,9 @@ class Paths {
   static readonly help = 'Help'
   static readonly contact = 'Contact'
   static readonly user = 'User'
+  static readonly reward = '/reward'
+  static readonly rewardUser = `${Paths.reward}`
+  static readonly referral = 'Referral'
 }
 
 class GeneralError {
@@ -55,7 +58,8 @@ class Help {
   static readonly loginTip = 'Sign In'
   static readonly logoutTip = 'Sign Out'
   static readonly userTip = 'Sign In'
-
+  static readonly rewardTip = 'Reward'
+  static readonly referralTip = 'Referral'
 }
 
 class Contact {
@@ -73,15 +77,33 @@ class User {
   static readonly email = 'Email'
   static readonly password = 'Password'
   static readonly loginButton = 'Sign In'
+  static readonly rewardButton = 'Rewards'
+  static readonly referralButton = 'Referrals'
 
   static readonly loginSuccess = 'Success'
   static readonly loginFailure = 'Failure'
 
   static readonly getUserSuccess = 'Success'
   static readonly getUserFailure = 'Failure'
+}
+
+class Reward {
+
+  static readonly heading = 'Reward'
+}
+
+class Referral {
+
+  static readonly heading = 'Referral'
+}
+
+class Collection {
+
+  static readonly heading = 'Collection'
 
   static readonly getCollectionSuccess = 'Success'
   static readonly getCollectionFailure = 'Failure'
+
 }
 
 export { App,
@@ -91,5 +113,8 @@ export { App,
          About,
          Help,
          Contact,
-         User
+         User,
+         Reward,
+         Referral,
+         Collection
        }

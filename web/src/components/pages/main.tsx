@@ -35,6 +35,10 @@ import homeIcon from '../../images/homeIcon.svg'
 import homeActiveIcon from '../../images/homeActiveIcon.svg'
 import userIcon from '../../images/userIcon.svg'
 import userActiveIcon from '../../images/userActiveIcon.svg'
+import rewardIcon from '../../images/rewardIcon.svg'
+import rewardActiveIcon from '../../images/rewardActiveIcon.svg'
+import referralIcon from '../../images/referralIcon.svg'
+import referralActiveIcon from '../../images/referralActiveIcon.svg'
 
 //import logoIcon from '../../images/logo.svg'
 import minimaIcon from '../../images/minimaLogo.png'
@@ -51,7 +55,7 @@ type Props =  MainStateProps
 
 const main = (props: Props) => {
 
-  const [icons, setIcons] = useState([homeActiveIcon, userIcon, helpIcon, infoIcon, contactIcon])
+  const [icons, setIcons] = useState([homeActiveIcon, userIcon, helpIcon, infoIcon, contactIcon, rewardIcon, referralIcon])
 
   const classes = isMobile ? themeStylesMobile() : themeStyles()
 
@@ -60,23 +64,31 @@ const main = (props: Props) => {
     //console.log("main with: ", props.appData.activePage)
     if ( props.appData.activePage === Local.home ) {
 
-      setIcons([homeActiveIcon, userIcon, helpIcon, infoIcon, contactIcon])
+      setIcons([homeActiveIcon, userIcon, helpIcon, infoIcon, contactIcon, rewardIcon, referralIcon])
 
     } else if ( props.appData.activePage === Local.user ) {
 
-      setIcons([homeIcon, userActiveIcon, helpIcon, infoIcon, contactIcon])
+      setIcons([homeIcon, userActiveIcon, helpIcon, infoIcon, contactIcon, rewardIcon, referralIcon])
 
     } else if ( props.appData.activePage === Local.help ) {
 
-      setIcons([homeIcon, userIcon, helpActiveIcon, infoIcon, contactIcon])
+      setIcons([homeIcon, userIcon, helpActiveIcon, infoIcon, contactIcon, rewardIcon, referralIcon])
 
     } else if ( props.appData.activePage === Local.about ) {
 
-      setIcons([homeIcon, userIcon, helpIcon, infoActiveIcon, contactIcon])
+      setIcons([homeIcon, userIcon, helpIcon, infoActiveIcon, contactIcon, rewardIcon, referralIcon])
 
     } else if ( props.appData.activePage === Local.contact ) {
 
-      setIcons([homeIcon, userIcon, helpIcon, infoIcon, contactActiveIcon])
+      setIcons([homeIcon, userIcon, helpIcon, infoIcon, contactActiveIcon, rewardIcon, referralIcon])
+
+    } else if ( props.appData.activePage === Local.reward ) {
+
+      setIcons([homeIcon, userIcon, helpIcon, infoIcon, contactIcon, rewardActiveIcon, referralIcon])
+
+    } else if ( props.appData.activePage === Local.referral ) {
+
+      setIcons([homeIcon, userIcon, helpIcon, infoIcon, contactIcon, rewardIcon, referralActiveIcon])
 
     }
   }, [props.appData])
@@ -179,7 +191,6 @@ const main = (props: Props) => {
         <Content />
       </Grid>
 
-
       <Grid item container className={classes.footer} justify="center" xs={12}>
 
         <Grid item container justify="center" xs={2}>
@@ -229,6 +240,58 @@ const main = (props: Props) => {
               effect="solid"
             >
               {Help.userTip}
+            </ReactTooltip>
+         </NavLink>
+
+        </Grid>
+
+        <Grid item container justify="center" xs={2}>
+
+         <NavLink to={Local.reward}>
+            <IconButton
+             color="primary"
+             aria-label={Help.rewardTip}
+             component="span"
+             size="small">
+             <img
+              data-for={rewardIcon}
+              data-tip
+              src={icons[5]}
+              className={classes.footerIcon}
+            />
+            </IconButton>
+            <ReactTooltip
+              id={rewardIcon}
+              place="top"
+              effect="solid"
+            >
+              {Help.rewardTip}
+            </ReactTooltip>
+         </NavLink>
+
+        </Grid>
+
+        <Grid item container justify="center" xs={2}>
+
+         <NavLink to={Local.referral}>
+            <IconButton
+             color="primary"
+             aria-label={Help.referralTip}
+             component="span"
+             size="small">
+             <img
+              data-for={referralIcon}
+              data-tip
+              src={icons[6]}
+              className={classes.footerIcon}
+            />
+            </IconButton>
+            <ReactTooltip
+              id={referralIcon}
+              place="top"
+              effect="solid"
+            >
+              {Help.referralTip}
             </ReactTooltip>
          </NavLink>
 

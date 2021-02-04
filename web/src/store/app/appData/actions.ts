@@ -15,8 +15,12 @@ export const setActivePage = (page: string) => {
       activePage: page
     }
 
+    Local.reward
+
     if ( ( page === Local.home ) ||
          ( page === Local.user ) ||
+         ( page === Local.reward ) ||
+         ( page === Local.referral ) ||
          ( page === Local.about ) ||
          ( page === Local.help ) ||
          ( page === Local.contact ) ) {
