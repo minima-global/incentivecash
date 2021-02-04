@@ -1,12 +1,11 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { useHistory } from "react-router-dom"
+import { useParams } from 'react-router-dom'
 
 import { isMobile } from "react-device-detect"
 
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
 
 import hrFirst from '../../images/hrFirst.svg'
 import hrFirstMobile from '../../images/hrFirstMobile.svg'
@@ -16,12 +15,11 @@ import { themeStyles, themeStylesMobile } from '../../styles'
 import {
   ApplicationState,
   AppDispatch,
-  User as UserData
+  Collection
 } from '../../store/types'
 
 import { setActivePage } from '../../store/app/appData/actions'
-import { getUser } from '../../store/app/server/actions'
-
+import { getCollection } from '../../store/app/server/actions'
 import { getKeyedList } from '../../utils'
 
 import {
@@ -29,23 +27,24 @@ import {
   Remote,
   GeneralError,
   Help,
-  User as UserConfig,
+  Referral as ReferralConfig,
   Misc } from '../../config'
 
 interface StateProps {
-  user: UserData
+  collection: Collection
 }
 
 interface DispatchProps {
   setActivePage: (page: string) => void
-  getUser: () => void
+  getCollection: (url: string) => void
 }
 
 type Props = StateProps & DispatchProps
 
-export const user = (props: Props) => {
+export const referralInfo = (props: Props) => {
 
-  const [user, setUser] = useState([] as string[])
+  const [referral, setReferral] = useState([] as string[])
+  const { id } = useParams<{ id: string }>()
   let isFirstRun = useRef(true)
 
   let classes = themeStyles()
@@ -56,30 +55,38 @@ export const user = (props: Props) => {
     hr = hrFirstMobile
   }
 
-  const history = useHistory()
-
   useEffect(() => {
 
     if ( isFirstRun.current ) {
 
-      props.setActivePage(Local.user)
+      props.setActivePage(Local.referral)
       isFirstRun.current = false
-      props.getUser()
+      const referralURL = `${Remote.serverURL}${Remote.itemsPath}${Remote.referralsPath}?filter={ "Userid": { "_eq": "${id}" }}`
 
-    } else if (props.user.info && !user.length) {
+      props.getCollection(referralURL)
 
-      const userDetails = getKeyedList(props.user.info)
-      setUser(userDetails)
+    } else if (props.collection.info && !referral.length) {
+
+      let currentReferrals = []
+      for (let item of props.collection.info) {
+
+        const thisReferral = getKeyedList(item)
+        console.log("this: ", thisReferral)
+        currentReferrals.push(...thisReferral)
+      }
+
+      setReferral(currentReferrals)
+      //console.log("asdfsadf: ", referral)
     }
 
-  }, [props.user])
+  }, [props.collection])
 
   return (
 
     <Grid container alignItems="flex-start">
       <Grid item container justify="flex-start" xs={12}>
         <Typography variant="h2">
-          {UserConfig.userHeading}
+          {ReferralConfig.heading}
         </Typography>
       </Grid>
       <Grid item container xs={12} alignItems="flex-start">
@@ -87,7 +94,7 @@ export const user = (props: Props) => {
       </Grid>
       <Grid item container justify="flex-start" xs={12}>
         <ul>
-          {user.map((item, index) => {
+          {referral.map((item, index) => {
 
             return (
               <React.Fragment key={index}>
@@ -97,49 +104,24 @@ export const user = (props: Props) => {
           })}
         </ul>
       </Grid>
-
-      <Grid item container justify="space-between" xs={12}>
-
-        <Grid item container justify="center" xs={4}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => history.push(`${Local.reward}/${props.user.info.id}`)}
-          >
-            {UserConfig.rewardButton}
-          </Button>
-        </Grid>
-
-        <Grid item container justify="center" xs={4}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => history.push(`${Local.referral}/${props.user.info.id}`)}
-          >
-            {UserConfig.referralButton}
-          </Button>
-        </Grid>
-
-      </Grid>
-
     </Grid>
   )
 }
 
 const mapStateToProps = (state: ApplicationState): StateProps => {
   return {
-    user: state.userData.data as UserData
+    collection: state.collectionData.data as Collection
   }
 }
 
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
  return {
    setActivePage: (page: string) => dispatch(setActivePage(page)),
-   getUser: () => dispatch(getUser())
+   getCollection: (url: string) => dispatch(getCollection(url))
  }
 }
 
-export const User = connect<StateProps, DispatchProps, {}, ApplicationState>(
+export const Referral = connect<StateProps, DispatchProps, {}, ApplicationState>(
   mapStateToProps,
   mapDispatchToProps
-)(user)
+)(referralInfo)

@@ -22,7 +22,8 @@ class Paths {
   static readonly user = 'User'
   static readonly reward = '/reward'
   static readonly rewardUser = `${Paths.reward}`
-  static readonly referral = 'Referral'
+  static readonly referral = '/referral'
+  static readonly referralUser = `${Paths.referral}`
 }
 
 class GeneralError {
@@ -57,9 +58,9 @@ class Help {
   static readonly sortTip = "Sort"
   static readonly loginTip = 'Sign In'
   static readonly logoutTip = 'Sign Out'
-  static readonly userTip = 'Sign In'
-  static readonly rewardTip = 'Reward'
-  static readonly referralTip = 'Referral'
+  static readonly userTip = 'User'
+  static readonly rewardTip = 'Rewards'
+  static readonly referralTip = 'Referrals'
 }
 
 class Contact {
@@ -89,12 +90,12 @@ class User {
 
 class Reward {
 
-  static readonly heading = 'Reward'
+  static readonly heading = 'Rewards'
 }
 
 class Referral {
 
-  static readonly heading = 'Referral'
+  static readonly heading = 'Referrals'
 }
 
 class Collection {
