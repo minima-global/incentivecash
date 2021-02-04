@@ -10,6 +10,9 @@ class Local {
   static readonly contact = '/contact'
 
   static readonly user = '/user'
+  static readonly reward = '/reward'
+  static readonly rewardUser = `${Local.reward}/:id`
+  static readonly referral = '/referral'
 }
 
 class Remote {

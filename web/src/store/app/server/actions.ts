@@ -10,7 +10,13 @@ import {
   TxData
 } from '../../types'
 
-import { Local, Remote, Misc, User as UserConfig } from '../../../config'
+import {
+  Local,
+  Remote,
+  Misc,
+  User as UserConfig,
+  Collection
+} from '../../../config'
 
 import { write } from '../../actions'
 
@@ -140,7 +146,7 @@ export const getCollection = (url: string) => {
       let dateText = d.toString()
       let txData = {
           code: "404",
-          summary: `${UserConfig.getCollectionFailure}`,
+          summary: `${Collection.getCollectionFailure}`,
           time: `${dateText}`
       }
 
@@ -158,7 +164,7 @@ export const getCollection = (url: string) => {
             .then(data => {
                 const txData = {
                     code: status.toString(),
-                    summary: `${UserConfig.getCollectionFailure}: ${statusText}`,
+                    summary: `${Collection.getCollectionFailure}: ${statusText}`,
                     time: `${dateText}`
                 }
                 throw new Error(statusText)
@@ -170,7 +176,7 @@ export const getCollection = (url: string) => {
         const collectionData = {
           info: data.data
         }
-        //console.log("New Collection: ", collectionData)
+        console.log("New Collection: ", data.data)
         dispatch(write({data: collectionData})(TableActionTypes.TABLE_SUCCESS))
 
       })

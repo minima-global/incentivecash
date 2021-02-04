@@ -49,10 +49,31 @@ export interface SignIn {
   password: string
 }
 
+export interface UserInfo {
+  avatar: string
+  description: string
+  email: string
+  first_name: string
+  id: string
+  language: string
+  last_access: string
+  last_name: string
+  last_page: string
+  location: string
+  password: string
+  role: string
+  status: string
+  tags: string
+  tfa_secret: string
+  theme: string
+  title: string
+  token: string
+}
+
 export interface User {
   accessToken: string
   refreshToken: string
-  info: object
+  info: UserInfo
 }
 
 export interface UserProps extends PayloadProps {

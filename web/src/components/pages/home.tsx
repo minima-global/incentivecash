@@ -63,7 +63,7 @@ export const home = (props: Props) => {
     hr = hrFirstMobile
   }
 
-  let history = useHistory()
+  const history = useHistory()
 
   useEffect(() => {
 
