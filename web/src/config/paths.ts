@@ -13,6 +13,7 @@ class Local {
   static readonly reward = '/reward'
   static readonly rewardUser = `${Local.reward}/:id`
   static readonly referral = '/referral'
+  static readonly referralUser = `${Local.referral}/:id`
 }
 
 class Remote {
@@ -22,6 +23,7 @@ class Remote {
   static readonly userPath = '/users/me'
   static readonly itemsPath = '/items'
   static readonly rewardsPath = '/reward'
+  static readonly referralsPath = '/referral'
 }
 
 export { Config, Local, Remote }
