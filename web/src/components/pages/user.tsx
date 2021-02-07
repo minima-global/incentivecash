@@ -43,7 +43,7 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps
 
-export const user = (props: Props) => {
+const user = (props: Props) => {
 
   const [user, setUser] = useState([] as string[])
   let isFirstRun = useRef(true)

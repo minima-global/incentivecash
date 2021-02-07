@@ -6,7 +6,9 @@ import { InfoTypes } from '../store/types'
 import {
   Login,
   User,
-  Register } from '../components/pages'
+  Register,
+  RegisterPassword
+} from '../components/pages'
 
 import { Paths, Local } from '../config'
 
@@ -18,6 +20,7 @@ export const LoggedOutContent = () => {
 
       <Route name={Paths.user} exact path={Local.user} render={() => <User />} />
       <Route name={Paths.register} exact path={Local.register} render={() => <Register />} />
+      <Route name={Paths.registerUser} exact path={Local.registerUser} render={() => <RegisterPassword />} />
 
       <Route name={Paths.home} path={Local.home} render= {() => <Login />} />
 

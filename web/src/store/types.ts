@@ -49,6 +49,13 @@ export interface UserRegister {
   referral: string
 }
 
+export interface UserRegisterPassword {
+  email: string
+  referral: string
+  oldPassword: string
+  newPassword: string
+}
+
 export interface SignIn {
   email: string
   password: string

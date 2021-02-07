@@ -43,7 +43,7 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps
 
-export const referralInfo = (props: Props) => {
+const referralInfo = (props: Props) => {
 
   const [referral, setReferral] = useState([] as string[])
   //const { id } = useParams<{ id: string }>()

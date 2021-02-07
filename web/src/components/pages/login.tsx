@@ -51,7 +51,7 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps
 
-export const userLogin = (props: Props) => {
+const userLogin = (props: Props) => {
 
   const [user, setUser] = useState({email: "", password: ""})
   const [summary, setSummary] = useState("")

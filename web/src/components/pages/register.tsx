@@ -50,7 +50,7 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps
 
-export const userRegister = (props: Props) => {
+const userRegister = (props: Props) => {
 
   const [user, setUser] = useState({email: "", referral: ""})
   const [summary, setSummary] = useState("")

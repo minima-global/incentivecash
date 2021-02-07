@@ -43,7 +43,7 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps
 
-export const rewardInfo = (props: Props) => {
+const rewardInfo = (props: Props) => {
 
   const [reward, setReward] = useState([] as string[])
   //const { id } = useParams<{ id: string }>()
