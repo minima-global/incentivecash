@@ -22,8 +22,8 @@ export const UserContent = () => {
       <Route name={Paths.contact} exact path={Local.contact} render={() => <Info type={InfoTypes.CONTACT}/>} />
       <Route name={Paths.about} exact path={Local.about} render={() => <Info type={InfoTypes.ABOUT}/>} />
 
-      <Route name={Paths.rewardUser} exact path={Local.rewardUser} render={() => <Reward />} />
-      <Route name={Paths.referralUser} exact path={Local.referralUser} render={() => <Referral />} />
+      <Route name={Paths.reward} exact path={Local.reward} render={() => <Reward />} />
+      <Route name={Paths.referral} exact path={Local.referral} render={() => <Referral />} />
 
       <Route name={Paths.home} exact path={Local.home} render= {() => <Login />} />
 
