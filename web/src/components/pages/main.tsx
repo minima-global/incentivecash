@@ -205,34 +205,29 @@ const main = (props: Props) => {
                   {Help.aboutTip}
                 </ReactTooltip>
               </NavLink>
+
+              <NavLink to={Local.home}>
+                 <IconButton
+                  color="primary"
+                  aria-label={Help.logoutTip}
+                  component="span"
+                  size="small">
+                  <img
+                   data-for={logoutIcon}
+                   data-tip
+                   src={logoutIcon}
+                   className={classes.footerIcon}
+                 />
+                 </IconButton>
+                 <ReactTooltip
+                   id={logoutIcon}
+                   place="top"
+                   effect="solid"
+                 >
+                   {Help.logoutTip}
+                 </ReactTooltip>
+              </NavLink>
             </Grid>
-
-            <Grid item container justify="center" xs={2}>
-
-             <NavLink to={Local.home}>
-                <IconButton
-                 color="primary"
-                 aria-label={Help.homeTip}
-                 component="span"
-                 size="small">
-                 <img
-                  data-for={logoutIcon}
-                  data-tip
-                  src={logoutIcon}
-                  className={classes.footerIcon}
-                />
-                </IconButton>
-                <ReactTooltip
-                  id={logoutIcon}
-                  place="top"
-                  effect="solid"
-                >
-                  {Help.homeTip}
-                </ReactTooltip>
-             </NavLink>
-
-            </Grid>
-
 
           </Grid>
 

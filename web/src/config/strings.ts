@@ -54,14 +54,14 @@ class Help {
 
   static readonly info = [`Coming soon.`]
 
-  static readonly homeTip = 'Login'
+  static readonly homeTip = 'Sign In'
   static readonly helpTip = 'Help'
   static readonly contactTip = 'Contact'
   static readonly aboutTip = 'About'
   static readonly sortTip = "Sort"
   static readonly loginTip = 'Sign In'
-  static readonly registerTip = 'Register'
   static readonly logoutTip = 'Sign Out'
+  static readonly registerTip = 'Register'
   static readonly userTip = 'User'
   static readonly rewardTip = 'Rewards'
   static readonly referralTip = 'Referrals'
