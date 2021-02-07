@@ -5,6 +5,7 @@ import {
   UserActionTypes,
   User,
   UserRegister,
+  UserRegisterPassword,
   SignIn,
   TableActionTypes,
   TxActionTypes,
@@ -30,6 +31,13 @@ export const init = () => {
 }
 
 export const register = (user: UserRegister) => {
+  return async (dispatch: AppDispatch) => {
+
+
+  }
+}
+
+export const registerPassword = (user: UserRegisterPassword) => {
   return async (dispatch: AppDispatch) => {
 
 

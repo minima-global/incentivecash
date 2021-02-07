@@ -1,6 +1,7 @@
 export * from './main'
 export * from './login'
 export * from './register'
+export * from './registerPassword'
 export * from './login'
 export * from './user'
 export * from './reward'

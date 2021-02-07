@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { connect } from 'react-redux'
-import { useHistory } from "react-router-dom"
+import { useHistory, useParams } from "react-router-dom"
 
 import { isMobile } from "react-device-detect"
 
@@ -22,20 +22,30 @@ import { themeStyles, themeStylesMobile } from '../../styles'
 import {
   ApplicationState,
   AppDispatch,
-  SignIn,
+  UserRegisterPassword,
   TxData
 } from '../../store/types'
 
 import { setActivePage } from '../../store/app/appData/actions'
-import { login, init } from '../../store/app/server/actions'
+import { registerPassword } from '../../store/app/server/actions'
 
-import { Local, GeneralError, Help, User, Misc } from '../../config'
+import {
+  Local,
+  GeneralError,
+  Help,
+  User,
+  Misc
+} from '../../config'
 
 const registerSchema = Yup.object().shape({
   userEmail: Yup.string()
     .email()
     .required(`${GeneralError.required}`),
+  referral: Yup.string()
+    .required(`${GeneralError.required}`),
   userPassword: Yup.string()
+    .required(`${GeneralError.required}`),
+  userPassword2: Yup.string()
     .required(`${GeneralError.required}`),
 })
 
@@ -45,17 +55,19 @@ interface StateProps {
 
 interface DispatchProps {
   setActivePage: (page: string) => void
-  init: () => void
-  login: (user: SignIn) => void
+  registerPassword: (user: UserRegisterPassword) => void
 }
 
 type Props = StateProps & DispatchProps
 
-export const userRegister = (props: Props) => {
+const userRegister = (props: Props) => {
 
-  const [user, setUser] = useState({email: "", password: ""})
   const [summary, setSummary] = useState("")
   let isFirstRun = useRef(true)
+
+  const { email } = useParams<{ email: string }>()
+  const { referral } = useParams<{ referral: string }>()
+  const { oldPassword } = useParams<{ oldPassword: string }>()
 
   let classes = themeStyles()
   let hr = hrFirst
@@ -69,7 +81,7 @@ export const userRegister = (props: Props) => {
 
   useEffect(() => {
 
-    props.setActivePage(Local.home)
+    props.setActivePage(Local.register)
     let pushTimeout: any
 
     if ( isFirstRun.current ) {
@@ -104,7 +116,7 @@ export const userRegister = (props: Props) => {
     <Grid container alignItems="flex-start">
       <Grid item container justify="flex-start" xs={12}>
         <Typography variant="h2">
-          {User.loginHeading}
+          {User.registerHeading}
         </Typography>
       </Grid>
       <Grid item container xs={12} alignItems="flex-start">
@@ -112,16 +124,18 @@ export const userRegister = (props: Props) => {
       </Grid>
 
       <Formik
-        initialValues={ {userEmail: user.email, userPassword: user.password} }
+        initialValues={ {userEmail: email, referral: referral, oldPassword: oldPassword, userPassword: "", userPassword2: ""} }
         enableReinitialize={true}
         validationSchema={registerSchema}
         onSubmit={(values: any) => {
 
-          const userInfo: SignIn = {
+          const userInfo: UserRegisterPassword = {
               email: values.userEmail,
-              password:  values.userPassword
+              referral: values.referral,
+              oldPassword:  values.oldPassword,
+              newPassword:  values.userPassword
           }
-          props.login(userInfo)
+          props.registerPassword(userInfo)
         }}
       >
         {(formProps: FormikProps<any>) => (
@@ -133,8 +147,18 @@ export const userRegister = (props: Props) => {
                   component={TextField}
                 />
                 <Field
+                  name='referral'
+                  label={User.referral}
+                  component={TextField}
+                />
+                <Field
                   name='userPassword'
                   label={User.password}
+                  component={TextField}
+                />
+                <Field
+                  name='userPassword2'
+                  label={User.password2}
                   component={TextField}
                 />
                 <Grid item container justify="flex-start">
@@ -179,8 +203,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
  return {
    setActivePage: (page: string) => dispatch(setActivePage(page)),
-   init: () => dispatch(init()),
-   login: (user: SignIn) => dispatch(login(user))
+   registerPassword: (user: UserRegisterPassword) => dispatch(registerPassword(user))
  }
 }
 

@@ -21,6 +21,7 @@ class Paths {
   static readonly contact = 'Contact'
 
   static readonly register = 'Register'
+  static readonly registerUser = `${Paths.register}`
 
   static readonly user = 'User'
   static readonly reward = 'Reward'
@@ -82,6 +83,7 @@ class User {
 
   static readonly email = 'Email'
   static readonly password = 'Password'
+  static readonly password2 = 'Password Again'
   static readonly referral = 'Referral Code'
   static readonly loginButton = 'Sign In'
   static readonly registerButton = 'Register'

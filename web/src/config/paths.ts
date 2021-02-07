@@ -10,6 +10,7 @@ class Local {
   static readonly contact = '/contact'
 
   static readonly register = '/register'
+  static readonly registerUser = `${Local.register}/:email/:referral/:oldPassword`
 
   static readonly user = '/user'
   static readonly reward = '/reward'
