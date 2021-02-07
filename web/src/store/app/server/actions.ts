@@ -4,6 +4,7 @@ import {
   AppDispatch,
   UserActionTypes,
   User,
+  UserRegister,
   SignIn,
   TableActionTypes,
   TxActionTypes,
@@ -19,6 +20,11 @@ import {
 } from '../../../config'
 
 import { write } from '../../actions'
+
+export const register = (user: UserRegister) => {
+  return async (dispatch: AppDispatch) => {
+  }
+}
 
 export const login = (user: SignIn) => {
   return async (dispatch: AppDispatch) => {

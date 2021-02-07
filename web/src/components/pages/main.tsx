@@ -7,11 +7,11 @@ import GoogleFontLoader from 'react-google-font-loader'
 import { isMobile } from "react-device-detect"
 
 import Grid from '@material-ui/core/Grid'
-import Paper from '@material-ui/core/Paper'
-import Input from '@material-ui/core/Input'
-import Fade from '@material-ui/core/Fade'
+import Typography from '@material-ui/core/Typography'
 
-import { Content } from '../content'
+import { UserContent } from '../userContent'
+import { LoggedOutContent } from '../loggedOutContent'
+
 import { App } from '../../config/strings'
 
 import {
@@ -31,8 +31,13 @@ import infoActiveIcon from '../../images/infoActiveIcon.svg'
 import contactIcon from '../../images/contactIcon.svg'
 import contactActiveIcon from '../../images/contactActiveIcon.svg'
 
-import homeIcon from '../../images/homeIcon.svg'
-import homeActiveIcon from '../../images/homeActiveIcon.svg'
+import homeIcon from '../../images/login01.svg'
+import homeActiveIcon from '../../images/login01Active.svg'
+import registerIcon from '../../images/registerIcon.svg'
+import registerActiveIcon from '../../images/registerActiveIcon.svg'
+
+
+import logoutIcon from '../../images/logout01.svg'
 import userIcon from '../../images/userIcon.svg'
 import userActiveIcon from '../../images/userActiveIcon.svg'
 import rewardIcon from '../../images/rewardIcon.svg'
@@ -55,7 +60,8 @@ type Props =  MainStateProps
 
 const main = (props: Props) => {
 
-  const [icons, setIcons] = useState([homeActiveIcon, userIcon, helpIcon, infoIcon, contactIcon, rewardIcon, referralIcon])
+  const [isLoggedIn, setLoggedIn] = useState(false)
+  const [icons, setIcons] = useState([homeActiveIcon, userIcon, helpIcon, infoIcon, contactIcon, rewardIcon, referralIcon, registerIcon])
 
   const classes = isMobile ? themeStylesMobile() : themeStyles()
 
@@ -64,31 +70,43 @@ const main = (props: Props) => {
     //console.log("main with: ", props.appData.activePage)
     if ( props.appData.activePage === Local.home ) {
 
-      setIcons([homeActiveIcon, userIcon, helpIcon, infoIcon, contactIcon, rewardIcon, referralIcon])
+      setLoggedIn(false)
+      setIcons([homeActiveIcon, userIcon, helpIcon, infoIcon, contactIcon, rewardIcon, referralIcon, registerIcon])
 
     } else if ( props.appData.activePage === Local.user ) {
 
-      setIcons([homeIcon, userActiveIcon, helpIcon, infoIcon, contactIcon, rewardIcon, referralIcon])
+      setLoggedIn(true)
+      setIcons([homeIcon, userActiveIcon, helpIcon, infoIcon, contactIcon, rewardIcon, referralIcon, registerIcon])
 
     } else if ( props.appData.activePage === Local.help ) {
 
-      setIcons([homeIcon, userIcon, helpActiveIcon, infoIcon, contactIcon, rewardIcon, referralIcon])
+      setLoggedIn(true)
+      setIcons([homeIcon, userIcon, helpActiveIcon, infoIcon, contactIcon, rewardIcon, referralIcon, registerIcon])
 
     } else if ( props.appData.activePage === Local.about ) {
 
-      setIcons([homeIcon, userIcon, helpIcon, infoActiveIcon, contactIcon, rewardIcon, referralIcon])
+      setLoggedIn(true)
+      setIcons([homeIcon, userIcon, helpIcon, infoActiveIcon, contactIcon, rewardIcon, referralIcon, registerIcon])
 
     } else if ( props.appData.activePage === Local.contact ) {
 
-      setIcons([homeIcon, userIcon, helpIcon, infoIcon, contactActiveIcon, rewardIcon, referralIcon])
+      setLoggedIn(true)
+      setIcons([homeIcon, userIcon, helpIcon, infoIcon, contactActiveIcon, rewardIcon, referralIcon, registerIcon])
 
     } else if ( props.appData.activePage === Local.reward ) {
 
-      setIcons([homeIcon, userIcon, helpIcon, infoIcon, contactIcon, rewardActiveIcon, referralIcon])
+      setLoggedIn(true)
+      setIcons([homeIcon, userIcon, helpIcon, infoIcon, contactIcon, rewardActiveIcon, referralIcon, registerIcon])
 
     } else if ( props.appData.activePage === Local.referral ) {
 
-      setIcons([homeIcon, userIcon, helpIcon, infoIcon, contactIcon, rewardIcon, referralActiveIcon])
+      setLoggedIn(true)
+      setIcons([homeIcon, userIcon, helpIcon, infoIcon, contactIcon, rewardIcon, referralActiveIcon, registerIcon])
+
+    } else if ( props.appData.activePage === Local.register ) {
+
+      setLoggedIn(false)
+      setIcons([homeIcon, userIcon, helpIcon, infoIcon, contactIcon, rewardIcon, referralActiveIcon, registerActiveIcon])
 
     }
   }, [props.appData])
@@ -110,195 +128,282 @@ const main = (props: Props) => {
         ]}
       />
 
-      <Grid item container className={classes.header} xs={12}>
+      {isLoggedIn ?
 
-        <Grid item container justify="flex-start" xs={6}>
-          <img className={classes.headerIcon} src={minimaIcon}/>
-        </Grid>
+        <div>
 
-        <Grid item container justify="space-between" xs={6}>
+          <Grid item container className={classes.header} xs={12}>
 
-            <NavLink to={Local.help} className={classes.link}>
-              <IconButton
-                color="primary"
-                aria-label="Help"
-                component="span"
-                size="small">
-                <img
-                  data-for={helpIcon}
+            <Grid item container justify="flex-start" xs={4}>
+              <img className={classes.headerIcon} src={minimaIcon}/>
+            </Grid>
+
+            <Grid item container justify="space-between" xs={8}>
+
+              <NavLink to={Local.help} className={classes.link}>
+                <IconButton
+                  color="primary"
+                  aria-label="Help"
+                  component="span"
+                  size="small">
+                  <img
+                    data-for={helpIcon}
+                    data-tip
+                    src={icons[2]}
+                    className={classes.helpIcon}
+                  />
+                </IconButton>
+                <ReactTooltip
+                  id={helpIcon}
+                  place="bottom"
+                  effect="solid"
+                >
+                  {Help.helpTip}
+                </ReactTooltip>
+              </NavLink>
+
+              <NavLink to={Local.contact} className={classes.link}>
+                <IconButton
+                  color="primary"
+                  aria-label="Contact"
+                  component="span"
+                  size="small">
+                  <img
+                    data-for={contactIcon}
+                    data-tip
+                    src={icons[4]}
+                    className={classes.contactIcon}
+                  />
+                </IconButton>
+                <ReactTooltip
+                  id={contactIcon}
+                  place="bottom"
+                  effect="solid"
+                >
+                  {Help.contactTip}
+                </ReactTooltip>
+              </NavLink>
+
+              <NavLink to={Local.about} className={classes.link}>
+                <IconButton
+                  color="primary"
+                  aria-label="Info"
+                  component="span"
+                  size="small">
+                  <img
+                    data-for={infoIcon}
+                    data-tip
+                    src={icons[3]}
+                    className={classes.aboutIcon}
+                  />
+                </IconButton>
+                <ReactTooltip
+                  id={infoIcon}
+                  place="bottom"
+                  effect="solid"
+                >
+                  {Help.aboutTip}
+                </ReactTooltip>
+              </NavLink>
+            </Grid>
+
+            <Grid item container justify="center" xs={2}>
+
+             <NavLink to={Local.home}>
+                <IconButton
+                 color="primary"
+                 aria-label={Help.homeTip}
+                 component="span"
+                 size="small">
+                 <img
+                  data-for={logoutIcon}
                   data-tip
-                  src={icons[2]}
-                  className={classes.helpIcon}
+                  src={logoutIcon}
+                  className={classes.footerIcon}
                 />
-              </IconButton>
-              <ReactTooltip
-                id={helpIcon}
-                place="bottom"
-                effect="solid"
-              >
-                {Help.helpTip}
-              </ReactTooltip>
-            </NavLink>
+                </IconButton>
+                <ReactTooltip
+                  id={logoutIcon}
+                  place="top"
+                  effect="solid"
+                >
+                  {Help.homeTip}
+                </ReactTooltip>
+             </NavLink>
 
-            <NavLink to={Local.contact} className={classes.link}>
-              <IconButton
-                color="primary"
-                aria-label="Contact"
-                component="span"
-                size="small">
-                <img
-                  data-for={contactIcon}
+            </Grid>
+
+
+          </Grid>
+
+          <Grid className={classes.content} alignItems="flex-start" item container xs={12}>
+            <UserContent />
+          </Grid>
+
+          <Grid item container className={classes.footer} justify="center" xs={12}>
+
+            <Grid item container justify="center" xs={2}>
+
+             <NavLink to={Local.user}>
+                <IconButton
+                 color="primary"
+                 aria-label={Help.userTip}
+                 component="span"
+                 size="small">
+                 <img
+                  data-for={userIcon}
                   data-tip
-                  src={icons[4]}
-                  className={classes.contactIcon}
+                  src={icons[1]}
+                  className={classes.footerIcon}
                 />
-              </IconButton>
-              <ReactTooltip
-                id={contactIcon}
-                place="bottom"
-                effect="solid"
-              >
-                {Help.contactTip}
-              </ReactTooltip>
-            </NavLink>
+                </IconButton>
+                <ReactTooltip
+                  id={userIcon}
+                  place="top"
+                  effect="solid"
+                >
+                  {Help.userTip}
+                </ReactTooltip>
+             </NavLink>
 
-            <NavLink to={Local.about} className={classes.link}>
-              <IconButton
-                color="primary"
-                aria-label="Info"
-                component="span"
-                size="small">
-                <img
-                  data-for={infoIcon}
+            </Grid>
+
+            <Grid item container justify="center" xs={2}>
+
+             <NavLink to={Local.reward}>
+                <IconButton
+                 color="primary"
+                 aria-label={Help.rewardTip}
+                 component="span"
+                 size="small">
+                 <img
+                  data-for={rewardIcon}
                   data-tip
-                  src={icons[3]}
-                  className={classes.aboutIcon}
+                  src={icons[5]}
+                  className={classes.footerIcon}
                 />
-              </IconButton>
-              <ReactTooltip
-                id={infoIcon}
-                place="bottom"
-                effect="solid"
-              >
-                {Help.aboutTip}
-              </ReactTooltip>
-            </NavLink>
-        </Grid>
+                </IconButton>
+                <ReactTooltip
+                  id={rewardIcon}
+                  place="top"
+                  effect="solid"
+                >
+                  {Help.rewardTip}
+                </ReactTooltip>
+             </NavLink>
 
-      </Grid>
+            </Grid>
 
-      <Grid className={classes.content} alignItems="flex-start" item container xs={12}>
-        <Content />
-      </Grid>
+            <Grid item container justify="center" xs={2}>
 
-      <Grid item container className={classes.footer} justify="center" xs={12}>
+             <NavLink to={Local.referral}>
+                <IconButton
+                 color="primary"
+                 aria-label={Help.referralTip}
+                 component="span"
+                 size="small">
+                 <img
+                  data-for={referralIcon}
+                  data-tip
+                  src={icons[6]}
+                  className={classes.footerIcon}
+                />
+                </IconButton>
+                <ReactTooltip
+                  id={referralIcon}
+                  place="top"
+                  effect="solid"
+                >
+                  {Help.referralTip}
+                </ReactTooltip>
+             </NavLink>
 
-        <Grid item container justify="center" xs={2}>
+            </Grid>
 
-         <NavLink to={Local.home}>
-            <IconButton
-             color="primary"
-             aria-label={Help.homeTip}
-             component="span"
-             size="small">
-             <img
-              data-for={homeIcon}
-              data-tip
-              src={icons[0]}
-              className={classes.footerIcon}
-            />
-            </IconButton>
-            <ReactTooltip
-              id={homeIcon}
-              place="top"
-              effect="solid"
-            >
-              {Help.homeTip}
-            </ReactTooltip>
-         </NavLink>
+          </Grid>
+        </div>
 
-        </Grid>
+        : (
 
-        <Grid item container justify="center" xs={2}>
+          <div>
+            <Grid item container className={classes.header} xs={12}>
 
-         <NavLink to={Local.user}>
-            <IconButton
-             color="primary"
-             aria-label={Help.userTip}
-             component="span"
-             size="small">
-             <img
-              data-for={userIcon}
-              data-tip
-              src={icons[1]}
-              className={classes.footerIcon}
-            />
-            </IconButton>
-            <ReactTooltip
-              id={userIcon}
-              place="top"
-              effect="solid"
-            >
-              {Help.userTip}
-            </ReactTooltip>
-         </NavLink>
+              <Grid item container justify="flex-start" xs={8}>
+                <img className={classes.headerIcon} src={minimaIcon}/>
+              </Grid>
 
-        </Grid>
+              <Grid item container justify="space-between" xs={4}>
 
-        <Grid item container justify="center" xs={2}>
+                <Grid item container justify="center" xs={2}>
 
-         <NavLink to={Local.reward}>
-            <IconButton
-             color="primary"
-             aria-label={Help.rewardTip}
-             component="span"
-             size="small">
-             <img
-              data-for={rewardIcon}
-              data-tip
-              src={icons[5]}
-              className={classes.footerIcon}
-            />
-            </IconButton>
-            <ReactTooltip
-              id={rewardIcon}
-              place="top"
-              effect="solid"
-            >
-              {Help.rewardTip}
-            </ReactTooltip>
-         </NavLink>
+                 <NavLink to={Local.home}>
+                    <IconButton
+                     color="primary"
+                     aria-label={Help.homeTip}
+                     component="span"
+                     size="small">
+                     <img
+                      data-for={homeIcon}
+                      data-tip
+                      src={icons[0]}
+                      className={classes.footerIcon}
+                    />
+                    </IconButton>
+                    <ReactTooltip
+                      id={homeIcon}
+                      place="top"
+                      effect="solid"
+                    >
+                      {Help.homeTip}
+                    </ReactTooltip>
+                 </NavLink>
 
-        </Grid>
+                </Grid>
 
-        <Grid item container justify="center" xs={2}>
+                <Grid item container justify="center" xs={2}>
 
-         <NavLink to={Local.referral}>
-            <IconButton
-             color="primary"
-             aria-label={Help.referralTip}
-             component="span"
-             size="small">
-             <img
-              data-for={referralIcon}
-              data-tip
-              src={icons[6]}
-              className={classes.footerIcon}
-            />
-            </IconButton>
-            <ReactTooltip
-              id={referralIcon}
-              place="top"
-              effect="solid"
-            >
-              {Help.referralTip}
-            </ReactTooltip>
-         </NavLink>
+                 <NavLink to={Local.register}>
+                    <IconButton
+                     color="primary"
+                     aria-label={Help.registerTip}
+                     component="span"
+                     size="small">
+                     <img
+                      data-for={registerIcon}
+                      data-tip
+                      src={icons[7]}
+                      className={classes.footerIcon}
+                    />
+                    </IconButton>
+                    <ReactTooltip
+                      id={registerIcon}
+                      place="top"
+                      effect="solid"
+                    >
+                      {Help.registerTip}
+                    </ReactTooltip>
+                 </NavLink>
 
-        </Grid>
+                </Grid>
 
-      </Grid>
+              </Grid>
 
+            </Grid>
+
+            <Grid className={classes.content} alignItems="flex-start" item container xs={12}>
+              <LoggedOutContent />
+            </Grid>
+
+            <Grid item container className={classes.footer} justify="center" xs={12}>
+
+              <Typography variant="h6">
+                {App.copyright}
+              </Typography>
+
+            </Grid>
+          </div>
+        )
+      }
     </Grid>
   )
 }

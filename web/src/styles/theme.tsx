@@ -67,7 +67,7 @@ let theme = createMuiTheme ({
       fontSize: "1em",
       fontWeight: 700,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-      color: '#001C32'
+      color: '#FFFFFF'
     },
     subtitle1: {
       lineHeight: "2.5",
