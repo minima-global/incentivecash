@@ -9,6 +9,8 @@ class Local {
   static readonly help = '/help'
   static readonly contact = '/contact'
 
+  static readonly register = '/register'
+
   static readonly user = '/user'
   static readonly reward = '/reward'
   static readonly rewardUser = `${Local.reward}/:id`

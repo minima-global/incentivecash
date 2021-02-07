@@ -50,7 +50,7 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps
 
-export const home = (props: Props) => {
+export const userLogin = (props: Props) => {
 
   const [user, setUser] = useState({email: "", password: ""})
   const [summary, setSummary] = useState("")
@@ -172,7 +172,7 @@ const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
  }
 }
 
-export const Home = connect<StateProps, DispatchProps, {}, ApplicationState>(
+export const Login = connect<StateProps, DispatchProps, {}, ApplicationState>(
   mapStateToProps,
   mapDispatchToProps
-)(home)
+)(userLogin)

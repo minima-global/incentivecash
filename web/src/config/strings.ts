@@ -19,10 +19,13 @@ class Paths {
   static readonly about = 'About'
   static readonly help = 'Help'
   static readonly contact = 'Contact'
+
+  static readonly register = 'Register'
+
   static readonly user = 'User'
-  static readonly reward = '/reward'
+  static readonly reward = 'Reward'
   static readonly rewardUser = `${Paths.reward}`
-  static readonly referral = '/referral'
+  static readonly referral = 'Referral'
   static readonly referralUser = `${Paths.referral}`
 }
 
@@ -51,12 +54,13 @@ class Help {
 
   static readonly info = [`Coming soon.`]
 
-  static readonly homeTip = 'Home'
+  static readonly homeTip = 'Login'
   static readonly helpTip = 'Help'
   static readonly contactTip = 'Contact'
   static readonly aboutTip = 'About'
   static readonly sortTip = "Sort"
   static readonly loginTip = 'Sign In'
+  static readonly registerTip = 'Register'
   static readonly logoutTip = 'Sign Out'
   static readonly userTip = 'User'
   static readonly rewardTip = 'Rewards'
@@ -72,17 +76,24 @@ class Contact {
 
 class User {
 
+  static readonly registerHeading = 'Register'
   static readonly loginHeading = 'Sign In'
   static readonly userHeading = 'User'
 
   static readonly email = 'Email'
   static readonly password = 'Password'
+  static readonly referral = 'Referral Code'
   static readonly loginButton = 'Sign In'
+  static readonly registerButton = 'Register'
   static readonly rewardButton = 'Rewards'
   static readonly referralButton = 'Referrals'
 
   static readonly loginSuccess = 'Success'
   static readonly loginFailure = 'Failure'
+
+  static readonly registerEmail = 'Please check your email for login instructions'
+  static readonly registerSuccess = 'Success'
+  static readonly registerFailure = 'Failure'
 
   static readonly getUserSuccess = 'Success'
   static readonly getUserFailure = 'Failure'
