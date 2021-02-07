@@ -21,6 +21,7 @@ class Paths {
   static readonly contact = 'Contact'
 
   static readonly register = 'Register'
+  static readonly registerReferral = `${Paths.register}`
   static readonly registerUser = `${Paths.register}`
 
   static readonly user = 'User'
