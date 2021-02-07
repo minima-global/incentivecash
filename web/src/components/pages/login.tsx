@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { connect } from 'react-redux'
 import { useHistory } from "react-router-dom"
 
@@ -27,7 +27,7 @@ import {
 } from '../../store/types'
 
 import { setActivePage } from '../../store/app/appData/actions'
-import { login } from '../../store/app/server/actions'
+import { login, init } from '../../store/app/server/actions'
 
 import { Local, GeneralError, Help, User, Misc } from '../../config'
 
@@ -45,6 +45,7 @@ interface StateProps {
 
 interface DispatchProps {
   setActivePage: (page: string) => void
+  init: () => void
   login: (user: SignIn) => void
 }
 
@@ -54,6 +55,7 @@ export const userLogin = (props: Props) => {
 
   const [user, setUser] = useState({email: "", password: ""})
   const [summary, setSummary] = useState("")
+  let isFirstRun = useRef(true)
 
   let classes = themeStyles()
   let hr = hrFirst
@@ -70,16 +72,25 @@ export const userLogin = (props: Props) => {
     props.setActivePage(Local.home)
     let pushTimeout: any
 
-    const txSummary: string = props.tx.summary
-    if( txSummary != summary ) {
-      setSummary(txSummary)
+    if ( isFirstRun.current ) {
 
-      if ( txSummary === `${User.loginSuccess}` ) {
+      isFirstRun.current = false
 
-        pushTimeout = setTimeout(() => {
-            history.push(`${Local.user}`)
-        }, Misc.successLoginDelay)
+    } else {
+
+      const txSummary: string = props.tx.summary
+      if( txSummary != summary ) {
+
+        setSummary(txSummary)
+
+        if ( txSummary === `${User.loginSuccess}` ) {
+
+          pushTimeout = setTimeout(() => {
+              history.push(`${Local.user}`)
+          }, Misc.successLoginDelay)
+        }
       }
+
     }
 
     return () => {
@@ -151,7 +162,7 @@ export const userLogin = (props: Props) => {
       )}
       </Formik>
       <Grid item container xs={12} alignItems="flex-start">
-        <Typography variant="h6">
+        <Typography variant="h5">
           {summary}
         </Typography>
       </Grid>
@@ -168,6 +179,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
  return {
    setActivePage: (page: string) => dispatch(setActivePage(page)),
+   init: () => dispatch(init()),
    login: (user: SignIn) => dispatch(login(user))
  }
 }

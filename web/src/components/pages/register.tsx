@@ -143,7 +143,7 @@ export const userRegister = (props: Props) => {
       )}
       </Formik>
       <Grid item container xs={12} alignItems="flex-start">
-        <Typography variant="h6">
+        <Typography variant="h5">
           {summary}
         </Typography>
       </Grid>

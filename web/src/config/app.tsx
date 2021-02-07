@@ -1,5 +1,5 @@
 class Misc {
-    static readonly successLoginDelay = 2500
+    static readonly successLoginDelay = 1500
 }
 
 export { Misc }

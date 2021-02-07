@@ -21,8 +21,18 @@ import {
 
 import { write } from '../../actions'
 
+export const init = () => {
+  return async (dispatch: AppDispatch) => {
+
+    dispatch(write({data: {}})(TxActionTypes.TX_INIT))
+    dispatch(write({data: {}})(UserActionTypes.USER_INIT))
+  }
+}
+
 export const register = (user: UserRegister) => {
   return async (dispatch: AppDispatch) => {
+
+
   }
 }
 
