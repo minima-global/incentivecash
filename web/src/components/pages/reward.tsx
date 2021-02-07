@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { useParams } from 'react-router-dom'
+//import { useParams } from 'react-router-dom'
 
 import { isMobile } from "react-device-detect"
 
@@ -15,7 +15,8 @@ import { themeStyles, themeStylesMobile } from '../../styles'
 import {
   ApplicationState,
   AppDispatch,
-  Collection
+  Collection,
+  User
 } from '../../store/types'
 
 import { setActivePage } from '../../store/app/appData/actions'
@@ -31,6 +32,7 @@ import {
   Misc } from '../../config'
 
 interface StateProps {
+  user: User
   collection: Collection
 }
 
@@ -44,7 +46,7 @@ type Props = StateProps & DispatchProps
 export const rewardInfo = (props: Props) => {
 
   const [reward, setReward] = useState([] as string[])
-  const { id } = useParams<{ id: string }>()
+  //const { id } = useParams<{ id: string }>()
   let isFirstRun = useRef(true)
 
   let classes = themeStyles()
@@ -61,7 +63,7 @@ export const rewardInfo = (props: Props) => {
 
       props.setActivePage(Local.reward)
       isFirstRun.current = false
-      const rewardURL = `${Remote.serverURL}${Remote.itemsPath}${Remote.rewardsPath}?filter={ "Userid": { "_eq": "${id}" }}`
+      const rewardURL = `${Remote.serverURL}${Remote.itemsPath}${Remote.rewardsPath}?filter={ "Userid": { "_eq": "${props.user.info.id}" }}`
 
       props.getCollection(rewardURL)
 
@@ -110,6 +112,7 @@ export const rewardInfo = (props: Props) => {
 
 const mapStateToProps = (state: ApplicationState): StateProps => {
   return {
+    user: state.userData.data as User,
     collection: state.collectionData.data as Collection
   }
 }

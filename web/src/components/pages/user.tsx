@@ -98,30 +98,6 @@ export const user = (props: Props) => {
         </ul>
       </Grid>
 
-      <Grid item container justify="space-between" xs={12}>
-
-        <Grid item container justify="center" xs={4}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => history.push(`${Local.reward}/${props.user.info.id}`)}
-          >
-            {UserConfig.rewardButton}
-          </Button>
-        </Grid>
-
-        <Grid item container justify="center" xs={4}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => history.push(`${Local.referral}/${props.user.info.id}`)}
-          >
-            {UserConfig.referralButton}
-          </Button>
-        </Grid>
-
-      </Grid>
-
     </Grid>
   )
 }
