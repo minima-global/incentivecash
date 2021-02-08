@@ -73,7 +73,6 @@ const referralInfo = (props: Props) => {
       for (let item of props.collection.info) {
 
         const thisReferral = getKeyedList(item)
-        console.log("this: ", thisReferral)
         currentReferrals.push(...thisReferral)
       }
 
