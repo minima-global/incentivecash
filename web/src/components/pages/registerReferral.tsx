@@ -8,11 +8,10 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
 import * as Yup from 'yup'
-import { Formik, Form, Field, FormikProps, ErrorMessage } from 'formik'
-import { FormControl } from '@material-ui/core'
-import { TextField } from "material-ui-formik-components"
+import { useFormik } from 'formik'
 import Button from '@material-ui/core/Button'
 import ReactTooltip from 'react-tooltip'
+import TextField from '@material-ui/core/TextField'
 
 import hrFirst from '../../images/hrFirst.svg'
 import hrFirstMobile from '../../images/hrFirstMobile.svg'
@@ -32,7 +31,7 @@ import { register } from '../../store/app/server/actions'
 import { Local, GeneralError, Help, User, Misc } from '../../config'
 
 const registerSchema = Yup.object().shape({
-  userEmail: Yup.string()
+  email: Yup.string()
     .email()
     .required(`${GeneralError.required}`),
   referral: Yup.string()
@@ -85,6 +84,23 @@ const userRegister = (props: Props) => {
 
   }, [props.tx])
 
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      referral: referral
+    },
+    enableReinitialize: true,
+    validationSchema: registerSchema,
+    onSubmit: (values: any) => {
+
+      const userInfo: UserRegister = {
+          email: values.email,
+          referral:  values.referral
+      }
+      props.register(userInfo)
+    },
+  })
+
   return (
 
     <Grid container alignItems="flex-start">
@@ -97,56 +113,50 @@ const userRegister = (props: Props) => {
         <img src={hr} className={classes.hr}/>
       </Grid>
 
-      <Formik
-        initialValues={ {userEmail: "", referral: referral} }
-        enableReinitialize={true}
-        validationSchema={registerSchema}
-        onSubmit={(values: any) => {
+      <form onSubmit={formik.handleSubmit}>
+        <TextField
+          fullWidth
+          id="email"
+          name="email"
+          label={User.email}
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
+        />
+        <TextField
+          fullWidth
+          id="referral"
+          name="referral"
+          label={User.referral}
+          value={formik.values.referral}
+          onChange={formik.handleChange}
+          error={formik.touched.referral && Boolean(formik.errors.referral)}
+          helperText={formik.touched.referral && formik.errors.referral}
+        />
+        <br/><br/>
+        <Grid item container justify="flex-start">
+          <Button
+            data-for='registerButton'
+            data-tip
+            style={{textTransform: 'none'}}
+            size='medium'
+            type='submit'
+            variant="contained"
+            color="primary"
+          >
+            {User.registerButton}
+          </Button>
+          <ReactTooltip
+            id='registerButton'
+            place="bottom"
+            effect="solid"
+          >
+            {Help.registerTip}
+          </ReactTooltip>
+        </Grid>
+      </form>
 
-          const userInfo: UserRegister = {
-              email: values.userEmail,
-              referral:  values.referral
-          }
-          props.register(userInfo)
-        }}
-      >
-        {(formProps: FormikProps<any>) => (
-          <Form>
-            <FormControl fullWidth={true}>
-                <Field
-                  name='userEmail'
-                  label={User.email}
-                  component={TextField}
-                />
-                <Field
-                  name='referral'
-                  label={User.referral}
-                  component={TextField}
-                />
-                <Grid item container justify="flex-start">
-                  <Button
-                    data-for='registerButton'
-                    data-tip
-                    style={{textTransform: 'none'}}
-                    size='medium'
-                    type='submit'
-                    variant="contained"
-                    color="primary"
-                  >
-                    {User.registerButton}
-                  </Button>
-                  <ReactTooltip
-                    id='registerButton'
-                    place="bottom"
-                    effect="solid"
-                  >
-                    {Help.registerTip}
-                  </ReactTooltip>
-                </Grid>
-            </FormControl>
-          </Form>
-      )}
-      </Formik>
       <Grid item container xs={12} alignItems="flex-start">
         <Typography variant="h5">
           {summary}

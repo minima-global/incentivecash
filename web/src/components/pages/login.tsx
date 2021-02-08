@@ -8,10 +8,9 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
 import * as Yup from 'yup'
-import { Formik, Form, Field, FormikProps, ErrorMessage } from 'formik'
-import { FormControl } from '@material-ui/core'
-import { TextField } from "material-ui-formik-components"
+import { useFormik } from 'formik'
 import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
 import ReactTooltip from 'react-tooltip'
 
 import hrFirst from '../../images/hrFirst.svg'
@@ -32,10 +31,10 @@ import { login, init } from '../../store/app/server/actions'
 import { Local, GeneralError, Help, User, Misc } from '../../config'
 
 const loginSchema = Yup.object().shape({
-  userEmail: Yup.string()
+  email: Yup.string()
     .email()
     .required(`${GeneralError.required}`),
-  userPassword: Yup.string()
+  password: Yup.string()
     .required(`${GeneralError.required}`),
 })
 
@@ -99,6 +98,23 @@ const userLogin = (props: Props) => {
 
   }, [props.tx])
 
+  const formik = useFormik({
+    initialValues: {
+      email: user.email,
+      password: user.password
+    },
+    enableReinitialize: true,
+    validationSchema: loginSchema,
+    onSubmit: (values: any) => {
+
+      const userInfo: SignIn = {
+          email: values.email,
+          password:  values.password
+      }
+      props.login(userInfo)
+    },
+  })
+
   return (
 
     <Grid container alignItems="flex-start">
@@ -111,61 +127,57 @@ const userLogin = (props: Props) => {
         <img src={hr} className={classes.hr}/>
       </Grid>
 
-      <Formik
-        initialValues={ {userEmail: user.email, userPassword: user.password} }
-        enableReinitialize={true}
-        validationSchema={loginSchema}
-        onSubmit={(values: any) => {
+      <form onSubmit={formik.handleSubmit}>
+        <TextField
+          fullWidth
+          id="email"
+          name="email"
+          label="Email"
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
+        />
+        <TextField
+          fullWidth
+          id="password"
+          name="password"
+          label="Password"
+          type="password"
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          error={formik.touched.password && Boolean(formik.errors.password)}
+          helperText={formik.touched.password && formik.errors.password}
+        />
+        <br/><br/>
+        <Grid item container justify="flex-start">
+          <Button
+            data-for='loginButton'
+            data-tip
+            style={{textTransform: 'none'}}
+            size='medium'
+            type='submit'
+            variant="contained"
+            color="primary"
+          >
+            {User.loginButton}
+          </Button>
+          <ReactTooltip
+            id='loginButton'
+            place="bottom"
+            effect="solid"
+          >
+            {Help.loginTip}
+          </ReactTooltip>
+        </Grid>
+      </form>
 
-          const userInfo: SignIn = {
-              email: values.userEmail,
-              password:  values.userPassword
-          }
-          props.login(userInfo)
-        }}
-      >
-        {(formProps: FormikProps<any>) => (
-          <Form>
-            <FormControl fullWidth={true}>
-                <Field
-                  name='userEmail'
-                  label={User.email}
-                  component={TextField}
-                />
-                <Field
-                  name='userPassword'
-                  label={User.password}
-                  component={TextField}
-                />
-                <Grid item container justify="flex-start">
-                  <Button
-                    data-for='loginButton'
-                    data-tip
-                    style={{textTransform: 'none'}}
-                    size='medium'
-                    type='submit'
-                    variant="contained"
-                    color="primary"
-                  >
-                    {User.loginButton}
-                  </Button>
-                  <ReactTooltip
-                    id='loginButton'
-                    place="bottom"
-                    effect="solid"
-                  >
-                    {Help.loginTip}
-                  </ReactTooltip>
-                </Grid>
-            </FormControl>
-          </Form>
-      )}
-      </Formik>
       <Grid item container xs={12} alignItems="flex-start">
         <Typography variant="h5">
           {summary}
         </Typography>
       </Grid>
+
     </Grid>
   )
 }
