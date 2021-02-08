@@ -132,7 +132,7 @@ const userLogin = (props: Props) => {
           fullWidth
           id="email"
           name="email"
-          label="Email"
+          label={User.email}
           value={formik.values.email}
           onChange={formik.handleChange}
           error={formik.touched.email && Boolean(formik.errors.email)}
@@ -142,7 +142,7 @@ const userLogin = (props: Props) => {
           fullWidth
           id="password"
           name="password"
-          label="Password"
+          label={User.password}
           type="password"
           value={formik.values.password}
           onChange={formik.handleChange}
