@@ -67,7 +67,7 @@ const userRegister = (props: Props) => {
 
   const { email } = useParams<{ email: string }>()
   const { referral } = useParams<{ referral: string }>()
-  const { oldPassword } = useParams<{ oldPassword: string }>()
+  const { token } = useParams<{ token: string }>()
 
   let classes = themeStyles()
   let hr = hrFirst
@@ -124,7 +124,7 @@ const userRegister = (props: Props) => {
       </Grid>
 
       <Formik
-        initialValues={ {userEmail: email, referral: referral, oldPassword: oldPassword, userPassword: "", userPassword2: ""} }
+        initialValues={ {userEmail: email, referral: referral, userPassword: "", userPassword2: ""} }
         enableReinitialize={true}
         validationSchema={registerSchema}
         onSubmit={(values: any) => {
@@ -132,8 +132,8 @@ const userRegister = (props: Props) => {
           const userInfo: UserRegisterPassword = {
               email: values.userEmail,
               referral: values.referral,
-              oldPassword:  values.oldPassword,
-              newPassword:  values.userPassword
+              token:  token,
+              password:  values.userPassword
           }
           props.registerPassword(userInfo)
         }}

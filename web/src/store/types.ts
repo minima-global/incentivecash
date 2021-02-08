@@ -52,8 +52,8 @@ export interface UserRegister {
 export interface UserRegisterPassword {
   email: string
   referral: string
-  oldPassword: string
-  newPassword: string
+  token: string
+  password: string
 }
 
 export interface SignIn {

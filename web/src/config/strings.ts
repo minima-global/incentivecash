@@ -22,7 +22,7 @@ class Paths {
 
   static readonly register = 'Register'
   static readonly registerReferral = `${Paths.register}`
-  static readonly registerUser = `${Paths.register}`
+  static readonly registerPassword = `${Paths.register}`
 
   static readonly user = 'User'
   static readonly reward = 'Reward'
