@@ -54,7 +54,11 @@ const userRegister = (props: Props) => {
 
   const [summary, setSummary] = useState("")
 
-  const { referral } = useParams<{ referral: string }>()
+  let { referral } = useParams<{ referral: string }>()
+  if (!referral) {
+    console.log("blahasdfasdf")
+    referral = ""
+  }
 
   let classes = themeStyles()
   let hr = hrFirst

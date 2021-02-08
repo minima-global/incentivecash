@@ -1,6 +1,5 @@
 export * from './main'
 export * from './login'
-export * from './register'
 export * from './registerReferral'
 export * from './registerPassword'
 export * from './login'
