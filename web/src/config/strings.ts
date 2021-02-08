@@ -33,7 +33,9 @@ class Paths {
 
 class GeneralError {
 
-    static readonly required = "Required"
+  static readonly required = "Required"
+  static readonly passTooShort = "Password too short"
+  static readonly passNotMatch = "Passwords don't match"
 }
 
 class Home {
@@ -84,7 +86,7 @@ class User {
 
   static readonly email = 'Email'
   static readonly password = 'Password'
-  static readonly password2 = 'Password Again'
+  static readonly password2 = 'Re-type Password'
   static readonly referral = 'Referral Code'
   static readonly loginButton = 'Sign In'
   static readonly registerButton = 'Register'
