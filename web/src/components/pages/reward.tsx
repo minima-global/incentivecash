@@ -45,7 +45,7 @@ type Props = StateProps & DispatchProps
 
 const rewardInfo = (props: Props) => {
 
-  const [reward, setReward] = useState([] as string[])
+  const [reward, setReward] = useState([] as string[][])
   //const { id } = useParams<{ id: string }>()
   let isFirstRun = useRef(true)
 
@@ -73,8 +73,8 @@ const rewardInfo = (props: Props) => {
       for (let item of props.collection.info) {
 
         const thisReward = getKeyedList(item)
-        console.log("this: ", thisReward)
-        currentRewards.push(...thisReward)
+        //currentRewards.push(...thisReward)
+        currentRewards.push(thisReward)
       }
 
       setReward(currentRewards)
@@ -95,16 +95,29 @@ const rewardInfo = (props: Props) => {
         <img src={hr} className={classes.hr}/>
       </Grid>
       <Grid item container justify="flex-start" xs={12}>
-        <ul>
-          {reward.map((item, index) => {
+        {reward.map((rewardItem, thisIndex) => {
+
+          const thisKey = thisIndex.toString()
+
+          let thisItem = rewardItem.map((item, index) => {
 
             return (
-              <React.Fragment key={index}>
-                  <li>{item}</li>
-              </React.Fragment>
+              <Grid item container justify="flex-start" xs={12}>
+                {item}
+              </Grid>
             )
-          })}
-        </ul>
+          })
+
+          return (
+            <Grid item container justify="flex-start" xs={12}>
+              <Typography variant="h3">
+                This reward
+              </Typography>
+              {thisItem}
+            </Grid>
+          )
+
+        })}
       </Grid>
     </Grid>
   )
