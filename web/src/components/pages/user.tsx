@@ -86,16 +86,14 @@ const user = (props: Props) => {
         <img src={hr} className={classes.hr}/>
       </Grid>
       <Grid item container justify="flex-start" xs={12}>
-        <ul>
-          {user.map((item, index) => {
+        {user.map((item) => {
 
-            return (
-              <React.Fragment key={index}>
-                  <li>{item}</li>
-              </React.Fragment>
-            )
-          })}
-        </ul>
+          return (
+            <Grid item container justify="flex-start" xs={12}>
+              {item}
+            </Grid>
+          )
+        })}
       </Grid>
 
     </Grid>

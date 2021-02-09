@@ -200,7 +200,6 @@ export const getCollection = (url: string) => {
         const collectionData = {
           info: data.data
         }
-        console.log("New Collection: ", data.data)
         dispatch(write({data: collectionData})(TableActionTypes.TABLE_SUCCESS))
 
       })
