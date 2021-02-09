@@ -63,7 +63,8 @@ const referralInfo = (props: Props) => {
 
       props.setActivePage(Local.referral)
       isFirstRun.current = false
-      const referralURL = `${Remote.serverURL}${Remote.itemsPath}${Remote.referralsPath}?filter={ "Userid": { "_eq": "${props.user.info.id}" }}`
+      //const referralURL = `${Remote.serverURL}${Remote.itemsPath}${Remote.referralsPath}?filter={ "Userid": { "_eq": "${props.user.info.id}" }}`
+      const referralURL = `${Remote.serverURL}${Remote.itemsPath}${Remote.referralsPath}`
 
       props.getCollection(referralURL)
 
@@ -94,16 +95,14 @@ const referralInfo = (props: Props) => {
         <img src={hr} className={classes.hr}/>
       </Grid>
       <Grid item container justify="flex-start" xs={12}>
-        <ul>
-          {referral.map((item, index) => {
+          {referral.map((item) => {
 
             return (
-              <React.Fragment key={index}>
-                  <li>{item}</li>
-              </React.Fragment>
+              <Grid item container justify="flex-start" xs={12}>
+                {item}
+              </Grid>
             )
           })}
-        </ul>
       </Grid>
     </Grid>
   )

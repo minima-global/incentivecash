@@ -63,7 +63,8 @@ const rewardInfo = (props: Props) => {
 
       props.setActivePage(Local.reward)
       isFirstRun.current = false
-      const rewardURL = `${Remote.serverURL}${Remote.itemsPath}${Remote.rewardsPath}?filter={ "Userid": { "_eq": "${props.user.info.id}" }}`
+      //const rewardURL = `${Remote.serverURL}${Remote.itemsPath}${Remote.rewardsPath}?filter={ "Userid": { "_eq": "${props.user.info.id}" }}`
+      const rewardURL = `${Remote.serverURL}${Remote.itemsPath}${Remote.rewardsPath}`
 
       props.getCollection(rewardURL)
 
@@ -95,11 +96,9 @@ const rewardInfo = (props: Props) => {
         <img src={hr} className={classes.hr}/>
       </Grid>
       <Grid item container justify="flex-start" xs={12}>
-        {reward.map((rewardItem, thisIndex) => {
+        {reward.map((rewardItem, index) => {
 
-          const thisKey = thisIndex.toString()
-
-          let thisItem = rewardItem.map((item, index) => {
+            let thisItem = rewardItem.map((item) => {
 
             return (
               <Grid item container justify="flex-start" xs={12}>
@@ -111,7 +110,7 @@ const rewardInfo = (props: Props) => {
           return (
             <Grid item container justify="flex-start" xs={12}>
               <Typography variant="h3">
-                Reward {thisIndex + 1}
+                Reward {index + 1}
               </Typography>
               {thisItem}
             </Grid>
