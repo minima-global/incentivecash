@@ -41,7 +41,7 @@ const registerSchema = Yup.object().shape({
     .email()
     .required(`${GeneralError.required}`),
   referral: Yup.string()
-    .required(`${GeneralError.required}`),
+    .matches(/^[0-9a-zA-Z]+$/, `${GeneralError.format}`),
   password: Yup.string()
     .min(8, `${GeneralError.passTooShort}`)
     .required(`${GeneralError.required}`),
@@ -68,8 +68,11 @@ const userRegister = (props: Props) => {
   let isFirstRun = useRef(true)
 
   const { email } = useParams<{ email: string }>()
-  const { referral } = useParams<{ referral: string }>()
   const { token } = useParams<{ token: string }>()
+  let { referral } = useParams<{ referral: string }>()
+  if (!referral) {
+    referral = ""
+  }
 
   let classes = themeStyles()
   let hr = hrFirst
@@ -127,8 +130,8 @@ const userRegister = (props: Props) => {
       const userInfo: UserRegisterPassword = {
           email: values.email,
           referral: values.referral,
-          token:  token,
-          password:  values.password
+          oldPassword:  token,
+          newPassword:  values.password
       }
       props.registerPassword(userInfo)
     },

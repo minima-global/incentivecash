@@ -35,7 +35,7 @@ const registerSchema = Yup.object().shape({
     .email()
     .required(`${GeneralError.required}`),
   referral: Yup.string()
-    .required(`${GeneralError.required}`),
+    .matches(/^[0-9a-zA-Z]+$/, `${GeneralError.format}`),
 })
 
 interface StateProps {
@@ -55,7 +55,6 @@ const userRegister = (props: Props) => {
 
   let { referral } = useParams<{ referral: string }>()
   if (!referral) {
-    console.log("blahasdfasdf")
     referral = ""
   }
 

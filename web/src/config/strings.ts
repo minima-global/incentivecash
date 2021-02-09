@@ -23,6 +23,7 @@ class Paths {
   static readonly register = 'Register'
   static readonly registerReferral = `${Paths.register}`
   static readonly registerPassword = `${Paths.register}`
+  static readonly registerPasswordReferral = `${Paths.register}`
 
   static readonly user = 'User'
   static readonly reward = 'Reward'
@@ -36,6 +37,8 @@ class GeneralError {
   static readonly required = "Required"
   static readonly passTooShort = "Password too short"
   static readonly passNotMatch = "Passwords don't match"
+  static readonly format = "Incorrect format"
+
 }
 
 class Home {

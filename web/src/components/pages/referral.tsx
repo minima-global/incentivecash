@@ -63,8 +63,8 @@ const referralInfo = (props: Props) => {
 
       props.setActivePage(Local.referral)
       isFirstRun.current = false
-      //const referralURL = `${Remote.serverURL}${Remote.itemsPath}${Remote.referralsPath}?filter={ "Userid": { "_eq": "${props.user.info.id}" }}`
-      const referralURL = `${Remote.serverURL}${Remote.itemsPath}${Remote.referralsPath}`
+      const referralURL = `${Remote.serverURL}${Remote.itemsPath}${Remote.referralsPath}?filter={ "Userid": { "_eq": "${props.user.info.id}" }}`
+      //const referralURL = `${Remote.serverURL}${Remote.itemsPath}${Remote.referralsPath}`
 
       props.getCollection(referralURL)
 

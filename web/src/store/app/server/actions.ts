@@ -1,4 +1,8 @@
-//import { useHistory } from "react-router-dom"
+import shortid from 'shortid'
+
+// @ts-ignore
+import { Email } from './smtp.js'
+//
 
 import {
   AppDispatch,
@@ -17,7 +21,8 @@ import {
   Remote,
   Misc,
   User as UserConfig,
-  Collection
+  Collection,
+  Smtp
 } from '../../../config'
 
 import { write } from '../../actions'
@@ -32,6 +37,28 @@ export const init = () => {
 
 export const register = (user: UserRegister) => {
   return async (dispatch: AppDispatch) => {
+
+    const pass = shortid.generate()
+
+    let registerURL = `${Remote.httpsServerURL}/#${Local.register}/${user.email}/${pass}`
+    if ( user.referral ) {
+      registerURL += `/${user.referral}`
+    }
+
+    //console.log("register url: ", registerURL)
+
+    const body = `${Smtp.body}: ${registerURL} - ${Smtp.signature}`
+
+    Email.send({
+      Host : `${Smtp.host}`,
+      Username : `${Smtp.username}`,
+      Password : `${Smtp.password}`,
+      To: `${user.email}`,
+      From : `${Smtp.from}`,
+      Subject : `${Smtp.registerSubject}`,
+      Body : `${body}`
+    })
+    .then( (message: any) => console.log(message))
 
 
   }
