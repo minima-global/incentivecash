@@ -105,6 +105,9 @@ class User {
 
   static readonly getUserSuccess = 'Success'
   static readonly getUserFailure = 'Failure'
+
+  static readonly createUserSuccess = 'Success'
+  static readonly createUserFailure = 'Failure'
 }
 
 class Reward {

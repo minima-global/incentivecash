@@ -40,7 +40,7 @@ export const register = (user: UserRegister) => {
 
     const pass = shortid.generate()
 
-    let registerURL = `${Remote.httpsServerURL}/#${Local.register}/${user.email}/${pass}`
+    /*let registerURL = `${Remote.httpsServerURL}/#${Local.register}/${user.email}/${pass}`
     if ( user.referral ) {
       registerURL += `/${user.referral}`
     }
@@ -50,17 +50,72 @@ export const register = (user: UserRegister) => {
     const body = `${Smtp.body}: ${registerURL} - ${Smtp.signature}`
 
     Email.send({
-      Host : `${Smtp.host}`,
-      Username : `${Smtp.username}`,
-      Password : `${Smtp.password}`,
+      SecureToken: `${Smtp.token}`,
       To: `${user.email}`,
       From : `${Smtp.from}`,
       Subject : `${Smtp.registerSubject}`,
       Body : `${body}`
     })
-    .then( (message: any) => console.log(message))
+    .then( (message: any) => {
 
+      console.log(message)
 
+      if ( message === "OK" ) {*/
+
+        const userCreate: SignIn = {
+          email: `${user.email}`,
+          password: `${pass}`
+        }
+
+        let d = new Date(Date.now())
+        let dateText = d.toString()
+        let txData: TxData = {
+            code: "404",
+            summary: `${UserConfig.createUserFailure}`,
+            time: `${dateText}`
+        }
+        dispatch(write({data: txData})(TxActionTypes.TX_INIT))
+
+        const url = `${Remote.serverURL}${Remote.createUser}`
+        //console.log('URL: ', url)
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(userCreate)
+        })
+        .then(response => {
+          if (!response.ok) {
+              const status = response.status
+              const statusText = response.statusText
+              return response.json()
+              .then(data => {
+                  txData = {
+                      code: status.toString(),
+                      summary: `${UserConfig.createUserFailure}: ${statusText}`,
+                      time: `${dateText}`
+                  }
+                  throw new Error(statusText)
+              })
+          }
+          return response.json()
+        })
+        .then(data => {
+            txData = {
+                code: "200",
+                summary: `${UserConfig.registerSuccess}`,
+                time: `${dateText}`
+            }
+
+            dispatch(write({data: txData})(TxActionTypes.TX_SUCCESS))
+        })
+        .catch(error => {
+           //console.log(`${UserConfig.loginFailure}: ${error.message} at ${dateText}`)
+           dispatch(write({data: txData})(TxActionTypes.TX_FAILURE))
+        })
+      /*}
+    })*/
   }
 }
 
