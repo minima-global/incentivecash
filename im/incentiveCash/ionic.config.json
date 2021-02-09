@@ -1,0 +1,7 @@
+{
+  "name": "incentiveCash",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
