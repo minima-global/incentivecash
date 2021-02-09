@@ -99,7 +99,7 @@ class User {
   static readonly loginSuccess = 'Success'
   static readonly loginFailure = 'Failure'
 
-  static readonly registerEmail = 'Please check your email for login instructions'
+  static readonly registerEmail = 'Please check your email for instructions as to how to complete your registration'
   static readonly registerSuccess = 'Success'
   static readonly registerFailure = 'Failure'
 
