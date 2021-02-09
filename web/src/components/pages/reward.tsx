@@ -111,7 +111,7 @@ const rewardInfo = (props: Props) => {
           return (
             <Grid item container justify="flex-start" xs={12}>
               <Typography variant="h3">
-                This reward
+                Reward {thisIndex + 1}
               </Typography>
               {thisItem}
             </Grid>
