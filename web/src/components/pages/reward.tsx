@@ -63,8 +63,8 @@ const rewardInfo = (props: Props) => {
 
       props.setActivePage(Local.reward)
       isFirstRun.current = false
-      //const rewardURL = `${Remote.serverURL}${Remote.itemsPath}${Remote.rewardsPath}?filter={ "Userid": { "_eq": "${props.user.info.id}" }}`
-      const rewardURL = `${Remote.serverURL}${Remote.itemsPath}${Remote.rewardsPath}`
+      const rewardURL = `${Remote.serverURL}${Remote.itemsPath}${Remote.rewardsPath}?filter={ "Userid": { "_eq": "${props.user.info.id}" }}`
+      //const rewardURL = `${Remote.serverURL}${Remote.itemsPath}${Remote.rewardsPath}`
 
       props.getCollection(rewardURL)
 

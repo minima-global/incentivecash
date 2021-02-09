@@ -36,9 +36,8 @@ var config = {
     rules: [
       {
         test: /\.js$/,
-        use: ["source-map-loader"],
-        exclude: /node_modules/,
-        enforce: "pre"
+        loader: 'babel-loader',
+        exclude: /node_modules/
       },
       {
         test: /\.jsx?/,
