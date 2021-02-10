@@ -22,8 +22,7 @@ class Paths {
 
   static readonly register = 'Register'
   static readonly registerReferral = `${Paths.register}`
-  static readonly registerPassword = `${Paths.register}`
-  static readonly registerPasswordReferral = `${Paths.register}`
+  static readonly registerEmail = `${Paths.register}`
 
   static readonly user = 'User'
   static readonly reward = 'Reward'
@@ -35,9 +34,6 @@ class Paths {
 class GeneralError {
 
   static readonly required = "Required"
-  static readonly passTooShort = "Password too short"
-  static readonly passNotMatch = "Passwords don't match"
-  static readonly format = "Incorrect format"
 
 }
 
@@ -83,32 +79,33 @@ class Contact {
 
 class User {
 
-  static readonly registerHeading = 'Register'
   static readonly loginHeading = 'Sign In'
   static readonly userHeading = 'User'
 
   static readonly email = 'Email'
   static readonly password = 'Password'
   static readonly password2 = 'Re-type Password'
-  static readonly referral = 'Referral Code'
   static readonly loginButton = 'Sign In'
-  static readonly rewardButton = 'Rewards'
-  static readonly referralButton = 'Referrals'
 
   static readonly loginSuccess = 'Success'
   static readonly loginFailure = 'Failure'
 
   static readonly getUserSuccess = 'Success'
-  static readonly getUserFailure = 'Failure'  
+  static readonly getUserFailure = 'Failure'
 
 }
 
 class Register {
 
+  static readonly heading = 'Register'
+
+  static readonly token = 'Token'
+  static readonly referral = 'Referral Code'
+
   static readonly from = "steve.huckle@minima.global"
   static readonly registerSubject = "Welcome to the Minima Incentive Scheme"
-  static readonly body = "Please go the following URL to complete your registration"
-  static readonly signature = "Many thanks - The Minima Global Team."
+  static readonly preBody = "Hello! This is your token - "
+  static readonly postBody = " - Please input that exact (case-sensitive) token into the browser window that generated this email. If you close that window, you will need to re-register and generate another token. Many thanks. The Minima Team."
 
   static readonly registerEmail = 'Please check your email for instructions as to how to complete your registration'
 
@@ -116,6 +113,14 @@ class Register {
 
   static readonly registerSuccess = 'Success'
   static readonly registerFailure = 'Failure'
+
+  static readonly tokenRequired = 'You must supply a token sent to your email address before you can complete registration'
+  static readonly tokenNotMatch = "The token does not match the one sent to your email address"
+  static readonly passTooShort = "Password too short"
+  static readonly passNotMatch = "Passwords don't match"
+  static readonly format = "Incorrect format"
+
+  static readonly login = "Success - please login using your new password"
 }
 
 class Reward {

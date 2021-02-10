@@ -42,7 +42,7 @@ const registerSchema = Yup.object().shape({
     .email()
     .required(`${GeneralError.required}`),
   referral: Yup.string()
-    .matches(/^[0-9a-zA-Z]+$/, `${GeneralError.format}`),
+    .matches(/^[0-9a-zA-Z]+$/, `${Register.format}`),
 })
 
 interface StateProps {
@@ -59,6 +59,8 @@ type Props = StateProps & DispatchProps
 const userRegister = (props: Props) => {
 
   const [summary, setSummary] = useState("")
+  const [email, setEmail] = useState("")
+  const [referralIn, setReferral] = useState("")
 
   let { referral } = useParams<{ referral: string }>()
   if (!referral) {
@@ -85,7 +87,19 @@ const userRegister = (props: Props) => {
       if ( txSummary === `${Register.registerSuccess}` ) {
 
         setSummary(`${Register.registerEmail}`)
+
+        let url = `${Local.register}/${email}`
+        if (referralIn) {
+          url += `/${referralIn}`
+        }
+        pushTimeout = setTimeout(() => {
+            history.push(`${url}`)
+        }, Misc.referralDelay)
       }
+    }
+
+    return () => {
+      clearTimeout(pushTimeout)
     }
 
   }, [props.tx])
@@ -99,9 +113,12 @@ const userRegister = (props: Props) => {
     validationSchema: registerSchema,
     onSubmit: (values: any) => {
 
+      setEmail(values.email)
+      setReferral(values.referral)
+
       const userInfo: UserRegister = {
-          email: values.email,
-          referral:  values.referral
+        email: values.email,
+        referral: values.referral
       }
       props.register(userInfo)
     },
@@ -112,7 +129,7 @@ const userRegister = (props: Props) => {
     <Grid container alignItems="flex-start">
       <Grid item container justify="flex-start" xs={12}>
         <Typography variant="h2">
-          {User.registerHeading}
+          {Register.heading}
         </Typography>
       </Grid>
       <Grid item container xs={12} alignItems="flex-start">
@@ -134,7 +151,7 @@ const userRegister = (props: Props) => {
           fullWidth
           id="referral"
           name="referral"
-          label={User.referral}
+          label={Register.referral}
           value={formik.values.referral}
           onChange={formik.handleChange}
           error={formik.touched.referral && Boolean(formik.errors.referral)}

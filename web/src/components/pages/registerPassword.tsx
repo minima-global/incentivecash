@@ -21,6 +21,7 @@ import { themeStyles, themeStylesMobile } from '../../styles'
 import {
   ApplicationState,
   AppDispatch,
+  User as UserData,
   UserRegisterPassword,
   TxData
 } from '../../store/types'
@@ -33,6 +34,7 @@ import {
   GeneralError,
   Help,
   User,
+  Register,
   Misc
 } from '../../config'
 
@@ -41,17 +43,20 @@ const registerSchema = Yup.object().shape({
     .email()
     .required(`${GeneralError.required}`),
   referral: Yup.string()
-    .matches(/^[0-9a-zA-Z]+$/, `${GeneralError.format}`),
+    .matches(/^[0-9a-zA-Z]+$/, `${Register.format}`),
+  storedToken: Yup.string()
+    .required(`${Register.tokenRequired}`),
+  token: Yup.string()
+    .oneOf([Yup.ref('storedToken'), null], `${Register.tokenNotMatch}`),
   password: Yup.string()
-    .min(8, `${GeneralError.passTooShort}`)
+    .min(8, `${Register.passTooShort}`)
     .required(`${GeneralError.required}`),
   password2: Yup.string()
-    .oneOf([Yup.ref('userPassword'), null], `${GeneralError.passNotMatch}`)
-    .min(8, `${GeneralError.passTooShort}`)
-    .required(`${GeneralError.required}`)
+    .oneOf([Yup.ref('password'), null], `${Register.passNotMatch}`)
 })
 
 interface StateProps {
+  user: UserData
   tx: TxData
 }
 
@@ -65,10 +70,10 @@ type Props = StateProps & DispatchProps
 const userRegister = (props: Props) => {
 
   const [summary, setSummary] = useState("")
-  let isFirstRun = useRef(true)
+  let isFirstRun = useRef(true)  
+  const storedToken = props.user.info.token
 
   const { email } = useParams<{ email: string }>()
-  const { token } = useParams<{ token: string }>()
   let { referral } = useParams<{ referral: string }>()
   if (!referral) {
     referral = ""
@@ -93,6 +98,8 @@ const userRegister = (props: Props) => {
 
       isFirstRun.current = false
 
+      //console.log("token: ", storedToken)
+
     } else {
 
       const txSummary: string = props.tx.summary
@@ -102,8 +109,10 @@ const userRegister = (props: Props) => {
 
         if ( txSummary === `${User.loginSuccess}` ) {
 
+          setSummary(`${Register.login}`)
+
           pushTimeout = setTimeout(() => {
-              history.push(`${Local.user}`)
+              history.push(`${Local.home}`)
           }, Misc.successLoginDelay)
         }
       }
@@ -120,6 +129,8 @@ const userRegister = (props: Props) => {
     initialValues: {
       email: email,
       referral: referral,
+      storedToken: storedToken,
+      token: "",
       password: "",
       password2: ""
     },
@@ -130,8 +141,8 @@ const userRegister = (props: Props) => {
       const userInfo: UserRegisterPassword = {
           email: values.email,
           referral: values.referral,
-          oldPassword:  token,
-          newPassword:  values.password
+          token:  values.token,
+          password:  values.password
       }
       props.registerPassword(userInfo)
     },
@@ -142,7 +153,7 @@ const userRegister = (props: Props) => {
     <Grid container alignItems="flex-start">
       <Grid item container justify="flex-start" xs={12}>
         <Typography variant="h2">
-          {User.registerHeading}
+          {Register.heading}
         </Typography>
       </Grid>
       <Grid item container xs={12} alignItems="flex-start">
@@ -164,11 +175,21 @@ const userRegister = (props: Props) => {
           fullWidth
           id="referral"
           name="referral"
-          label={User.referral}
+          label={Register.referral}
           value={formik.values.referral}
           onChange={formik.handleChange}
           error={formik.touched.referral && Boolean(formik.errors.referral)}
           helperText={formik.touched.referral && formik.errors.referral}
+        />
+        <TextField
+          fullWidth
+          id="token"
+          name="token"
+          label={Register.token}
+          value={formik.values.token}
+          onChange={formik.handleChange}
+          error={formik.touched.token && Boolean(formik.errors.token)}
+          helperText={formik.touched.token && formik.errors.token}
         />
         <TextField
           fullWidth
@@ -226,6 +247,7 @@ const userRegister = (props: Props) => {
 
 const mapStateToProps = (state: ApplicationState): StateProps => {
   return {
+    user: state.userData.data as UserData,
     tx: state.tx.data as TxData
   }
 }
