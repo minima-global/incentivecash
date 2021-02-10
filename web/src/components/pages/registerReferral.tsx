@@ -40,9 +40,7 @@ import {
 const registerSchema = Yup.object().shape({
   email: Yup.string()
     .email()
-    .required(`${GeneralError.required}`),
-  referral: Yup.string()
-    .matches(/^[0-9a-zA-Z]+$/, `${Register.format}`),
+    .required(`${GeneralError.required}`)
 })
 
 interface StateProps {
@@ -60,12 +58,8 @@ const userRegister = (props: Props) => {
 
   const [summary, setSummary] = useState("")
   const [email, setEmail] = useState("")
-  const [referralIn, setReferral] = useState("")
-
-  let { referral } = useParams<{ referral: string }>()
-  if (!referral) {
-    referral = ""
-  }
+  const { uid } = useParams<{ uid: string }>()
+  const { referral } = useParams<{ referral: string }>()
 
   let classes = themeStyles()
   let hr = hrFirst
@@ -89,8 +83,8 @@ const userRegister = (props: Props) => {
         setSummary(`${Register.registerEmail}`)
 
         let url = `${Local.register}/${email}`
-        if (referralIn) {
-          url += `/${referralIn}`
+        if (uid && referral) {
+          url += `/${uid}/${referral}`
         }
         pushTimeout = setTimeout(() => {
             history.push(`${url}`)
@@ -106,19 +100,17 @@ const userRegister = (props: Props) => {
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      referral: referral
+      email: ""
     },
     enableReinitialize: true,
     validationSchema: registerSchema,
     onSubmit: (values: any) => {
 
       setEmail(values.email)
-      setReferral(values.referral)
-
       const userInfo: UserRegister = {
         email: values.email,
-        referral: values.referral
+        uid: uid,
+        referral: referral
       }
       props.register(userInfo)
     },
@@ -146,16 +138,6 @@ const userRegister = (props: Props) => {
           onChange={formik.handleChange}
           error={formik.touched.email && Boolean(formik.errors.email)}
           helperText={formik.touched.email && formik.errors.email}
-        />
-        <TextField
-          fullWidth
-          id="referral"
-          name="referral"
-          label={Register.referral}
-          value={formik.values.referral}
-          onChange={formik.handleChange}
-          error={formik.touched.referral && Boolean(formik.errors.referral)}
-          helperText={formik.touched.referral && formik.errors.referral}
         />
         <br/><br/>
         <Grid item container justify="flex-start">

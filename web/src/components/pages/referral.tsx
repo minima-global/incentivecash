@@ -46,7 +46,6 @@ type Props = StateProps & DispatchProps
 const referralInfo = (props: Props) => {
 
   const [referral, setReferral] = useState([] as string[])
-  //const { id } = useParams<{ id: string }>()
   let isFirstRun = useRef(true)
 
   let classes = themeStyles()
@@ -71,10 +70,19 @@ const referralInfo = (props: Props) => {
     } else if (props.collection.info && !referral.length) {
 
       let currentReferrals = []
+
+      let userReferralURL = ""
+
       for (let item of props.collection.info) {
 
-        const thisReferral = getKeyedList(item)
+        const thisItem: any = item as any
+        if ( thisItem.hasOwnProperty('id')) {
+          userReferralURL += `${Remote.httpsServerURL}/#${Local.register}/${props.user.info.id}/${thisItem.id}`
+        }
+
+        const thisReferral = getKeyedList(thisItem)
         currentReferrals.push(...thisReferral)
+        currentReferrals.push(`Referral URL: ${userReferralURL}`)
       }
 
       setReferral(currentReferrals)
