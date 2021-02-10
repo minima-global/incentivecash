@@ -30,6 +30,10 @@ class Remote {
   static readonly itemsPath = '/items'
   static readonly rewardsPath = '/reward'
   static readonly referralsPath = '/referral'
+<<<<<<< HEAD
+=======
+  static readonly createUser = "/users"
+>>>>>>> df64db7a39cc941816e755fb3ea5bd856089a67b
 }
 
 export { Config, Local, Remote }

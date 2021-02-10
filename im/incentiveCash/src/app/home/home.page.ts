@@ -1,12 +1,16 @@
 import { Component } from '@angular/core';
+<<<<<<< HEAD
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Minima } from 'minima';
+=======
+>>>>>>> df64db7a39cc941816e755fb3ea5bd856089a67b
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
+<<<<<<< HEAD
 export class HomePage  {
 
   public loginForm: FormGroup;
@@ -49,5 +53,10 @@ export class HomePage  {
   get publickey() {
     return this.loginForm.get('pKey');
   }
+=======
+export class HomePage {
+
+  constructor() {}
+>>>>>>> df64db7a39cc941816e755fb3ea5bd856089a67b
 
 }

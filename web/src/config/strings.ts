@@ -99,12 +99,22 @@ class User {
   static readonly loginSuccess = 'Success'
   static readonly loginFailure = 'Failure'
 
+<<<<<<< HEAD
   static readonly registerEmail = 'Please check your email for login instructions'
+=======
+  static readonly registerEmail = 'Please check your email for instructions as to how to complete your registration'
+>>>>>>> df64db7a39cc941816e755fb3ea5bd856089a67b
   static readonly registerSuccess = 'Success'
   static readonly registerFailure = 'Failure'
 
   static readonly getUserSuccess = 'Success'
   static readonly getUserFailure = 'Failure'
+<<<<<<< HEAD
+=======
+
+  static readonly createUserSuccess = 'Success'
+  static readonly createUserFailure = 'Failure'
+>>>>>>> df64db7a39cc941816e755fb3ea5bd856089a67b
 }
 
 class Reward {
