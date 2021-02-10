@@ -1,0 +1,26 @@
+ion-title.user-details {
+  ion-grid ion-row ion-col {
+    font-size: 14px;
+  span {
+    font-family: manrope-light;
+  }
+  }
+}
+
+ion-list.cash-list {
+  ion-grid.header {
+    border-bottom: 1px solid #7D8B99;
+    ion-row ion-col {
+      color: var(--ion-color-primary);
+      font-family: manrope-bold;
+    }
+  }
+}
+ion-list.cash-list {
+  ion-grid.cash {
+    ion-row ion-col {
+      height: 100%;
+      display: block;
+    }
+  }
+}

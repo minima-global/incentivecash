@@ -35,3 +35,76 @@
   --background-hover  : transparent;
   --background-hover-opacity  :transparent;
 }
+ion-content {
+  --padding-top: 27px;
+  --padding-start: 27px;
+  --padding-end: 27px;
+}
+ion-toolbar {
+  --padding-start: 7px;
+  --padding-end: 7px;
+  --background: var(--ion-color-dark);
+  color: #F0F0FA;
+  font-family: manrope-bold;
+  height: 100px;
+}
+ion-title {
+  height: 100px;
+}
+ion-content {
+  --background: #F0F0FA;
+}
+ion-list {
+  background-color: transparent;
+  background: #f0f0fa;
+}
+ion-list ion-item {
+  --inner-padding-end: 0;
+}
+ion-list ion-item ion-label {
+  margin-bottom: 7px;
+  font-size: 16px;
+  font-family: manrope-bold;
+}
+ion-input {
+  font-size: 12px;
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #f0f0fa;
+  padding-left: 2% !important;
+}
+ion-button.sign-up-btn {
+  margin: 0;
+  width: 164px;
+  height: 34px;
+  font-size: 16px;
+  border: 1px solid #f0f0fa;
+  color: #F0F0FA;
+  text-transform: none;
+  background-color: var(--ion-color-primary);
+}
+p.notes {
+  color: var(--ion-color-secondary);
+  font-size: 13px;
+}
+ion-icon.icon {
+  float: right;
+  width: 135px;
+  height: 27px;
+}
+
+.m7 {
+  margin: 7px;
+}
+.m-t7 {
+  margin-top: 7px;
+}
+.m-b7 {
+  margin-bottom: 7px;
+}
+.m-l7 {
+  margin-left: 7px;
+}
+.m-r7 {
+  margin-right: 7px;
+}
