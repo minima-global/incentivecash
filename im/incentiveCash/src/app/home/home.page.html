@@ -1,7 +1,16 @@
 <ion-header class="ion-no-border" [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Incentive Cash
+      <ion-grid>
+        <ion-row>
+          <ion-col class="ion-no-padding ion-align-self-center left">
+            Incentive Cash
+          </ion-col>
+          <ion-col class="ion-no-padding">
+            <ion-icon class="icon ion-align-self-center" src="assets/icon/minima-logo-landscape-dark.svg"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -13,20 +22,37 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-grid class="collect-table">
-    <ion-row>
-      <ion-col>Incentive Cash</ion-col>
-      <ion-col>Amount</ion-col>
-      <ion-col>Status</ion-col>
-    </ion-row>
-  </ion-grid>
+  <form [formGroup]="loginForm" (ngSubmit)="getReferenceID()" >
+    <ion-list>
+      <ion-item class="ion-no-padding" lines="none">
+        <ion-label position="stacked">Username/Email</ion-label>
+        <ion-input placeholder="Enter a valid username or email" clearInput="true" formControlName="uName"></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="no-ripple ion-no-padding">
+        <ion-button class="sign-up-btn" slot="end" fill="clear" type="submit">
+          Sign Up
+        </ion-button>
+      </ion-item>
+
+      <p class="notes">
+        Welcome to <span>the Incentive Cash MiniDapp.</span>
+      </p>
+      <p class="notes">
+        If you have already signed up for incentive cash, please click <a style="font-family: manrope-medium;">here</a> to re-enter your reference ID.
+      </p>
+      <p class="notes">
+        Otherwise, enter an email/username so that our team can send you your reference ID.
+      </p>
+    </ion-list>
+  </form> 
 
 </ion-content>
 
 <ion-footer class="ion-no-border">
   <ion-toolbar>
     <ion-title>
-      Footer
+      
     </ion-title>
   </ion-toolbar>
 </ion-footer>
