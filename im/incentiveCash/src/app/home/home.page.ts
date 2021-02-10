@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Minima } from 'minima';
 
 @Component({
@@ -12,7 +13,9 @@ export class HomePage  {
 
   public loginForm: FormGroup;
 
-  constructor(public formBuilder: FormBuilder) {}
+  constructor(
+    public formBuilder: FormBuilder,
+    private router: Router) {}
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -25,22 +28,28 @@ export class HomePage  {
 
     alert('Your reference ID is: 0x00');
 
-    const referenceID = '0x00'
+    const referenceID = '0x00'; // this will be queried from directus 
     // Minima.net.get to get the reference ID
 
-    const userDetails = { referenceID: referenceID }
+    Minima.cmd('keys new', (res: any) => {
+      if(res.status) {
+        const publicKey = res.response.key.publickey;
+        const userDetails = { referenceID: referenceID, publicKey: publicKey }
 
-    Minima.file.save(JSON.stringify(userDetails), 'userDetails.txt', (res: any) => {
-      if (res.success) {
-        console.log('Saved reference id');
-
-        // router Link to the incentive cash list
-
-      } else {
-        console.log('Failed to save reference id.');
+        Minima.file.save(JSON.stringify(userDetails), 'userDetails.txt', (res: any) => {
+          if (res.success) {
+            console.log('Saved reference id');
+            console.log(userDetails);
+    
+            
+            this.router.navigate(['/cash', userDetails.referenceID]);
+    
+          } else {
+            console.log('Failed to save reference id.');
+          }
+        });
       }
     });
-
   }
 
   get username() {

@@ -15,6 +15,10 @@ const routes: Routes = [
     path: 'cash',
     loadChildren: () => import('./cash/cash.module').then( m => m.CashPageModule)
   },
+  {
+    path: 'cash/:id',
+    loadChildren: () => import('./cash/cash.module').then( m => m.CashPageModule)
+  }
 ];
 
 @NgModule({
