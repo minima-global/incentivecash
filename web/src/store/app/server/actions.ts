@@ -2,10 +2,6 @@ import shortid from 'shortid'
 
 // @ts-ignore
 import { Email } from './smtp.js'
-<<<<<<< HEAD
-//
-=======
->>>>>>> df64db7a39cc941816e755fb3ea5bd856089a67b
 
 import {
   AppDispatch,
@@ -13,6 +9,7 @@ import {
   User,
   UserRegister,
   UserRegisterPassword,
+  CreateUser,
   SignIn,
   TableActionTypes,
   TxActionTypes,
@@ -24,8 +21,10 @@ import {
   Remote,
   Misc,
   User as UserConfig,
-  Collection,
-  Smtp
+  Register as RegisterConfig,
+  Dbase,
+  Smtp,
+  Collection
 } from '../../../config'
 
 import { write } from '../../actions'
@@ -50,42 +49,32 @@ export const register = (user: UserRegister) => {
 
     //console.log("register url: ", registerURL)
 
-    const body = `${Smtp.body}: ${registerURL} - ${Smtp.signature}`
+    const body = `${RegisterConfig.body}: ${registerURL} - ${RegisterConfig.signature}`
 
     Email.send({
-<<<<<<< HEAD
-      Host : `${Smtp.host}`,
-      Username : `${Smtp.username}`,
-      Password : `${Smtp.password}`,
-=======
       SecureToken: `${Smtp.token}`,
->>>>>>> df64db7a39cc941816e755fb3ea5bd856089a67b
       To: `${user.email}`,
-      From : `${Smtp.from}`,
-      Subject : `${Smtp.registerSubject}`,
+      From : `${RegisterConfig.from}`,
+      Subject : `${RegisterConfig.registerSubject}`,
       Body : `${body}`
     })
-<<<<<<< HEAD
-    .then( (message: any) => console.log(message))
-
-
-=======
     .then( (message: any) => {
 
       console.log(message)
 
       if ( message === "OK" ) {
 
-        const userCreate: SignIn = {
+        const userCreate: CreateUser = {
           email: `${user.email}`,
-          password: `${pass}`
+          password: `${pass}`,
+          role: `${Dbase.userRole}`
         }
 
         let d = new Date(Date.now())
         let dateText = d.toString()
         let txData: TxData = {
             code: "404",
-            summary: `${UserConfig.createUserFailure}`,
+            summary: `${RegisterConfig.registerFailure}`,
             time: `${dateText}`
         }
         dispatch(write({data: txData})(TxActionTypes.TX_INIT))
@@ -107,7 +96,7 @@ export const register = (user: UserRegister) => {
               .then(data => {
                   txData = {
                       code: status.toString(),
-                      summary: `${UserConfig.createUserFailure}: ${statusText}`,
+                      summary: `${RegisterConfig.registerFailure}: ${statusText}`,
                       time: `${dateText}`
                   }
                   throw new Error(statusText)
@@ -118,7 +107,7 @@ export const register = (user: UserRegister) => {
         .then(data => {
             txData = {
                 code: "200",
-                summary: `${UserConfig.registerSuccess}`,
+                summary: `${RegisterConfig.registerSuccess}`,
                 time: `${dateText}`
             }
 
@@ -130,7 +119,6 @@ export const register = (user: UserRegister) => {
         })
       }
     })
->>>>>>> df64db7a39cc941816e755fb3ea5bd856089a67b
   }
 }
 

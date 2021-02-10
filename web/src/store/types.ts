@@ -61,6 +61,12 @@ export interface SignIn {
   password: string
 }
 
+export interface CreateUser {
+  email: string
+  password: string
+  role: string
+}
+
 export interface UserInfo {
   avatar: string
   description: string

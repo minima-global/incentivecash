@@ -99,6 +99,7 @@ class User {
   static readonly loginSuccess = 'Success'
   static readonly loginFailure = 'Failure'
 
+<<<<<<< Updated upstream
 <<<<<<< HEAD
   static readonly registerEmail = 'Please check your email for login instructions'
 =======
@@ -107,6 +108,8 @@ class User {
   static readonly registerSuccess = 'Success'
   static readonly registerFailure = 'Failure'
 
+=======
+>>>>>>> Stashed changes
   static readonly getUserSuccess = 'Success'
   static readonly getUserFailure = 'Failure'
 <<<<<<< HEAD
@@ -115,6 +118,19 @@ class User {
   static readonly createUserSuccess = 'Success'
   static readonly createUserFailure = 'Failure'
 >>>>>>> df64db7a39cc941816e755fb3ea5bd856089a67b
+}
+
+class Register {
+
+  static readonly from = "steve.huckle@minima.global"
+  static readonly registerSubject = "Welcome to the Minima Incentive Scheme"
+  static readonly body = "Please go the following URL to complete your registration"
+  static readonly signature = "Many thanks - The Minima Global Team."
+
+  static readonly registerEmail = 'Please check your email for instructions as to how to complete your registration'
+
+  static readonly registerSuccess = 'Success'
+  static readonly registerFailure = 'Failure'
 }
 
 class Reward {
@@ -144,6 +160,7 @@ export { App,
          Help,
          Contact,
          User,
+         Register,
          Reward,
          Referral,
          Collection

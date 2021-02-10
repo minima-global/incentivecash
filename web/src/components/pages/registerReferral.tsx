@@ -28,7 +28,14 @@ import {
 import { setActivePage } from '../../store/app/appData/actions'
 import { register } from '../../store/app/server/actions'
 
-import { Local, GeneralError, Help, User, Misc } from '../../config'
+import {
+  Local,
+  GeneralError,
+  Help,
+  User,
+  Register,
+  Misc
+} from '../../config'
 
 const registerSchema = Yup.object().shape({
   email: Yup.string()
@@ -75,9 +82,9 @@ const userRegister = (props: Props) => {
 
     const txSummary: string = props.tx.summary
     if( txSummary != summary ) {
-      if ( txSummary === `${User.registerSuccess}` ) {
+      if ( txSummary === `${Register.registerSuccess}` ) {
 
-        setSummary(`${User.registerEmail}`)
+        setSummary(`${Register.registerEmail}`)
       }
     }
 
