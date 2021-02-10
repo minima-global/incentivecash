@@ -1,0 +1,67 @@
+<ion-header class="ion-no-border" [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      <ion-grid>
+        <ion-row>
+          <ion-col class="ion-no-padding ion-align-self-center left">
+            Incentive Cash
+          </ion-col>
+          <ion-col class="ion-no-padding">
+            <ion-icon class="icon ion-align-self-center" src="assets/icon/minima-logo-landscape-dark.svg"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Incentive Cash</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list class="cash-list">
+    <ion-grid class="header">
+      <ion-row>
+        <ion-col class="ion-text-center">Cash</ion-col>
+        <ion-col class="ion-text-center">Amount</ion-col>
+        <ion-col class="ion-text-center">Status</ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-grid *ngIf="cashlist.length === 0" class="ion-no-padding m-t7">
+      <ion-row>
+        <ion-col class="ion-no-padding">No incentive cash yet...</ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-grid class="cash">
+      <ion-row class="ion-no-margin">
+        <ion-col class="ion-text-center">#1</ion-col>
+        <ion-col class="ion-text-center">17-02-2021</ion-col>
+        <ion-col class="ion-text-center"><ion-button fill="clear">Collect</ion-button></ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </ion-list>
+
+  
+
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <ion-title class="user-details">
+      <ion-grid>
+        <ion-row><ion-col>
+          Logged in as: <span>eliasnemr@gmail.com</span>
+        </ion-col></ion-row>
+        <ion-row><ion-col>
+          Reference ID: <span>0x00</span>
+        </ion-col></ion-row>
+      </ion-grid>
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>
