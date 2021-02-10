@@ -151,7 +151,7 @@ const userRegister = (props: Props) => {
             variant="contained"
             color="primary"
           >
-            {User.registerButton}
+            {Register.registerButton}
           </Button>
           <ReactTooltip
             id='registerButton'

@@ -92,32 +92,15 @@ class User {
   static readonly password2 = 'Re-type Password'
   static readonly referral = 'Referral Code'
   static readonly loginButton = 'Sign In'
-  static readonly registerButton = 'Register'
   static readonly rewardButton = 'Rewards'
   static readonly referralButton = 'Referrals'
 
   static readonly loginSuccess = 'Success'
   static readonly loginFailure = 'Failure'
 
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-  static readonly registerEmail = 'Please check your email for login instructions'
-=======
-  static readonly registerEmail = 'Please check your email for instructions as to how to complete your registration'
->>>>>>> df64db7a39cc941816e755fb3ea5bd856089a67b
-  static readonly registerSuccess = 'Success'
-  static readonly registerFailure = 'Failure'
-
-=======
->>>>>>> Stashed changes
   static readonly getUserSuccess = 'Success'
-  static readonly getUserFailure = 'Failure'
-<<<<<<< HEAD
-=======
+  static readonly getUserFailure = 'Failure'  
 
-  static readonly createUserSuccess = 'Success'
-  static readonly createUserFailure = 'Failure'
->>>>>>> df64db7a39cc941816e755fb3ea5bd856089a67b
 }
 
 class Register {
@@ -128,6 +111,8 @@ class Register {
   static readonly signature = "Many thanks - The Minima Global Team."
 
   static readonly registerEmail = 'Please check your email for instructions as to how to complete your registration'
+
+  static readonly registerButton = 'Register'
 
   static readonly registerSuccess = 'Success'
   static readonly registerFailure = 'Failure'
