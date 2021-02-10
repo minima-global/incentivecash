@@ -4,7 +4,7 @@ class Misc {
 
 class Smtp {
 
-  static readonly token = "8bca02fc-3b2a-464d-92e6-897ec7c22e36"
+  static readonly token = "bcffc60c-e73d-4e79-9611-a5349751fd8c"
   static readonly from = "steve.huckle@minima.global"
   static readonly registerSubject = "Welcome to the Minima Incentive Scheme"
   static readonly body = "Please go the following URL to complete your registration"

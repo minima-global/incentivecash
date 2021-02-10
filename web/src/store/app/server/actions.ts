@@ -2,7 +2,6 @@ import shortid from 'shortid'
 
 // @ts-ignore
 import { Email } from './smtp.js'
-//
 
 import {
   AppDispatch,
@@ -40,7 +39,7 @@ export const register = (user: UserRegister) => {
 
     const pass = shortid.generate()
 
-    /*let registerURL = `${Remote.httpsServerURL}/#${Local.register}/${user.email}/${pass}`
+    let registerURL = `${Remote.httpsServerURL}/#${Local.register}/${user.email}/${pass}`
     if ( user.referral ) {
       registerURL += `/${user.referral}`
     }
@@ -60,7 +59,7 @@ export const register = (user: UserRegister) => {
 
       console.log(message)
 
-      if ( message === "OK" ) {*/
+      if ( message === "OK" ) {
 
         const userCreate: SignIn = {
           email: `${user.email}`,
@@ -114,8 +113,8 @@ export const register = (user: UserRegister) => {
            //console.log(`${UserConfig.loginFailure}: ${error.message} at ${dateText}`)
            dispatch(write({data: txData})(TxActionTypes.TX_FAILURE))
         })
-      /*}
-    })*/
+      }
+    })
   }
 }
 
