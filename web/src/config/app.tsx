@@ -1,5 +1,6 @@
 class Misc {
     static readonly successLoginDelay = 1500
+    static readonly referralDelay = 1500
 }
 
 class Smtp {

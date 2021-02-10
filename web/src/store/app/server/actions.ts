@@ -41,15 +41,9 @@ export const register = (user: UserRegister) => {
   return async (dispatch: AppDispatch) => {
 
     const pass = shortid.generate()
-
-    let registerURL = `${Remote.httpsServerURL}/#${Local.register}/${user.email}/${pass}`
-    if ( user.referral ) {
-      registerURL += `/${user.referral}`
-    }
-
-    //console.log("register url: ", registerURL)
-
-    const body = `${RegisterConfig.body}: ${registerURL} - ${RegisterConfig.signature}`
+    let body = `${RegisterConfig.preBody}`
+    body += `${pass}`
+    body += `${RegisterConfig.postBody}`
 
     Email.send({
       SecureToken: `${Smtp.token}`,
@@ -60,72 +54,113 @@ export const register = (user: UserRegister) => {
     })
     .then( (message: any) => {
 
-      console.log(message)
+      //console.log(message)
 
       if ( message === "OK" ) {
 
-        const userCreate: CreateUser = {
-          email: `${user.email}`,
-          password: `${pass}`,
-          role: `${Dbase.userRole}`
-        }
-
         let d = new Date(Date.now())
         let dateText = d.toString()
-        let txData: TxData = {
-            code: "404",
-            summary: `${RegisterConfig.registerFailure}`,
+        const txData = {
+            code: "200",
+            summary: `${RegisterConfig.registerSuccess}`,
             time: `${dateText}`
         }
-        dispatch(write({data: txData})(TxActionTypes.TX_INIT))
 
-        const url = `${Remote.serverURL}${Remote.createUser}`
-        //console.log('URL: ', url)
-        fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(userCreate)
-        })
-        .then(response => {
-          if (!response.ok) {
-              const status = response.status
-              const statusText = response.statusText
-              return response.json()
-              .then(data => {
-                  txData = {
-                      code: status.toString(),
-                      summary: `${RegisterConfig.registerFailure}: ${statusText}`,
-                      time: `${dateText}`
-                  }
-                  throw new Error(statusText)
-              })
+        const userData = {
+          accessToken: "",
+          refreshToken: "",
+          info: {
+            avatar: "",
+            description: "",
+            email: "",
+            first_name: "",
+            id: "",
+            language: "",
+            last_access: "",
+            last_name: "",
+            last_page: "",
+            location: "",
+            password: "",
+            role: "",
+            status: "",
+            tags: "",
+            tfa_secret: "",
+            theme: "",
+            title: "",
+            token: `${pass}`
           }
-          return response.json()
-        })
-        .then(data => {
-            txData = {
-                code: "200",
-                summary: `${RegisterConfig.registerSuccess}`,
-                time: `${dateText}`
-            }
+        }
 
-            dispatch(write({data: txData})(TxActionTypes.TX_SUCCESS))
-        })
-        .catch(error => {
-           //console.log(`${UserConfig.loginFailure}: ${error.message} at ${dateText}`)
-           dispatch(write({data: txData})(TxActionTypes.TX_FAILURE))
-        })
+        dispatch(write({data: txData})(TxActionTypes.TX_SUCCESS))
+        dispatch(write({data: userData})(UserActionTypes.USER_INIT))
       }
     })
   }
 }
 
 export const registerPassword = (user: UserRegisterPassword) => {
-  return async (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch, getState: Function) => {
 
+    const state = getState()
+    const storedToken = state.userData.data.info.token
+    let d = new Date(Date.now())
+    let dateText = d.toString()
+    let txData: TxData = {
+        code: "404",
+        summary: `${RegisterConfig.registerFailure}`,
+        time: `${dateText}`
+    }
 
+    if ( storedToken === user.token ) {
+
+      const userCreate: CreateUser = {
+        email: `${user.email}`,
+        password: `${user.password}`,
+        role: `${Dbase.userRole}`
+      }
+
+      dispatch(write({data: txData})(TxActionTypes.TX_INIT))
+
+      const url = `${Remote.serverURL}${Remote.createUser}`
+      //console.log('URL: ', url)
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userCreate)
+      })
+      .then(response => {
+        if (!response.ok) {
+            const status = response.status
+            const statusText = response.statusText
+            return response.json()
+            .then(data => {
+                txData = {
+                    code: status.toString(),
+                    summary: `${RegisterConfig.registerFailure}: ${statusText}`,
+                    time: `${dateText}`
+                }
+                throw new Error(statusText)
+            })
+        }
+        return response.json()
+      })
+      .then(data => {
+          txData = {
+              code: "200",
+              summary: `${RegisterConfig.registerSuccess}`,
+              time: `${dateText}`
+          }
+          dispatch(write({data: txData})(TxActionTypes.TX_SUCCESS))
+      })
+      .catch(error => {
+         //console.log(`${UserConfig.loginFailure}: ${error.message} at ${dateText}`)
+         dispatch(write({data: txData})(TxActionTypes.TX_FAILURE))
+      })
+    } else {
+      dispatch(write({data: txData})(TxActionTypes.TX_FAILURE))
+    }
   }
 }
 
@@ -196,7 +231,7 @@ export const login = (user: SignIn) => {
 export const getUser = () => {
   return async (dispatch: AppDispatch, getState: Function) => {
 
-     let state = getState()
+     const state = getState()
      const jwt = state.userData.data.accessToken
      let d = new Date(Date.now())
       let dateText = d.toString()

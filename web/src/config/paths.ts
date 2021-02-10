@@ -11,8 +11,7 @@ class Local {
 
   static readonly register = '/register'
   static readonly registerReferral = `${Local.register}/:referral`
-  static readonly registerPassword = `${Local.register}/:email/:token`
-  static readonly registerPasswordReferral = `${Local.register}/:email/:token/:referral`
+  static readonly registerEmail = `${Local.register}/:email/:referral`
 
   static readonly user = '/user'
   static readonly reward = '/reward'

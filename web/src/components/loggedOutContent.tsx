@@ -21,8 +21,7 @@ export const LoggedOutContent = () => {
       <Route name={Paths.user} exact path={Local.user} render={() => <User />} />
       <Route name={Paths.register} exact path={Local.register} render={() => <RegisterReferral />} />
       <Route name={Paths.registerReferral} exact path={Local.registerReferral} render={() => <RegisterReferral />} />
-      <Route name={Paths.registerPassword} exact path={Local.registerPassword} render={() => <RegisterPassword />} />
-      <Route name={Paths.registerPasswordReferral} exact path={Local.registerPasswordReferral} render={() => <RegisterPassword />} />
+      <Route name={Paths.registerEmail} exact path={Local.registerEmail} render={() => <RegisterPassword />} />
 
       <Route name={Paths.home} path={Local.home} render= {() => <Login />} />
 
