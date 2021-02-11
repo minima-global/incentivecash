@@ -24,7 +24,8 @@ import {
   Register as RegisterConfig,
   Dbase,
   Smtp,
-  Collection
+  Collection,
+  Post
 } from '../../../config'
 
 import { write } from '../../actions'
@@ -33,6 +34,20 @@ export const init = () => {
   return async (dispatch: AppDispatch) => {
 
     dispatch(write({data: {}})(TxActionTypes.TX_INIT))
+    dispatch(write({data: {}})(UserActionTypes.USER_INIT))
+  }
+}
+
+export const initTx = () => {
+  return async (dispatch: AppDispatch) => {
+
+    dispatch(write({data: {}})(TxActionTypes.TX_INIT))
+  }
+}
+
+export const initUser = () => {
+  return async (dispatch: AppDispatch) => {
+
     dispatch(write({data: {}})(UserActionTypes.USER_INIT))
   }
 }
@@ -119,7 +134,7 @@ export const registerPassword = (user: UserRegisterPassword) => {
         role: `${Dbase.userRole}`
       }
 
-      dispatch(write({data: txData})(TxActionTypes.TX_INIT))
+      dispatch(write({data: {}})(TxActionTypes.TX_INIT))
 
       const url = `${Remote.serverURL}${Remote.createUser}`
       //console.log('URL: ', url)
@@ -147,6 +162,26 @@ export const registerPassword = (user: UserRegisterPassword) => {
         return response.json()
       })
       .then(data => {
+
+        //console.log("here with: ", user.uid, user.referral)
+
+        if ( user.uid && user.referral) {
+
+          //https://127.0.0.1:8085/#/register/8fced3eb-e945-4291-b558-acc54e3fd4e6/Twitter
+
+          const rewardCreate = {
+            userid: `${user.uid}`,
+            amount: "1",
+            reason: "Referral",
+            extrainfo: `${user.referral} ${user.email}`
+          }
+
+          const postURL = `${Remote.serverURL}${Remote.itemsPath}/${Dbase.rewardsTable}`
+
+          dispatch(postPublicData(postURL,rewardCreate))
+
+        } else {
+
           txData = {
               code: "200",
               summary: `${RegisterConfig.registerSuccess}`,
@@ -154,15 +189,15 @@ export const registerPassword = (user: UserRegisterPassword) => {
           }
           dispatch(write({data: txData})(TxActionTypes.TX_SUCCESS))
 
-          if ( user.referral ) {
-          // need to update rewards table with referral info
-          }
+        }
+
       })
       .catch(error => {
-         //console.log(`${UserConfig.loginFailure}: ${error.message} at ${dateText}`)
+         //console.log("here? ", error.message)
          dispatch(write({data: txData})(TxActionTypes.TX_FAILURE))
       })
     } else {
+      //console.log("here?")
       dispatch(write({data: txData})(TxActionTypes.TX_FAILURE))
     }
   }
@@ -221,12 +256,8 @@ export const login = (user: SignIn) => {
 
         dispatch(write({data: txData})(TxActionTypes.TX_SUCCESS))
         dispatch(write({data: userData})(UserActionTypes.USER_INIT))
-        /*setTimeout(() => {
-            history.push(`${Local.user}`)
-        }, Misc.successLoginDelay)*/
     })
     .catch(error => {
-       //console.log(`${UserConfig.loginFailure}: ${error.message} at ${dateText}`)
        dispatch(write({data: txData})(TxActionTypes.TX_FAILURE))
     })
   }
@@ -278,9 +309,60 @@ export const getUser = () => {
 
       })
      .catch(error => {
-          //console.log(`${UserConfig.getUserFailure}: ${error.message} at ${dateText}`)
           dispatch(write({data: txData})(TxActionTypes.TX_FAILURE))
      })
+  }
+}
+
+export const postPublicData = (url: string, data: object) => {
+  return async (dispatch: AppDispatch) => {
+
+    //console.log("Post: ", url, data)
+
+    let d = new Date(Date.now())
+    let dateText = d.toString()
+    let txData: TxData = {
+        code: "404",
+        summary: `${Post.postFailure}`,
+        time: `${dateText}`
+    }
+    dispatch(write({data: {}})(TxActionTypes.TX_INIT))
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => {
+      if (!response.ok) {
+          const status = response.status
+          const statusText = response.statusText
+          return response.json()
+          .then(data => {
+              txData = {
+                  code: status.toString(),
+                  summary: `${Post.postFailure}: ${statusText}`,
+                  time: `${dateText}`
+              }
+              throw new Error(statusText)
+          })
+      }
+      return response.json()
+    })
+    .then(data => {
+        txData = {
+            code: "200",
+            summary: `${Post.postSuccess}`,
+            time: `${dateText}`
+        }
+        dispatch(write({data: txData})(TxActionTypes.TX_SUCCESS))
+    })
+    .catch(error => {
+       console.log(`here? ${error.message} at ${dateText}`)
+       dispatch(write({data: txData})(TxActionTypes.TX_FAILURE))
+    })
   }
 }
 

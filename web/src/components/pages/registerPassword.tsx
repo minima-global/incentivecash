@@ -70,10 +70,11 @@ const userRegister = (props: Props) => {
   const [summary, setSummary] = useState("")
   let isFirstRun = useRef(true)
   const storedToken = props.user.info.token
+  //console.log(storedToken)
 
-  const { email } = useParams<{ email: string }>()
   let { uid } = useParams<{ uid: string }>()
   let { referral } = useParams<{ referral: string }>()
+  const { email } = useParams<{ email: string }>()
 
   let classes = themeStyles()
   let hr = hrFirst
@@ -93,8 +94,6 @@ const userRegister = (props: Props) => {
     if ( isFirstRun.current ) {
 
       isFirstRun.current = false
-
-      //console.log("token: ", storedToken)
 
     } else {
 

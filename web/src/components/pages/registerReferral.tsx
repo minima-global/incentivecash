@@ -84,7 +84,7 @@ const userRegister = (props: Props) => {
 
         let url = `${Local.register}/${email}`
         if (uid && referral) {
-          url += `/${uid}/${referral}`
+          url = `${Local.register}/${uid}/${referral}/${email}`
         }
         pushTimeout = setTimeout(() => {
             history.push(`${url}`)

@@ -132,6 +132,8 @@ class Reward {
 class Referral {
 
   static readonly heading = 'Referrals'
+
+  static readonly referralURL = "Referral URL"
 }
 
 class Collection {
@@ -140,6 +142,13 @@ class Collection {
 
   static readonly getCollectionSuccess = 'Success'
   static readonly getCollectionFailure = 'Failure'
+
+}
+
+class Post {
+
+  static readonly postSuccess = 'Success'
+  static readonly postFailure = 'Failure'
 
 }
 
@@ -154,5 +163,6 @@ export { App,
          Register,
          Reward,
          Referral,
-         Collection
+         Collection,
+         Post
        }

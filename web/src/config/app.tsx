@@ -11,6 +11,9 @@ class Smtp {
 class Dbase {
 
   static readonly userRole = "987cc3ce-15d5-434c-921e-076a9b2cf651"
+
+  static readonly rewardsTable = "reward"
+  static readonly referralsTable = "referral"
 }
 
 export { Misc, Smtp, Dbase }
