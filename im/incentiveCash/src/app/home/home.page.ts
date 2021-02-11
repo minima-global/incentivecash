@@ -37,10 +37,7 @@ export class HomePage  {
         const userDetails = { referenceID: referenceID, publicKey: publicKey }
 
         Minima.file.save(JSON.stringify(userDetails), 'userDetails.txt', (res: any) => {
-          if (res.success) {
-            console.log('Saved reference id');
-            console.log(userDetails);
-    
+          if (res.success) {  
             
             this.router.navigate(['/cash', userDetails.referenceID]);
     
