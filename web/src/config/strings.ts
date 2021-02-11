@@ -143,6 +143,13 @@ class Collection {
 
 }
 
+class Post {
+
+  static readonly postSuccess = 'Success'
+  static readonly postFailure = 'Failure'
+
+}
+
 export { App,
          Paths,
          GeneralError,
@@ -154,5 +161,6 @@ export { App,
          Register,
          Reward,
          Referral,
-         Collection
+         Collection,
+         Post
        }
