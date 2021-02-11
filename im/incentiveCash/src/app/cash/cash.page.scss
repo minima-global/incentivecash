@@ -27,10 +27,14 @@ ion-list.cash-list {
       background-color: var(--ion-color-primary);
       color: #F0F0FA;
       font-family: manrope-bold;
-      padding: 5px;
+      padding-top: 3px;
+      padding-bottom: 3px;
       padding-left: 9px;
       padding-right: 9px;
       cursor: pointer;
+    }
+    ion-row ion-col span:hover {
+      background-color: #346FE5;
     }
   }
 }
