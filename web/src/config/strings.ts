@@ -132,6 +132,8 @@ class Reward {
 class Referral {
 
   static readonly heading = 'Referrals'
+
+  static readonly referralURL = "Referral URL"
 }
 
 class Collection {

@@ -29,7 +29,8 @@ import {
   GeneralError,
   Help,
   Referral as ReferralConfig,
-  Misc } from '../../config'
+  Misc
+} from '../../config'
 
 interface StateProps {
   user: User
@@ -82,7 +83,7 @@ const referralInfo = (props: Props) => {
 
         const thisReferral = getKeyedList(thisItem)
         currentReferrals.push(...thisReferral)
-        currentReferrals.push(`Referral URL: ${userReferralURL}`)
+        currentReferrals.push(`${ReferralConfig.referralURL}: ${userReferralURL}`)
       }
 
       setReferral(currentReferrals)
