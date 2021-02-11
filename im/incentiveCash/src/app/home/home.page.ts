@@ -34,7 +34,7 @@ export class HomePage  {
     Minima.cmd('keys new', (res: any) => {
       if(res.status) {
         const publicKey = res.response.key.publickey;
-        const userDetails = { referenceID: referenceID, publicKey: publicKey }
+        const userDetails = { referenceID: referenceID, publicKey: publicKey };
 
         Minima.file.save(JSON.stringify(userDetails), 'userDetails.txt', (res: any) => {
           if (res.success) {  
