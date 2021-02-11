@@ -26,7 +26,7 @@ import {
 } from '../../store/types'
 
 import { setActivePage } from '../../store/app/appData/actions'
-import { register } from '../../store/app/server/actions'
+import { register, initTx } from '../../store/app/server/actions'
 
 import {
   Local,
@@ -49,6 +49,7 @@ interface StateProps {
 
 interface DispatchProps {
   setActivePage: (page: string) => void
+  initTx: () => void
   register: (user: UserRegister) => void
 }
 
@@ -76,6 +77,8 @@ const userRegister = (props: Props) => {
     props.setActivePage(Local.register)
     let pushTimeout: any
 
+    console.log("stored summary: ", summary, "txSummary: ", props.tx.summary)
+
     const txSummary: string = props.tx.summary
     if( txSummary != summary ) {
       if ( txSummary === `${Register.registerSuccess}` ) {
@@ -87,7 +90,8 @@ const userRegister = (props: Props) => {
           url = `${Local.register}/${uid}/${referral}/${email}`
         }
         pushTimeout = setTimeout(() => {
-            history.push(`${url}`)
+          props.initTx()
+          history.push(`${url}`)
         }, Misc.referralDelay)
       }
     }
@@ -180,6 +184,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
  return {
    setActivePage: (page: string) => dispatch(setActivePage(page)),
+   initTx: () => dispatch(initTx()),
    register: (user: UserRegister) => dispatch(register(user))
  }
 }

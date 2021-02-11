@@ -122,7 +122,7 @@ export const registerPassword = (user: UserRegisterPassword) => {
     let dateText = d.toString()
     let txData: TxData = {
         code: "404",
-        summary: `${RegisterConfig.registerFailure}`,
+        summary: `${RegisterConfig.passwordFailure}`,
         time: `${dateText}`
     }
 
@@ -153,7 +153,7 @@ export const registerPassword = (user: UserRegisterPassword) => {
             .then(data => {
                 txData = {
                     code: status.toString(),
-                    summary: `${RegisterConfig.registerFailure}: ${statusText}`,
+                    summary: `${RegisterConfig.passwordFailure}: ${statusText}`,
                     time: `${dateText}`
                 }
                 throw new Error(statusText)
@@ -184,7 +184,7 @@ export const registerPassword = (user: UserRegisterPassword) => {
 
           txData = {
               code: "200",
-              summary: `${RegisterConfig.registerSuccess}`,
+              summary: `${RegisterConfig.passwordSuccess}`,
               time: `${dateText}`
           }
           dispatch(write({data: txData})(TxActionTypes.TX_SUCCESS))

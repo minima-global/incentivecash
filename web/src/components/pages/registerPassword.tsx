@@ -27,11 +27,12 @@ import {
 } from '../../store/types'
 
 import { setActivePage } from '../../store/app/appData/actions'
-import { registerPassword } from '../../store/app/server/actions'
+import { registerPassword, initTx } from '../../store/app/server/actions'
 
 import {
   Local,
   GeneralError,
+  Post,
   Help,
   User,
   Register,
@@ -60,6 +61,7 @@ interface StateProps {
 
 interface DispatchProps {
   setActivePage: (page: string) => void
+  initTx: () => void
   registerPassword: (user: UserRegisterPassword) => void
 }
 
@@ -102,12 +104,14 @@ const userRegister = (props: Props) => {
 
         setSummary(txSummary)
 
-        if ( txSummary === `${User.loginSuccess}` ) {
+        if (( txSummary === `${Register.passwordSuccess}` ) ||
+            ( txSummary === `${Post.postSuccess}`)) {
 
           setSummary(`${Register.login}`)
 
           pushTimeout = setTimeout(() => {
-              history.push(`${Local.home}`)
+            props.initTx()
+            history.push(`${Local.home}`)
           }, Misc.successLoginDelay)
         }
       }
@@ -240,6 +244,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
  return {
    setActivePage: (page: string) => dispatch(setActivePage(page)),
+   initTx: () => dispatch(initTx()),
    registerPassword: (user: UserRegisterPassword) => dispatch(registerPassword(user))
  }
 }

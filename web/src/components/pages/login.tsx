@@ -26,7 +26,7 @@ import {
 } from '../../store/types'
 
 import { setActivePage } from '../../store/app/appData/actions'
-import { login, init } from '../../store/app/server/actions'
+import { login, initTx } from '../../store/app/server/actions'
 
 import { Local, GeneralError, Help, User, Misc } from '../../config'
 
@@ -44,7 +44,7 @@ interface StateProps {
 
 interface DispatchProps {
   setActivePage: (page: string) => void
-  init: () => void
+  initTx: () => void
   login: (user: SignIn) => void
 }
 
@@ -85,7 +85,8 @@ const userLogin = (props: Props) => {
         if ( txSummary === `${User.loginSuccess}` ) {
 
           pushTimeout = setTimeout(() => {
-              history.push(`${Local.user}`)
+            props.initTx()
+            history.push(`${Local.user}`)
           }, Misc.successLoginDelay)
         }
       }
@@ -191,7 +192,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
  return {
    setActivePage: (page: string) => dispatch(setActivePage(page)),
-   init: () => dispatch(init()),
+   initTx: () => dispatch(initTx()),
    login: (user: SignIn) => dispatch(login(user))
  }
 }

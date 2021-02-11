@@ -46,7 +46,7 @@ import referralIcon from '../../images/referralIcon.svg'
 import referralActiveIcon from '../../images/referralActiveIcon.svg'
 
 //import logoIcon from '../../images/logo.svg'
-import minimaIcon from '../../images/minimaLogo.png'
+import minimaIcon from '../../images/minimaIcon.svg'
 
 import { themeStyles, themeStylesMobile } from '../../styles'
 

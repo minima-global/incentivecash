@@ -88,11 +88,11 @@ class User {
   static readonly password2 = 'Re-type Password'
   static readonly loginButton = 'Sign In'
 
-  static readonly loginSuccess = 'Success'
-  static readonly loginFailure = 'Failure'
+  static readonly loginSuccess = 'Login Success'
+  static readonly loginFailure = 'Login Failure'
 
-  static readonly getUserSuccess = 'Success'
-  static readonly getUserFailure = 'Failure'
+  static readonly getUserSuccess = 'Get Success'
+  static readonly getUserFailure = 'Get Failure'
 
 }
 
@@ -112,8 +112,11 @@ class Register {
 
   static readonly registerButton = 'Register'
 
-  static readonly registerSuccess = 'Success'
-  static readonly registerFailure = 'Failure'
+  static readonly registerSuccess = 'Register success'
+  static readonly registerFailure = 'Register failure'
+
+  static readonly passwordSuccess = 'Register password success'
+  static readonly passwordFailure = 'Register password failure'
 
   static readonly tokenRequired = 'You must supply a token sent to your email address before you can complete registration'
   static readonly tokenNotMatch = "The token does not match the one sent to your email address"
