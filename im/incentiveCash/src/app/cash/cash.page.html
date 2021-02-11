@@ -22,26 +22,26 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-list class="cash-list">
-    <ion-grid class="header">
+  <ion-list class="cash-list ion-no-padding">
+    <ion-grid class="header ion-no-padding m-b7">
       <ion-row>
         <ion-col class="ion-text-center">Cash</ion-col>
-        <ion-col class="ion-text-center">Amount</ion-col>
+        <ion-col class="ion-text-center">Due Date</ion-col>
         <ion-col class="ion-text-center">Status</ion-col>
       </ion-row>
     </ion-grid>
 
-    <ion-grid *ngIf="cashlist.length === 0" class="ion-no-padding m-t7">
+    <ion-grid *ngIf="cashlist.length === 0" [hidden]="true" class="ion-no-padding m-t7">
       <ion-row>
         <ion-col class="ion-no-padding">No incentive cash yet...</ion-col>
       </ion-row>
     </ion-grid>
 
-    <ion-grid *ngFor="let cash of cashdummy" class="cash">
+    <ion-grid *ngFor="let cash of cashdummy" class="cash ion-no-padding">
       <ion-row class="ion-no-margin">
-        <ion-col class="ion-text-center"><p>{{cash.index}}</p></ion-col>
-        <ion-col class="ion-text-center"><p>{{cash.date}}</p></ion-col>
-        <ion-col class="ion-text-center"><p><span [innerHTML]="cash.status"></span></p></ion-col>
+        <ion-col class="ion-text-center ion-no-padding"><p>{{cash.index}}</p></ion-col>
+        <ion-col class="ion-text-center ion-no-padding"><p>{{cash.date}}</p></ion-col>
+        <ion-col class="ion-text-center ion-no-padding"><p class="ion-no-padding"><span id="collect-btn" [innerHTML]="cash.status"></span></p></ion-col>
       </ion-row>
     </ion-grid>
 
