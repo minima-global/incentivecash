@@ -46,11 +46,13 @@ export interface InfoProps {
 // User
 export interface UserRegister {
   email: string
+  uid: string
   referral: string
 }
 
 export interface UserRegisterPassword {
   email: string
+  uid: string
   referral: string
   token: string
   password: string

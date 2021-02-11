@@ -153,6 +153,10 @@ export const registerPassword = (user: UserRegisterPassword) => {
               time: `${dateText}`
           }
           dispatch(write({data: txData})(TxActionTypes.TX_SUCCESS))
+
+          if ( user.referral ) {
+          // need to update rewards table with referral info
+          }
       })
       .catch(error => {
          //console.log(`${UserConfig.loginFailure}: ${error.message} at ${dateText}`)

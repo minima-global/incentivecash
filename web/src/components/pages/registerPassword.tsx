@@ -42,8 +42,6 @@ const registerSchema = Yup.object().shape({
   email: Yup.string()
     .email()
     .required(`${GeneralError.required}`),
-  referral: Yup.string()
-    .matches(/^[0-9a-zA-Z]+$/, `${Register.format}`),
   storedToken: Yup.string()
     .required(`${Register.tokenRequired}`),
   token: Yup.string()
@@ -70,14 +68,12 @@ type Props = StateProps & DispatchProps
 const userRegister = (props: Props) => {
 
   const [summary, setSummary] = useState("")
-  let isFirstRun = useRef(true)  
+  let isFirstRun = useRef(true)
   const storedToken = props.user.info.token
 
   const { email } = useParams<{ email: string }>()
+  let { uid } = useParams<{ uid: string }>()
   let { referral } = useParams<{ referral: string }>()
-  if (!referral) {
-    referral = ""
-  }
 
   let classes = themeStyles()
   let hr = hrFirst
@@ -128,7 +124,6 @@ const userRegister = (props: Props) => {
   const formik = useFormik({
     initialValues: {
       email: email,
-      referral: referral,
       storedToken: storedToken,
       token: "",
       password: "",
@@ -140,7 +135,8 @@ const userRegister = (props: Props) => {
 
       const userInfo: UserRegisterPassword = {
           email: values.email,
-          referral: values.referral,
+          uid: uid,
+          referral: referral,
           token:  values.token,
           password:  values.password
       }
@@ -170,16 +166,6 @@ const userRegister = (props: Props) => {
           onChange={formik.handleChange}
           error={formik.touched.email && Boolean(formik.errors.email)}
           helperText={formik.touched.email && formik.errors.email}
-        />
-        <TextField
-          fullWidth
-          id="referral"
-          name="referral"
-          label={Register.referral}
-          value={formik.values.referral}
-          onChange={formik.handleChange}
-          error={formik.touched.referral && Boolean(formik.errors.referral)}
-          helperText={formik.touched.referral && formik.errors.referral}
         />
         <TextField
           fullWidth
