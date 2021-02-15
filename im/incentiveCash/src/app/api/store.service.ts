@@ -2,8 +2,13 @@ import { Injectable } from '@angular/core';
 import { ReplaySubject, Subject } from 'rxjs';
 
 export interface UserDetails {
+  email: string,
   refID: string,
-  pKey: string
+  pKey: string,
+  loginData?: {
+    access_token: string
+    refresh_token: string
+  }
 }
 
 @Injectable({

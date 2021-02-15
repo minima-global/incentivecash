@@ -28,21 +28,28 @@
         <ion-label position="stacked">Username/Email</ion-label>
         <ion-input placeholder="Enter a valid username or email" clearInput="true" formControlName="uName"></ion-input>
       </ion-item>
+      <ion-item class="ion-no-padding" lines="none">
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input placeholder="Enter your password" clearInput="true" formControlName="password" type="password"></ion-input>
+      </ion-item>
 
       <ion-item lines="none" class="no-ripple ion-no-padding">
-        <ion-button class="sign-up-btn" slot="end" fill="clear" type="submit">
+        <ion-button #getReferenceButton class="sign-up-btn" slot="end" fill="clear" type="submit">
           Get Reference ID
         </ion-button>
+      </ion-item>
+      <ion-item [hidden]="loginStatus.length === 0" class="login-status" lines="none">
+        <ion-note slot="end">{{ loginStatus }}</ion-note>
       </ion-item>
 
       <p class="notes">
         Welcome to <span>the Incentive Cash MiniDapp.</span>
       </p>
       <p class="notes">
-        If you have already signed up for incentive cash, please click <a style="font-family: manrope-medium;">here</a> to re-enter your reference ID.
+        If you have already signed up for incentive cash, please login with your username & password.
       </p>
       <p class="notes">
-        Otherwise, enter an email/username so that our team can send you your reference ID.
+        Otherwise, click <a>here</a> to register now!
       </p>
     </ion-list>
   </form> 
