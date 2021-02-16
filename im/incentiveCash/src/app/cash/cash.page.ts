@@ -9,7 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CashPage implements OnInit {
 
-  data: UserDetails;
+  timescript: string = 'LET owner = PREVSTATE ( 0 ) LET time = PREVSTATE ( 1 ) RETURN SIGNEDBY ( owner ) AND @BLKNUM GTE time';
+  data: UserDetails = {
+    email: '',
+    refID: '',
+    pKey: ''
+  };
   referenceID = '';
   cashdummy = [
     {index: '10', date:'07 - 02 - 2021', status:'<span fill="clear">Collect</span>'},
@@ -17,19 +22,14 @@ export class CashPage implements OnInit {
     {index: '10', date:'28 - 02 - 2021', status:'<span fill="clear">Collect</span>'},
     {index: '10', date:'07 - 03 - 2021', status:'<span fill="clear">Collect</span>'},
   ]
-  cashlist = [];
 
   constructor(private route: ActivatedRoute, private _storeService: StoreService) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      this.referenceID = params.get('id');
-    });
-
     this._storeService.data.subscribe((res: any) => {
+      // console.log(res);
       this.data = res;
     })
-    
   }
 
   collectCash() {

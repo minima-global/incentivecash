@@ -12,9 +12,9 @@ export class AppComponent {
   constructor(private minima: MinimaService, private route: Router) {
     Minima.file.load('userDetails.txt', (res: any) => {
       if (res.success) {
-        const data = JSON.parse(res.data)
-        const referenceID = data.referenceID;
-        
+        const data = JSON.parse(res.data);
+        // console.log(data);
+        const referenceID = data.refID; 
         this.route.navigate(['/cash', referenceID]);
       }
     });

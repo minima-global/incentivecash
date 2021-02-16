@@ -1,3 +1,4 @@
+import { StoreService } from './store.service';
 import { Injectable } from '@angular/core';
 import { Minima } from 'minima';
 
@@ -7,7 +8,11 @@ import { Minima } from 'minima';
 })
 export class MinimaService {
 
-  constructor() {
-    Minima.init(() => {});
+  constructor(private _StoreService: StoreService) {
+    Minima.init((msg: any) => {
+      if (msg.event === 'newblock') {
+        this._StoreService.pollCash();
+      }
+    });
   }
 }

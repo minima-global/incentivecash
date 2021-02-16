@@ -47,6 +47,7 @@ export class HomePage  {
   login(user: User) {
     this.loginStatus = 'Logging in...';
     this.getReferenceButton.disabled = true;
+
     const url = 'https://incentivedb.minima.global/auth/login';
     fetch(url, {
       method: 'POST',
@@ -62,7 +63,7 @@ export class HomePage  {
         const statusText = res.statusText;
         return res.json()
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           const txData = {
             code: status.toString(),
             summary: statusText,
@@ -75,7 +76,6 @@ export class HomePage  {
     })
     .then(data => {
       this.loginStatus = 'Login successful!';
-      console.log(data);
       const txData = {
         code: "200",
         summary: data,
@@ -86,35 +86,86 @@ export class HomePage  {
         refreshToken: data.data.refresh_token,
         info: {}
       }
-
       Minima.cmd('keys new', (res: any) => {
         if(res.status) {
           const username = this.username.value;
+          console.log(this.username);
           const publicKey = res.response.key.publickey;
-          const refID = '';
-          const url = 'https://incentivedb.minima.global/items/directus_users?filter={ "email": { "_eq": "'+username+'" }}?access_token='+userData.accessToken+'';
-          const url2 = 'https://incentivedb.minima.global/users/me?access_token='+userData.accessToken+'';
-          Minima.net.GET(url2, (res: any) => {
-            let plainResponse = decodeURIComponent(res.result)
-            console.log(plainResponse);
+          const url = 'https://incentivedb.minima.global/users/me?access_token='+userData.accessToken+'';
+          Minima.net.GET(url, (res: any) => {
+            let plainResponse = decodeURIComponent(res.result);
+            let data = JSON.parse(plainResponse);
+            
+            let user: UserDetails = {
+              email: this.username.value,
+              pKey: publicKey,
+              refID: data.data.id,
+              loginData: {
+                access_token: userData.accessToken,
+                refresh_token: userData.refreshToken
+              }
+            }
+            this._storeService.data.next(user);
           });
-  
-          // Minima.file.save(JSON.stringify(userDetails), 'userDetails.txt', (res: any) => {
-          //   if (res.success) {  
-          //     this._storeService.data.next(userDetails);
-          //     this.router.navigate(['/cash', userDetails.refID]);
-      
-          //   } else {
-          //     console.log('Failed to save reference id.');
-          //   }
-          // });
         }
-        this.getReferenceButton.disabled = false;
       });
-    })
+
+      this._storeService.data.subscribe((user: UserDetails) => { 
+        const _User = user;
+        // save to minima.file
+        Minima.file.save(JSON.stringify(_User), 'userDetails.txt', (res: any) => {
+          if (res.success) { 
+            this.router.navigate(['/cash', _User.refID]);
+          }
+        });
+        const url = 'https://incentivedb.minima.global/custom/minima/key';
+        const data = {
+          userid: user.refID,
+          publickey: user.pKey
+        }
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data) 
+        })
+        .then(response => {
+          if (!response.ok) {
+            const status = response.status;
+            const statusText = response.statusText;
+            return response.json()
+            .then((data) => {
+              console.log(data);
+              const txData = {
+                code: status.toString(),
+                summary: statusText,
+                time: Date.now()
+              }
+              throw new Error(statusText)
+            })
+          }
+        })
+        .then(data => {
+          const txData = {
+            code: "200",
+            summary: data,
+            time: Date.now()
+          }
+          
+            })
+          });
+        })
+        .catch(error => {
+          alert(error);
+        })
     .catch(error => {
       alert(error);
-   })
+    })
+
+    this.getReferenceButton.disabled = false;
+    this.loginStatus = '';
+    //this.loginForm.reset();
   }
 
   get username() {

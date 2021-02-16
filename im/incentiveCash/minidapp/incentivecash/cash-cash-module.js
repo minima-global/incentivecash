@@ -59,7 +59,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<ion-header class=\"ion-no-border\" [translucent]=\"true\">\n  <ion-toolbar>\n    <ion-title>\n      <ion-grid class=\"ion-no-padding\">\n        <ion-row>\n          <ion-col class=\"ion-no-padding ion-align-self-center ion-text-left\">\n            <ion-icon class=\"icon ion-align-self-center\" src=\"assets/icon/minima-logo-landscape-dark.svg\"></ion-icon>\n          </ion-col>\n          <ion-col class=\"ion-no-padding ion-align-self-center ion-text-right\">\n            Incentive Cash\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content [fullscreen]=\"true\">\n  <ion-header collapse=\"condense\">\n    <ion-toolbar>\n      <ion-title size=\"large\">Incentive Cash</ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-list class=\"cash-list ion-no-padding\">\n    <ion-grid class=\"header ion-no-padding m-b7\">\n      <ion-row>\n        <ion-col class=\"ion-text-center\">Cash</ion-col>\n        <ion-col class=\"ion-text-center\">Due Date</ion-col>\n        <ion-col class=\"ion-text-center\">Status</ion-col>\n      </ion-row>\n    </ion-grid>\n\n    <ion-grid *ngIf=\"cashlist.length === 0\" [hidden]=\"true\" class=\"ion-no-padding m-t7\">\n      <ion-row>\n        <ion-col class=\"ion-no-padding\">No incentive cash yet...</ion-col>\n      </ion-row>\n    </ion-grid>\n\n    <ion-grid *ngFor=\"let cash of cashdummy\" class=\"cash ion-no-padding\">\n      <ion-row class=\"ion-no-margin\">\n        <ion-col class=\"ion-text-center ion-no-padding\"><p>{{cash.index}}</p></ion-col>\n        <ion-col class=\"ion-text-center ion-no-padding\"><p>{{cash.date}}</p></ion-col>\n        <ion-col class=\"ion-text-center ion-no-padding\"><p class=\"ion-no-padding\"><span id=\"collect-btn\" [innerHTML]=\"cash.status\"></span></p></ion-col>\n      </ion-row>\n    </ion-grid>\n\n  </ion-list>\n\n  \n\n</ion-content>\n\n<ion-footer class=\"ion-no-border\">\n  <ion-toolbar>\n    <ion-title class=\"user-details\">\n      <ion-grid class=\"ion-no-padding\">\n        <ion-row><ion-col>\n          Logged in as: <span>eliasnemr@gmail.com</span>\n        </ion-col></ion-row>\n        <ion-row><ion-col>\n          Reference ID: <span>{{referenceID}}</span>\n        </ion-col></ion-row>\n      </ion-grid>\n    </ion-title>\n  </ion-toolbar>\n</ion-footer>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<ion-header class=\"ion-no-border\" [translucent]=\"true\">\n  <ion-toolbar>\n    <ion-title>\n      <ion-grid class=\"ion-no-padding\">\n        <ion-row>\n          <ion-col class=\"ion-no-padding ion-align-self-center ion-text-left\">\n            <ion-icon class=\"icon ion-align-self-center\" src=\"assets/icon/minima-logo-landscape-dark.svg\"></ion-icon>\n          </ion-col>\n          <ion-col class=\"ion-no-padding ion-align-self-center ion-text-right\">\n            Incentive Cash\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content [fullscreen]=\"true\">\n  <ion-header collapse=\"condense\">\n    <ion-toolbar>\n      <ion-title size=\"large\">Incentive Cash</ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-list class=\"cash-list ion-no-padding\">\n    <ion-grid class=\"header ion-no-padding m-b7\">\n      <ion-row>\n        <ion-col class=\"ion-text-center\">Cash</ion-col>\n        <ion-col class=\"ion-text-center\">Due Date</ion-col>\n        <ion-col class=\"ion-text-center\">Status</ion-col>\n      </ion-row>\n    </ion-grid>\n\n    <ion-grid *ngIf=\"cashlist.length === 0\" [hidden]=\"true\" class=\"ion-no-padding m-t7\">\n      <ion-row>\n        <ion-col class=\"ion-no-padding\">No incentive cash yet...</ion-col>\n      </ion-row>\n    </ion-grid>\n\n    <ion-grid *ngFor=\"let cash of cashdummy\" class=\"cash ion-no-padding\">\n      <ion-row class=\"ion-no-margin\">\n        <ion-col class=\"ion-text-center ion-no-padding\"><p>{{cash.index}}</p></ion-col>\n        <ion-col class=\"ion-text-center ion-no-padding\"><p>{{cash.date}}</p></ion-col>\n        <ion-col class=\"ion-text-center ion-no-padding\"><p class=\"ion-no-padding\"><span id=\"collect-btn\" [innerHTML]=\"cash.status\"></span></p></ion-col>\n      </ion-row>\n    </ion-grid>\n\n  </ion-list>\n\n  \n\n</ion-content>\n\n<ion-footer class=\"ion-no-border\">\n  <ion-toolbar>\n    <ion-title class=\"user-details\">\n      <ion-grid class=\"ion-no-padding\">\n        <ion-row><ion-col>\n          Logged in as: <span>eliasnemr@gmail.com</span>\n        </ion-col></ion-row>\n        <ion-row><ion-col>\n          Reference ID: <span>{{data.refID}}</span>\n        </ion-col></ion-row>\n      </ion-grid>\n    </ion-title>\n  </ion-toolbar>\n</ion-footer>\n");
 
 /***/ }),
 
@@ -76,16 +76,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "mrSG");
 /* harmony import */ var _raw_loader_cash_page_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! raw-loader!./cash.page.html */ "XlNi");
 /* harmony import */ var _cash_page_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./cash.page.scss */ "Q53j");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "tyNb");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var _api_store_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../api/store.service */ "IcAf");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "tyNb");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ "fXoL");
+
 
 
 
 
 
 let CashPage = class CashPage {
-    constructor(route) {
+    constructor(route, _storeService) {
         this.route = route;
+        this._storeService = _storeService;
         this.referenceID = '';
         this.cashdummy = [
             { index: '10', date: '07 - 02 - 2021', status: '<span fill="clear">Collect</span>' },
@@ -99,15 +102,19 @@ let CashPage = class CashPage {
         this.route.paramMap.subscribe(params => {
             this.referenceID = params.get('id');
         });
+        this._storeService.data.subscribe((res) => {
+            this.data = res;
+        });
     }
     collectCash() {
     }
 };
 CashPage.ctorParameters = () => [
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"] }
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"] },
+    { type: _api_store_service__WEBPACK_IMPORTED_MODULE_3__["StoreService"] }
 ];
 CashPage = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
-    Object(_angular_core__WEBPACK_IMPORTED_MODULE_4__["Component"])({
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_5__["Component"])({
         selector: 'app-cash',
         template: _raw_loader_cash_page_html__WEBPACK_IMPORTED_MODULE_1__["default"],
         styles: [_cash_page_scss__WEBPACK_IMPORTED_MODULE_2__["default"]]

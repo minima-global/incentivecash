@@ -439,7 +439,7 @@ __webpack_require__.r(__webpack_exports__);
 const routes = [
     {
         path: 'home',
-        loadChildren: () => __webpack_require__.e(/*! import() | home-home-module */ "home-home-module").then(__webpack_require__.bind(null, /*! ./home/home.module */ "ct+p")).then(m => m.HomePageModule)
+        loadChildren: () => Promise.all(/*! import() | home-home-module */[__webpack_require__.e("common"), __webpack_require__.e("home-home-module")]).then(__webpack_require__.bind(null, /*! ./home/home.module */ "ct+p")).then(m => m.HomePageModule)
     },
     {
         path: '',
@@ -448,11 +448,11 @@ const routes = [
     },
     {
         path: 'cash',
-        loadChildren: () => __webpack_require__.e(/*! import() | cash-cash-module */ "cash-cash-module").then(__webpack_require__.bind(null, /*! ./cash/cash.module */ "pJyb")).then(m => m.CashPageModule)
+        loadChildren: () => Promise.all(/*! import() | cash-cash-module */[__webpack_require__.e("common"), __webpack_require__.e("cash-cash-module")]).then(__webpack_require__.bind(null, /*! ./cash/cash.module */ "pJyb")).then(m => m.CashPageModule)
     },
     {
         path: 'cash/:id',
-        loadChildren: () => __webpack_require__.e(/*! import() | cash-cash-module */ "cash-cash-module").then(__webpack_require__.bind(null, /*! ./cash/cash.module */ "pJyb")).then(m => m.CashPageModule)
+        loadChildren: () => Promise.all(/*! import() | cash-cash-module */[__webpack_require__.e("common"), __webpack_require__.e("cash-cash-module")]).then(__webpack_require__.bind(null, /*! ./cash/cash.module */ "pJyb")).then(m => m.CashPageModule)
     }
 ];
 let AppRoutingModule = class AppRoutingModule {
@@ -479,7 +479,7 @@ AppRoutingModule = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("@media only screen and (min-width: 992px) {\n  ion-app {\n    margin: auto;\n    max-width: 700px;\n    max-height: 700px;\n    border: 1px solid rgba(0, 28, 50, 0.1);\n  }\n\n  body {\n    background: #F0F0FA;\n  }\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL2FwcC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFO0lBQ0UsWUFBQTtJQUNBLGdCQUFBO0lBQ0EsaUJBQUE7SUFDQSxzQ0FBQTtFQUNGOztFQUNBO0lBQ0UsbUJBQUE7RUFFRjtBQUNGIiwiZmlsZSI6ImFwcC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIkBtZWRpYSBvbmx5IHNjcmVlbiBhbmQgKG1pbi13aWR0aDogOTkycHgpIHtcbiAgaW9uLWFwcCB7XG4gICAgbWFyZ2luOiBhdXRvO1xuICAgIG1heC13aWR0aDogNzAwcHg7XG4gICAgbWF4LWhlaWdodDogNzAwcHg7XG4gICAgYm9yZGVyOiAxcHggc29saWQgcmdiYSgwLCAyOCwgNTAsIDAuMSk7XG4gIH1cbiAgYm9keSB7XG4gICAgYmFja2dyb3VuZDogI0YwRjBGQTtcbiAgfVxuXG59Il19 */");
+/* harmony default export */ __webpack_exports__["default"] = ("@media only screen and (min-width: 992px) {\n  ion-app {\n    margin: auto;\n    max-width: 700px;\n    max-height: 600px;\n    border: 1px solid rgba(0, 28, 50, 0.1);\n  }\n\n  body {\n    background: #F0F0FA;\n  }\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL2FwcC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFO0lBQ0UsWUFBQTtJQUNBLGdCQUFBO0lBQ0EsaUJBQUE7SUFDQSxzQ0FBQTtFQUNGOztFQUNBO0lBQ0UsbUJBQUE7RUFFRjtBQUNGIiwiZmlsZSI6ImFwcC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIkBtZWRpYSBvbmx5IHNjcmVlbiBhbmQgKG1pbi13aWR0aDogOTkycHgpIHtcbiAgaW9uLWFwcCB7XG4gICAgbWFyZ2luOiBhdXRvO1xuICAgIG1heC13aWR0aDogNzAwcHg7XG4gICAgbWF4LWhlaWdodDogNjAwcHg7XG4gICAgYm9yZGVyOiAxcHggc29saWQgcmdiYSgwLCAyOCwgNTAsIDAuMSk7XG4gIH1cbiAgYm9keSB7XG4gICAgYmFja2dyb3VuZDogI0YwRjBGQTtcbiAgfVxufSJdfQ== */");
 
 /***/ }),
 
