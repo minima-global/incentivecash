@@ -2,7 +2,7 @@ const axios = require('axios');
 
 module.exports = function registerEndpoint(router, { services, exceptions }) {
 
-  const { ItemsService } = services;
+  const { ItemsService, UsersService } = services;
 	const { ServiceUnavailableException } = exceptions;
 
   const devNull = "0xEEFFEEFFEE";
@@ -22,20 +22,15 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
       futureAddress: `${futureAddress}`
     }
 
-    return (
-      res.send(JSON.stringify(future))
-    )
+    return res.send(JSON.stringify(future));
 
 	});
 
   router.post('/token', (req, res) => {
 
-    tokenID = req.body.token
-    console.log("tokenID: ", tokenID);
-
-    return (
-      res.send("OK")
-    )
+    tokenID = req.body.token;
+    //console.log("tokenID: ", tokenID);
+    return res.send("OK");
 
 	});
 
@@ -45,56 +40,160 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
       tokenId: `${tokenID}`
     }
 
-    return (
-      res.send(JSON.stringify(token))
-    )
+    return res.send(JSON.stringify(token));
 
 	});
 
-  router.post('/key', (req, res) => {
+  router.post('/key', (req, res, next) => {
 
-    const userid = req.body.userid
-    const publickey = req.body.publickey
+    const userid = req.body.userid;
+    const publickey = req.body.publickey;
 
     if ( userid && publickey ) {
 
-      //console.log("token address: ", address)
+      const userService = new UsersService({ schema: req.schema })
+      userService
+        .readByQuery({ sort: 'id', fields: ['*'] })
+        .then((results) => {
 
-      const walletService = new ItemsService('wallet', { schema: req.schema });
-  		walletService
-  			.create({'userid': userid, 'publickey': publickey})
-  			.then((results) => {
+          //super inefficient, but I can't get .readByKey working :(
+          //console.log("My results: ", results)
 
-          const sendString = `sendpoll 1 ${futureAddress} ${tokenID} 0:${publickey}#1:${blockTime}`;
+          let found = false;
+          for (let i = 0; i < results.length; i++) {
 
-          axios({
-              method: 'POST',
-              url: 'http://localhost:9002/cmd',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              data: `${sendString}`
-            })
-            .then(function (response) {
-              console.log("response: ", response);
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
+            if (results[i].id == userid ) {
+              found = true;
+              break;
+            }
+          }
+
+          //console.log("User?:", found)
+
+          if ( found ) {
+
+            const walletService = new ItemsService('wallet', { schema: req.schema });
+            walletService
+              .readByQuery({ sort: 'userid', fields: ['*'] })
+              .then((walletResults) => {
+
+                found = false;
+                for (let j = 0; j < walletResults.length; j++) {
+                  if ( ( walletResults[j].userid == userid ) &&
+                       ( walletResults[j].publickey ==  publickey ) ) {
+                    found = true;
+                    break;
+                  }
+                }
+
+                //console.log("Did I find you?: ", found)
+                if ( !found ) {
+
+                  walletService
+                    .create({'userid': userid, 'publickey': publickey})
+                    .then((createResults) => {
+
+                      for (let i = 0; i < 3; i++) {
+
+                        //console.log("block ", blockTime);
+
+                        let thisBlock = +blockTime + (i * 3);
+                        const sendString = `sendpoll 1 ${futureAddress} ${tokenID} 0:${publickey}#1:${thisBlock}`;
+                        //console.log("sendString: ", sendString)
+
+                        axios({
+                            method: 'POST',
+                            url: 'http://localhost:9002/cmd',
+                            headers: {
+                              'Content-Type': 'application/json'
+                            },
+                            data: `${sendString}`
+                          })
+                          .then(function (response) {
+                            console.log("success", sendString);
+                          })
+                          .catch(function (error) {
+
+                            console.error(error.message)
+                            return next(new ServiceUnavailableException(error.message));
+                          });
+                       }
+
+                    })
+                    .catch((error) => {
+
+                      console.error(error.message)
+                      return next(new ServiceUnavailableException(error.message));
+
+                    });
+                }
+
+              })
+              .catch(function (error) {
+
+                console.error(error.message)
+                return next(new ServiceUnavailableException(error.message));
+              });
+          }
+
+          return res.json("OK");
 
         })
-  			.catch((error) => {
-  				throw new ServiceUnavailableException(error.message);
-  			});
-    }
+        .catch((error) => {
 
-    return (
-      res.json(results)
-    )
+          console.error(error.message)
+          return next(new ServiceUnavailableException(error.message));
+        });
+
+    } else {
+
+      console.error("POST key error");
+      return next(new ServiceUnavailableException("POST key error"));
+    }
 
 	});
 
-  router.post('/txn', (req, res) => {
+  router.post('/checkId', (req, res, next) => {
+
+    const userid = req.body.userid
+
+    if ( userid ) {
+
+      const walletService = new ItemsService('wallet', { schema: req.schema });
+  		walletService
+  			.readByQuery({ sort: 'userid', fields: ['*'] })
+  			.then((results) => {
+
+          //console.log("got users: ", results)
+
+          let pubkeys = [];
+          for (let i = 0; i < results.length; i++) {
+
+            if (results[i].userid == userid ) {
+              pubkeys.push(results[i].publickey);
+            }
+          }
+
+          const userKeys = {
+            publickeys: pubkeys
+          }
+          return res.send(JSON.stringify(userKeys));
+
+        })
+  			.catch((error) => {
+
+          console.error(error.message);
+          return next(new ServiceUnavailableException(error.message));
+
+  			});
+    } else {
+
+      console.error("GET key error");
+      return next(new ServiceUnavailableException("GET key error"));
+    }
+	});
+
+  router.post('/txn', (req, res, next) => {
 
     if ( req.body.event == "newtxpow" ) {
 
@@ -131,23 +230,23 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
                 console.log("response: ", response);
               })
               .catch((error) => {
-                throw new ServiceUnavailableException(error.message);
+
+                  console.error(error.message)
+                  return next(new ServiceUnavailableException(error.message));
+
               });
 
           }
-
         }
       }
 
     } else if (req.body.event == "newblock") {
 
         blockTime = parseInt(req.body.txpow.header.block, 10) + 3;
+        return res.send("OK");
     }
 
-    return (
-      res.send("OK")
-    )
-
+    return res.send("OK");
 	});
 
 };
