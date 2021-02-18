@@ -23,20 +23,29 @@ module.exports = __webpack_require__(/*! /Users/eliasnemr/projects/incentivecash
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MinimaService", function() { return MinimaService; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "mrSG");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! minima */ "Kmpd");
-/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(minima__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _store_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store.service */ "IcAf");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! minima */ "Kmpd");
+/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(minima__WEBPACK_IMPORTED_MODULE_3__);
+
 
 
 
 let MinimaService = class MinimaService {
-    constructor() {
-        minima__WEBPACK_IMPORTED_MODULE_2__["Minima"].init(() => { });
+    constructor(_StoreService) {
+        this._StoreService = _StoreService;
+        minima__WEBPACK_IMPORTED_MODULE_3__["Minima"].init((msg) => {
+            if (msg.event === 'newblock') {
+                this._StoreService.pollCash();
+            }
+        });
     }
 };
-MinimaService.ctorParameters = () => [];
+MinimaService.ctorParameters = () => [
+    { type: _store_service__WEBPACK_IMPORTED_MODULE_1__["StoreService"] }
+];
 MinimaService = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
-    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Injectable"])({
         providedIn: 'root'
     })
 ], MinimaService);
@@ -73,6 +82,99 @@ const environment = {
 
 /***/ }),
 
+/***/ "IcAf":
+/*!**************************************!*\
+  !*** ./src/app/api/store.service.ts ***!
+  \**************************************/
+/*! exports provided: StoreService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StoreService", function() { return StoreService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "mrSG");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "qCKp");
+/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! minima */ "Kmpd");
+/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(minima__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+let StoreService = class StoreService {
+    constructor() {
+        this.timescript = 'LET owner = PREVSTATE ( 0 ) LET time = PREVSTATE ( 1 ) RETURN SIGNEDBY ( owner ) AND @BLKNUM GTE time';
+        this.timeaddress = '0x73349B30EA22B0B0867C6081EE7F6B014D3C9E88';
+        this.data = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
+        this.cashlist = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
+        this.tokenId = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
+        // track this script
+        minima__WEBPACK_IMPORTED_MODULE_3__["Minima"].cmd('extrascript \"' + this.timescript + "\"", (res) => { });
+        // load user's details and pass to observable
+        minima__WEBPACK_IMPORTED_MODULE_3__["Minima"].file.load('UserDetails.txt', (res) => {
+            if (res.success) {
+                this.data.next(JSON.parse(res.data));
+            }
+        });
+        this.fetchTokenID();
+    }
+    fetchTokenID() {
+        console.log('Fetched your tokenid');
+        const url = 'https://incentivedb.minima.global/custom/minima/token';
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then((res) => {
+            if (!res.ok) {
+                console.log('Failed to get token');
+            }
+            return res.json()
+                .then((data) => {
+                let json = data;
+                this.tokenId.next(json);
+            });
+        });
+    }
+    pollCash() {
+        minima__WEBPACK_IMPORTED_MODULE_3__["Minima"].cmd('coins relevant address:' + this.timeaddress, (res) => {
+            console.log(res);
+            this.tokenId.subscribe((token) => {
+                if (res.status) {
+                    let temp = [];
+                    res.response.coins.forEach((coin, i) => {
+                        console.log(token.tokenId);
+                        if (coin.data.coin.tokenid === token.tokenId) {
+                            if (coin.data.prevstate[1] && (coin.data.prevstate[1].data > minima__WEBPACK_IMPORTED_MODULE_3__["Minima"].block)) {
+                                temp.push({ index: i, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data });
+                            }
+                            else if ((coin.data.prevstate[0] && coin.data.prevstate[1]) && (coin.data.prevstate[1].data <= minima__WEBPACK_IMPORTED_MODULE_3__["Minima"].block)) {
+                                let diff = coin.data.prevstate[1].data - minima__WEBPACK_IMPORTED_MODULE_3__["Minima"].block;
+                                let percent = 100 / diff;
+                                console.log('Percent=' + percent);
+                                temp.push({ index: i, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Ready', blockno: coin.data.prevstate[1].data, percent: percent });
+                            }
+                        }
+                    });
+                    this.cashlist.next(temp);
+                }
+            });
+        });
+    }
+};
+StoreService.ctorParameters = () => [];
+StoreService = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+        providedIn: 'root'
+    })
+], StoreService);
+
+
+
+/***/ }),
+
 /***/ "Sy1n":
 /*!**********************************!*\
   !*** ./src/app/app.component.ts ***!
@@ -105,7 +207,8 @@ let AppComponent = class AppComponent {
         minima__WEBPACK_IMPORTED_MODULE_6__["Minima"].file.load('userDetails.txt', (res) => {
             if (res.success) {
                 const data = JSON.parse(res.data);
-                const referenceID = data.referenceID;
+                // console.log(data);
+                const referenceID = data.refID;
                 this.route.navigate(['/cash', referenceID]);
             }
         });
@@ -439,7 +542,7 @@ __webpack_require__.r(__webpack_exports__);
 const routes = [
     {
         path: 'home',
-        loadChildren: () => Promise.all(/*! import() | home-home-module */[__webpack_require__.e("common"), __webpack_require__.e("home-home-module")]).then(__webpack_require__.bind(null, /*! ./home/home.module */ "ct+p")).then(m => m.HomePageModule)
+        loadChildren: () => __webpack_require__.e(/*! import() | home-home-module */ "home-home-module").then(__webpack_require__.bind(null, /*! ./home/home.module */ "ct+p")).then(m => m.HomePageModule)
     },
     {
         path: '',
@@ -448,11 +551,11 @@ const routes = [
     },
     {
         path: 'cash',
-        loadChildren: () => Promise.all(/*! import() | cash-cash-module */[__webpack_require__.e("common"), __webpack_require__.e("cash-cash-module")]).then(__webpack_require__.bind(null, /*! ./cash/cash.module */ "pJyb")).then(m => m.CashPageModule)
+        loadChildren: () => __webpack_require__.e(/*! import() | cash-cash-module */ "cash-cash-module").then(__webpack_require__.bind(null, /*! ./cash/cash.module */ "pJyb")).then(m => m.CashPageModule)
     },
     {
         path: 'cash/:id',
-        loadChildren: () => Promise.all(/*! import() | cash-cash-module */[__webpack_require__.e("common"), __webpack_require__.e("cash-cash-module")]).then(__webpack_require__.bind(null, /*! ./cash/cash.module */ "pJyb")).then(m => m.CashPageModule)
+        loadChildren: () => __webpack_require__.e(/*! import() | cash-cash-module */ "cash-cash-module").then(__webpack_require__.bind(null, /*! ./cash/cash.module */ "pJyb")).then(m => m.CashPageModule)
     }
 ];
 let AppRoutingModule = class AppRoutingModule {
