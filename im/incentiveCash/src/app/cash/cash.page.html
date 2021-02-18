@@ -37,11 +37,19 @@
       </ion-row>
     </ion-grid>
 
-    <ion-grid *ngFor="let cash of cashdummy" class="cash ion-no-padding">
+    <ion-grid *ngFor="let cash of cashlist" class="cash ion-no-padding">
       <ion-row class="ion-no-margin">
         <ion-col class="ion-text-center ion-no-padding"><p>{{cash.index}}</p></ion-col>
-        <ion-col class="ion-text-center ion-no-padding"><p>{{cash.date}}</p></ion-col>
-        <ion-col class="ion-text-center ion-no-padding"><p class="ion-no-padding"><span id="collect-btn" [innerHTML]="cash.status"></span></p></ion-col>
+        <ion-col class="ion-text-center ion-no-padding"><p>{{cash.blockno}}</p></ion-col>
+        <ion-col class="ion-text-center ion-no-padding">
+          <p class="ion-no-padding">
+
+            <span *ngIf="cash.status === 'Ready'" (click)="collectCash(cash.coinid, cash.cash_amount, data.pKey, cash.tokenid, data.refID)" id="collect-btn">Collect</span>
+            <ion-progress-bar value="cash.percent" type="indeterminate" *ngIf="cash.status === 'Not Ready'"></ion-progress-bar>
+
+          </p>
+          
+        </ion-col>
       </ion-row>
     </ion-grid>
 

@@ -1,5 +1,5 @@
 import { StoreService, UserDetails } from './../api/store.service';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Minima } from 'minima';
