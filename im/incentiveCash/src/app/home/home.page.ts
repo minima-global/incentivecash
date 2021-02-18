@@ -41,13 +41,45 @@ export class HomePage  {
       email: this.username.value, 
       password: this.password.value
     };
+    this.loginStatus = 'Logging in...';
+    this.getReferenceButton.disabled = true;
     this.login(user);
   }
 
-  login(user: User) {
-    this.loginStatus = 'Logging in...';
-    this.getReferenceButton.disabled = true;
+  getPubKey() {
+    this._storeService.data.subscribe((user: UserDetails) => {
+      const url = 'https://incentivedb.minima.global/custom/minima/key';
+      fetch(url, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer `+user.loginData.access_token
+        }
+      })
+      .then(response => {
+        if (!response.ok) {
+          const status = response.status;
+          const statusText = response.statusText;
+          return response.json()
+          .then((data) => {
+            //console.log(data);
+            const txData = {
+              code: status.toString(),
+              summary: statusText,
+              time: Date.now()
+            }
+            throw new Error(statusText)
+          })
+        }
+        return response.json()
+      })
+      .then(data => {
+        console.log(data);
+        //console.log(data);
+      })
+    })
+  }
 
+  login(user: User) {
     const url = 'https://incentivedb.minima.global/auth/login';
     fetch(url, {
       method: 'POST',
@@ -59,37 +91,20 @@ export class HomePage  {
       if (!res.ok) {
         this.loginStatus = 'Login failed, please check your username and password.';
         this.getReferenceButton.disabled = false;
-        const status = res.status;
-        const statusText = res.statusText;
-        return res.json()
-        .then((data) => {
-          // console.log(data);
-          const txData = {
-            code: status.toString(),
-            summary: statusText,
-            time: Date.now()
-          }
-          throw new Error(statusText)
-        })
       }
       return res.json();
     })
     .then(data => {
       this.loginStatus = 'Login successful!';
-      const txData = {
-        code: "200",
-        summary: data,
-        time: Date.now()
-      }
       const userData = {
         accessToken: data.data.access_token,
         refreshToken: data.data.refresh_token,
         info: {}
       }
+      this.getPubKey();
+      // Generate a new public key
       Minima.cmd('keys new', (res: any) => {
         if(res.status) {
-          const username = this.username.value;
-          console.log(this.username);
           const publicKey = res.response.key.publickey;
           const url = 'https://incentivedb.minima.global/users/me?access_token='+userData.accessToken+'';
           Minima.net.GET(url, (res: any) => {
@@ -136,7 +151,7 @@ export class HomePage  {
             const statusText = response.statusText;
             return response.json()
             .then((data) => {
-              console.log(data);
+              //console.log(data);
               const txData = {
                 code: status.toString(),
                 summary: statusText,
@@ -145,27 +160,23 @@ export class HomePage  {
               throw new Error(statusText)
             })
           }
+          return response.json()
         })
         .then(data => {
-          const txData = {
-            code: "200",
-            summary: data,
-            time: Date.now()
-          }
-          
-            })
-          });
+          //console.log(data);
         })
-        .catch(error => {
-          alert(error);
-        })
+      });
+    })
     .catch(error => {
       alert(error);
     })
+  .catch(error => {
+    alert(error);
+  })
 
-    this.getReferenceButton.disabled = false;
-    this.loginStatus = '';
-    //this.loginForm.reset();
+  this.getReferenceButton.disabled = false;
+  this.loginStatus = '';
+  //this.loginForm.reset();
   }
 
   get username() {

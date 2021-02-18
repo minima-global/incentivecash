@@ -23,6 +23,10 @@ export interface IncentiveCash {
   percent?: number
 }
 
+interface IncentiveTokenID {
+  tokenId: string
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -33,6 +37,7 @@ export class StoreService {
 
   data: Subject<UserDetails> = new ReplaySubject<UserDetails>(1);
   cashlist: Subject<IncentiveCash[]> = new ReplaySubject<IncentiveCash[]>(1);
+  tokenId: Subject<IncentiveTokenID> = new ReplaySubject<IncentiveTokenID>(1);
 
   constructor() {
     // track this script
@@ -43,9 +48,11 @@ export class StoreService {
         this.data.next(JSON.parse(res.data));
       }
     });
+
+    this.fetchTokenID();
   }
 
-  pollCash() {
+  fetchTokenID() {
     const url = 'https://incentivedb.minima.global/custom/minima/token';
     fetch(url, {
       method: 'GET',
@@ -60,33 +67,31 @@ export class StoreService {
       return res.json()
       .then((data) => {
         let json = data;
-        Minima.file.save(JSON.stringify(json), 'TokenID.txt', (res: any) => {
-          if (res.success) {}
-        });
+        this.tokenId.next(json);
       })
     })
+  }
 
+  pollCash() {
     Minima.cmd('coins relevant address:'+this.timeaddress, (res: any) => {
-      Minima.file.load('TokenID.txt', (file: any) => {
-        if (file.success) {
-          let data = JSON.parse(file.data);
-          let ic_token_id = data.tokenId;
-          if (res.status) {
-            let temp: IncentiveCash[] = [];
-            res.response.coins.forEach((coin, i) => {
-              if (coin.data.coin.tokenid === ic_token_id) {
-                if (coin.data.prevstate[1] && (coin.data.prevstate[1].data > Minima.block)) {
-                  temp.push({index: i, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data})
-                } else if ((coin.data.prevstate[0] && coin.data.prevstate[1]) && (coin.data.prevstate[1].data <= Minima.block)) {
-                  let diff = coin.data.prevstate[1].data - Minima.block;
-                  let percent = 100/diff;
-                  console.log('Percent='+percent);
-                  temp.push({index: i, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Ready', blockno: coin.data.prevstate[1].data, percent: percent})  
-                }
+      //console.log(res);     
+      this.tokenId.subscribe((token: IncentiveTokenID) => {
+        if (res.status) {
+          let temp: IncentiveCash[] = [];
+          res.response.coins.forEach((coin, i) => {
+            //console.log(token.tokenId);
+            if (coin.data.coin.tokenid === token.tokenId) {
+              if (coin.data.prevstate[1] && (coin.data.prevstate[1].data > Minima.block)) {
+                temp.push({index: i, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data})
+              } else if ((coin.data.prevstate[0] && coin.data.prevstate[1]) && (coin.data.prevstate[1].data <= Minima.block)) {
+                let diff = coin.data.prevstate[1].data - Minima.block;
+                let percent = 100/diff;
+                //console.log('Percent='+percent);
+                temp.push({index: i, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Ready', blockno: coin.data.prevstate[1].data, percent: percent})  
               }
-            });
-            this.cashlist.next(temp);
-          }
+            }
+          });
+          this.cashlist.next(temp);
         }
       });
     });
