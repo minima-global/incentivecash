@@ -13,7 +13,7 @@ import { CashPage } from './cash.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    CashPageRoutingModule
+    CashPageRoutingModule,
   ],
   declarations: [CashPage]
 })
