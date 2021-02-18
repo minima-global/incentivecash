@@ -1,3 +1,4 @@
+import { AuthGuardService as AuthGuard } from './api/auth-guard.service';
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
@@ -13,11 +14,13 @@ const routes: Routes = [
   },
   {
     path: 'cash',
-    loadChildren: () => import('./cash/cash.module').then( m => m.CashPageModule)
+    loadChildren: () => import('./cash/cash.module').then( m => m.CashPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'cash/:id',
-    loadChildren: () => import('./cash/cash.module').then( m => m.CashPageModule)
+    loadChildren: () => import('./cash/cash.module').then( m => m.CashPageModule),
+    canActivate: [AuthGuard]
   }
 ];
 

@@ -137,38 +137,6 @@ const openURL = async (url, ev, direction, animation) => {
 
 /***/ }),
 
-/***/ "IcAf":
-/*!**************************************!*\
-  !*** ./src/app/api/store.service.ts ***!
-  \**************************************/
-/*! exports provided: StoreService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StoreService", function() { return StoreService; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "mrSG");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "qCKp");
-
-
-
-let StoreService = class StoreService {
-    constructor() {
-        this.data = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
-    }
-};
-StoreService.ctorParameters = () => [];
-StoreService = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
-    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
-        providedIn: 'root'
-    })
-], StoreService);
-
-
-
-/***/ }),
-
 /***/ "ZaV5":
 /*!**************************************************************************!*\
   !*** ./node_modules/@ionic/core/dist/esm/framework-delegate-4584ab5a.js ***!

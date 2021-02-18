@@ -59,7 +59,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<ion-header class=\"ion-no-border\" [translucent]=\"true\">\n  <ion-toolbar>\n    <ion-title>\n      <ion-grid class=\"ion-no-padding\">\n        <ion-row>\n          <ion-col class=\"ion-no-padding ion-align-self-center ion-text-left\">\n            <ion-icon class=\"icon ion-align-self-center\" src=\"assets/icon/minima-logo-landscape-dark.svg\"></ion-icon>\n          </ion-col>\n          <ion-col class=\"ion-no-padding ion-align-self-center ion-text-right\">\n            Incentive Cash\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content [fullscreen]=\"true\">\n  <ion-header collapse=\"condense\">\n    <ion-toolbar>\n      <ion-title size=\"large\">Incentive Cash</ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-list class=\"cash-list ion-no-padding\">\n    <ion-grid class=\"header ion-no-padding m-b7\">\n      <ion-row>\n        <ion-col class=\"ion-text-center\">Cash</ion-col>\n        <ion-col class=\"ion-text-center\">Due Date</ion-col>\n        <ion-col class=\"ion-text-center\">Status</ion-col>\n      </ion-row>\n    </ion-grid>\n\n    <ion-grid *ngIf=\"cashlist.length === 0\" [hidden]=\"true\" class=\"ion-no-padding m-t7\">\n      <ion-row>\n        <ion-col class=\"ion-no-padding\">No incentive cash yet...</ion-col>\n      </ion-row>\n    </ion-grid>\n\n    <ion-grid *ngFor=\"let cash of cashdummy\" class=\"cash ion-no-padding\">\n      <ion-row class=\"ion-no-margin\">\n        <ion-col class=\"ion-text-center ion-no-padding\"><p>{{cash.index}}</p></ion-col>\n        <ion-col class=\"ion-text-center ion-no-padding\"><p>{{cash.date}}</p></ion-col>\n        <ion-col class=\"ion-text-center ion-no-padding\"><p class=\"ion-no-padding\"><span id=\"collect-btn\" [innerHTML]=\"cash.status\"></span></p></ion-col>\n      </ion-row>\n    </ion-grid>\n\n  </ion-list>\n\n  \n\n</ion-content>\n\n<ion-footer class=\"ion-no-border\">\n  <ion-toolbar>\n    <ion-title class=\"user-details\">\n      <ion-grid class=\"ion-no-padding\">\n        <ion-row><ion-col>\n          Logged in as: <span>eliasnemr@gmail.com</span>\n        </ion-col></ion-row>\n        <ion-row><ion-col>\n          Reference ID: <span>{{data.refID}}</span>\n        </ion-col></ion-row>\n      </ion-grid>\n    </ion-title>\n  </ion-toolbar>\n</ion-footer>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<ion-header class=\"ion-no-border\" [translucent]=\"true\">\n  <ion-toolbar>\n    <ion-title>\n      <ion-grid class=\"ion-no-padding\">\n        <ion-row>\n          <ion-col class=\"ion-no-padding ion-align-self-center ion-text-left\">\n            <ion-icon class=\"icon ion-align-self-center\" src=\"assets/icon/minima-logo-landscape-dark.svg\"></ion-icon>\n          </ion-col>\n          <ion-col class=\"ion-no-padding ion-align-self-center ion-text-right\">\n            Incentive Cash\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content [fullscreen]=\"true\">\n  <ion-header collapse=\"condense\">\n    <ion-toolbar>\n      <ion-title size=\"large\">Incentive Cash</ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-list class=\"cash-list ion-no-padding\">\n    <ion-grid class=\"header ion-no-padding m-b7\">\n      <ion-row>\n        <ion-col class=\"ion-text-center\">Cash</ion-col>\n        <ion-col class=\"ion-text-center\">Due Date</ion-col>\n        <ion-col class=\"ion-text-center\">Status</ion-col>\n      </ion-row>\n    </ion-grid>\n\n    <ion-grid *ngIf=\"cashdummy.length === 0\" [hidden]=\"true\" class=\"ion-no-padding m-t7\">\n      <ion-row>\n        <ion-col class=\"ion-no-padding\">No incentive cash yet...</ion-col>\n      </ion-row>\n    </ion-grid>\n\n    <ion-grid *ngFor=\"let cash of cashlist\" class=\"cash ion-no-padding\">\n      <ion-row class=\"ion-no-margin\">\n        <ion-col class=\"ion-text-center ion-no-padding\"><p>{{cash.index}}</p></ion-col>\n        <ion-col class=\"ion-text-center ion-no-padding\"><p>{{cash.blockno}}</p></ion-col>\n        <ion-col class=\"ion-text-center ion-no-padding\">\n          <p class=\"ion-no-padding\">\n\n            <span *ngIf=\"cash.status === 'Ready'\" (click)=\"collectCash(cash.coinid, cash.cash_amount, data.pKey, cash.tokenid, data.refID)\" id=\"collect-btn\">Collect</span>\n            <ion-progress-bar value=\"cash.percent\" type=\"indeterminate\" *ngIf=\"cash.status === 'Not Ready'\"></ion-progress-bar>\n\n          </p>\n          \n        </ion-col>\n      </ion-row>\n    </ion-grid>\n\n  </ion-list>\n\n  \n\n</ion-content>\n\n<ion-footer class=\"ion-no-border\">\n  <ion-toolbar>\n    <ion-title class=\"user-details\">\n      <ion-grid class=\"ion-no-padding\">\n        <ion-row><ion-col>\n          Logged in as: <span>{{ data.email }}</span>\n        </ion-col></ion-row>\n        <ion-row><ion-col>\n          Reference ID: <span>{{ data.refID }}</span>\n        </ion-col></ion-row>\n      </ion-grid>\n    </ion-title>\n  </ion-toolbar>\n</ion-footer>\n");
 
 /***/ }),
 
@@ -76,9 +76,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "mrSG");
 /* harmony import */ var _raw_loader_cash_page_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! raw-loader!./cash.page.html */ "XlNi");
 /* harmony import */ var _cash_page_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./cash.page.scss */ "Q53j");
-/* harmony import */ var _api_store_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../api/store.service */ "IcAf");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "tyNb");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var _api_minima_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../api/minima.service */ "7A1I");
+/* harmony import */ var _api_store_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../api/store.service */ "IcAf");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "tyNb");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! minima */ "Kmpd");
+/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(minima__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @ionic/angular */ "TEn/");
+
+
+
 
 
 
@@ -86,9 +93,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let CashPage = class CashPage {
-    constructor(route, _storeService) {
+    constructor(route, _storeService, _Minima, toastController) {
         this.route = route;
         this._storeService = _storeService;
+        this._Minima = _Minima;
+        this.toastController = toastController;
+        this.timescript = 'LET owner = PREVSTATE ( 0 ) LET time = PREVSTATE ( 1 ) RETURN SIGNEDBY ( owner ) AND @BLKNUM GTE time';
+        this.data = {
+            email: '',
+            refID: '',
+            pKey: ''
+        };
         this.referenceID = '';
         this.cashdummy = [
             { index: '10', date: '07 - 02 - 2021', status: '<span fill="clear">Collect</span>' },
@@ -96,25 +111,65 @@ let CashPage = class CashPage {
             { index: '10', date: '28 - 02 - 2021', status: '<span fill="clear">Collect</span>' },
             { index: '10', date: '07 - 03 - 2021', status: '<span fill="clear">Collect</span>' },
         ];
-        this.cashlist = [];
     }
     ngOnInit() {
-        this.route.paramMap.subscribe(params => {
-            this.referenceID = params.get('id');
-        });
+        this._storeService.pollCash();
         this._storeService.data.subscribe((res) => {
             this.data = res;
         });
+        this._storeService.cashlist.subscribe((res) => {
+            this.cashlist = res;
+        });
     }
-    collectCash() {
+    collectCash(coinid, amount, pKey, tokenid, uid) {
+        let txnID = Math.floor(Math.random() * 1000000000);
+        let devNull = '0xEEFFEEFFEE';
+        const post_Transaction = "txncreate " + txnID + ";" +
+            "txninput " + txnID + " " + coinid + ";" +
+            "txnoutput " + txnID + " " + amount + " " + devNull + " " + tokenid + ";" +
+            "txnstate " + txnID + " 0 \"" + uid + "\";" +
+            "txnsign " + txnID + " " + pKey + ";" +
+            "txnpost " + txnID + ";" +
+            "txndelete " + txnID;
+        minima__WEBPACK_IMPORTED_MODULE_7__["Minima"].cmd(post_Transaction, (res) => {
+            console.log(res);
+            if (minima__WEBPACK_IMPORTED_MODULE_7__["Minima"].util.checkAllResponses(res)) {
+                this.presentToast('Incentive Cash', 'Your cash has been collected and your reward has been registered, thank you!');
+                this._storeService.pollCash();
+            }
+            else {
+                this.presentToast('Incentive Cash', 'Something went wrong with your collection, please try again!');
+            }
+        });
+    }
+    presentToast(hdr, msg) {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            const toast = yield this.toastController.create({
+                header: hdr,
+                message: msg,
+                duration: 2000,
+                position: 'bottom',
+                buttons: [
+                    {
+                        text: 'Dismiss',
+                        role: 'cancel',
+                        handler: () => {
+                        }
+                    }
+                ]
+            });
+            toast.present();
+        });
     }
 };
 CashPage.ctorParameters = () => [
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"] },
-    { type: _api_store_service__WEBPACK_IMPORTED_MODULE_3__["StoreService"] }
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_5__["ActivatedRoute"] },
+    { type: _api_store_service__WEBPACK_IMPORTED_MODULE_4__["StoreService"] },
+    { type: _api_minima_service__WEBPACK_IMPORTED_MODULE_3__["MinimaService"] },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_8__["ToastController"] }
 ];
 CashPage = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
-    Object(_angular_core__WEBPACK_IMPORTED_MODULE_5__["Component"])({
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_6__["Component"])({
         selector: 'app-cash',
         template: _raw_loader_cash_page_html__WEBPACK_IMPORTED_MODULE_1__["default"],
         styles: [_cash_page_scss__WEBPACK_IMPORTED_MODULE_2__["default"]]
