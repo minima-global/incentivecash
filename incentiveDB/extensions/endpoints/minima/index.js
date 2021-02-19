@@ -117,7 +117,7 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
         //console.log("has outputs: ", txOutputs)
         let uid = req.body.txpow.body.txn.state[0].data.replace(/\[/g,'');
         uid = uid.replace(/\]/g,'');
-        const thisAmount = confog.scaleFactor * txOutputs[0].amount
+        const thisAmount = config.scaleFactor * txOutputs[0].amount
 
         //console.log("uid: ", uid);
         //console.log("amount: ", txOutputs[0].amount);
