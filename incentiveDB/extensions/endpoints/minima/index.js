@@ -119,30 +119,56 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
         uid = uid.replace(/\]/g,'');
         const thisAmount = config.scaleFactor * txOutputs[0].amount
 
-        //console.log("uid: ", uid);
-        //console.log("amount: ", txOutputs[0].amount);
-        //console.log("this amount: ", thisAmount);
+        const userService = new UsersService({ schema: req.schema });
+        userService
+          .readByQuery({ sort: 'id', fields: ['*'] })
+          .then((results) => {
+            //super inefficient, but I can't get .readByKey working :(
+            //console.log("My results: ", results)
 
-        const rewardCreate = {
-          userid: `${uid}`,
-          amount: `${thisAmount}`,
-          reason: "Claimed",
-          extrainfo: `txpowid: ${req.body.txpow.txpowid}`
-        }
+            let found = false;
+            for (let i = 0; i < results.length; i++) {
 
-        const rewardService = new ItemsService('reward', { schema: req.schema });
-        rewardService
-          .create(rewardCreate)
-          .then(function (response) {
+              if (results[i].id == uid ) {
+                found = true;
+                break;
+              }
+            }
 
-            return res.send("OK");
-          })
-          .catch((error) => {
+            if (!found) {
 
-            console.error(error.message)
-            return next(new ServiceUnavailableException(error.message));
+              console.error(`Invalid userid: ${uid}`)
+              return next(new ServiceUnavailableException(`Invalid userid: ${uid}`));
 
-          });
+            } else {
+
+              const rewardCreate = {
+                userid: `${uid}`,
+                amount: `${thisAmount}`,
+                reason: "Claimed",
+                extrainfo: `txpowid: ${req.body.txpow.txpowid}`
+              }
+
+              const rewardService = new ItemsService('reward', { schema: req.schema });
+              rewardService
+                .create(rewardCreate)
+                .then(function (response) {
+
+                  return res.send("OK");
+                })
+                .catch((error) => {
+
+                  console.error(error.message)
+                  return next(new ServiceUnavailableException(error.message));
+
+                });
+              }
+            })
+            .catch((error) => {
+
+              console.error(error.message)
+              return next(new ServiceUnavailableException(error.message));
+            });
       } else {
 
         return res.send("OK");
