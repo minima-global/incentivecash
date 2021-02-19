@@ -152,11 +152,106 @@ let HomePage = class HomePage {
             email: this.username.value,
             password: this.password.value
         };
-        this.login(user);
-    }
-    login(user) {
         this.loginStatus = 'Logging in...';
         this.getReferenceButton.disabled = true;
+        this.login(user);
+    }
+    getPubKey() {
+        this._storeService.getUserDetailsOnce().then((user) => {
+            const data = {
+                userid: user.refID
+            };
+            const url = 'https://incentivedb.minima.global/custom/utils/getKey';
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ` + user.loginData.access_token
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                if (!response.ok) {
+                    const statusText = response.statusText;
+                    return response.json()
+                        .then((data) => {
+                        throw new Error(statusText);
+                    });
+                }
+                return response.json();
+            })
+                .then(data => {
+                // check if current key exists on server
+                if (data.publickeys && data.publickeys.length === 0) {
+                    // post a new key
+                    this.postAKey(user.refID);
+                }
+                else {
+                    // check current keys with remote keys to find a match
+                    let nodeKeys = [];
+                    let serverKeys = data.publickeys;
+                    minima__WEBPACK_IMPORTED_MODULE_7__["Minima"].cmd('keys', (res) => {
+                        if (res.status) {
+                            // console.log(res);
+                            res.response.publickeys.forEach(element => {
+                                nodeKeys.push(element);
+                            });
+                        }
+                        // matching keys found
+                        const intersection = nodeKeys.filter(element => serverKeys.includes(element.publickey));
+                        if (intersection.length === 0) {
+                            this.postAKey(user.refID);
+                        }
+                        else {
+                            let temp = user;
+                            temp.pKey = intersection[0].publickey;
+                            this._storeService.data.next(temp);
+                        }
+                    });
+                }
+            });
+        });
+    }
+    postAKey(uid) {
+        const url = 'https://incentivedb.minima.global/custom/minima/key';
+        minima__WEBPACK_IMPORTED_MODULE_7__["Minima"].cmd('keys new', (response) => {
+            if (response.status) {
+                const data = {
+                    userid: uid,
+                    publickey: response.response.key.publickey
+                };
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                    .then(res => {
+                    if (!res.ok) {
+                        const statusText = response.statusText;
+                        return res.json()
+                            .then((data) => {
+                            throw new Error(statusText);
+                        });
+                    }
+                    return res.json();
+                })
+                    .then(data => {
+                    this._storeService.getUserDetailsOnce().then((user) => {
+                        //console.log('Stored new pubkey');
+                        let temp = user;
+                        temp.pKey = response.response.key.publickey;
+                        this._storeService.data.next(temp);
+                    });
+                })
+                    .catch(error => {
+                    alert(error);
+                });
+            }
+        });
+    }
+    login(user) {
         const url = 'https://incentivedb.minima.global/auth/login';
         fetch(url, {
             method: 'POST',
@@ -168,99 +263,39 @@ let HomePage = class HomePage {
             if (!res.ok) {
                 this.loginStatus = 'Login failed, please check your username and password.';
                 this.getReferenceButton.disabled = false;
-                const status = res.status;
-                const statusText = res.statusText;
+                let statusText = res.statusText;
                 return res.json()
                     .then((data) => {
-                    // console.log(data);
-                    const txData = {
-                        code: status.toString(),
-                        summary: statusText,
-                        time: Date.now()
-                    };
-                    //throw new Error(statusText)
+                    throw new Error(statusText);
                 });
             }
             return res.json();
         })
             .then(data => {
             this.loginStatus = 'Login successful!';
-            const txData = {
-                code: "200",
-                summary: data,
-                time: Date.now()
-            };
-            const userData = {
+            // accessToken
+            const token = {
                 accessToken: data.data.access_token,
                 refreshToken: data.data.refresh_token,
                 info: {}
             };
-            minima__WEBPACK_IMPORTED_MODULE_7__["Minima"].cmd('keys new', (res) => {
-                if (res.status) {
-                    const username = this.username.value;
-                    console.log(this.username);
-                    const publicKey = res.response.key.publickey;
-                    const url = 'https://incentivedb.minima.global/users/me?access_token=' + userData.accessToken + '';
-                    minima__WEBPACK_IMPORTED_MODULE_7__["Minima"].net.GET(url, (res) => {
-                        let plainResponse = decodeURIComponent(res.result);
-                        let data = JSON.parse(plainResponse);
-                        let user = {
-                            email: this.username.value,
-                            pKey: publicKey,
-                            refID: data.data.id,
-                            loginData: {
-                                access_token: userData.accessToken,
-                                refresh_token: userData.refreshToken
-                            }
-                        };
-                        this._storeService.data.next(user);
-                    });
-                }
-            });
-            this._storeService.data.subscribe((user) => {
-                const _User = user;
-                // save to minima.file
-                minima__WEBPACK_IMPORTED_MODULE_7__["Minima"].file.save(JSON.stringify(_User), 'userDetails.txt', (res) => {
-                    if (res.success) {
-                        this.router.navigate(['/cash', _User.refID]);
+            const url = 'https://incentivedb.minima.global/users/me?access_token=' + token.accessToken + '';
+            minima__WEBPACK_IMPORTED_MODULE_7__["Minima"].net.GET(url, (res) => {
+                let plainResponse = decodeURIComponent(res.result);
+                let data = JSON.parse(plainResponse);
+                let user = {
+                    email: this.username.value,
+                    pKey: '',
+                    refID: data.data.id,
+                    loginData: {
+                        access_token: token.accessToken,
+                        refresh_token: token.refreshToken
                     }
-                });
-                const url = 'https://incentivedb.minima.global/custom/minima/key';
-                const data = {
-                    userid: user.refID,
-                    publickey: user.pKey
                 };
-                fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                })
-                    .then(response => {
-                    if (!response.ok) {
-                        const status = response.status;
-                        const statusText = response.statusText;
-                        return response.json()
-                            .then((data) => {
-                            //console.log(data);
-                            const txData = {
-                                code: status.toString(),
-                                summary: statusText,
-                                time: Date.now()
-                            };
-                            //throw new Error(statusText)
-                        });
-                    }
-                })
-                    .then(data => {
-                    const txData = {
-                        code: "200",
-                        summary: data,
-                        time: Date.now()
-                    };
-                });
+                this._storeService.data.next(user);
+                this.router.navigate(['/cash', user.refID]);
             });
+            this.getPubKey();
         })
             .catch(error => {
             alert(error);

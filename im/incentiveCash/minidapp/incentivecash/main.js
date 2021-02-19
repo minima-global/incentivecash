@@ -54,6 +54,51 @@ MinimaService = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
 
 /***/ }),
 
+/***/ "9pdK":
+/*!*******************************************!*\
+  !*** ./src/app/api/auth-guard.service.ts ***!
+  \*******************************************/
+/*! exports provided: AuthGuardService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthGuardService", function() { return AuthGuardService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "mrSG");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var _auth_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./auth.service */ "X32H");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "tyNb");
+
+
+
+
+let AuthGuardService = class AuthGuardService {
+    constructor(auth, router) {
+        this.auth = auth;
+        this.router = router;
+    }
+    canActivate() {
+        if (!this.auth.isAuthenticated()) {
+            this.router.navigate(['/home']);
+            return false;
+        }
+        return true;
+    }
+};
+AuthGuardService.ctorParameters = () => [
+    { type: _auth_service__WEBPACK_IMPORTED_MODULE_2__["AuthService"] },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"] }
+];
+AuthGuardService = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+        providedIn: 'root'
+    })
+], AuthGuardService);
+
+
+
+/***/ }),
+
 /***/ "AytR":
 /*!*****************************************!*\
   !*** ./src/environments/environment.ts ***!
@@ -95,8 +140,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "mrSG");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "fXoL");
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "qCKp");
-/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! minima */ "Kmpd");
-/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(minima__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "kU1M");
+/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! minima */ "Kmpd");
+/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(minima__WEBPACK_IMPORTED_MODULE_4__);
+
 
 
 
@@ -109,18 +156,21 @@ let StoreService = class StoreService {
         this.cashlist = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
         this.tokenId = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
         // track this script
-        minima__WEBPACK_IMPORTED_MODULE_3__["Minima"].cmd('extrascript \"' + this.timescript + "\"", (res) => { });
+        minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].cmd('extrascript \"' + this.timescript + "\"", (res) => { });
         // load user's details and pass to observable
-        minima__WEBPACK_IMPORTED_MODULE_3__["Minima"].file.load('UserDetails.txt', (res) => {
+        minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].file.load('UserDetails.txt', (res) => {
             if (res.success) {
                 this.data.next(JSON.parse(res.data));
             }
         });
         this.fetchTokenID();
     }
+    getUserDetailsOnce() {
+        return this.data.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["take"])(1))
+            .toPromise();
+    }
     fetchTokenID() {
-        console.log('Fetched your tokenid');
-        const url = 'https://incentivedb.minima.global/custom/minima/token';
+        const url = 'https://incentivedb.minima.global/custom/utils/token';
         fetch(url, {
             method: 'GET',
             headers: {
@@ -139,21 +189,19 @@ let StoreService = class StoreService {
         });
     }
     pollCash() {
-        minima__WEBPACK_IMPORTED_MODULE_3__["Minima"].cmd('coins relevant address:' + this.timeaddress, (res) => {
-            console.log(res);
+        minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].cmd('coins relevant address:' + this.timeaddress, (res) => {
+            //console.log(res);     
             this.tokenId.subscribe((token) => {
                 if (res.status) {
                     let temp = [];
                     res.response.coins.forEach((coin, i) => {
-                        console.log(token.tokenId);
                         if (coin.data.coin.tokenid === token.tokenId) {
-                            if (coin.data.prevstate[1] && (coin.data.prevstate[1].data > minima__WEBPACK_IMPORTED_MODULE_3__["Minima"].block)) {
+                            if (coin.data.prevstate[1] && (coin.data.prevstate[1].data > minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block)) {
                                 temp.push({ index: i, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data });
                             }
-                            else if ((coin.data.prevstate[0] && coin.data.prevstate[1]) && (coin.data.prevstate[1].data <= minima__WEBPACK_IMPORTED_MODULE_3__["Minima"].block)) {
-                                let diff = coin.data.prevstate[1].data - minima__WEBPACK_IMPORTED_MODULE_3__["Minima"].block;
+                            else if ((coin.data.prevstate[0] && coin.data.prevstate[1]) && (coin.data.prevstate[1].data <= minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block)) {
+                                let diff = coin.data.prevstate[1].data - minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block;
                                 let percent = 100 / diff;
-                                console.log('Percent=' + percent);
                                 temp.push({ index: i, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Ready', blockno: coin.data.prevstate[1].data, percent: percent });
                             }
                         }
@@ -191,9 +239,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "tyNb");
 /* harmony import */ var _api_minima_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./api/minima.service */ "7A1I");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! minima */ "Kmpd");
-/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(minima__WEBPACK_IMPORTED_MODULE_6__);
-
 
 
 
@@ -204,14 +249,6 @@ let AppComponent = class AppComponent {
     constructor(minima, route) {
         this.minima = minima;
         this.route = route;
-        minima__WEBPACK_IMPORTED_MODULE_6__["Minima"].file.load('userDetails.txt', (res) => {
-            if (res.success) {
-                const data = JSON.parse(res.data);
-                // console.log(data);
-                const referenceID = data.refID;
-                this.route.navigate(['/cash', referenceID]);
-            }
-        });
     }
 };
 AppComponent.ctorParameters = () => [
@@ -243,6 +280,59 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "X32H":
+/*!*************************************!*\
+  !*** ./src/app/api/auth.service.ts ***!
+  \*************************************/
+/*! exports provided: AuthService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthService", function() { return AuthService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "mrSG");
+/* harmony import */ var _store_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store.service */ "IcAf");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @auth0/angular-jwt */ "Nm8O");
+
+
+
+
+let AuthService = class AuthService {
+    constructor(jwtHelper, _StoreService) {
+        this.jwtHelper = jwtHelper;
+        this._StoreService = _StoreService;
+    }
+    isAuthenticated() {
+        var token = '';
+        this._StoreService.data.subscribe((user) => {
+            token = user.loginData.access_token;
+            if (token.length > 0) {
+                return true;
+            }
+        });
+        if (token.length > 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+};
+AuthService.ctorParameters = () => [
+    { type: _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_3__["JwtHelperService"] },
+    { type: _store_service__WEBPACK_IMPORTED_MODULE_1__["StoreService"] }
+];
+AuthService = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Injectable"])({
+        providedIn: 'root'
+    })
+], AuthService);
+
+
+
+/***/ }),
+
 /***/ "ZAI4":
 /*!*******************************!*\
   !*** ./src/app/app.module.ts ***!
@@ -254,13 +344,16 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppModule", function() { return AppModule; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "mrSG");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/platform-browser */ "jhN1");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "tyNb");
-/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ionic/angular */ "TEn/");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./app.component */ "Sy1n");
-/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./app-routing.module */ "vY5A");
+/* harmony import */ var _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @auth0/angular-jwt */ "Nm8O");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/platform-browser */ "jhN1");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "tyNb");
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ionic/angular */ "TEn/");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./app.component */ "Sy1n");
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./app-routing.module */ "vY5A");
+/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! minima */ "Kmpd");
+/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(minima__WEBPACK_IMPORTED_MODULE_9__);
 
 
 
@@ -269,15 +362,30 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+const JWT_Module_Options = {
+    config: {
+        tokenGetter: () => {
+            minima__WEBPACK_IMPORTED_MODULE_9__["Minima"].file.load('userDetails.txt', (res) => {
+                if (res.success) {
+                    const data = JSON.parse(res.data);
+                    return data.loginData.access_token;
+                }
+            });
+            return '';
+        },
+    }
+};
 let AppModule = class AppModule {
 };
 AppModule = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
-    Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
-        declarations: [_app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"]],
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["NgModule"])({
+        declarations: [_app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"]],
         entryComponents: [],
-        imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__["BrowserModule"], _ionic_angular__WEBPACK_IMPORTED_MODULE_5__["IonicModule"].forRoot(), _app_routing_module__WEBPACK_IMPORTED_MODULE_7__["AppRoutingModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormsModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["ReactiveFormsModule"]],
-        providers: [{ provide: _angular_router__WEBPACK_IMPORTED_MODULE_4__["RouteReuseStrategy"], useClass: _ionic_angular__WEBPACK_IMPORTED_MODULE_5__["IonicRouteStrategy"] }],
-        bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"]],
+        imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__["BrowserModule"], _ionic_angular__WEBPACK_IMPORTED_MODULE_6__["IonicModule"].forRoot(), _app_routing_module__WEBPACK_IMPORTED_MODULE_8__["AppRoutingModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormsModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_2__["ReactiveFormsModule"], _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_1__["JwtModule"].forRoot(JWT_Module_Options)],
+        providers: [{ provide: _angular_router__WEBPACK_IMPORTED_MODULE_5__["RouteReuseStrategy"], useClass: _ionic_angular__WEBPACK_IMPORTED_MODULE_6__["IonicRouteStrategy"] }],
+        bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"]],
     })
 ], AppModule);
 
@@ -534,8 +642,10 @@ module.exports = webpackAsyncContext;
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppRoutingModule", function() { return AppRoutingModule; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "mrSG");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "tyNb");
+/* harmony import */ var _api_auth_guard_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./api/auth-guard.service */ "9pdK");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "tyNb");
+
 
 
 
@@ -551,21 +661,23 @@ const routes = [
     },
     {
         path: 'cash',
-        loadChildren: () => __webpack_require__.e(/*! import() | cash-cash-module */ "cash-cash-module").then(__webpack_require__.bind(null, /*! ./cash/cash.module */ "pJyb")).then(m => m.CashPageModule)
+        loadChildren: () => __webpack_require__.e(/*! import() | cash-cash-module */ "cash-cash-module").then(__webpack_require__.bind(null, /*! ./cash/cash.module */ "pJyb")).then(m => m.CashPageModule),
+        canActivate: [_api_auth_guard_service__WEBPACK_IMPORTED_MODULE_1__["AuthGuardService"]]
     },
     {
         path: 'cash/:id',
-        loadChildren: () => __webpack_require__.e(/*! import() | cash-cash-module */ "cash-cash-module").then(__webpack_require__.bind(null, /*! ./cash/cash.module */ "pJyb")).then(m => m.CashPageModule)
+        loadChildren: () => __webpack_require__.e(/*! import() | cash-cash-module */ "cash-cash-module").then(__webpack_require__.bind(null, /*! ./cash/cash.module */ "pJyb")).then(m => m.CashPageModule),
+        canActivate: [_api_auth_guard_service__WEBPACK_IMPORTED_MODULE_1__["AuthGuardService"]]
     }
 ];
 let AppRoutingModule = class AppRoutingModule {
 };
 AppRoutingModule = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
-    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
         imports: [
-            _angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"].forRoot(routes, { preloadingStrategy: _angular_router__WEBPACK_IMPORTED_MODULE_2__["PreloadAllModules"] })
+            _angular_router__WEBPACK_IMPORTED_MODULE_3__["RouterModule"].forRoot(routes, { preloadingStrategy: _angular_router__WEBPACK_IMPORTED_MODULE_3__["PreloadAllModules"] })
         ],
-        exports: [_angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"]]
+        exports: [_angular_router__WEBPACK_IMPORTED_MODULE_3__["RouterModule"]]
     })
 ], AppRoutingModule);
 

@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Minima } from 'minima';
 import { IonButton } from '@ionic/angular';
+import { SlowBuffer } from 'buffer';
 
 interface User {
   email: string
@@ -129,7 +130,7 @@ export class HomePage  {
         })
         .then(data => {
           this._storeService.getUserDetailsOnce().then((user: UserDetails) => {
-            console.log('Stored new pubkey');
+            //console.log('Stored new pubkey');
             let temp = user;
             temp.pKey = response.response.key.publickey;
             this._storeService.data.next(temp);
@@ -154,8 +155,14 @@ export class HomePage  {
       if (!res.ok) {
         this.loginStatus = 'Login failed, please check your username and password.';
         this.getReferenceButton.disabled = false;
+
+        let statusText = res.statusText;
+        return res.json()
+        .then((data) => {
+          throw new Error(statusText)
+        })
       }
-      return res.json();
+      return res.json()
     })
     .then(data => {
       this.loginStatus = 'Login successful!';
