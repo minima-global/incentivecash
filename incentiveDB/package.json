@@ -13,6 +13,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "directus": "^9.0.0-rc.32",
+    "joi": "^17.4.0",
     "mysql": "^2.18.1"
   }
 }
