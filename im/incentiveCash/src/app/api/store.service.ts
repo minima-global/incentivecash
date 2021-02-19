@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ReplaySubject, Subject } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { Minima } from 'minima';
 
 export interface UserDetails {
@@ -52,8 +53,13 @@ export class StoreService {
     this.fetchTokenID();
   }
 
+  getUserDetailsOnce() {
+    return this.data.pipe(take(1))
+      .toPromise();
+  }
+
   fetchTokenID() {
-    const url = 'https://incentivedb.minima.global/custom/minima/token';
+    const url = 'https://incentivedb.minima.global/custom/utils/token';
     fetch(url, {
       method: 'GET',
       headers: {
@@ -79,14 +85,12 @@ export class StoreService {
         if (res.status) {
           let temp: IncentiveCash[] = [];
           res.response.coins.forEach((coin, i) => {
-            //console.log(token.tokenId);
             if (coin.data.coin.tokenid === token.tokenId) {
               if (coin.data.prevstate[1] && (coin.data.prevstate[1].data > Minima.block)) {
                 temp.push({index: i, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data})
               } else if ((coin.data.prevstate[0] && coin.data.prevstate[1]) && (coin.data.prevstate[1].data <= Minima.block)) {
                 let diff = coin.data.prevstate[1].data - Minima.block;
                 let percent = 100/diff;
-                //console.log('Percent='+percent);
                 temp.push({index: i, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Ready', blockno: coin.data.prevstate[1].data, percent: percent})  
               }
             }
