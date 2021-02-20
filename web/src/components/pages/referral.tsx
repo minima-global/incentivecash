@@ -57,28 +57,34 @@ const referralInfo = (props: Props) => {
     hr = hrFirstMobile
   }
 
+  let web = Remote.prodHttpsServerURL
+  let dbase = Remote.prodDbaseServerURL
+  if ( process.env.NODE_ENV === 'development' ) {
+    web = Remote.devHttpsServerURL
+    dbase = Remote.devDbaseServerURL
+  }
+
   useEffect(() => {
 
     if ( isFirstRun.current ) {
 
       props.setActivePage(Local.referral)
       isFirstRun.current = false
-      const referralURL = `${Remote.serverURL}${Remote.itemsPath}${Remote.referralsPath}?filter={ "Userid": { "_eq": "${props.user.info.id}" }}`
-      //const referralURL = `${Remote.serverURL}${Remote.itemsPath}${Remote.referralsPath}`
+      const referralURL = `${dbase}${Remote.itemsPath}${Remote.referralsPath}?filter={ "Userid": { "_eq": "${props.user.info.id}" }}`
+      //const referralURL = `${dbase}${Remote.itemsPath}${Remote.referralsPath}`
 
       props.getCollection(referralURL)
 
     } else if (props.collection.info && !referral.length) {
 
       let currentReferrals = []
-
       let userReferralURL = ""
 
       for (let item of props.collection.info) {
 
         const thisItem: any = item as any
         if ( thisItem.hasOwnProperty('name')) {
-          userReferralURL += `${Remote.httpsServerURL}/#${Local.register}/${props.user.info.id}/${thisItem.name}`
+          userReferralURL += `${web}/#${Local.register}/${props.user.info.id}/${thisItem.name}`
         }
 
         const thisReferral = getKeyedList(thisItem)

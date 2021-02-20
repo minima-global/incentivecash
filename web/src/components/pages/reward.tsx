@@ -57,14 +57,19 @@ const rewardInfo = (props: Props) => {
     hr = hrFirstMobile
   }
 
+  let dbase = Remote.prodDbaseServerURL
+  if ( process.env.NODE_ENV === 'development' ) {
+    dbase = Remote.devDbaseServerURL
+  }
+
   useEffect(() => {
 
     if ( isFirstRun.current ) {
 
       props.setActivePage(Local.reward)
       isFirstRun.current = false
-      const rewardURL = `${Remote.serverURL}${Remote.itemsPath}${Remote.rewardsPath}?filter={ "Userid": { "_eq": "${props.user.info.id}" }}`
-      //const rewardURL = `${Remote.serverURL}${Remote.itemsPath}${Remote.rewardsPath}`
+      const rewardURL = `${dbase}${Remote.itemsPath}${Remote.rewardsPath}?filter={ "Userid": { "_eq": "${props.user.info.id}" }}`
+      //const rewardURL = `${dbase}${Remote.itemsPath}${Remote.rewardsPath}`
 
       props.getCollection(rewardURL)
 
