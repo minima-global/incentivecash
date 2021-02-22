@@ -2,16 +2,13 @@ import React, { useRef, useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { useHistory } from "react-router-dom"
 
-import { isMobile } from "react-device-detect"
-
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 
 import hrFirst from '../../images/hrFirst.svg'
-import hrFirstMobile from '../../images/hrFirstMobile.svg'
 
-import { themeStyles, themeStylesMobile } from '../../styles'
+import { themeStyles } from '../../styles'
 
 import {
   ApplicationState,
@@ -47,16 +44,9 @@ const user = (props: Props) => {
 
   const [user, setUser] = useState([] as string[])
   let isFirstRun = useRef(true)
-
-  let classes = themeStyles()
-  let hr = hrFirst
-  if ( isMobile ) {
-
-    classes = themeStylesMobile()
-    hr = hrFirstMobile
-  }
-
   const history = useHistory()
+
+  const classes = themeStyles()
 
   useEffect(() => {
 
@@ -83,7 +73,7 @@ const user = (props: Props) => {
         </Typography>
       </Grid>
       <Grid item container xs={12} alignItems="flex-start">
-        <img src={hr} className={classes.hr}/>
+        <img src={hrFirst} className={classes.hr}/>
       </Grid>
       <Grid item container justify="flex-start" xs={12}>
         {user.map((item) => {

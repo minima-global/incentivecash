@@ -9,9 +9,8 @@ import Typography from '@material-ui/core/Typography'
 import { ApplicationState, AppDispatch, InfoProps, InfoTypes } from '../../store/types'
 
 import hrFirst from '../../images/hrFirst.svg'
-import hrFirstMobile from '../../images/hrFirstMobile.svg'
 
-import { themeStyles, themeStylesMobile } from '../../styles'
+import { themeStyles } from '../../styles'
 
 import { Local } from '../../config'
 import { About, Help, Contact } from '../../config/strings'
@@ -33,13 +32,7 @@ const appInfo = (props: Props) => {
     const [pageData, setPageData] = useState({title: About.heading,
     data: About.info})
 
-    let classes = themeStyles()
-    let hr = hrFirst
-    if ( isMobile ) {
-
-      classes = themeStylesMobile()
-      hr = hrFirstMobile
-    }
+    const classes = themeStyles()
 
     useEffect(() => {
 
@@ -77,7 +70,7 @@ const appInfo = (props: Props) => {
           </Typography>
         </Grid>
         <Grid item container xs={12} alignItems="flex-start">
-          <img src={hr} className={classes.hr}/>
+          <img src={hrFirst} className={classes.hr}/>
         </Grid>
 
         { pageData.data.map( (data: string, i: number ) => {

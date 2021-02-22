@@ -2,8 +2,6 @@ import React, { useEffect, useState, useRef } from 'react'
 import { connect } from 'react-redux'
 import { useHistory } from "react-router-dom"
 
-import { isMobile } from "react-device-detect"
-
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
@@ -14,9 +12,8 @@ import TextField from '@material-ui/core/TextField'
 import ReactTooltip from 'react-tooltip'
 
 import hrFirst from '../../images/hrFirst.svg'
-import hrFirstMobile from '../../images/hrFirstMobile.svg'
 
-import { themeStyles, themeStylesMobile } from '../../styles'
+import { themeStyles } from '../../styles'
 
 import {
   ApplicationState,
@@ -57,12 +54,6 @@ const userLogin = (props: Props) => {
   let isFirstRun = useRef(true)
 
   let classes = themeStyles()
-  let hr = hrFirst
-  if ( isMobile ) {
-
-    classes = themeStylesMobile()
-    hr = hrFirstMobile
-  }
 
   const history = useHistory()
 
@@ -125,7 +116,7 @@ const userLogin = (props: Props) => {
         </Typography>
       </Grid>
       <Grid item container xs={12} alignItems="flex-start">
-        <img src={hr} className={classes.hr}/>
+        <img src={hrFirst} className={classes.hr}/>
       </Grid>
 
       <form onSubmit={formik.handleSubmit}>

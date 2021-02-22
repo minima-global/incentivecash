@@ -8,9 +8,8 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
 import hrFirst from '../../images/hrFirst.svg'
-import hrFirstMobile from '../../images/hrFirstMobile.svg'
 
-import { themeStyles, themeStylesMobile } from '../../styles'
+import { themeStyles } from '../../styles'
 
 import {
   ApplicationState,
@@ -49,13 +48,7 @@ const rewardInfo = (props: Props) => {
   //const { id } = useParams<{ id: string }>()
   let isFirstRun = useRef(true)
 
-  let classes = themeStyles()
-  let hr = hrFirst
-  if ( isMobile ) {
-
-    classes = themeStylesMobile()
-    hr = hrFirstMobile
-  }
+  const classes = themeStyles()
 
   let dbase = Remote.prodDbaseServerURL
   if ( process.env.NODE_ENV === 'development' ) {
@@ -98,7 +91,7 @@ const rewardInfo = (props: Props) => {
         </Typography>
       </Grid>
       <Grid item container xs={12} alignItems="flex-start">
-        <img src={hr} className={classes.hr}/>
+        <img src={hrFirst} className={classes.hr}/>
       </Grid>
       <Grid item container justify="flex-start" xs={12}>
         {reward.map((rewardItem, index) => {

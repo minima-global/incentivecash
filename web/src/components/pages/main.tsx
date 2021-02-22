@@ -4,8 +4,6 @@ import { NavLink, Redirect } from 'react-router-dom'
 
 import GoogleFontLoader from 'react-google-font-loader'
 
-import { isMobile } from "react-device-detect"
-
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
@@ -48,7 +46,7 @@ import referralActiveIcon from '../../images/referralActiveIcon.svg'
 //import logoIcon from '../../images/logo.svg'
 import minimaIcon from '../../images/minimaIcon.svg'
 
-import { themeStyles, themeStylesMobile } from '../../styles'
+import { themeStyles } from '../../styles'
 
 import { Paths, Local, Help } from '../../config'
 
@@ -63,7 +61,7 @@ const main = (props: Props) => {
   const [isLoggedIn, setLoggedIn] = useState(false)
   const [icons, setIcons] = useState([homeActiveIcon, userIcon, helpIcon, infoIcon, contactIcon, rewardIcon, referralIcon, registerIcon])
 
-  const classes = isMobile ? themeStylesMobile() : themeStyles()
+  const classes = themeStyles()
 
   useEffect(() => {
 

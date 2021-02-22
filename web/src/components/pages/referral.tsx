@@ -2,15 +2,12 @@ import React, { useRef, useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 //import { useParams } from 'react-router-dom'
 
-import { isMobile } from "react-device-detect"
-
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
 import hrFirst from '../../images/hrFirst.svg'
-import hrFirstMobile from '../../images/hrFirstMobile.svg'
 
-import { themeStyles, themeStylesMobile } from '../../styles'
+import { themeStyles } from '../../styles'
 
 import {
   ApplicationState,
@@ -49,13 +46,7 @@ const referralInfo = (props: Props) => {
   const [referral, setReferral] = useState([] as string[])
   let isFirstRun = useRef(true)
 
-  let classes = themeStyles()
-  let hr = hrFirst
-  if ( isMobile ) {
-
-    classes = themeStylesMobile()
-    hr = hrFirstMobile
-  }
+  const classes = themeStyles()
 
   let web = Remote.prodHttpsServerURL
   let dbase = Remote.prodDbaseServerURL
@@ -107,7 +98,7 @@ const referralInfo = (props: Props) => {
         </Typography>
       </Grid>
       <Grid item container xs={12} alignItems="flex-start">
-        <img src={hr} className={classes.hr}/>
+        <img src={hrFirst} className={classes.hr}/>
       </Grid>
       <Grid item container justify="flex-start" xs={12}>
           {referral.map((item) => {

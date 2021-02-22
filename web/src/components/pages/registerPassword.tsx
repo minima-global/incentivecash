@@ -2,8 +2,6 @@ import React, { useEffect, useState, useRef } from 'react'
 import { connect } from 'react-redux'
 import { useHistory, useParams } from "react-router-dom"
 
-import { isMobile } from "react-device-detect"
-
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
@@ -14,9 +12,8 @@ import ReactTooltip from 'react-tooltip'
 import TextField from '@material-ui/core/TextField'
 
 import hrFirst from '../../images/hrFirst.svg'
-import hrFirstMobile from '../../images/hrFirstMobile.svg'
 
-import { themeStyles, themeStylesMobile } from '../../styles'
+import { themeStyles } from '../../styles'
 
 import {
   ApplicationState,
@@ -76,17 +73,10 @@ const userRegister = (props: Props) => {
 
   let { uid } = useParams<{ uid: string }>()
   let { referral } = useParams<{ referral: string }>()
-  const { email } = useParams<{ email: string }>()
-
-  let classes = themeStyles()
-  let hr = hrFirst
-  if ( isMobile ) {
-
-    classes = themeStylesMobile()
-    hr = hrFirstMobile
-  }
-
+  const { email } = useParams<{ email: string }>()  
   const history = useHistory()
+
+  const classes = themeStyles()
 
   useEffect(() => {
 
@@ -156,7 +146,7 @@ const userRegister = (props: Props) => {
         </Typography>
       </Grid>
       <Grid item container xs={12} alignItems="flex-start">
-        <img src={hr} className={classes.hr}/>
+        <img src={hrFirst} className={classes.hr}/>
       </Grid>
 
       <form onSubmit={formik.handleSubmit}>
