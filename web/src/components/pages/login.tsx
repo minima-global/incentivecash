@@ -52,10 +52,9 @@ const userLogin = (props: Props) => {
   const [user, setUser] = useState({email: "", password: ""})
   const [summary, setSummary] = useState("")
   let isFirstRun = useRef(true)
-
-  let classes = themeStyles()
-
   const history = useHistory()
+
+  const classes = themeStyles()
 
   useEffect(() => {
 
