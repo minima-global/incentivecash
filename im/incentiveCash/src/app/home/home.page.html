@@ -4,7 +4,7 @@
       <ion-grid class="ion-no-padding">
         <ion-row>
           <ion-col class="title ion-no-padding ion-text-center">
-            Minima Incentive Cash MiniDapp
+            Minima Incentive Cash
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -43,42 +43,55 @@
 
   <form [formGroup]="loginForm" (ngSubmit)="getReferenceID()" >
     <ion-list>
-      <ion-item class="ion-no-padding" lines="none">
-        <ion-label position="stacked">Username/Email</ion-label>
-        <ion-input placeholder="Enter a valid username or email" clearInput="true" formControlName="uName"></ion-input>
+      <ion-item class="ion-no-padding no-ripple" lines="none">
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input clearInput="true" formControlName="uName"></ion-input>
       </ion-item>
-      <ion-item class="ion-no-padding" lines="none">
+      <ion-item class="ion-no-padding no-ripple" lines="none">
         <ion-label position="stacked">Password</ion-label>
-        <ion-input placeholder="Enter your password" clearInput="true" formControlName="password" type="password"></ion-input>
+        <ion-input clearInput="true" formControlName="password" type="password"></ion-input>
       </ion-item>
 
-      <ion-item lines="none" class="no-ripple ion-no-padding">
-        <ion-button #getReferenceButton class="sign-up-btn" slot="end" fill="clear" type="submit">
-          Get Reference ID
-        </ion-button>
-      </ion-item>
-      <ion-item [hidden]="loginStatus.length === 0" class="login-status" lines="none">
-        <ion-note slot="end">{{ loginStatus }}</ion-note>
-      </ion-item>
+      
+      <ion-button #getReferenceButton class="sign-up-btn" fill="clear" expand="block" type="submit">
+        Sign in
+      </ion-button>
 
-      <p class="notes">
-        Welcome to <span>the Incentive Cash MiniDapp.</span>
-      </p>
-      <p class="notes">
-        If you have already signed up for incentive cash, please login with your username & password.
-      </p>
-      <p class="notes">
-        Otherwise, click <a>here</a> to register now!
-      </p>
     </ion-list>
   </form> 
+
+  <ion-grid>
+    <ion-row class="has">
+      <ion-col class="forgot ion-text-center">
+        Forgot password?
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid class="login-status-wrapper" [hidden]="loginStatus.length === 0">
+    <ion-row class="has">
+      <ion-col class="login-status ion-text-center">
+        {{ loginStatus }}
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="loginStatus !== 'Login failed, please check your username and password.'" class="has ion-justify-content-center ion-align-items-center">
+      <ion-col class="progress ion-text-center">
+        <ion-progress-bar color="primary" type="indeterminate"></ion-progress-bar> 
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="loginStatus === 'Login failed, please check your username and password.'" class="has ion-justify-content-center ion-align-items-center">
+      <ion-col class="failure ion-text-center">
+        &times;
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
 </ion-content>
 
 <ion-footer class="ion-no-border">
   <ion-toolbar>
-    <ion-title>
-
-    </ion-title>
+    <ion-label>
+      &#169; Copyright 2021 Minima GmbH
+    </ion-label>
   </ion-toolbar>
 </ion-footer>
