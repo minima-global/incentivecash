@@ -5,19 +5,15 @@ import { Provider } from 'react-redux'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { ThemeProvider } from '@material-ui/styles'
 
-import { isMobile } from "react-device-detect"
-
-import { theme, themeMobile } from '../styles'
+import { theme } from '../styles'
 import { Main } from './pages'
 
 const Root = ({ store }: any) => {
 
-  const appTheme = isMobile ? themeMobile : theme
-
   return (
 
     <Provider store={store}>
-        <ThemeProvider theme={appTheme}>
+        <ThemeProvider theme={theme}>
           <CssBaseline />
           <HashRouter>
             <Main />

@@ -8,9 +8,8 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
 import hrFirst from '../../images/hrFirst.svg'
-import hrFirstMobile from '../../images/hrFirstMobile.svg'
 
-import { themeStyles, themeStylesMobile } from '../../styles'
+import { themeStyles } from '../../styles'
 
 import {
   ApplicationState,
@@ -49,12 +48,11 @@ const rewardInfo = (props: Props) => {
   //const { id } = useParams<{ id: string }>()
   let isFirstRun = useRef(true)
 
-  let classes = themeStyles()
-  let hr = hrFirst
-  if ( isMobile ) {
+  const classes = themeStyles()
 
-    classes = themeStylesMobile()
-    hr = hrFirstMobile
+  let dbase = Remote.prodDbaseServerURL
+  if ( process.env.NODE_ENV === 'development' ) {
+    dbase = Remote.devDbaseServerURL
   }
 
   useEffect(() => {
@@ -63,8 +61,8 @@ const rewardInfo = (props: Props) => {
 
       props.setActivePage(Local.reward)
       isFirstRun.current = false
-      const rewardURL = `${Remote.serverURL}${Remote.itemsPath}${Remote.rewardsPath}?filter={ "Userid": { "_eq": "${props.user.info.id}" }}`
-      //const rewardURL = `${Remote.serverURL}${Remote.itemsPath}${Remote.rewardsPath}`
+      const rewardURL = `${dbase}${Remote.itemsPath}${Remote.rewardsPath}?filter={ "Userid": { "_eq": "${props.user.info.id}" }}`
+      //const rewardURL = `${dbase}${Remote.itemsPath}${Remote.rewardsPath}`
 
       props.getCollection(rewardURL)
 
@@ -93,7 +91,7 @@ const rewardInfo = (props: Props) => {
         </Typography>
       </Grid>
       <Grid item container xs={12} alignItems="flex-start">
-        <img src={hr} className={classes.hr}/>
+        <img src={hrFirst} className={classes.hr}/>
       </Grid>
       <Grid item container justify="flex-start" xs={12}>
         {reward.map((rewardItem, index) => {

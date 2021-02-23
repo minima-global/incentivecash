@@ -2,15 +2,12 @@ import React, { useRef, useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 //import { useParams } from 'react-router-dom'
 
-import { isMobile } from "react-device-detect"
-
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
 import hrFirst from '../../images/hrFirst.svg'
-import hrFirstMobile from '../../images/hrFirstMobile.svg'
 
-import { themeStyles, themeStylesMobile } from '../../styles'
+import { themeStyles } from '../../styles'
 
 import {
   ApplicationState,
@@ -49,12 +46,13 @@ const referralInfo = (props: Props) => {
   const [referral, setReferral] = useState([] as string[])
   let isFirstRun = useRef(true)
 
-  let classes = themeStyles()
-  let hr = hrFirst
-  if ( isMobile ) {
+  const classes = themeStyles()
 
-    classes = themeStylesMobile()
-    hr = hrFirstMobile
+  let web = Remote.prodHttpsServerURL
+  let dbase = Remote.prodDbaseServerURL
+  if ( process.env.NODE_ENV === 'development' ) {
+    web = Remote.devHttpsServerURL
+    dbase = Remote.devDbaseServerURL
   }
 
   useEffect(() => {
@@ -63,22 +61,21 @@ const referralInfo = (props: Props) => {
 
       props.setActivePage(Local.referral)
       isFirstRun.current = false
-      const referralURL = `${Remote.serverURL}${Remote.itemsPath}${Remote.referralsPath}?filter={ "Userid": { "_eq": "${props.user.info.id}" }}`
-      //const referralURL = `${Remote.serverURL}${Remote.itemsPath}${Remote.referralsPath}`
+      const referralURL = `${dbase}${Remote.itemsPath}${Remote.referralsPath}?filter={ "Userid": { "_eq": "${props.user.info.id}" }}`
+      //const referralURL = `${dbase}${Remote.itemsPath}${Remote.referralsPath}`
 
       props.getCollection(referralURL)
 
     } else if (props.collection.info && !referral.length) {
 
       let currentReferrals = []
-
       let userReferralURL = ""
 
       for (let item of props.collection.info) {
 
         const thisItem: any = item as any
         if ( thisItem.hasOwnProperty('name')) {
-          userReferralURL += `${Remote.httpsServerURL}/#${Local.register}/${props.user.info.id}/${thisItem.name}`
+          userReferralURL += `${web}/#${Local.register}/${props.user.info.id}/${thisItem.name}`
         }
 
         const thisReferral = getKeyedList(thisItem)
@@ -101,7 +98,7 @@ const referralInfo = (props: Props) => {
         </Typography>
       </Grid>
       <Grid item container xs={12} alignItems="flex-start">
-        <img src={hr} className={classes.hr}/>
+        <img src={hrFirst} className={classes.hr}/>
       </Grid>
       <Grid item container justify="flex-start" xs={12}>
           {referral.map((item) => {

@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { createMuiTheme, responsiveFontSizes, makeStyles } from '@material-ui/core/styles'
+import createBreakpoints from '@material-ui/core/styles/createBreakpoints'
 
 import Button from '@material-ui/core/Button'
 import Menu from '@material-ui/core/Menu'
@@ -13,6 +14,15 @@ import indigo from '@material-ui/core/colors/indigo'
 import orange from '@material-ui/core/colors/orange'
 import yellow from '@material-ui/core/colors/yellow'
 
+/*
+xs, extra-small: 0px
+sm, small: 600px
+md, medium: 960px
+lg, large: 1280px
+xl, extra-large: 1920px
+*/
+
+const breakpoints = createBreakpoints({})
 let theme = createMuiTheme ({
   spacing: 8,
   typography: {
@@ -28,46 +38,58 @@ let theme = createMuiTheme ({
     fontWeightRegular: 400,
     fontWeightMedium: 500,
     h1: {
-      lineHeight: "2.4",
-      fontSize:  "2.2em",
-      fontWeight: 700,
-      fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-      color: '#001C32',
+      [breakpoints.up('xs')]: {
+        lineHeight: "2.4",
+        fontSize:  "2.2em",
+        fontWeight: 700,
+        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+        color: '#001C32',
+      }
     },
     h2: {
-      lineHeight: "2",
-      fontSize: "1.6em",
-      fontWeight: 700,
-      fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-      color: '#001C32'
+      [breakpoints.up('xs')]: {
+        lineHeight: "2",
+        fontSize: "1.6em",
+        fontWeight: 700,
+        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+        color: '#001C32'
+      }
     },
     h3: {
-      lineHeight: '1.2',
-      fontSize: "1em",
-      fontWeight: 700,
-      fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-      color: '#001C32'
+      [breakpoints.up('xs')]: {
+        lineHeight: '1.2',
+        fontSize: "1em",
+        fontWeight: 700,
+        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+        color: '#001C32'
+      }
     },
     h4: {
-      lineHeight: '1.2',
-      fontSize: "1em",
-      fontWeight: 400,
-      fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-      color: '#317aff'
+      [breakpoints.up('xs')]: {
+        lineHeight: '1.2',
+        fontSize: "1em",
+        fontWeight: 400,
+        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+        color: '#317aff'
+      }
     },
     h5: {
-      lineHeight: "1.2",
-      fontSize: "1em",
-      fontWeight: 400,
-      fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-      color: '#001C32'
+      [breakpoints.up('xs')]: {
+        lineHeight: "1.2",
+        fontSize: "1em",
+        fontWeight: 400,
+        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+        color: '#001C32'
+      }
     },
     h6: {
-      lineHeight: "2",
-      fontSize: "1em",
-      fontWeight: 700,
-      fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-      color: '#FFFFFF'
+      [breakpoints.up('xs')]: {
+        lineHeight: "2",
+        fontSize: "1em",
+        fontWeight: 700,
+        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+        color: '#001C32'
+      }
     },
     subtitle1: {
       lineHeight: "2.5",
@@ -133,7 +155,6 @@ let theme = createMuiTheme ({
 })
 
 theme = responsiveFontSizes(theme)
-"0"
 
 const themeStyles = makeStyles({
   landing: {
@@ -167,46 +188,87 @@ const themeStyles = makeStyles({
     width: '168px'
   },
   root: {
-    marginTop: "5vh",
-    marginBottom: "5vh",
-    marginLeft: "auto",
-    marginRight: "auto",
-    height: "90vh",
-    width: "50%",
-    position: 'relative'
+    [breakpoints.up('xs')]: {
+      background: 'linear-gradient(#F0F0FA, #F0F0FA)',
+      height: "100vh",
+      width: "100%",
+      position: 'relative'
+    },
+    [breakpoints.up('md')]: {
+      marginTop: "5vh",
+      marginBottom: "5vh",
+      marginLeft: "auto",
+      marginRight: "auto",
+      height: "90vh",
+      width: "50%",
+      position: 'relative'
+    }
   },
   header: {
-    paddingRight: theme.spacing(5),
-    paddingLeft: theme.spacing(5),
-    paddingTop: "30px",
-    margin: "0",
-    background: 'linear-gradient(#001C32, #001C32)',
-    height: "90px",
-    width: "100%",
-    position: 'absolute',
-    top: '0'
+    [breakpoints.up('xs')]: {
+      paddingRight: theme.spacing(4),
+      paddingLeft: theme.spacing(4),
+      paddingTop: "32px",
+      margin: "0",
+      textAlign: 'center',
+      background: 'linear-gradient(#001C32, #001C32)',
+      height: "70px",
+      width: "100%",
+      position: 'absolute',
+      top: '0'
+    },
+    [breakpoints.up('md')]: {
+      paddingRight: theme.spacing(5),
+      paddingLeft: theme.spacing(5),
+      paddingTop: "30px",
+      margin: "0",
+      background: 'linear-gradient(#001C32, #001C32)',
+      height: "90px",
+      width: "100%",
+      position: 'absolute',
+      top: '0'
+    }
+  },
+  subHeader: {
+    [breakpoints.up('xs')]: {
+      paddingRight: theme.spacing(5),
+      paddingLeft: theme.spacing(5),
+      paddingBottom: theme.spacing(1),
+      paddingTop: theme.spacing(1),
+      margin: "0",
+      textAlign: 'center',
+      background: 'linear-gradient(#F0F0FA, #F0F0FA)',
+      height: "60px",
+      width: "100%",
+      position: 'absolute',
+      top: '90px'
+    }
   },
   content: {
-    paddingRight: theme.spacing(5),
-    paddingLeft: theme.spacing(5),
-    margin: "0",
-    background: 'linear-gradient(#FAFAFF, #FAFAFF)',
-    overflow: 'auto',
-    width: "100%",
-    position: 'absolute',
-    bottom: '100px',
-    top: '90px'
+    [breakpoints.up('xs')]: {
+      paddingRight: theme.spacing(5),
+      paddingLeft: theme.spacing(5),
+      margin: "0",
+      background: 'linear-gradient(#FAFAFF, #FAFAFF)',
+      overflow: 'auto',
+      width: "100%",
+      position: 'absolute',
+      bottom: '100px',
+      top: '150px'
+    }
   },
   footer: {
-    paddingRight: theme.spacing(5),
-    paddingLeft: theme.spacing(5),
-    paddingTop: "10px",
-    margin: "0",
-    background: 'linear-gradient(#001C32, #001C32)',
-    height: "100px",
-    width: "100%",
-    position: 'absolute',
-    bottom: '0'
+    [breakpoints.up('xs')]: {
+      paddingRight: theme.spacing(5),
+      paddingLeft: theme.spacing(5),
+      paddingTop: "10px",
+      margin: "0",
+      background: 'linear-gradient(#001C32, #001C32)',
+      height: "100px",
+      width: "100%",
+      position: 'absolute',
+      bottom: '0'
+    }
   },
   storeTitle: {
     padding: "0",
@@ -240,87 +302,123 @@ const themeStyles = makeStyles({
     justifyContent: 'center',
   },
   deleteModalSub: {
-    backgroundColor: theme.palette.background.default,
-    boxShadow: theme.shadows[3],
-    padding: theme.spacing(1),
-    outline: "none",
-    width: "10%"
+    [breakpoints.up('xs')]: {
+      backgroundColor: theme.palette.background.default,
+      boxShadow: theme.shadows[3],
+      padding: theme.spacing(1),
+      outline: "none",
+      width: "10%"
+    }
   },
   deleteModalSubIcons: {
     textAlign: "center"
   },
   appIcon: {
-    height: "50px",
-    width: '50px'
+    [breakpoints.up('xs')]: {
+      height: "50px",
+      width: '50px'
+    }
   },
   downloadIcon: {
-    height: "25px",
-    width: '20px'
+    [breakpoints.up('xs')]: {
+      height: "25px",
+      width: '20px'
+    }
   },
   deleteIcon: {
-    height: "25px",
-    width: '25px'
+    [breakpoints.up('xs')]: {
+      height: "25px",
+      width: '25px'
+    }
   },
   tickIcon: {
-    height: "25px",
-    width: '31px'
+    [breakpoints.up('xs')]: {
+      height: "25px",
+      width: '31px'
+    }
+  },
+  subHeaderIconParent: {
+    [breakpoints.up('xs')]: {
+      position: "relative",
+      height: "100%"
+    }
   },
   helpIcon: {
-    height: "40px",
-    width: '40px'
+    [breakpoints.up('xs')]: {
+      display: 'flex',
+      justifyContent: 'flex-start',
+      height: "40px",
+      width: '40px'
+    }
   },
   contactIcon: {
-    height: "40px",
-    width: '40px'
+    [breakpoints.up('xs')]: {
+      marginRight: theme.spacing(2),
+      marginLeft: theme.spacing(2),
+      display: 'flex',
+      justifyContent: 'center',
+      height: "40px",
+      width: '40px'
+    }
   },
   aboutIcon: {
-    height: "40px",
-    width: '40px'
+    [breakpoints.up('xs')]: {
+      display: 'flex',
+      justifyContent: 'flex-end',
+      height: "40px",
+      width: '40px'
+    }
   },
   footerIcon: {
-    height: "35px",
-    width: '35px'
+    [breakpoints.up('xs')]: {
+      height: "35px",
+      width: '35px'
+    }
   },
   headerIcon: {
-    height: "50px",
-    width: '50px'
+    [breakpoints.up('xs')]: {
+      height: "50px",
+      width: '50px'
+    }
   },
   sortIcon: {
-    height: "25px",
-    width: '25px'
+    [breakpoints.up('xs')]: {
+      height: "25px",
+      width: '25px'
+    }
   },
   appNameIconContainer: {
-    position: "relative",
-    top: "0",
-    left: "0",
-    height: "50px",
-    width: '208px'
+    [breakpoints.up('xs')]: {
+      position: "relative",
+      top: "0",
+      left: "0",
+      height: "50px",
+      width: '208px'
+    }
   },
   appNameIcon: {
-    position: "absolute",
-    bottom: "0",
-    left: "0",
-    height: "25px",
-    width: '168px'
+    [breakpoints.up('xs')]: {
+      position: "absolute",
+      bottom: "0",
+      left: "0",
+      height: "25px",
+      width: '168px'
+    }
   },
-  storeIcon: {
-    marginTop: theme.spacing(1),
-    width: "40px",
-    height: "40px",
-    borderRadius: "50%",
-  },
-  storesIcon: {
-    width: "40px",
-    height: "40px",
-    borderRadius: "50%",
+  linkIcon: {
+    [breakpoints.up('xs')]: {
+      margin: 'auto',
+      height: "15px",
+      width: '15px'
+    },
+    [breakpoints.up('md')]: {
+      margin: 'auto',
+      height: "30px",
+      width: '30px'
+    }
   },
   link: {
     textDecoration: 'none'
-  },
-  linkIcon: {
-    margin: 'auto',
-    height: "30px",
-    width: '30px'
   },
   hr: {
     height: "1px",

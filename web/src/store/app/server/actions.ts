@@ -30,6 +30,13 @@ import {
 
 import { write } from '../../actions'
 
+let web = Remote.prodHttpsServerURL
+let dbase = Remote.prodDbaseServerURL
+if ( process.env.NODE_ENV === 'development' ) {
+  web = Remote.devHttpsServerURL
+  dbase = Remote.devDbaseServerURL
+}
+
 export const init = () => {
   return async (dispatch: AppDispatch) => {
 
@@ -136,7 +143,7 @@ export const registerPassword = (user: UserRegisterPassword) => {
 
       dispatch(write({data: {}})(TxActionTypes.TX_INIT))
 
-      const url = `${Remote.serverURL}${Remote.createUser}`
+      const url = `${dbase}${Remote.createUser}`
       //console.log('URL: ', url)
       fetch(url, {
         method: 'POST',
@@ -176,7 +183,7 @@ export const registerPassword = (user: UserRegisterPassword) => {
             extrainfo: `${user.referral} ${user.email}`
           }
 
-          const postURL = `${Remote.serverURL}${Remote.itemsPath}/${Dbase.rewardsTable}`
+          const postURL = `${dbase}${Remote.itemsPath}/${Dbase.rewardsTable}`
 
           dispatch(postPublicData(postURL,rewardCreate))
 
@@ -215,7 +222,7 @@ export const login = (user: SignIn) => {
     }
     dispatch(write({data: txData})(TxActionTypes.TX_INIT))
 
-    const url = `${Remote.serverURL}${Remote.userLogin}`
+    const url = `${dbase}${Remote.userLogin}`
     //console.log('URL: ', url)
     fetch(url, {
       method: 'POST',
@@ -276,7 +283,7 @@ export const getUser = () => {
           time: `${dateText}`
       }
 
-      const url = `${Remote.serverURL}${Remote.userPath}`
+      const url = `${dbase}${Remote.userPath}`
       fetch(url, {
         method: 'GET',
         headers: {

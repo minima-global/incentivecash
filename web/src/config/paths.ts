@@ -1,7 +1,3 @@
-class Config {
-
-}
-
 class Local {
 
   static readonly home = '/'
@@ -23,8 +19,12 @@ class Local {
 
 class Remote {
 
-  static readonly httpsServerURL = 'https://127.0.0.1:8085'
-  static readonly serverURL = 'http://localhost:8055'
+  static readonly devHttpsServerURL = 'https://127.0.0.1:8085'
+  static readonly devDbaseServerURL = 'http://localhost:8055'
+
+  static readonly prodHttpsServerURL = 'https://incentive.minima.global'
+  static readonly prodDbaseServerURL = 'http://incentivedb.minima.global'
+
   static readonly userLogin = '/auth/login'
   static readonly userPath = '/users/me'
   static readonly itemsPath = '/items'
@@ -33,4 +33,4 @@ class Remote {
   static readonly createUser = "/users"
 }
 
-export { Config, Local, Remote }
+export { Local, Remote }
