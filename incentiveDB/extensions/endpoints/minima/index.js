@@ -8,12 +8,47 @@ const keySchema = Joi.object({
   publickey: Joi.string().required(),
 });
 
+const cmdSchema = Joi.object({
+  cmd: Joi.string().required()
+});
+
 module.exports = function registerEndpoint(router, { services, exceptions }) {
 
   const { ItemsService, UsersService } = services;
 	const { InvalidPayloadException, ServiceUnavailableException } = exceptions;
 
   let blockTime = "122500";
+  const url = 'http://localhost:9002/cmd'
+  const header = "'Content-Type': 'application/json'"
+
+  // /usr/bin/tmux new-session -d -s minima '/usr/bin/java -Xmx2G -jar /home/drsteve/minima/jar/minima.jar -daemon -externalurl http://127.0.0.1:8055/custom/minima/txn'
+
+  // curl --silent --header "Content-Type: application/json" --request POST --data '{"cmd":"balance"}' https://incentivedb.minima.global/custom/minima/cmd | jq
+
+  router.post('/cmd', (req, res, next) => {
+
+    const { error } = cmdSchema.validate(req.body);
+    if (error) return next(new InvalidPayloadException(error.message));
+
+    const cmd = req.body.cmd;
+
+    axios({
+        method: 'POST',
+        url: url,
+        headers: { header },
+        data: cmd
+      })
+      .then(function (response) {
+
+        return res.send(JSON.stringify(response.data.response));
+
+      })
+      .catch(function (error) {
+
+        console.error(error.message)
+        return next(new ServiceUnavailableException(error.message));
+      });
+  });
 
   router.post('/key', (req, res, next) => {
 
@@ -57,11 +92,9 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
 
             axios({
                 method: 'POST',
-                url: 'http://localhost:9002/cmd',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                data: `${sendString}`
+                url: url,
+                headers: { header },
+                data: sendString
               })
               .then(function (response) {
 
