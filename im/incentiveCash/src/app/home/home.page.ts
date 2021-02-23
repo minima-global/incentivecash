@@ -96,6 +96,8 @@ export class HomePage  {
             } else {
               this.loginStatus = 'Login successful!';
               this.router.navigate(['/cash']);
+              this.loginForm.reset();
+              this.loginStatus = '';
               let temp = user;
               temp.pKey = intersection[0].publickey;
               this._storeService.data.next(temp);
@@ -135,6 +137,8 @@ export class HomePage  {
         .then(data => {
           this.loginStatus = 'Login successful!';
           this.router.navigate(['/cash']);
+          this.loginForm.reset();
+          this.loginStatus = '';
           this._storeService.getUserDetailsOnce().then((user: UserDetails) => {
             //console.log('Stored new pubkey');
             let temp = user;

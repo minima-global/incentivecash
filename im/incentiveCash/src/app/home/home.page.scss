@@ -1,21 +1,93 @@
 
 ion-list {
   background-color: transparent;
-  background: #f0f0fa;
+}
+ion-list ion-item {
+  --background: transparent;
+  --background-color: transparent;
 }
 ion-item ion-label {
   margin-bottom: 7px;
-  font-size: 16px;
-  font-family: manrope-bold;
+  margin-left: 20px;
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #AAAABE;
+  font-family: manrope-medium;
 }
 ion-input {
-  font-size: 12px;
+  font-size: 16px;
   color: #000;
+  border: 1px solid #D1D1DE;
   background-color: #fff;
-  border: 1px solid #f0f0fa;
-  padding-left: 2% !important;
+  padding-left: 20px !important;
 }
-ion-item.login-status ion-note {
-  font-family: manrope-medium;
+ion-grid.login-status-wrapper {
+  margin-top: 50px;
+}
+@media only screen and (max-height: 797px) {
+  ion-grid.login-status-wrapper {
+    margin-top: 0px;
+  }
+}
+ion-col.login-status {
+  letter-spacing: -0.02em;
+  font-family: manrope-regular;
   padding: 0;
+  color: var(--ion-color-primary);
+  font-size: 14px;
+}
+ion-col.welcome {
+  font-size: 20px;
+  font-family: manrope-regular;
+  color: #91919d;
+}
+ion-col.welcome-subtitle {
+  font-size: 14px;
+  font-family: manrope-regular;
+  color: #91919d;
+  a {
+    color: #001D33;
+    font-family: manrope-bold;
+  }
+  a:hover {
+    color: var(--ion-color-primary);
+    cursor: pointer;
+  }
+}
+ion-col div.blue-ruler {  
+  max-width: 164px;
+  margin: auto;
+  border-bottom: 2px solid var(--ion-color-primary);
+}
+@media only screen and (min-width: 990px) {
+  ion-col div.blue-ruler {
+    max-width: 376px;
+  }
+  ion-content {
+    --padding-start: 95px;
+    --padding-end: 95px
+  }
+}
+
+ion-row.has ion-col.forgot {
+  font-size: 18px;
+  color: #AAAABE;
+  font-family: manrope-medium;
+}
+ion-row.has ion-col.forgot:hover {
+  color: var(--ion-color-primary);
+  cursor: pointer;
+}
+ion-row.has ion-col.progress {
+  max-width: 120px
+}
+ion-row.has ion-col.progress ion-progress-bar {
+  margin: 0;
+  padding: 0;
+  --buffer-background: #FAFAFF;
+}
+ion-row.has ion-col.failure {
+  font-family: manrope-bold;
+  font-size: 30px;
+  color: #031B32;
 }
