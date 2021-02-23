@@ -37,6 +37,7 @@ let theme = createMuiTheme ({
     fontWeightLight: 300,
     fontWeightRegular: 400,
     fontWeightMedium: 500,
+    fontWeightBold: 700,
     h1: {
       [breakpoints.up('xs')]: {
         lineHeight: "2.4",
@@ -50,18 +51,18 @@ let theme = createMuiTheme ({
       [breakpoints.up('xs')]: {
         lineHeight: "2",
         fontSize: "1.6em",
-        fontWeight: 700,
+        fontWeight: 900,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         color: '#001C32'
       }
     },
     h3: {
       [breakpoints.up('xs')]: {
-        lineHeight: '1.2',
-        fontSize: "1em",
+        lineHeight: '2',
+        fontSize: "1.6em",
         fontWeight: 700,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-        color: '#001C32'
+        color: '#d3d3d3'
       }
     },
     h4: {
@@ -179,10 +180,9 @@ const themeStyles = makeStyles({
       background: 'linear-gradient(#001C32, #001C32)',
       paddingRight: theme.spacing(4),
       paddingLeft: theme.spacing(4),
-      paddingTop: "32px",
       margin: "0",
       textAlign: 'center',
-      height: "70px",
+      height: "50px",
       width: "100%",
       position: 'absolute',
       top: '0'
@@ -190,10 +190,9 @@ const themeStyles = makeStyles({
     [breakpoints.up('md')]: {
       paddingRight: theme.spacing(5),
       paddingLeft: theme.spacing(5),
-      paddingTop: "30px",
       margin: "0",
       background: 'linear-gradient(#001C32, #001C32)',
-      height: "90px",
+      height: "50px",
       width: "100%",
       position: 'absolute',
       top: '0'
@@ -207,10 +206,10 @@ const themeStyles = makeStyles({
       paddingBottom: theme.spacing(1),
       paddingTop: theme.spacing(1),
       margin: "0",
-      height: "55px",
+      height: "51px",
       width: "100%",
       position: 'absolute',
-      top: '70px'
+      top: '50px'
     },
     [breakpoints.up('md')]: {
       background: 'linear-gradient(#F0F0FA, #F0F0FA)',
@@ -220,10 +219,10 @@ const themeStyles = makeStyles({
       paddingTop: theme.spacing(1),
       margin: "0",
       textAlign: 'center',
-      height: "60px",
+      height: "51px",
       width: "100%",
       position: 'absolute',
-      top: '90px'
+      top: '50px'
     }
   },
   loggedOutContent: {
@@ -235,8 +234,8 @@ const themeStyles = makeStyles({
       overflow: 'auto',
       width: "100%",
       position: 'absolute',
-      bottom: '70px',
-      top: '70px'
+      bottom: '121px',
+      top: '50px'
     },
     [breakpoints.up('md')]: {
       background: 'linear-gradient(#FAFAFF, #FAFAFF)',
@@ -246,8 +245,8 @@ const themeStyles = makeStyles({
       overflow: 'auto',
       width: "100%",
       position: 'absolute',
-      bottom: '100px',
-      top: '90px'
+      bottom: '121px',
+      top: '50px'
     }
   },
   content: {
@@ -259,8 +258,8 @@ const themeStyles = makeStyles({
       overflow: 'auto',
       width: "100%",
       position: 'absolute',
-      bottom: '70px',
-      top: '125px'
+      bottom: '121px',
+      top: '101px'
     },
     [breakpoints.up('md')]: {
       background: 'linear-gradient(#FAFAFF, #FAFAFF)',
@@ -270,8 +269,8 @@ const themeStyles = makeStyles({
       overflow: 'auto',
       width: "100%",
       position: 'absolute',
-      bottom: '100px',
-      top: '150px'
+      bottom: '121px',
+      top: '101px'
     }
   },
   footer: {
@@ -279,9 +278,8 @@ const themeStyles = makeStyles({
       background: 'linear-gradient(#001C32, #001C32)',
       paddingRight: theme.spacing(4),
       paddingLeft: theme.spacing(4),
-      paddingTop: "10px",
       margin: "0",
-      height: "70px",
+      height: "121px",
       width: "100%",
       position: 'absolute',
       bottom: '0'
@@ -290,34 +288,17 @@ const themeStyles = makeStyles({
       background: 'linear-gradient(#001C32, #001C32)',
       paddingRight: theme.spacing(5),
       paddingLeft: theme.spacing(5),
-      paddingTop: "10px",
       margin: "0",
-      height: "100px",
+      height: "121px",
       width: "100%",
       position: 'absolute',
       bottom: '0'
     }
   },
-  storeTitle: {
-    padding: "0",
-    margin: "0"
-  },
-  storeDescription: {
-    padding: "0",
-    margin: "0"
-  },
-  caption: {
-    padding: theme.spacing(1),
-    margin: "0"
-  },
   details: {
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
     margin: "0",
-  },
-  footerLinks: {
-    fontWeight: 400,
-    fontFamily: "\"Lato\", \"Arial\", \"sans-serif\", \"Roboto\"",
   },
   spinner: {
      position: 'relative',
@@ -445,8 +426,41 @@ const themeStyles = makeStyles({
       width: '30px'
     }
   },
-  link: {
-    textDecoration: 'none'
+  formInput: {
+    width: '100%'
+  },
+  activeLink: {
+    lineHeight: "2",
+    fontSize: "1.6em",
+    fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+    color: '#001C32',
+    textDecoration: 'none',
+    '&:active': {
+      textDecoration: 'none',
+      fontWeight: 900
+    },
+    '&:hover': {
+      textDecoration: 'none',
+      color: '#a1c8ff'
+    }
+  },
+  inactiveLink: {
+    lineHeight: "2",
+    fontSize: "1.6em",
+    fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+    color: '#c7cdd7',
+    textDecoration: 'none',
+    '&:active': {
+      textDecoration: 'none',
+      fontWeight: 900
+    },
+    '&:hover': {
+      textDecoration: 'none',
+      color: '#a1c8ff'
+    }
+  },
+  iconLink: {
+    textDecoration: 'none',
   },
   hr: {
     height: "1px",

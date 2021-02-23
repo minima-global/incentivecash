@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
+import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { useHistory } from "react-router-dom"
 
@@ -25,7 +26,7 @@ import {
 import { setActivePage } from '../../store/app/appData/actions'
 import { login, initTx } from '../../store/app/server/actions'
 
-import { Local, GeneralError, Help, User, Misc } from '../../config'
+import { Local, Paths, GeneralError, Help, User, Misc } from '../../config'
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()
@@ -44,33 +45,6 @@ interface DispatchProps {
   initTx: () => void
   login: (user: SignIn) => void
 }
-
-/*
-<Grid item container justify="flex-start" xs={6}>
-
- <NavLink to={Local.signIn}>
-  <a href={Local.signIn}>
-   <Typography variant="h4">
-     {Paths.signIn}
-   </Typography>
-  </a>
- </NavLink>
-
-</Grid>
-
-<Grid item container justify="flex-end" xs={6}>
-
- <NavLink to={Local.register}>
- <NavLink to={Local.register}>
-  <a href={Local.register}>
-   <Typography variant="h4">
-     {Paths.register}
-   </Typography>
-  </a>
- </NavLink>
-
-</Grid>
-*/
 
 type Props = StateProps & DispatchProps
 
@@ -136,59 +110,85 @@ const userLogin = (props: Props) => {
   return (
 
     <Grid container alignItems="flex-start">
+
       <Grid item container justify="flex-start" xs={12}>
-        <Typography variant="h2">
-          {User.loginHeading}
-        </Typography>
-      </Grid>
-      <Grid item container xs={12} alignItems="flex-start">
-        <img src={hrFirst} className={classes.hr}/>
+
+        <Grid item container justify="center" xs={6}>
+
+         <NavLink to={Local.signIn} className={classes.activeLink}>
+          {Paths.signIn}
+         </NavLink>
+
+         <img src={hrFirst} className={classes.hr}/>
+
+        </Grid>
+
+        <Grid item container justify="center" xs={6}>
+
+         <NavLink to={Local.register} className={classes.inactiveLink}>
+          {Paths.register}
+         </NavLink>
+
+         <img src={hrFirst} className={classes.hr}/>
+
+        </Grid>
+
       </Grid>
 
-      <form onSubmit={formik.handleSubmit}>
-        <TextField
-          fullWidth
-          id="email"
-          name="email"
-          label={User.email}
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
-        />
-        <TextField
-          fullWidth
-          id="password"
-          name="password"
-          label={User.password}
-          type="password"
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          error={formik.touched.password && Boolean(formik.errors.password)}
-          helperText={formik.touched.password && formik.errors.password}
-        />
-        <br/><br/>
-        <Grid item container justify="flex-start">
-          <Button
-            data-for='loginButton'
-            data-tip
-            style={{textTransform: 'none'}}
-            size='medium'
-            type='submit'
-            variant="contained"
-            color="primary"
-          >
-            {User.loginButton}
-          </Button>
-          <ReactTooltip
-            id='loginButton'
-            place="bottom"
-            effect="solid"
-          >
-            {Help.loginTip}
-          </ReactTooltip>
-        </Grid>
-      </form>
+      <Grid item container xs={12}>
+        <form onSubmit={formik.handleSubmit} className={classes.formInput}>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              autoFocus
+              variant="outlined"
+              id="email"
+              name="email"
+              label={User.email}
+              type="text"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              autoFocus
+              variant="outlined"
+              id="password"
+              name="password"
+              label={User.password}
+              type="password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
+            />
+          </Grid>
+          <Grid item container justify="flex-start">
+            <Button
+              data-for='loginButton'
+              data-tip
+              style={{textTransform: 'none'}}
+              size='medium'
+              type='submit'
+              variant="contained"
+              color="primary"
+            >
+              {User.loginButton}
+            </Button>
+            <ReactTooltip
+              id='loginButton'
+              place="bottom"
+              effect="solid"
+            >
+              {Help.loginTip}
+            </ReactTooltip>
+          </Grid>
+        </form>
+      </Grid>
 
       <Grid item container xs={12} alignItems="flex-start">
         <Typography variant="h5">
@@ -199,6 +199,11 @@ const userLogin = (props: Props) => {
     </Grid>
   )
 }
+
+//error={formik.touched.password && Boolean(formik.errors.password)}
+// helperText={formik.touched.password && formik.errors.password}
+//error={formik.touched.email && Boolean(formik.errors.email)}
+//helperText={formik.touched.email && formik.errors.email}
 
 const mapStateToProps = (state: ApplicationState): StateProps => {
   return {

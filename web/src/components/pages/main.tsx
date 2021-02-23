@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { NavLink, Redirect } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 import GoogleFontLoader from 'react-google-font-loader'
 
@@ -130,7 +130,7 @@ const main = (props: Props) => {
 
         <div>
 
-          <Grid item container justify="center" className={classes.header} xs={12}>
+          <Grid item container justify="center" alignItems="center" className={classes.header} xs={12}>
 
             <Typography variant="caption">
               {App.appName}
@@ -140,7 +140,7 @@ const main = (props: Props) => {
 
           <Grid item container justify="flex-end" className={classes.subHeader} xs={12}>
 
-            <NavLink to={Local.help} className={classes.link}>
+            <NavLink to={Local.help} className={classes.iconLink}>
               <IconButton
                 color="primary"
                 aria-label="Help"
@@ -162,7 +162,7 @@ const main = (props: Props) => {
               </ReactTooltip>
             </NavLink>
 
-            <NavLink to={Local.contact} className={classes.link}>
+            <NavLink to={Local.contact} className={classes.iconLink}>
               <IconButton
                 color="primary"
                 aria-label="Contact"
@@ -184,7 +184,7 @@ const main = (props: Props) => {
               </ReactTooltip>
             </NavLink>
 
-            <NavLink to={Local.about} className={classes.link}>
+            <NavLink to={Local.about} className={classes.iconLink}>
               <IconButton
                 color="primary"
                 aria-label="Info"
@@ -206,7 +206,7 @@ const main = (props: Props) => {
               </ReactTooltip>
             </NavLink>
 
-            <NavLink to={Local.home}>
+            <NavLink to={Local.home} className={classes.iconLink}>
                <IconButton
                 color="primary"
                 aria-label={Help.logoutTip}
@@ -321,11 +321,12 @@ const main = (props: Props) => {
       : (
 
           <div>
-            <Grid item container justify="center" className={classes.header} xs={12}>
+            <Grid item container justify="center" alignItems="center" className={classes.header} xs={12}>
 
-                <Typography variant="caption">
-                  {App.appName}
-                </Typography>
+              <Typography variant="caption">
+                {App.appName}
+              </Typography>
+
             </Grid>
 
             <Grid className={classes.loggedOutContent} alignItems="flex-start" item container xs={12}>
