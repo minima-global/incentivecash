@@ -135,43 +135,56 @@ const userLogin = (props: Props) => {
 
       </Grid>
 
-      <Grid item container xs={12}>
-        <form onSubmit={formik.handleSubmit} className={classes.formInput}>
-          <Grid item xs={12}>
+      <Grid item container className={classes.form} xs={12}>
+
+        <form onSubmit={formik.handleSubmit} className={classes.formSubmit}>
+          <Grid item container className={classes.formLabel} xs={12}>
+            <label htmlFor="email">{User.email}</label>
+          </Grid>
+          <Grid item container className={classes.formInput} xs={12}>
             <TextField
               fullWidth
-              autoFocus
               variant="outlined"
-              id="email"
+              id="outlined-basic"
               name="email"
-              label={User.email}
               type="text"
               value={formik.values.email}
               onChange={formik.handleChange}
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item container className={classes.formError} xs={12}>
+            {formik.errors.email && formik.touched.email ? (
+              <div>{formik.errors.email}</div>
+            ) : null}
+          </Grid>
+          <Grid item container className={classes.formLabel} xs={12}>
+            <label htmlFor="email">{User.password}</label>
+          </Grid>
+          <Grid item container className={classes.formInput} xs={12}>
             <TextField
               fullWidth
-              autoFocus
               variant="outlined"
-              id="password"
+              id="outlined-basic"
               name="password"
-              label={User.password}
               type="password"
               value={formik.values.password}
               onChange={formik.handleChange}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
             />
           </Grid>
-          <Grid item container justify="flex-start">
+          <Grid item container className={classes.formError} xs={12}>
+            {formik.errors.password && formik.touched.password ? (
+              <div>{formik.errors.password}</div>
+            ) : null}
+          </Grid>
+          <Grid item container className={classes.formButton} xs={12}>
             <Button
+              className={classes.submitButton}
               data-for='loginButton'
               data-tip
-              style={{textTransform: 'none'}}
+              style={{
+                textTransform: 'none',
+                fontSize: "1em",
+              }}
               size='medium'
               type='submit'
               variant="contained"

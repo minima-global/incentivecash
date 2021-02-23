@@ -227,7 +227,7 @@ const themeStyles = makeStyles({
   },
   loggedOutContent: {
     [breakpoints.up('xs')]: {
-      background: 'linear-gradient(#FAFAFF, #FAFAFF)',
+      background: 'linear-gradient(#F0F0FA, #F0F0FA)',
       paddingRight: theme.spacing(4),
       paddingLeft: theme.spacing(4),
       margin: "0",
@@ -238,7 +238,7 @@ const themeStyles = makeStyles({
       top: '50px'
     },
     [breakpoints.up('md')]: {
-      background: 'linear-gradient(#FAFAFF, #FAFAFF)',
+      background: 'linear-gradient(#F0F0FA, #F0F0FA)',
       paddingRight: theme.spacing(5),
       paddingLeft: theme.spacing(5),
       margin: "0",
@@ -251,7 +251,7 @@ const themeStyles = makeStyles({
   },
   content: {
     [breakpoints.up('xs')]: {
-      background: 'linear-gradient(#FAFAFF, #FAFAFF)',
+      background: 'linear-gradient(#F0F0FA, #F0F0FA)',
       paddingRight: theme.spacing(4),
       paddingLeft: theme.spacing(4),
       margin: "0",
@@ -262,7 +262,7 @@ const themeStyles = makeStyles({
       top: '101px'
     },
     [breakpoints.up('md')]: {
-      background: 'linear-gradient(#FAFAFF, #FAFAFF)',
+      background: 'linear-gradient(#F0F0FA, #F0F0FA)',
       paddingRight: theme.spacing(5),
       paddingLeft: theme.spacing(5),
       margin: "0",
@@ -426,8 +426,39 @@ const themeStyles = makeStyles({
       width: '30px'
     }
   },
+  form: {
+    paddingTop: theme.spacing(2),
+  },
+  formSubmit: {
+    width: '100%',
+    /*'& .MuiTextField-root': {
+      border: '1px solid',
+      borderColour: '#000000',
+      borderRadius: '6px',
+      width: '100ch',
+    },*/
+  },
   formInput: {
-    width: '100%'
+    border: '1px solid',
+    borderColour: '#000000',
+    borderRadius: '5px',
+    background: 'linear-gradient(#FFFFFF, #FFFFFF)'
+  },
+  formLabel: {
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+  },
+  formError: {
+    paddingTop: theme.spacing(1),
+    color: 'red'
+  },
+  formButton: {
+    paddingTop: theme.spacing(2)
+  },
+  submitButton: {
+    width: '100%',
+    fontSize: "0.5em",
+    background: 'linear-gradient(#317AFF, #317AFF)'
   },
   activeLink: {
     lineHeight: "2",
