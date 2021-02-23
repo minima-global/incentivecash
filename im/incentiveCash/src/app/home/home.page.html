@@ -3,11 +3,8 @@
     <ion-title>
       <ion-grid class="ion-no-padding">
         <ion-row>
-          <ion-col class="ion-no-padding ion-align-self-center ion-text-left">
-            <ion-icon class="icon ion-align-self-center" src="assets/icon/minima-logo-landscape-dark.svg"></ion-icon>
-          </ion-col>
-          <ion-col class="ion-no-padding ion-text-right">
-            Incentive Cash
+          <ion-col class="title ion-no-padding ion-text-center">
+            Minima Incentive Cash MiniDapp
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -21,6 +18,28 @@
       <ion-title size="large">Blank</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <ion-grid class="welcome-container">
+    <ion-row>
+      <ion-col class="ion-text-center welcome">
+        Welcome to the Minima <br>
+        Incentive Cash MiniDapp
+      </ion-col>
+    </ion-row>
+    <ion-row class="has">
+      <ion-col>
+        <div class="blue-ruler"></div>
+      </ion-col>
+    </ion-row>
+    <ion-row class="has">
+      <ion-col class="ion-text-center welcome-subtitle">
+        If you have already signed up for <br> incentive cash, please login with <br>
+        your username & password below.
+        <br><br>
+        Or click here to <a>register</a> now
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
   <form [formGroup]="loginForm" (ngSubmit)="getReferenceID()" >
     <ion-list>

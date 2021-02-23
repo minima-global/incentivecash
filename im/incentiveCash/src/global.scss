@@ -36,9 +36,15 @@
   --background-hover-opacity  :transparent;
 }
 ion-content {
-  --padding-top: 27px;
-  --padding-start: 27px;
-  --padding-end: 27px;
+  --padding-top: 25px;
+  --padding-start: 25px;
+  --padding-end: 25px;
+}
+ion-header ion-toolbar {
+  height: 50px;
+}
+ion-footer ion-toolbar {
+  height: 121px;
 }
 ion-toolbar {
   --padding-start: 7px;
@@ -46,17 +52,17 @@ ion-toolbar {
   --background: var(--ion-color-dark);
   color: #F0F0FA;
   font-family: manrope-medium;
-  height: 100px;
 }
-ion-title {
-  height: 100px;
+ion-col.title {
+  font-size: 18px;
+  margin: 0;
 }
 ion-content {
-  --background: #F0F0FA;
+  --background: #FAFAFF;
 }
-ion-list {
+ion-item div.item-native .item-inner .input-wrapper {
   background-color: transparent;
-  background: #f0f0fa;
+  background: transparent
 }
 ion-list ion-item {
   --inner-padding-end: 0;
@@ -68,10 +74,15 @@ ion-list ion-item ion-label {
 }
 ion-input {
   font-size: 12px;
+  border-radius: 15px;
+  border: 1px solid #AAAABE;
   color: #000;
   background-color: #fff;
-  border: 1px solid #f0f0fa;
   padding-left: 2% !important;
+}
+ion-input input {
+  height: 48px;
+  width: 338px;
 }
 ion-button.sign-up-btn {
   margin: 0;

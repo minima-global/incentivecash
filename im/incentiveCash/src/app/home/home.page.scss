@@ -1,7 +1,6 @@
 
 ion-list {
   background-color: transparent;
-  background: #f0f0fa;
 }
 ion-item ion-label {
   margin-bottom: 7px;
@@ -18,4 +17,23 @@ ion-input {
 ion-item.login-status ion-note {
   font-family: manrope-medium;
   padding: 0;
+}
+ion-col.welcome {
+  font-size: 20px;
+  font-family: manrope-regular;
+  color: #91919d;
+}
+ion-col.welcome-subtitle {
+  font-size: 14px;
+  font-family: manrope-regular;
+  color: #91919d;
+  a {
+    color: #001D33;
+    font-family: manrope-bold;
+  }
+}
+ion-col div.blue-ruler {  
+  max-width: 164px;
+  margin: auto;
+  border-bottom: 2px solid var(--ion-color-primary);
 }
