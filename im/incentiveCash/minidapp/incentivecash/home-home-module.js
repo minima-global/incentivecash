@@ -172,6 +172,7 @@ let HomePage = class HomePage {
             })
                 .then(response => {
                 if (!response.ok) {
+                    this.loginStatus = 'Login failed!  Public key not found!';
                     const statusText = response.statusText;
                     return response.json()
                         .then((data) => {
@@ -203,6 +204,8 @@ let HomePage = class HomePage {
                             this.postAKey(user.refID);
                         }
                         else {
+                            this.loginStatus = 'Login successful!';
+                            this.router.navigate(['/cash']);
                             let temp = user;
                             temp.pKey = intersection[0].publickey;
                             this._storeService.data.next(temp);
@@ -229,6 +232,7 @@ let HomePage = class HomePage {
                 })
                     .then(res => {
                     if (!res.ok) {
+                        this.loginStatus = 'Login failed!  Public key not found!';
                         const statusText = response.statusText;
                         return res.json()
                             .then((data) => {
@@ -238,6 +242,8 @@ let HomePage = class HomePage {
                     return res.json();
                 })
                     .then(data => {
+                    this.loginStatus = 'Login successful!';
+                    this.router.navigate(['/cash']);
                     this._storeService.getUserDetailsOnce().then((user) => {
                         //console.log('Stored new pubkey');
                         let temp = user;
@@ -272,7 +278,7 @@ let HomePage = class HomePage {
             return res.json();
         })
             .then(data => {
-            this.loginStatus = 'Login successful!';
+            this.loginStatus = 'Authenticated!  Checking public key...';
             // accessToken
             const token = {
                 accessToken: data.data.access_token,
@@ -293,7 +299,6 @@ let HomePage = class HomePage {
                     }
                 };
                 this._storeService.data.next(user);
-                this.router.navigate(['/cash', user.refID]);
             });
             this.getPubKey();
         })
