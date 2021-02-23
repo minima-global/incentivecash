@@ -130,102 +130,103 @@ const main = (props: Props) => {
 
         <div>
 
-          <Grid item container className={classes.header} xs={12}>
+          <Grid item container justify="center" className={classes.header} xs={12}>
 
-            <Grid item container justify="flex-start" xs={4}>
-              <img className={classes.headerIcon} src={minimaIcon}/>
-            </Grid>
+            <Typography variant="caption">
+              {App.appName}
+            </Typography>
 
-            <Grid item container justify="space-between" xs={8}>
+          </Grid>
 
-              <NavLink to={Local.help} className={classes.link}>
-                <IconButton
-                  color="primary"
-                  aria-label="Help"
-                  component="span"
-                  size="small">
-                  <img
-                    data-for={helpIcon}
-                    data-tip
-                    src={icons[2]}
-                    className={classes.helpIcon}
-                  />
-                </IconButton>
-                <ReactTooltip
-                  id={helpIcon}
-                  place="bottom"
-                  effect="solid"
-                >
-                  {Help.helpTip}
-                </ReactTooltip>
-              </NavLink>
+          <Grid item container justify="flex-end" className={classes.subHeader} xs={12}>
 
-              <NavLink to={Local.contact} className={classes.link}>
-                <IconButton
-                  color="primary"
-                  aria-label="Contact"
-                  component="span"
-                  size="small">
-                  <img
-                    data-for={contactIcon}
-                    data-tip
-                    src={icons[4]}
-                    className={classes.contactIcon}
-                  />
-                </IconButton>
-                <ReactTooltip
-                  id={contactIcon}
-                  place="bottom"
-                  effect="solid"
-                >
-                  {Help.contactTip}
-                </ReactTooltip>
-              </NavLink>
+            <NavLink to={Local.help} className={classes.link}>
+              <IconButton
+                color="primary"
+                aria-label="Help"
+                component="span"
+                size="small">
+                <img
+                  data-for={helpIcon}
+                  data-tip
+                  src={icons[2]}
+                  className={classes.helpIcon}
+                />
+              </IconButton>
+              <ReactTooltip
+                id={helpIcon}
+                place="bottom"
+                effect="solid"
+              >
+                {Help.helpTip}
+              </ReactTooltip>
+            </NavLink>
 
-              <NavLink to={Local.about} className={classes.link}>
-                <IconButton
-                  color="primary"
-                  aria-label="Info"
-                  component="span"
-                  size="small">
-                  <img
-                    data-for={infoIcon}
-                    data-tip
-                    src={icons[3]}
-                    className={classes.aboutIcon}
-                  />
-                </IconButton>
-                <ReactTooltip
-                  id={infoIcon}
-                  place="bottom"
-                  effect="solid"
-                >
-                  {Help.aboutTip}
-                </ReactTooltip>
-              </NavLink>
+            <NavLink to={Local.contact} className={classes.link}>
+              <IconButton
+                color="primary"
+                aria-label="Contact"
+                component="span"
+                size="small">
+                <img
+                  data-for={contactIcon}
+                  data-tip
+                  src={icons[4]}
+                  className={classes.contactIcon}
+                />
+              </IconButton>
+              <ReactTooltip
+                id={contactIcon}
+                place="bottom"
+                effect="solid"
+              >
+                {Help.contactTip}
+              </ReactTooltip>
+            </NavLink>
 
-              <NavLink to={Local.home}>
-                 <IconButton
-                  color="primary"
-                  aria-label={Help.logoutTip}
-                  component="span"
-                  size="small">
-                  <img
-                   data-for={logoutIcon}
-                   data-tip
-                   src={logoutIcon}
-                   className={classes.footerIcon}
-                 />
-                 </IconButton>
-                 <ReactTooltip
-                   id={logoutIcon}
-                   place="top"
-                   effect="solid"
-                 >
-                   {Help.logoutTip}
-                 </ReactTooltip>
-              </NavLink>
-            </Grid>
+            <NavLink to={Local.about} className={classes.link}>
+              <IconButton
+                color="primary"
+                aria-label="Info"
+                component="span"
+                size="small">
+                <img
+                  data-for={infoIcon}
+                  data-tip
+                  src={icons[3]}
+                  className={classes.aboutIcon}
+                />
+              </IconButton>
+              <ReactTooltip
+                id={infoIcon}
+                place="bottom"
+                effect="solid"
+              >
+                {Help.aboutTip}
+              </ReactTooltip>
+            </NavLink>
+
+            <NavLink to={Local.home}>
+               <IconButton
+                color="primary"
+                aria-label={Help.logoutTip}
+                component="span"
+                size="small">
+                <img
+                 data-for={logoutIcon}
+                 data-tip
+                 src={logoutIcon}
+                 className={classes.footerIcon}
+               />
+               </IconButton>
+               <ReactTooltip
+                 id={logoutIcon}
+                 place="top"
+                 effect="solid"
+               >
+                 {Help.logoutTip}
+               </ReactTooltip>
+            </NavLink>
 
           </Grid>
 
@@ -314,86 +315,32 @@ const main = (props: Props) => {
             </Grid>
 
           </Grid>
+
         </div>
 
-        : (
+      : (
 
           <div>
-            <Grid item container className={classes.header} xs={12}>
+            <Grid item container justify="center" className={classes.header} xs={12}>
 
-              <Grid item container justify="flex-start" xs={8}>
-                <img className={classes.headerIcon} src={minimaIcon}/>
-              </Grid>
-
-              <Grid item container justify="space-between" xs={4}>
-
-                <Grid item container justify="center" xs={2}>
-
-                 <NavLink to={Local.home}>
-                    <IconButton
-                     color="primary"
-                     aria-label={Help.homeTip}
-                     component="span"
-                     size="small">
-                     <img
-                      data-for={homeIcon}
-                      data-tip
-                      src={icons[0]}
-                      className={classes.footerIcon}
-                    />
-                    </IconButton>
-                    <ReactTooltip
-                      id={homeIcon}
-                      place="top"
-                      effect="solid"
-                    >
-                      {Help.homeTip}
-                    </ReactTooltip>
-                 </NavLink>
-
-                </Grid>
-
-                <Grid item container justify="center" xs={2}>
-
-                 <NavLink to={Local.register}>
-                    <IconButton
-                     color="primary"
-                     aria-label={Help.registerTip}
-                     component="span"
-                     size="small">
-                     <img
-                      data-for={registerIcon}
-                      data-tip
-                      src={icons[7]}
-                      className={classes.footerIcon}
-                    />
-                    </IconButton>
-                    <ReactTooltip
-                      id={registerIcon}
-                      place="top"
-                      effect="solid"
-                    >
-                      {Help.registerTip}
-                    </ReactTooltip>
-                 </NavLink>
-
-                </Grid>
-
-              </Grid>
-
+                <Typography variant="caption">
+                  {App.appName}
+                </Typography>
             </Grid>
 
-            <Grid className={classes.content} alignItems="flex-start" item container xs={12}>
+            <Grid className={classes.loggedOutContent} alignItems="flex-start" item container xs={12}>
               <LoggedOutContent />
             </Grid>
 
-            <Grid item container className={classes.footer} justify="center" xs={12}>
+            <Grid item container className={classes.footer} justify="center" alignItems="flex-end" xs={12}>
 
-              <Typography variant="h6">
+              <Typography variant="subtitle2">
                 {App.copyright}
+                <br /><br />
               </Typography>
 
             </Grid>
+
           </div>
         )
       }
