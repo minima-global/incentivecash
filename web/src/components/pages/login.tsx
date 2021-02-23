@@ -45,6 +45,33 @@ interface DispatchProps {
   login: (user: SignIn) => void
 }
 
+/*
+<Grid item container justify="flex-start" xs={6}>
+
+ <NavLink to={Local.signIn}>
+  <a href={Local.signIn}>
+   <Typography variant="h4">
+     {Paths.signIn}
+   </Typography>
+  </a>
+ </NavLink>
+
+</Grid>
+
+<Grid item container justify="flex-end" xs={6}>
+
+ <NavLink to={Local.register}>
+ <NavLink to={Local.register}>
+  <a href={Local.register}>
+   <Typography variant="h4">
+     {Paths.register}
+   </Typography>
+  </a>
+ </NavLink>
+
+</Grid>
+*/
+
 type Props = StateProps & DispatchProps
 
 const userLogin = (props: Props) => {

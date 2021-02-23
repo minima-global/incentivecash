@@ -5,6 +5,7 @@ class Local {
   static readonly help = '/help'
   static readonly contact = '/contact'
 
+  static readonly signIn = '/signIn'
   static readonly register = '/register'
   static readonly registerReferral = `${Local.register}/:uid/:referral`
   static readonly registerEmail = `${Local.register}/:email`

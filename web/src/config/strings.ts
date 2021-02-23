@@ -1,7 +1,7 @@
 class App {
 
   static readonly title = 'Minima'
-  static readonly appName = 'Incentive Cash'
+  static readonly appName = 'Minima Incentive Cash'
   static readonly catchLine = `Powered by ${App.title}`
   static readonly tagline = ''
   static readonly copyright = '© Copyright 2021 Minima GmbH'
@@ -20,6 +20,7 @@ class Paths {
   static readonly help = 'Help'
   static readonly contact = 'Contact'
 
+  static readonly signIn = 'Sign In'
   static readonly register = 'Register'
   static readonly registerReferral = `${Paths.register}`
   static readonly registerEmail = `${Paths.register}`
