@@ -24,7 +24,7 @@ export const LoggedOutContent = () => {
       <Route name={Paths.registerEmail} exact path={Local.registerEmail} render={() => <RegisterPassword />} />
       <Route name={Paths.registerEmailUID} exact path={Local.registerEmailUID} render={() => <RegisterPassword />} />
 
-      <Route name={Paths.signIn} path={Local.signIn} render= {() => <Login />} />
+      <Route name={Paths.home} path={Local.home} render= {() => <Login />} />
 
     </Switch>
   )

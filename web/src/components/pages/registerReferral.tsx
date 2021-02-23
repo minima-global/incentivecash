@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { useHistory, useParams } from "react-router-dom"
 
@@ -29,6 +30,7 @@ import { register, initTx } from '../../store/app/server/actions'
 
 import {
   Local,
+  Paths,
   GeneralError,
   Help,
   User,
@@ -115,13 +117,29 @@ const userRegister = (props: Props) => {
   return (
 
     <Grid container alignItems="flex-start">
+
       <Grid item container justify="flex-start" xs={12}>
-        <Typography variant="h2">
-          {Register.heading}
-        </Typography>
-      </Grid>
-      <Grid item container xs={12} alignItems="flex-start">
-        <img src={hrFirst} className={classes.hr}/>
+
+        <Grid item container justify="center" xs={6}>
+
+          <NavLink to={Local.signIn} className={classes.inactiveLink}>
+             {Paths.signIn}
+          </NavLink>
+
+          <img src={hrFirst} className={classes.hr}/>
+
+       </Grid>
+
+       <Grid item container justify="center" xs={6}>
+
+          <NavLink to={Local.signIn} className={classes.activeLink}>
+             {Paths.register}
+          </NavLink>
+
+          <img src={hrFirst} className={classes.hr}/>
+
+        </Grid>
+
       </Grid>
 
       <form onSubmit={formik.handleSubmit}>
