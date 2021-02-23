@@ -119,7 +119,7 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
               })
               .catch(function (error) {
 
-                console.error(error.message)
+                console.error(error.message, sendString)
                 return next(new ServiceUnavailableException(error.message));
               });
            }
