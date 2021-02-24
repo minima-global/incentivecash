@@ -16,6 +16,7 @@ export const setActivePage = (page: string) => {
     }
 
     if ( ( page === Local.home ) ||
+         ( page === Local.signIn ) ||
          ( page === Local.user ) ||
          ( page === Local.reward ) ||
          ( page === Local.about ) ||

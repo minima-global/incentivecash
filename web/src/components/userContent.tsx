@@ -19,13 +19,15 @@ export const UserContent = () => {
 
     <Switch>
 
+
+      <Route name={Paths.signIn} exact path={Local.signIn} render= {() => <Login />} />
+
       <Route name={Paths.help} exact path={Local.help} render={() => <Info type={InfoTypes.HELP}/>} />
       <Route name={Paths.contact} exact path={Local.contact} render={() => <Info type={InfoTypes.CONTACT}/>} />
       <Route name={Paths.about} exact path={Local.about} render={() => <Info type={InfoTypes.ABOUT}/>} />
 
       <Route name={Paths.reward} exact path={Local.reward} render={() => <Reward />} />
 
-      <Route name={Paths.signIn} exact path={Local.signIn} render= {() => <Login />} />
       <Route name={Paths.user} exact path={Local.user} render={() => <User />} />
 
       <Route name={Paths.welcome} path={Local.welcome} render={() => <Welcome />} />
