@@ -380,6 +380,12 @@ const themeStyles = makeStyles({
       width: '40px'
     }
   },
+  userIcon: {
+    [breakpoints.up('xs')]: {
+      height: "35px",
+      width: '35px'
+    }
+  },
   footerIcon: {
     [breakpoints.up('xs')]: {
       height: "35px",

@@ -99,6 +99,11 @@ class User {
   static readonly password2 = 'Re-type Password'
   static readonly loginButton = 'Sign In'
 
+  static readonly first = "First name"
+  static readonly last = "Last name"
+
+  static readonly lastAccess = 'Last Access'
+
   static readonly loginSuccess = 'Login Success'
   static readonly loginFailure = 'Login Failure'
 

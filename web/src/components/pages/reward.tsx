@@ -43,8 +43,6 @@ type Props = StateProps & DispatchProps
 const rewardInfo = (props: Props) => {
 
   //const { id } = useParams<{ id: string }>()
-  let isFirstRun = useRef(true)
-
   const classes = themeStyles()
 
   let dbase = Remote.prodDbaseServerURL
@@ -54,21 +52,16 @@ const rewardInfo = (props: Props) => {
 
   useEffect(() => {
 
-    if ( isFirstRun.current ) {
-
-      props.setActivePage(Local.reward)
-      isFirstRun.current = false
-      const rewardURL = `${dbase}${Remote.itemsPath}${Remote.rewardsPath}?filter={ "Userid": { "_eq": "${props.user.info.id}" }}`
-
-      props.getCollection(rewardURL)
-
-    }
+    props.setActivePage(Local.reward)
+    const rewardURL = `${dbase}${Remote.itemsPath}${Remote.rewardsPath}?filter={ "Userid": { "_eq": "${props.user.info.id}" }}`
+    props.getCollection(rewardURL)
 
   }, [])
 
   return (
 
     <Grid container alignItems="flex-start">
+    
       <Grid item container justify="flex-start" xs={3}>
         <Typography variant="h4">
           {RewardConfig.amount}
