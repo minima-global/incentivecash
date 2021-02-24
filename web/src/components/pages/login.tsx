@@ -24,7 +24,7 @@ import {
 } from '../../store/types'
 
 import { setActivePage } from '../../store/app/appData/actions'
-import { login, initTx, getUser } from '../../store/app/server/actions'
+import { login, initTx, initUser, getUser } from '../../store/app/server/actions'
 
 import { Local, Paths, GeneralError, Help, User, Misc } from '../../config'
 
@@ -42,6 +42,7 @@ interface StateProps {
 
 interface DispatchProps {
   setActivePage: (page: string) => void
+  initUser: () => void
   initTx: () => void
   login: (user: SignIn) => void
   getUser: () => void
@@ -60,12 +61,13 @@ const userLogin = (props: Props) => {
 
   useEffect(() => {
 
-    props.setActivePage(Local.home)
+    props.setActivePage(Local.signIn)
     let pushTimeout: any
 
     if ( isFirstRun.current ) {
 
       isFirstRun.current = false
+      props.initUser()
 
     } else {
 
@@ -229,6 +231,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
  return {
    setActivePage: (page: string) => dispatch(setActivePage(page)),
+   initUser: () => dispatch(initUser()),
    initTx: () => dispatch(initTx()),
    login: (user: SignIn) => dispatch(login(user)),
    getUser: () => dispatch(getUser()),

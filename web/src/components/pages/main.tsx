@@ -28,20 +28,14 @@ import infoIcon from '../../images/infoIcon.svg'
 import infoActiveIcon from '../../images/infoActiveIcon.svg'
 import contactIcon from '../../images/contactIcon.svg'
 import contactActiveIcon from '../../images/contactActiveIcon.svg'
-
-import homeIcon from '../../images/login01.svg'
-import homeActiveIcon from '../../images/login01Active.svg'
-import registerIcon from '../../images/registerIcon.svg'
-import registerActiveIcon from '../../images/registerActiveIcon.svg'
-
-
 import logoutIcon from '../../images/logout01.svg'
+
+import homeIcon from '../../images/homeIcon.svg'
+import homeActiveIcon from '../../images/homeActiveIcon.svg'
 import userIcon from '../../images/userIcon.svg'
 import userActiveIcon from '../../images/userActiveIcon.svg'
 import rewardIcon from '../../images/rewardIcon.svg'
 import rewardActiveIcon from '../../images/rewardActiveIcon.svg'
-import referralIcon from '../../images/referralIcon.svg'
-import referralActiveIcon from '../../images/referralActiveIcon.svg'
 
 //import logoIcon from '../../images/logo.svg'
 import minimaIcon from '../../images/minimaIcon.svg'
@@ -96,6 +90,10 @@ const main = (props: Props) => {
       setLoggedIn(true)
       setIcons([homeIcon, userIcon, helpIcon, infoIcon, contactIcon, rewardActiveIcon])
 
+    } else if ( props.appData.activePage === Local.signIn ) {
+
+      setLoggedIn(false)
+
     }
   }, [props.appData])
 
@@ -128,9 +126,9 @@ const main = (props: Props) => {
 
           </Grid>
 
-          <Grid item container justify="flex-end" className={classes.subHeader} xs={12}>
+          <Grid item container justify="space-between" className={classes.subHeader} xs={12}>
 
-            <div className={classes.subHeaderIconParent}>
+            <Grid item xs={3}>
 
               <NavLink to={Local.help} className={classes.iconLink}>
                 <IconButton
@@ -154,6 +152,10 @@ const main = (props: Props) => {
                 </ReactTooltip>
               </NavLink>
 
+            </Grid>
+
+            <Grid item xs={3}>
+
               <NavLink to={Local.contact} className={classes.iconLink}>
                 <IconButton
                   color="primary"
@@ -175,6 +177,10 @@ const main = (props: Props) => {
                   {Help.contactTip}
                 </ReactTooltip>
               </NavLink>
+
+            </Grid>
+
+            <Grid item xs={3}>
 
               <NavLink to={Local.about} className={classes.iconLink}>
                 <IconButton
@@ -198,7 +204,11 @@ const main = (props: Props) => {
                 </ReactTooltip>
               </NavLink>
 
-              <NavLink to={Local.home} className={classes.iconLink}>
+            </Grid>
+
+            <Grid item xs={3}>
+
+              <NavLink to={Local.signIn} className={classes.iconLink}>
                  <IconButton
                   color="primary"
                   aria-label={Help.logoutTip}
@@ -219,7 +229,8 @@ const main = (props: Props) => {
                    {Help.logoutTip}
                  </ReactTooltip>
               </NavLink>
-            </div>
+
+            </Grid>
 
           </Grid>
 
@@ -228,6 +239,32 @@ const main = (props: Props) => {
           </Grid>
 
           <Grid item container className={classes.footer} justify="center" xs={12}>
+
+            <Grid item container justify="center" xs={2}>
+
+             <NavLink to={Local.welcome}>
+                <IconButton
+                 color="primary"
+                 aria-label={Help.homeTip}
+                 component="span"
+                 size="small">
+                 <img
+                  data-for={homeIcon}
+                  data-tip
+                  src={icons[0]}
+                  className={classes.footerIcon}
+                />
+                </IconButton>
+                <ReactTooltip
+                  id={homeIcon}
+                  place="top"
+                  effect="solid"
+                >
+                  {Help.homeTip}
+                </ReactTooltip>
+             </NavLink>
+
+            </Grid>
 
             <Grid item container justify="center" xs={2}>
 
@@ -276,32 +313,6 @@ const main = (props: Props) => {
                   effect="solid"
                 >
                   {Help.rewardTip}
-                </ReactTooltip>
-             </NavLink>
-
-            </Grid>
-
-            <Grid item container justify="center" xs={2}>
-
-             <NavLink to={Local.referral}>
-                <IconButton
-                 color="primary"
-                 aria-label={Help.referralTip}
-                 component="span"
-                 size="small">
-                 <img
-                  data-for={referralIcon}
-                  data-tip
-                  src={icons[6]}
-                  className={classes.footerIcon}
-                />
-                </IconButton>
-                <ReactTooltip
-                  id={referralIcon}
-                  place="top"
-                  effect="solid"
-                >
-                  {Help.referralTip}
                 </ReactTooltip>
              </NavLink>
 
