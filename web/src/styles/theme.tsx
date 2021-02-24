@@ -67,17 +67,17 @@ let theme = createMuiTheme ({
     },
     h4: {
       [breakpoints.up('xs')]: {
-        lineHeight: '1.2',
+        lineHeight: '1.5',
         fontSize: "1em",
         fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-        color: '#317aff'
+        color: '#91919D'
       }
     },
     h5: {
       [breakpoints.up('xs')]: {
         lineHeight: "1.2",
-        fontSize: "1em",
+        fontSize: "0.9em",
         fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         color: '#001C32'
@@ -85,11 +85,11 @@ let theme = createMuiTheme ({
     },
     h6: {
       [breakpoints.up('xs')]: {
-        lineHeight: "2",
-        fontSize: "1em",
-        fontWeight: 700,
+        lineHeight: "1.2",
+        fontSize: "0.9em",
+        fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-        color: '#001C32'
+        color: '#317AFF'
       }
     },
     subtitle1: {
@@ -278,6 +278,7 @@ const themeStyles = makeStyles({
       background: 'linear-gradient(#001C32, #001C32)',
       paddingRight: theme.spacing(4),
       paddingLeft: theme.spacing(4),
+      paddingTop: theme.spacing(1),
       margin: "0",
       height: "121px",
       width: "100%",
@@ -288,6 +289,7 @@ const themeStyles = makeStyles({
       background: 'linear-gradient(#001C32, #001C32)',
       paddingRight: theme.spacing(5),
       paddingLeft: theme.spacing(5),
+      paddingTop: theme.spacing(1),
       margin: "0",
       height: "121px",
       width: "100%",
