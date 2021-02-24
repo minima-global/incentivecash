@@ -47,7 +47,7 @@ class Home {
   static readonly downloadInfo = [`Please download the ${App.title} ${App.appName} MiniDapp using the button below`]
 
   static readonly referralInfo = "Below are your referral link(s). Use the copy button(s) to share referrals with your friends and acquaintances."
-  static readonly referralCopy = "Copy"
+  static readonly referralCopy = "Copy Referral"
 
   static readonly downloadMiniDapp = "MiniDapp"
 
