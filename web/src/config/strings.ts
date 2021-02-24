@@ -9,7 +9,7 @@ class App {
   static readonly enquiries = 'Chris Brown'
   static readonly email = 'chris.brown@minima.global'
   static readonly bugEmail = 'minima-global@fire.fundersclub.com'
-  static readonly version = '0.1.0'
+  static readonly version = '0.2.0'
   static readonly release = 'Testnet'
 }
 
@@ -67,7 +67,7 @@ class Help {
 
   static readonly info = [`Coming soon.`]
 
-  static readonly homeTip = 'Sign In'
+  static readonly homeTip = 'Home'
   static readonly helpTip = 'Help'
   static readonly contactTip = 'Contact'
   static readonly aboutTip = 'About'
@@ -75,7 +75,7 @@ class Help {
   static readonly loginTip = 'Sign In'
   static readonly logoutTip = 'Sign Out'
   static readonly registerTip = 'Register'
-  static readonly userTip = 'User'
+  static readonly userTip = 'Profile'
   static readonly rewardTip = 'Rewards'
   static readonly referralTip = 'Referrals'
   static readonly downloadTip = 'Download'
@@ -92,7 +92,7 @@ class Contact {
 class User {
 
   static readonly loginHeading = 'Sign In'
-  static readonly userHeading = 'User'
+  static readonly userHeading = 'Profile'
 
   static readonly email = 'Email'
   static readonly password = 'Password'
@@ -141,6 +141,10 @@ class Register {
 class Reward {
 
   static readonly heading = 'Rewards'
+
+  static readonly amount = "Amount"
+  static readonly reason = "Reason"
+  static readonly date = "Date and Time"
 }
 
 class Referral {

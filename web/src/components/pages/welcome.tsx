@@ -68,14 +68,12 @@ const welcomeInfo = (props: Props) => {
       isFirstRun.current = false
       const referralURL = `${dbase}${Remote.itemsPath}${Remote.referralsPath}?filter={ "Userid": { "_eq": "${props.user.info.id}" }}`
 
-      console.log(props.user)
-      console.log(referralURL)
+      //console.log(props.user)
+      //console.log(referralURL)
 
       props.getCollection(referralURL)
 
     } else if ( props.collection.info && props.user.info.id ) {
-
-      console.log("am I ever here?")
 
       let currentReferrals = []
       let userReferralURL = ""
@@ -90,7 +88,6 @@ const welcomeInfo = (props: Props) => {
       }
 
       setReferral(currentReferrals)
-      console.log("asdfsadf: ", referral)
     }
 
   }, [props.collection])
@@ -120,18 +117,20 @@ const welcomeInfo = (props: Props) => {
       </Grid>
 
       <Grid item container justify="center" xs={7}>
-        <Typography variant="h3">
-          <br />
-        </Typography>
-        <svg
-           xmlns="http://www.w3.org/2000/svg"
-           viewBox="0 0 2000 4"
-        >
-          <line x2="2000" stroke="#317aff" strokeWidth={4} />
-        </svg>
-        <Typography variant="h3">
-          <br />
-        </Typography>
+        <div>
+          <Typography variant="h3">
+            <br />
+          </Typography>
+          <svg
+             xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 2000 4"
+          >
+            <line x2="2000" stroke="#317aff" strokeWidth={4} />
+          </svg>
+          <Typography variant="h3">
+            <br />
+          </Typography>
+        </div>
       </Grid>
 
       <Grid item container justify="center" xs={7}>
@@ -173,18 +172,20 @@ const welcomeInfo = (props: Props) => {
         <Grid container justify="center" alignItems="flex-start">
 
           <Grid item container justify="center" xs={7}>
-            <Typography variant="h3">
-              <br />
-            </Typography>
-            <svg
-               xmlns="http://www.w3.org/2000/svg"
-               viewBox="0 0 2000 4"
-            >
-              <line x2="2000" stroke="#C8C8D4" strokeWidth={4} />
-            </svg>
-            <Typography align="center" variant="h3">
-              <br />
-            </Typography>
+            <div>
+              <Typography variant="h3">
+                <br />
+              </Typography>
+              <svg
+                 xmlns="http://www.w3.org/2000/svg"
+                 viewBox="0 0 2000 4"
+              >
+                <line x2="2000" stroke="#C8C8D4" strokeWidth={4} />
+              </svg>
+              <Typography align="center" variant="h3">
+                <br />
+              </Typography>
+            </div>
           </Grid>
 
           <Grid item container justify="center" xs={7}>
@@ -199,57 +200,64 @@ const welcomeInfo = (props: Props) => {
 
               return (
 
-                <Grid container justify="center" alignItems="flex-start" xs={12}>
+                <React.Fragment key={index}>
 
-                  <Grid item xs={12}>
-                    <Typography variant="h3">
-                      <br />
-                    </Typography>
+                  <Grid item container justify="center" alignItems="flex-start" xs={12}>
+
+                    <Grid item xs={12}>
+                      <Typography variant="h3">
+                        <br />
+                      </Typography>
+                    </Grid>
+
+                    <Grid item container justify="center" xs={7}>
+                      <input type="text" value={item} id={copyId} readOnly/>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <Typography variant="h3">
+                        <br />
+                      </Typography>
+                    </Grid>
+
+                    <Grid item container justify="center" xs={6}>
+                      <div>
+                        <Button
+                          onClick={() => copyReferral(copyId)}
+                          className={classes.submitButton}
+                          color="primary"
+                          aria-label={Help.downloadTip}
+                          size="medium"
+                          variant="contained"
+                          data-for='referral'
+                          data-tip
+                          style={{
+                            textTransform: 'none',
+                            fontSize: "1em",
+                          }}
+                        >
+                          {Home.referralCopy}
+                        </Button>
+                        <ReactTooltip
+                          id='referral'
+                          place="top"
+                          effect="solid"
+                        >
+                          {Help.referralCopyTip}
+                        </ReactTooltip>
+
+                      </div>
+
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <Typography variant="h3">
+                        <br />
+                      </Typography>
+                    </Grid>
+
                   </Grid>
-
-                  <Grid item container justify="center" xs={7}>
-                    <input type="text" value={item} id={copyId} readOnly/>
-                  </Grid>
-
-                  <Grid item xs={12}>
-                    <Typography variant="h3">
-                      <br />
-                    </Typography>
-                  </Grid>
-
-                  <Grid item container justify="center" xs={6}>
-                    <Button
-                      onClick={() => copyReferral(copyId)}
-                      className={classes.submitButton}
-                      color="primary"
-                      aria-label={Help.downloadTip}
-                      size="medium"
-                      variant="contained"
-                      data-for='referral'
-                      data-tip
-                      style={{
-                        textTransform: 'none',
-                        fontSize: "1em",
-                      }}
-                    >
-                      {Home.referralCopy}
-                    </Button>
-                    <ReactTooltip
-                      id='referral'
-                      place="top"
-                      effect="solid"
-                    >
-                      {Help.referralCopyTip}
-                    </ReactTooltip>
-                  </Grid>
-
-                  <Grid item xs={12}>
-                    <Typography variant="h3">
-                      <br />
-                    </Typography>
-                  </Grid>
-
-                </Grid>
+                </React.Fragment>
               )
             })}
 

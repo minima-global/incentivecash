@@ -42,7 +42,6 @@ type Props = StateProps & DispatchProps
 
 const rewardInfo = (props: Props) => {
 
-  const [reward, setReward] = useState([] as string[][])
   //const { id } = useParams<{ id: string }>()
   let isFirstRun = useRef(true)
 
@@ -63,56 +62,60 @@ const rewardInfo = (props: Props) => {
 
       props.getCollection(rewardURL)
 
-    } else if (props.collection.info && !reward.length) {
-
-      let currentRewards = []
-      for (let item of props.collection.info) {
-
-        const thisReward = getKeyedList(item)
-        //currentRewards.push(...thisReward)
-        currentRewards.push(thisReward)
-      }
-
-      setReward(currentRewards)
-      //console.log("asdfsadf: ", reward)
     }
 
-  }, [props.collection])
+  }, [])
 
   return (
 
     <Grid container alignItems="flex-start">
-      <Grid item container justify="flex-start" xs={12}>
-        <Typography variant="h2">
-          {RewardConfig.heading}
+      <Grid item container justify="flex-start" xs={3}>
+        <Typography variant="h4">
+          {RewardConfig.amount}
+        </Typography>
+      </Grid>
+      <Grid item container justify="flex-start" xs={3}>
+        <Typography variant="h4">
+          {RewardConfig.reason}
+        </Typography>
+      </Grid>
+      <Grid item container justify="flex-end" xs={6}>
+        <Typography variant="h4">
+          {RewardConfig.date}
         </Typography>
       </Grid>
       <Grid item container xs={12} alignItems="flex-start">
         <img src={hrFirst} className={classes.hr}/>
       </Grid>
-      <Grid item container justify="flex-start" xs={12}>
-        {reward.map((rewardItem, index) => {
 
-            let thisItem = rewardItem.map((item) => {
+      {props.collection.info.map((reward: any, index: number) => {
 
-            return (
-              <Grid item container justify="flex-start" xs={12}>
-                {item}
-              </Grid>
-            )
-          })
+        return (
 
-          return (
-            <Grid item container justify="flex-start" xs={12}>
-              <Typography variant="h3">
-                Reward {index + 1}
+          <React.Fragment key={index}>
+
+            <Grid item container justify="flex-start" xs={3}>
+              <Typography variant="h6">
+                {reward.amount}
               </Typography>
-              {thisItem}
             </Grid>
-          )
 
-        })}
-      </Grid>
+            <Grid item container justify="flex-start" xs={3}>
+              <Typography variant="h5">
+                {reward.reason}
+              </Typography>
+            </Grid>
+
+            <Grid item container justify="flex-end" xs={6}>
+              <Typography variant="h5">
+                {reward.date_created}
+              </Typography>
+            </Grid>
+
+          </React.Fragment>
+        )
+
+      })}
     </Grid>
   )
 }
