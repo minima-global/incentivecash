@@ -40,7 +40,7 @@ let theme = createMuiTheme ({
     fontWeightBold: 700,
     h1: {
       [breakpoints.up('xs')]: {
-        lineHeight: "2.4",
+        lineHeight: "1.5",
         fontSize:  "2.2em",
         fontWeight: 700,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
@@ -49,20 +49,20 @@ let theme = createMuiTheme ({
     },
     h2: {
       [breakpoints.up('xs')]: {
-        lineHeight: "2",
-        fontSize: "1.6em",
-        fontWeight: 900,
+        lineHeight: "1.5",
+        fontSize: "2em",
+        fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-        color: '#001C32'
+        color: '#91919D'
       }
     },
     h3: {
       [breakpoints.up('xs')]: {
-        lineHeight: '2',
-        fontSize: "1.6em",
-        fontWeight: 700,
+        lineHeight: '1.5',
+        fontSize: "1.25em",
+        fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-        color: '#d3d3d3'
+        color: '#91919D'
       }
     },
     h4: {
@@ -160,12 +160,13 @@ theme = responsiveFontSizes(theme)
 const themeStyles = makeStyles({
   root: {
     [breakpoints.up('xs')]: {
+      background: 'linear-gradient(#000000, #000000)',
       height: "100vh",
       width: "100%",
       position: 'relative'
     },
     [breakpoints.up('md')]: {
-      background: 'linear-gradient(#F0F0FA, #F0F0FA)',
+      background: 'linear-gradient(#000000, #000000)',
       marginTop: "5vh",
       marginBottom: "5vh",
       marginLeft: "auto",
@@ -181,17 +182,16 @@ const themeStyles = makeStyles({
       paddingRight: theme.spacing(4),
       paddingLeft: theme.spacing(4),
       margin: "0",
-      textAlign: 'center',
       height: "50px",
       width: "100%",
       position: 'absolute',
       top: '0'
     },
     [breakpoints.up('md')]: {
+      background: 'linear-gradient(#001C32, #001C32)',
       paddingRight: theme.spacing(5),
       paddingLeft: theme.spacing(5),
       margin: "0",
-      background: 'linear-gradient(#001C32, #001C32)',
       height: "50px",
       width: "100%",
       position: 'absolute',
@@ -206,7 +206,7 @@ const themeStyles = makeStyles({
       paddingBottom: theme.spacing(1),
       paddingTop: theme.spacing(1),
       margin: "0",
-      height: "51px",
+      height: "60px",
       width: "100%",
       position: 'absolute',
       top: '50px'
@@ -219,7 +219,7 @@ const themeStyles = makeStyles({
       paddingTop: theme.spacing(1),
       margin: "0",
       textAlign: 'center',
-      height: "51px",
+      height: "60px",
       width: "100%",
       position: 'absolute',
       top: '50px'
@@ -251,7 +251,7 @@ const themeStyles = makeStyles({
   },
   content: {
     [breakpoints.up('xs')]: {
-      background: 'linear-gradient(#F0F0FA, #F0F0FA)',
+      background: 'linear-gradient(#FAFAFF, #FAFAFF)',
       paddingRight: theme.spacing(4),
       paddingLeft: theme.spacing(4),
       margin: "0",
@@ -259,10 +259,10 @@ const themeStyles = makeStyles({
       width: "100%",
       position: 'absolute',
       bottom: '121px',
-      top: '101px'
+      top: '110px'
     },
     [breakpoints.up('md')]: {
-      background: 'linear-gradient(#F0F0FA, #F0F0FA)',
+      background: 'linear-gradient(#FAFAFF, #FAFAFF)',
       paddingRight: theme.spacing(5),
       paddingLeft: theme.spacing(5),
       margin: "0",
@@ -270,7 +270,7 @@ const themeStyles = makeStyles({
       width: "100%",
       position: 'absolute',
       bottom: '121px',
-      top: '101px'
+      top: '110px'
     }
   },
   footer: {
@@ -439,8 +439,8 @@ const themeStyles = makeStyles({
     },*/
   },
   formInput: {
-    border: '1px solid',
-    borderColour: '#000000',
+    border: '2px solid',
+    borderColour: '#C8C8D4',
     borderRadius: '5px',
     background: 'linear-gradient(#FFFFFF, #FFFFFF)'
   },
@@ -494,6 +494,14 @@ const themeStyles = makeStyles({
   },
   hr: {
     height: "1px",
+    width: "100%"
+  },
+  hrBlue: {
+    backgroundColor: "#317aff",
+    width: "100%"
+  },
+  hrGrey: {
+    backgroundColor: "#C8C8D4",
     width: "100%"
   }
 })

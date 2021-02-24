@@ -2,8 +2,6 @@ import React, { useRef, useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 //import { useParams } from 'react-router-dom'
 
-import { isMobile } from "react-device-detect"
-
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
@@ -62,7 +60,6 @@ const rewardInfo = (props: Props) => {
       props.setActivePage(Local.reward)
       isFirstRun.current = false
       const rewardURL = `${dbase}${Remote.itemsPath}${Remote.rewardsPath}?filter={ "Userid": { "_eq": "${props.user.info.id}" }}`
-      //const rewardURL = `${dbase}${Remote.itemsPath}${Remote.rewardsPath}`
 
       props.getCollection(rewardURL)
 

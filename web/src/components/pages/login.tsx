@@ -24,7 +24,7 @@ import {
 } from '../../store/types'
 
 import { setActivePage } from '../../store/app/appData/actions'
-import { login, initTx } from '../../store/app/server/actions'
+import { login, initTx, getUser } from '../../store/app/server/actions'
 
 import { Local, Paths, GeneralError, Help, User, Misc } from '../../config'
 
@@ -44,6 +44,7 @@ interface DispatchProps {
   setActivePage: (page: string) => void
   initTx: () => void
   login: (user: SignIn) => void
+  getUser: () => void
 }
 
 type Props = StateProps & DispatchProps
@@ -75,9 +76,10 @@ const userLogin = (props: Props) => {
 
         if ( txSummary === `${User.loginSuccess}` ) {
 
+          props.getUser()
           pushTimeout = setTimeout(() => {
             props.initTx()
-            history.push(`${Local.user}`)
+            history.push(`${Local.welcome}`)
           }, Misc.successLoginDelay)
         }
       }
@@ -178,17 +180,17 @@ const userLogin = (props: Props) => {
           </Grid>
           <Grid item container className={classes.formButton} xs={12}>
             <Button
+              type='submit'
               className={classes.submitButton}
+              color="primary"
+              size='medium'
+              variant="contained"
               data-for='loginButton'
               data-tip
               style={{
                 textTransform: 'none',
                 fontSize: "1em",
               }}
-              size='medium'
-              type='submit'
-              variant="contained"
-              color="primary"
             >
               {User.loginButton}
             </Button>
@@ -228,7 +230,8 @@ const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
  return {
    setActivePage: (page: string) => dispatch(setActivePage(page)),
    initTx: () => dispatch(initTx()),
-   login: (user: SignIn) => dispatch(login(user))
+   login: (user: SignIn) => dispatch(login(user)),
+   getUser: () => dispatch(getUser()),
  }
 }
 

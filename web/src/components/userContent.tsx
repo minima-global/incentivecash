@@ -5,10 +5,11 @@ import { InfoTypes } from '../store/types'
 
 import {
   Login,
+  Welcome,
   Info,
   User,
-  Reward,
-  Referral } from '../components/pages'
+  Reward
+} from '../components/pages'
 
 import { Paths, Local } from '../config'
 
@@ -23,11 +24,11 @@ export const UserContent = () => {
       <Route name={Paths.about} exact path={Local.about} render={() => <Info type={InfoTypes.ABOUT}/>} />
 
       <Route name={Paths.reward} exact path={Local.reward} render={() => <Reward />} />
-      <Route name={Paths.referral} exact path={Local.referral} render={() => <Referral />} />
 
-      <Route name={Paths.home} exact path={Local.home} render= {() => <Login />} />
+      <Route name={Paths.signIn} exact path={Local.signIn} render= {() => <Login />} />
+      <Route name={Paths.user} exact path={Local.user} render={() => <User />} />
 
-      <Route name={Paths.user} path={Local.user} render={() => <User />} />
+      <Route name={Paths.welcome} path={Local.welcome} render={() => <Welcome />} />
 
     </Switch>
   )
