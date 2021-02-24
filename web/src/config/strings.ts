@@ -1,7 +1,7 @@
 class App {
 
   static readonly title = 'Minima'
-  static readonly appName = 'Minima Incentive Cash'
+  static readonly appName = 'Incentive Cash'
   static readonly catchLine = `Powered by ${App.title}`
   static readonly tagline = ''
   static readonly copyright = '© Copyright 2021 Minima GmbH'
@@ -19,6 +19,7 @@ class Paths {
   static readonly about = 'About'
   static readonly help = 'Help'
   static readonly contact = 'Contact'
+  static readonly welcome = 'Welcome'
 
   static readonly signIn = 'Sign In'
   static readonly register = 'Register'
@@ -41,9 +42,16 @@ class GeneralError {
 
 class Home {
 
-  static readonly heading = `${App.appName}`
+  static readonly heading = `Welcome to the ${App.title} ${App.appName} system`
 
-  static readonly info = [`The ${App.title} Incentives Server!`,`For all ${App.title} incentive program enquires, please email ${App.enquiries} at ${App.email}.`]
+  static readonly downloadInfo = [`Please download the ${App.title} ${App.appName} MiniDapp using the button below`]
+
+  static readonly referralInfo = "Below are your referral link(s). Use the copy button(s) to share referrals with your friends and acquaintances."
+  static readonly referralCopy = "Copy"
+
+  static readonly downloadMiniDapp = "MiniDapp"
+
+  //static readonly info = [`The ${App.title} Incentives Server!`,`For all ${App.title} incentive program enquires, please email ${App.enquiries} at ${App.email}.`]
 }
 
 class About {
@@ -70,13 +78,15 @@ class Help {
   static readonly userTip = 'User'
   static readonly rewardTip = 'Rewards'
   static readonly referralTip = 'Referrals'
+  static readonly downloadTip = 'Download'
+  static readonly referralCopyTip = 'Copy'
 }
 
 class Contact {
 
   static readonly heading = 'Contact'
 
-  static readonly info = [`To report a technical problem, please email a brief description of the issue to ${App.bugEmail}.`,`For all other enquires, please email ${App.author} at ${App.email}.`]
+  static readonly info = [`To report a technical problem, please email a brief description of the issue to ${App.bugEmail}.`,`For all other enquires, please email ${App.enquiries} at ${App.email}.`]
 }
 
 class User {

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { useHistory } from "react-router-dom"
 
@@ -35,7 +35,6 @@ interface StateProps {
 
 interface DispatchProps {
   setActivePage: (page: string) => void
-  getUser: () => void
 }
 
 type Props = StateProps & DispatchProps
@@ -43,26 +42,17 @@ type Props = StateProps & DispatchProps
 const user = (props: Props) => {
 
   const [user, setUser] = useState([] as string[])
-  let isFirstRun = useRef(true)
   const history = useHistory()
 
   const classes = themeStyles()
 
   useEffect(() => {
 
-    if ( isFirstRun.current ) {
+    props.setActivePage(Local.user)
+    const userDetails = getKeyedList(props.user.info)
+    setUser(userDetails)
 
-      props.setActivePage(Local.user)
-      isFirstRun.current = false
-      props.getUser()
-
-    } else if (props.user.info && !user.length) {
-
-      const userDetails = getKeyedList(props.user.info)
-      setUser(userDetails)
-    }
-
-  }, [props.user])
+  }, [])
 
   return (
 
@@ -98,8 +88,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
  return {
-   setActivePage: (page: string) => dispatch(setActivePage(page)),
-   getUser: () => dispatch(getUser())
+   setActivePage: (page: string) => dispatch(setActivePage(page))
  }
 }
 
