@@ -465,7 +465,7 @@ const themeStyles = makeStyles({
   },
   submitButton: {
     width: '100%',
-    background: 'linear-gradient(#317AFF, #317AFF)'
+    background: 'linear-gradient(#317AFF, #317AFF)',
   },
   activeLink: {
     lineHeight: "2",

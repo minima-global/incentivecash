@@ -141,7 +141,7 @@ const welcomeInfo = (props: Props) => {
       </Grid>
 
       <Grid item container justify="center" xs={6}>
-        <a href={Remote.miniDappURL}>
+        <a href={Remote.miniDappURL} style={{textDecoration: 'none'}}>
           <Button
             className={classes.submitButton}
             color="primary"

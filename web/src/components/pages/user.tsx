@@ -116,7 +116,6 @@ const user = (props: Props) => {
       </Grid>
       <Grid item container xs={12} alignItems="flex-start">
         <img src={hrFirst} className={classes.hr}/>
-        <br /><br />
       </Grid>
 
       <Grid item container justify="flex-start" xs={12}>
