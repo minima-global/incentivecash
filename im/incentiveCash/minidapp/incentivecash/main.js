@@ -155,19 +155,38 @@ let StoreService = class StoreService {
         this.data = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
         this.cashlist = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
         this.tokenId = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
+        this.rewards = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
         // track this script
         minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].cmd('extrascript \"' + this.timescript + "\"", (res) => { });
-        // load user's details and pass to observable
-        minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].file.load('UserDetails.txt', (res) => {
-            if (res.success) {
-                this.data.next(JSON.parse(res.data));
-            }
+        this.getUserDetailsOnce().then((res) => {
+            this.fetchRewards(res.refID, res.loginData.access_token);
         });
         this.fetchTokenID();
     }
     getUserDetailsOnce() {
         return this.data.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["take"])(1))
             .toPromise();
+    }
+    fetchRewards(uid, tkn) {
+        //http://incentivedb.minima.global/items/reward?filter={ "Userid": { "_eq": "${props.user.info.id}" }}
+        const url = 'https://incentivedb.minima.global/items/reward?filter={ "Userid": { "_eq": "' + uid + '"}}';
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ` + tkn
+            }
+        })
+            .then((res) => {
+            if (!res.ok) {
+                console.log('Failed to retrieve ' + uid + '\'s rewards');
+            }
+            return res.json()
+                .then((data) => {
+                let json = data;
+                this.rewards.next(json);
+            });
+        });
     }
     fetchTokenID() {
         const url = 'https://incentivedb.minima.global/custom/utils/token';
@@ -197,12 +216,12 @@ let StoreService = class StoreService {
                     res.response.coins.forEach((coin, i) => {
                         if (coin.data.coin.tokenid === token.tokenId) {
                             if (coin.data.prevstate[1] && (coin.data.prevstate[1].data > minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block)) {
-                                temp.push({ index: i, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data });
+                                temp.push({ index: i + 1, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data });
                             }
                             else if ((coin.data.prevstate[0] && coin.data.prevstate[1]) && (coin.data.prevstate[1].data <= minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block)) {
                                 let diff = coin.data.prevstate[1].data - minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block;
                                 let percent = Math.round((diff / coin.data.prevstate[1].data) * 10) / 10;
-                                temp.push({ index: i, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Ready', blockno: coin.data.prevstate[1].data, percent: percent });
+                                temp.push({ index: i + 1, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Ready', blockno: coin.data.prevstate[1].data, percent: percent });
                             }
                         }
                     });

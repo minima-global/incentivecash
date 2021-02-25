@@ -1,6 +1,6 @@
 import { MinimaService } from './../api/minima.service';
 import { StoreService, UserDetails, IncentiveCash, Reward } from './../api/store.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Minima } from 'minima';
 import { IonSegment, ToastController } from '@ionic/angular';
@@ -35,6 +35,7 @@ export class CashPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private _storeService: StoreService,
     private _Minima: MinimaService,
     public toastController: ToastController) { }
@@ -48,8 +49,6 @@ export class CashPage implements OnInit {
       this.cashlist = res;
     });
     this._storeService.rewards.subscribe((res: any) => {
-
-      console.log(res);
       res.data.forEach((reward: Reward) => {
         if (reward.reason !== 'Claimed') {
           this.totalUnclaimed += reward.amount;
@@ -57,12 +56,23 @@ export class CashPage implements OnInit {
           this.totalClaimed += reward.amount;
         }
       })
-      console.log(this.rewards);
     });
   }
 
   segmentChanged(ev: any) {
     this.shownSegments = ev.detail.value;
+  }
+
+  signOut() {
+    document.getElementById('sign-out-btn').style.opacity = '0.5';
+    this._storeService.getUserDetailsOnce().then((res: UserDetails) => {
+      let user = res;
+      user.loginData.access_token = '';
+      user.loginData.refresh_token = '';
+      this._storeService.data.next(user);
+      document.location.reload();
+      this.presentToast('Login Status', 'You have signed out successfully');
+    })
   }
 
   collectCash(coinid: string, amount: string, pKey: string, tokenid: string, uid: string) {
@@ -83,7 +93,7 @@ export class CashPage implements OnInit {
       "txndelete "+txnID;
 
     Minima.cmd(post_Transaction, (res: any) => {
-      console.log(res);
+      //console.log(res);
       if (Minima.util.checkAllResponses(res)) {
         document.getElementById('collect-btn'+coinid).textContent = 'Collected!';
         document.getElementById('collect-btn'+coinid).style.backgroundColor = '#42CBB6';

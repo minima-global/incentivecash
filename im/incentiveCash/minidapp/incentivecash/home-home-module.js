@@ -293,16 +293,21 @@ let HomePage = class HomePage {
             minima__WEBPACK_IMPORTED_MODULE_7__["Minima"].net.GET(url, (res) => {
                 let plainResponse = decodeURIComponent(res.result);
                 let data = JSON.parse(plainResponse);
-                let user = {
-                    email: this.username.value,
-                    pKey: '',
-                    refID: data.data.id,
-                    loginData: {
-                        access_token: token.accessToken,
-                        refresh_token: token.refreshToken
-                    }
-                };
-                this._storeService.data.next(user);
+                if (data && data.data.id.length !== 0) {
+                    let user = {
+                        email: this.username.value,
+                        pKey: '',
+                        refID: data.data.id,
+                        loginData: {
+                            access_token: token.accessToken,
+                            refresh_token: token.refreshToken
+                        }
+                    };
+                    this._storeService.data.next(user);
+                }
+                else {
+                    console.log('Failed to retrieve user details from server..');
+                }
             });
             this.getPubKey();
         })

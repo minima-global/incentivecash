@@ -1162,6 +1162,12 @@ ion-header ion-toolbar.sub-toolbar ion-grid ion-row.has ion-col.sign-out span:ho
   background-color: #001C32;
   cursor: pointer;
 }
+@media only screen and (min-width: 992px) {
+  ion-header ion-toolbar.sub-toolbar {
+    padding-left: 30px;
+    padding-right: 47px;
+  }
+}
 ion-toolbar.cash-progress-toolbar {
   --background: #F1F5FF;
   position: absolute;
