@@ -26,7 +26,7 @@ class Remote {
   static readonly devDbaseServerURL = 'http://localhost:8055'
 
   static readonly prodHttpsServerURL = 'https://incentive.minima.global'
-  static readonly prodDbaseServerURL = 'http://incentivedb.minima.global'
+  static readonly prodDbaseServerURL = 'https://incentivedb.minima.global'
 
   static readonly miniDappURL = 'https://github.com/minima-global/incentivecash/raw/main/im/incentiveCash/minidapp/incentivecash.minidapp'
 
