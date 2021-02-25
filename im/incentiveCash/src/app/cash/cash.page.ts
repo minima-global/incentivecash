@@ -49,6 +49,8 @@ export class CashPage implements OnInit {
       this.cashlist = res;
     });
     this._storeService.rewards.subscribe((res: any) => {
+      this.totalClaimed = 0;
+      this.totalUnclaimed = 0;
       res.data.forEach((reward: Reward) => {
         if (reward.reason !== 'Claimed') {
           this.totalUnclaimed += reward.amount;

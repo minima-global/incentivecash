@@ -37,6 +37,9 @@ let MinimaService = class MinimaService {
         minima__WEBPACK_IMPORTED_MODULE_3__["Minima"].init((msg) => {
             if (msg.event === 'newblock') {
                 this._StoreService.pollCash();
+                this._StoreService.getUserDetailsOnce().then((res) => {
+                    this._StoreService.fetchRewards(res.refID, res.loginData.access_token);
+                });
             }
         });
     }
