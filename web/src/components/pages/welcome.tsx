@@ -109,38 +109,28 @@ const welcomeInfo = (props: Props) => {
 
     <Grid container justify="center" alignItems="flex-start">
 
-      <Grid item container justify="center" xs={7}>
+      <Grid item container justify="center" className={classes.details} xs={7}>
         <Typography align="center" variant="h2">
-          <br />
           {Home.heading}
         </Typography>
       </Grid>
 
       <Grid item container justify="center" xs={7}>
-        <div>
-          <Typography variant="h3">
-            <br />
-          </Typography>
-          <svg
-             xmlns="http://www.w3.org/2000/svg"
-             viewBox="0 0 2000 4"
-          >
-            <line x2="2000" stroke="#317aff" strokeWidth={4} />
-          </svg>
-          <Typography variant="h3">
-            <br />
-          </Typography>
-        </div>
+        <svg
+           xmlns="http://www.w3.org/2000/svg"
+           viewBox="0 0 2000 4"
+        >
+          <line x2="2000" stroke="#317aff" strokeWidth={4} />
+        </svg>
       </Grid>
 
-      <Grid item container justify="center" xs={7}>
+      <Grid item container justify="center" className={classes.details} xs={7}>
         <Typography align="center" variant="h3">
           {Home.downloadInfo}
-          <br /><br />
         </Typography>
       </Grid>
 
-      <Grid item container justify="center" xs={6}>
+      <Grid item container justify="center" className={classes.details} xs={6}>
         <a href={Remote.miniDappURL} style={{textDecoration: 'none'}}>
           <Button
             className={classes.submitButton}
@@ -172,23 +162,15 @@ const welcomeInfo = (props: Props) => {
         <Grid container justify="center" alignItems="flex-start">
 
           <Grid item container justify="center" xs={7}>
-            <div>
-              <Typography variant="h3">
-                <br />
-              </Typography>
-              <svg
-                 xmlns="http://www.w3.org/2000/svg"
-                 viewBox="0 0 2000 4"
-              >
-                <line x2="2000" stroke="#C8C8D4" strokeWidth={4} />
-              </svg>
-              <Typography align="center" variant="h3">
-                <br />
-              </Typography>
-            </div>
+            <svg
+               xmlns="http://www.w3.org/2000/svg"
+               viewBox="0 0 2000 4"
+            >
+              <line x2="2000" stroke="#C8C8D4" strokeWidth={4} />
+            </svg>
           </Grid>
 
-          <Grid item container justify="center" xs={7}>
+          <Grid item container justify="center" className={classes.details} xs={7}>
             <Typography align="center" variant="h3">
               {Home.referralInfo}
             </Typography>
@@ -202,22 +184,10 @@ const welcomeInfo = (props: Props) => {
 
                 <React.Fragment key={index}>
 
-                  <Grid item container justify="center" alignItems="flex-start" xs={12}>
-
-                    <Grid item xs={12}>
-                      <Typography variant="h3">
-                        <br />
-                      </Typography>
-                    </Grid>
+                  <Grid item container justify="center" alignItems="flex-start" className={classes.details} xs={12}>
 
                     <Grid item container justify="center" xs={7}>
                       <input type="text" value={item} id={copyId} readOnly/>
-                    </Grid>
-
-                    <Grid item xs={12}>
-                      <Typography variant="h3">
-                        <br />
-                      </Typography>
                     </Grid>
 
                     <Grid item container justify="center" xs={6}>
@@ -248,12 +218,6 @@ const welcomeInfo = (props: Props) => {
 
                       </div>
 
-                    </Grid>
-
-                    <Grid item xs={12}>
-                      <Typography variant="h3">
-                        <br />
-                      </Typography>
                     </Grid>
 
                   </Grid>
