@@ -155,19 +155,38 @@ let StoreService = class StoreService {
         this.data = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
         this.cashlist = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
         this.tokenId = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
+        this.rewards = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
         // track this script
         minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].cmd('extrascript \"' + this.timescript + "\"", (res) => { });
-        // load user's details and pass to observable
-        minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].file.load('UserDetails.txt', (res) => {
-            if (res.success) {
-                this.data.next(JSON.parse(res.data));
-            }
+        this.getUserDetailsOnce().then((res) => {
+            this.fetchRewards(res.refID, res.loginData.access_token);
         });
         this.fetchTokenID();
     }
     getUserDetailsOnce() {
         return this.data.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["take"])(1))
             .toPromise();
+    }
+    fetchRewards(uid, tkn) {
+        //http://incentivedb.minima.global/items/reward?filter={ "Userid": { "_eq": "${props.user.info.id}" }}
+        const url = 'https://incentivedb.minima.global/items/reward?filter={ "Userid": { "_eq": "' + uid + '"}}';
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ` + tkn
+            }
+        })
+            .then((res) => {
+            if (!res.ok) {
+                console.log('Failed to retrieve ' + uid + '\'s rewards');
+            }
+            return res.json()
+                .then((data) => {
+                let json = data;
+                this.rewards.next(json);
+            });
+        });
     }
     fetchTokenID() {
         const url = 'https://incentivedb.minima.global/custom/utils/token';
@@ -197,12 +216,12 @@ let StoreService = class StoreService {
                     res.response.coins.forEach((coin, i) => {
                         if (coin.data.coin.tokenid === token.tokenId) {
                             if (coin.data.prevstate[1] && (coin.data.prevstate[1].data > minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block)) {
-                                temp.push({ index: i, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data });
+                                temp.push({ index: i + 1, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data });
                             }
                             else if ((coin.data.prevstate[0] && coin.data.prevstate[1]) && (coin.data.prevstate[1].data <= minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block)) {
                                 let diff = coin.data.prevstate[1].data - minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block;
-                                let percent = 100 / diff;
-                                temp.push({ index: i, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Ready', blockno: coin.data.prevstate[1].data, percent: percent });
+                                let percent = Math.round((diff / coin.data.prevstate[1].data) * 10) / 10;
+                                temp.push({ index: i + 1, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Ready', blockno: coin.data.prevstate[1].data, percent: percent });
                             }
                         }
                     });
@@ -699,7 +718,7 @@ AppRoutingModule = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("@media only screen and (min-width: 992px) {\n  ion-app {\n    margin: auto;\n    max-width: 700px;\n    max-height: 600px;\n    border: 1px solid rgba(0, 28, 50, 0.1);\n  }\n\n  body {\n    background: #F0F0FA;\n  }\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL2FwcC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFO0lBQ0UsWUFBQTtJQUNBLGdCQUFBO0lBQ0EsaUJBQUE7SUFDQSxzQ0FBQTtFQUNGOztFQUNBO0lBQ0UsbUJBQUE7RUFFRjtBQUNGIiwiZmlsZSI6ImFwcC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIkBtZWRpYSBvbmx5IHNjcmVlbiBhbmQgKG1pbi13aWR0aDogOTkycHgpIHtcbiAgaW9uLWFwcCB7XG4gICAgbWFyZ2luOiBhdXRvO1xuICAgIG1heC13aWR0aDogNzAwcHg7XG4gICAgbWF4LWhlaWdodDogNjAwcHg7XG4gICAgYm9yZGVyOiAxcHggc29saWQgcmdiYSgwLCAyOCwgNTAsIDAuMSk7XG4gIH1cbiAgYm9keSB7XG4gICAgYmFja2dyb3VuZDogI0YwRjBGQTtcbiAgfVxufSJdfQ== */");
+/* harmony default export */ __webpack_exports__["default"] = ("@media only screen and (min-width: 992px) {\n  ion-app {\n    margin: auto;\n    max-width: 740px;\n    max-height: 870px;\n    border: 1px solid rgba(0, 28, 50, 0.1);\n  }\n\n  body {\n    background: #F0F0FA;\n  }\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL2FwcC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFO0lBQ0UsWUFBQTtJQUNBLGdCQUFBO0lBQ0EsaUJBQUE7SUFDQSxzQ0FBQTtFQUNGOztFQUNBO0lBQ0UsbUJBQUE7RUFFRjtBQUNGIiwiZmlsZSI6ImFwcC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIkBtZWRpYSBvbmx5IHNjcmVlbiBhbmQgKG1pbi13aWR0aDogOTkycHgpIHtcbiAgaW9uLWFwcCB7XG4gICAgbWFyZ2luOiBhdXRvO1xuICAgIG1heC13aWR0aDogNzQwcHg7XG4gICAgbWF4LWhlaWdodDogODcwcHg7XG4gICAgYm9yZGVyOiAxcHggc29saWQgcmdiYSgwLCAyOCwgNTAsIDAuMSk7XG4gIH1cbiAgYm9keSB7XG4gICAgYmFja2dyb3VuZDogI0YwRjBGQTtcbiAgfVxufSJdfQ== */");
 
 /***/ }),
 

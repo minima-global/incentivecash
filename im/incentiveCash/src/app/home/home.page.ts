@@ -163,7 +163,7 @@ export class HomePage  {
       body: JSON.stringify(user)
     }).then((res: any) => {
       if (!res.ok) {
-        this.loginStatus = 'Login failed, please check your username and password.';
+        this.loginStatus = 'Sign in failed! Please check your username and password.';
         this.getReferenceButton.disabled = false;
 
         let statusText = res.statusText;
@@ -186,17 +186,21 @@ export class HomePage  {
       Minima.net.GET(url, (res: any) => {
         let plainResponse = decodeURIComponent(res.result);
         let data = JSON.parse(plainResponse);
-        
-        let user: UserDetails = {
-          email: this.username.value,
-          pKey: '',
-          refID: data.data.id,
-          loginData: {
-            access_token: token.accessToken,
-            refresh_token: token.refreshToken
+        if (data && data.data.id.length !== 0) {
+          let user: UserDetails = {
+            email: this.username.value,
+            pKey: '',
+            refID: data.data.id,
+            loginData: {
+              access_token: token.accessToken,
+              refresh_token: token.refreshToken
+            }
           }
+          this._storeService.data.next(user);          
+        } else {
+          console.log('Failed to retrieve user details from server..');
         }
-        this._storeService.data.next(user);
+
       });
       this.getPubKey();
 

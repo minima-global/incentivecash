@@ -1,6 +1,12 @@
 
+ion-content {
+  --padding-top: 25px;
+  --padding-start: 25px;
+  --padding-end: 25px;
+}
 ion-list {
   background-color: transparent;
+  padding: 0;
 }
 ion-list ion-item {
   --background: transparent;
@@ -68,7 +74,6 @@ ion-col div.blue-ruler {
     --padding-end: 95px
   }
 }
-
 ion-row.has ion-col.forgot {
   font-size: 18px;
   color: #AAAABE;

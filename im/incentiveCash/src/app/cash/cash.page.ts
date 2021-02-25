@@ -1,9 +1,9 @@
 import { MinimaService } from './../api/minima.service';
-import { StoreService, UserDetails, IncentiveCash } from './../api/store.service';
-import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { StoreService, UserDetails, IncentiveCash, Reward } from './../api/store.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Minima } from 'minima';
-import { ToastController } from '@ionic/angular';
+import { IonSegment, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-cash',
@@ -12,6 +12,12 @@ import { ToastController } from '@ionic/angular';
 })
 export class CashPage implements OnInit {
 
+  @ViewChild('claimedSegment', {static: false}) claimedSegment: IonSegment;
+  shownSegments = 'claimed';
+  
+  rewards: Reward[] = [];
+  totalClaimed: number = 0;
+  totalUnclaimed: number = 0;
   timescript: string = 'LET owner = PREVSTATE ( 0 ) LET time = PREVSTATE ( 1 ) RETURN SIGNEDBY ( owner ) AND @BLKNUM GTE time';
   data: UserDetails = {
     email: '',
@@ -20,15 +26,16 @@ export class CashPage implements OnInit {
   };
   referenceID = '';
   cashdummy = [
-    {index: '10', date:'07 - 02 - 2021', status:'<span fill="clear">Collect</span>'},
-    {index: '10', date:'14 - 02 - 2021', status:'<span fill="clear">Collect</span>'},
-    {index: '10', date:'28 - 02 - 2021', status:'<span fill="clear">Collect</span>'},
-    {index: '10', date:'07 - 03 - 2021', status:'<span fill="clear">Collect</span>'},
+    {index: '1', percent: 0.3, cash_amount: '10', coinid: '', tokenid: '', date:'07 - 02 - 2021', blockno: '555532', status:'Ready'},
+    {index: '2', percent: 0.1, cash_amount: '10', coinid: '', tokenid: '', date:'14 - 02 - 2021', blockno: '12351', status:'Ready'},
+    {index: '3', percent: 0.7, cash_amount: '10', coinid: '', tokenid: '', date:'28 - 02 - 2021', blockno: '12351', status:'Not Ready'},
+    {index: '4', percent: 0.9, cash_amount: '10', coinid: '', tokenid: '', date:'07 - 03 - 2021', blockno: '12351', status:'Not Ready'},
   ]
   cashlist: IncentiveCash[];
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private _storeService: StoreService,
     private _Minima: MinimaService,
     public toastController: ToastController) { }
@@ -41,10 +48,38 @@ export class CashPage implements OnInit {
     this._storeService.cashlist.subscribe((res: IncentiveCash[]) => {
       this.cashlist = res;
     });
+    this._storeService.rewards.subscribe((res: any) => {
+      res.data.forEach((reward: Reward) => {
+        if (reward.reason !== 'Claimed') {
+          this.totalUnclaimed += reward.amount;
+        } else {
+          this.totalClaimed += reward.amount;
+        }
+      })
+    });
+  }
+
+  segmentChanged(ev: any) {
+    this.shownSegments = ev.detail.value;
+  }
+
+  signOut() {
+    document.getElementById('sign-out-btn').style.opacity = '0.5';
+    this._storeService.getUserDetailsOnce().then((res: UserDetails) => {
+      let user = res;
+      user.loginData.access_token = '';
+      user.loginData.refresh_token = '';
+      this._storeService.data.next(user);
+      document.location.reload();
+      this.presentToast('Login Status', 'You have signed out successfully');
+    })
   }
 
   collectCash(coinid: string, amount: string, pKey: string, tokenid: string, uid: string) {
-    
+    document.getElementById('collect-btn'+coinid).style.opacity = '0.5';
+    document.getElementById('row'+coinid).style.opacity = '0.5';
+    document.getElementById('collect-btn'+coinid).textContent = 'Collecting...';
+
     let txnID = Math.floor(Math.random()*1000000000);
     let devNull = '0xEEFFEEFFEE';
 
@@ -58,10 +93,11 @@ export class CashPage implements OnInit {
       "txndelete "+txnID;
 
     Minima.cmd(post_Transaction, (res: any) => {
-      console.log(res);
+      //console.log(res);
       if (Minima.util.checkAllResponses(res)) {
+        document.getElementById('collect-btn'+coinid).textContent = 'Collected!';
+        document.getElementById('collect-btn'+coinid).style.backgroundColor = '#42CBB6';
         this.presentToast('Incentive Cash', 'Your cash has been collected and your reward has been registered, thank you!');
-        this._storeService.pollCash();
       } else {
         this.presentToast('Incentive Cash', 'Something went wrong with your collection, please try again!');
       }

@@ -3,6 +3,12 @@ import { ReplaySubject, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Minima } from 'minima';
 
+export interface Reward {
+  amount: number,
+  date_created: string,
+  extrainfo: string,
+  reason: string
+}
 export interface UserDetails {
   email: string,
   refID: string,
@@ -39,23 +45,42 @@ export class StoreService {
   data: Subject<UserDetails> = new ReplaySubject<UserDetails>(1);
   cashlist: Subject<IncentiveCash[]> = new ReplaySubject<IncentiveCash[]>(1);
   tokenId: Subject<IncentiveTokenID> = new ReplaySubject<IncentiveTokenID>(1);
+  rewards: Subject<Reward[]> = new ReplaySubject<Reward[]>(1);
 
   constructor() {
     // track this script
     Minima.cmd('extrascript \"'+this.timescript+"\"", (res: any) => {});
-    // load user's details and pass to observable
-    Minima.file.load('UserDetails.txt', (res: any) => {
-      if (res.success) {
-        this.data.next(JSON.parse(res.data));
-      }
-    });
-
+    this.getUserDetailsOnce().then((res: UserDetails) => {
+      this.fetchRewards(res.refID, res.loginData.access_token);
+    })
     this.fetchTokenID();
   }
 
   getUserDetailsOnce() {
     return this.data.pipe(take(1))
       .toPromise();
+  }
+
+  fetchRewards(uid: string, tkn: string) {
+    //http://incentivedb.minima.global/items/reward?filter={ "Userid": { "_eq": "${props.user.info.id}" }}
+    const url = 'https://incentivedb.minima.global/items/reward?filter={ "Userid": { "_eq": "'+uid+'"}}';
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer `+tkn
+      }
+    })
+    .then((res: any) => {
+      if (!res.ok) {
+        console.log('Failed to retrieve '+uid+'\'s rewards');
+      }
+      return res.json()
+      .then((data: Reward[]) => {
+        let json = data;
+        this.rewards.next(json);
+      })
+    })
   }
 
   fetchTokenID() {
@@ -87,11 +112,11 @@ export class StoreService {
           res.response.coins.forEach((coin, i) => {
             if (coin.data.coin.tokenid === token.tokenId) {
               if (coin.data.prevstate[1] && (coin.data.prevstate[1].data > Minima.block)) {
-                temp.push({index: i, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data})
+                temp.push({index: i+1, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data})
               } else if ((coin.data.prevstate[0] && coin.data.prevstate[1]) && (coin.data.prevstate[1].data <= Minima.block)) {
                 let diff = coin.data.prevstate[1].data - Minima.block;
-                let percent = 100/diff;
-                temp.push({index: i, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Ready', blockno: coin.data.prevstate[1].data, percent: percent})  
+                let percent = Math.round((diff/coin.data.prevstate[1].data) * 10) / 10;
+                temp.push({index: i+1, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Ready', blockno: coin.data.prevstate[1].data, percent: percent})  
               }
             }
           });
