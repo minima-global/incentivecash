@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
+import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { useHistory, useParams } from "react-router-dom"
 
@@ -28,6 +29,7 @@ import { registerPassword, initTx } from '../../store/app/server/actions'
 
 import {
   Local,
+  Paths,
   GeneralError,
   Post,
   Help,
@@ -49,6 +51,7 @@ const registerSchema = Yup.object().shape({
     .required(`${GeneralError.required}`),
   password2: Yup.string()
     .oneOf([Yup.ref('password'), null], `${Register.passNotMatch}`)
+    .required(`${GeneralError.required}`)
 })
 
 interface StateProps {
@@ -73,7 +76,7 @@ const userRegister = (props: Props) => {
 
   let { uid } = useParams<{ uid: string }>()
   let { referral } = useParams<{ referral: string }>()
-  const { email } = useParams<{ email: string }>()  
+  const { email } = useParams<{ email: string }>()
   const history = useHistory()
 
   const classes = themeStyles()
@@ -140,86 +143,142 @@ const userRegister = (props: Props) => {
   return (
 
     <Grid container alignItems="flex-start">
+
       <Grid item container justify="flex-start" xs={12}>
-        <Typography variant="h2">
-          {Register.heading}
-        </Typography>
-      </Grid>
-      <Grid item container xs={12} alignItems="flex-start">
-        <img src={hrFirst} className={classes.hr}/>
-      </Grid>
 
-      <form onSubmit={formik.handleSubmit}>
-        <TextField
-          fullWidth
-          id="email"
-          name="email"
-          label={User.email}
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
-        />
-        <TextField
-          fullWidth
-          id="token"
-          name="token"
-          label={Register.token}
-          value={formik.values.token}
-          onChange={formik.handleChange}
-          error={formik.touched.token && Boolean(formik.errors.token)}
-          helperText={formik.touched.token && formik.errors.token}
-        />
-        <TextField
-          fullWidth
-          id="password"
-          name="password"
-          label={User.password}
-          type="password"
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          error={formik.touched.password && Boolean(formik.errors.password)}
-          helperText={formik.touched.password && formik.errors.password}
-        />
-        <TextField
-          fullWidth
-          id="password2"
-          name="password2"
-          label={User.password2}
-          type="password"
-          value={formik.values.password2}
-          onChange={formik.handleChange}
-          error={formik.touched.password2 && Boolean(formik.errors.password2)}
-          helperText={formik.touched.password2 && formik.errors.password2}
-        />
-        <br/><br/>
-        <Grid item container justify="flex-start">
-          <Button
-            data-for='loginButton'
-            data-tip
-            style={{textTransform: 'none'}}
-            size='medium'
-            type='submit'
-            variant="contained"
-            color="primary"
-          >
-            {User.loginButton}
-          </Button>
-          <ReactTooltip
-            id='loginButton'
-            place="bottom"
-            effect="solid"
-          >
-            {Help.loginTip}
-          </ReactTooltip>
+        <Grid item container justify="center" xs={6}>
+
+         <NavLink to={Local.signIn} className={classes.inactiveLink}>
+          {Paths.signIn}
+         </NavLink>
+
+         <img src={hrFirst} className={classes.hr}/>
+
         </Grid>
-      </form>
 
+        <Grid item container justify="center" xs={6}>
+
+         <NavLink to={Local.register} className={classes.activeLink}>
+          {Paths.register}
+         </NavLink>
+
+         <img src={hrFirst} className={classes.hr}/>
+
+        </Grid>
+
+      </Grid>
+
+      <Grid item container className={classes.form} xs={12}>
+
+        <form onSubmit={formik.handleSubmit} className={classes.formSubmit}>
+          <Grid item container className={classes.formLabel} xs={12}>
+            <label htmlFor="email">{User.email}</label>
+          </Grid>
+          <Grid item container className={classes.formInput} xs={12}>
+            <TextField
+              fullWidth
+              variant="outlined"
+              id="outlined-basic"
+              name="email"
+              type="text"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+            />
+          </Grid>
+          <Grid item container className={classes.formError} xs={12}>
+            {formik.errors.email && formik.touched.email ? (
+              <div>{formik.errors.email}</div>
+            ) : null}
+          </Grid>
+          <Grid item container className={classes.formLabel} xs={12}>
+            <label htmlFor="token">{Register.token}</label>
+          </Grid>
+          <Grid item container className={classes.formInput} xs={12}>
+            <TextField
+              fullWidth
+              variant="outlined"
+              id="outlined-basic"
+              name="token"
+              type="text"
+              value={formik.values.token}
+              onChange={formik.handleChange}
+            />
+          </Grid>
+          <Grid item container className={classes.formError} xs={12}>
+            {formik.errors.token && formik.touched.token ? (
+              <div>{formik.errors.token}</div>
+            ) : null}
+          </Grid>
+          <Grid item container className={classes.formLabel} xs={12}>
+            <label htmlFor="password">{User.password}</label>
+          </Grid>
+          <Grid item container className={classes.formInput} xs={12}>
+            <TextField
+              fullWidth
+              variant="outlined"
+              id="outlined-basic"
+              name="password"
+              type="password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+            />
+          </Grid>
+          <Grid item container className={classes.formError} xs={12}>
+            {formik.errors.password && formik.touched.password ? (
+              <div>{formik.errors.password}</div>
+            ) : null}
+          </Grid>
+          <Grid item container className={classes.formLabel} xs={12}>
+            <label htmlFor="password2">{User.password2}</label>
+          </Grid>
+          <Grid item container className={classes.formInput} xs={12}>
+            <TextField
+              fullWidth
+              variant="outlined"
+              id="outlined-basic"
+              name="password2"
+              type="password"
+              value={formik.values.password2}
+              onChange={formik.handleChange}
+            />
+          </Grid>
+          <Grid item container className={classes.formError} xs={12}>
+            {formik.errors.password2 && formik.touched.password2 ? (
+              <div>{formik.errors.password2}</div>
+            ) : null}
+          </Grid>
+          <Grid item container className={classes.formButton} xs={12}>
+            <Button
+              type='submit'
+              className={classes.submitButton}
+              color="primary"
+              size='medium'
+              variant="contained"
+              data-for='loginButton'
+              data-tip
+              style={{
+                textTransform: 'none',
+                fontSize: "1em",
+              }}
+            >
+              {User.loginButton}
+            </Button>
+            <ReactTooltip
+              id='registerutton'
+              place="bottom"
+              effect="solid"
+            >
+              {Help.loginTip}
+            </ReactTooltip>
+          </Grid>
+        </form>
+      </Grid>
       <Grid item container xs={12} alignItems="flex-start">
         <Typography variant="h5">
           {summary}
         </Typography>
       </Grid>
+
     </Grid>
   )
 }

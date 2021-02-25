@@ -1,26 +1,23 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { useHistory } from "react-router-dom"
-
-import ReactTooltip from 'react-tooltip'
+//import { useParams } from 'react-router-dom'
 
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 
-import hrFirst from '../../images/hrFirst.svg'
-import nameIcon from '../../images/nameIcon.svg'
-import passwordIcon from '../../images/passwordIcon.svg'
-import lastAccessIcon from '../../images/lastAccessIcon.svg'
-import referralIcon from '../../images/referralIcon.svg'
+import ReactTooltip from 'react-tooltip'
+
+import firstDivide from '../../images/firstDivide.svg'
+import secondDivide from '../../images/secondDivide.svg'
 
 import { themeStyles } from '../../styles'
 
 import {
   ApplicationState,
   AppDispatch,
-  User as UserData,
-  Collection
+  Collection,
+  User
 } from '../../store/types'
 
 import { setActivePage } from '../../store/app/appData/actions'
@@ -31,13 +28,14 @@ import {
   Local,
   Remote,
   GeneralError,
-  Home,
   Help,
-  User as UserConfig,
-  Misc } from '../../config'
+  Home,
+  Referral,
+  Misc
+} from '../../config'
 
 interface StateProps {
-  user: UserData
+  user: User
   collection: Collection
 }
 
@@ -48,11 +46,10 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps
 
-const user = (props: Props) => {
+const welcomeInfo = (props: Props) => {
 
   const [referral, setReferral] = useState([] as string[])
   let isFirstRun = useRef(true)
-  const history = useHistory()
 
   const classes = themeStyles()
 
@@ -67,9 +64,12 @@ const user = (props: Props) => {
 
     if ( isFirstRun.current ) {
 
-      props.setActivePage(Local.user)
+      props.setActivePage(Local.home)
       isFirstRun.current = false
       const referralURL = `${dbase}${Remote.itemsPath}${Remote.referralsPath}?filter={ "Userid": { "_eq": "${props.user.info.id}" }}`
+
+      //console.log(props.user)
+      //console.log(referralURL)
 
       props.getCollection(referralURL)
 
@@ -107,38 +107,15 @@ const user = (props: Props) => {
 
   return (
 
-    <Grid container alignItems="flex-start">
+    <Grid container justify="center" alignItems="flex-start">
 
-      <Grid item container justify="flex-start" xs={12}>
-        <Typography variant="h2">
-          {UserConfig.userHeading}
+      <Grid item container justify="center" className={classes.details} xs={7}>
+        <Typography align="center" variant="h2">
+          {Home.heading}
         </Typography>
       </Grid>
-      <Grid item container xs={12} alignItems="flex-start">
-        <img src={hrFirst} className={classes.hr}/>
-      </Grid>
 
-      <Grid item container justify="flex-start" xs={12}>
-
-        <Grid item container justify="flex-start" alignItems="center" xs={2}>
-          <img src={nameIcon} className={classes.userIcon}/>
-        </Grid>
-        <Grid item container justify="flex-start" xs={10}>
-          <Grid item container justify="flex-start" xs={12}>
-            <Typography variant="h4">
-              {props.user.info.first_name? props.user.info.first_name: `${UserConfig.first}`}
-            </Typography>
-          </Grid>
-          <Grid item container justify="flex-start" xs={12}>
-            <Typography variant="h4">
-              {props.user.info.last_name? props.user.info.last_name: `${UserConfig.last}`}
-            </Typography>
-          </Grid>
-        </Grid>
-
-      </Grid>
-
-      <Grid item container justify="center" xs={12}>
+      <Grid item container justify="center" xs={7}>
         <svg
            xmlns="http://www.w3.org/2000/svg"
            viewBox="0 0 2000 4"
@@ -147,71 +124,57 @@ const user = (props: Props) => {
         </svg>
       </Grid>
 
-      <Grid item container justify="flex-start" xs={12}>
-
-        <Grid item container justify="flex-start" alignItems="center" xs={2}>
-          <img src={passwordIcon} className={classes.userIcon}/>
-        </Grid>
-
-        <Grid item container justify="flex-start" xs={10}>
-          <div>
-            <Typography variant="h4">
-              {UserConfig.password}
-            </Typography>
-            <Typography variant="h4">
-              {props.user.info.password}
-            </Typography>
-          </div>
-        </Grid>
-
+      <Grid item container justify="center" className={classes.details} xs={7}>
+        <Typography align="center" variant="h3">
+          {Home.downloadInfo}
+        </Typography>
       </Grid>
 
-      <Grid item container justify="center" xs={12}>
-        <svg
-           xmlns="http://www.w3.org/2000/svg"
-           viewBox="0 0 2000 4"
-        >
-          <line x2="2000" stroke="#317aff" strokeWidth={4} />
-        </svg>
-      </Grid>
-
-      <Grid item container justify="flex-start" xs={12}>
-
-        <Grid item container justify="flex-start" alignItems="center" xs={2}>
-          <img src={lastAccessIcon} className={classes.userIcon}/>
-        </Grid>
-
-        <Grid item container justify="flex-start" xs={10}>
-          <div>
-            <Typography variant="h4">
-              {UserConfig.lastAccess}
-            </Typography>
-            <Typography variant="h4">
-              {props.user.info.last_access}
-            </Typography>
-          </div>
-        </Grid>
-
+      <Grid item container justify="center" className={classes.details} xs={6}>
+        <a href={Remote.miniDappURL} style={{textDecoration: 'none'}}>
+          <Button
+            className={classes.submitButton}
+            color="primary"
+            aria-label={Help.downloadTip}
+            size="medium"
+            variant="contained"
+            data-for='download'
+            data-tip
+            style={{
+              textTransform: 'none',
+              fontSize: "1em",
+            }}
+          >
+            {Home.downloadMiniDapp}
+          </Button>
+          <ReactTooltip
+            id='download'
+            place="top"
+            effect="solid"
+          >
+            {Help.downloadTip}
+          </ReactTooltip>
+        </a>
       </Grid>
 
       {referral.length ?
 
         <Grid container justify="center" alignItems="flex-start">
 
-          <Grid item container justify="center" xs={12}>
+          <Grid item container justify="center" xs={7}>
             <svg
                xmlns="http://www.w3.org/2000/svg"
                viewBox="0 0 2000 4"
             >
-              <line x2="2000" stroke="#317aff" strokeWidth={4} />
+              <line x2="2000" stroke="#C8C8D4" strokeWidth={4} />
             </svg>
           </Grid>
 
-          <Grid item container justify="flex-start" xs={12}>
-
-            <Grid item container justify="flex-start" alignItems="center" xs={2}>
-              <img src={referralIcon} className={classes.userIcon}/>
-            </Grid>
+          <Grid item container justify="center" className={classes.details} xs={7}>
+            <Typography align="center" variant="h3">
+              {Home.referralInfo}
+            </Typography>
+          </Grid>
 
             {referral.map((item, index) => {
 
@@ -221,13 +184,13 @@ const user = (props: Props) => {
 
                 <React.Fragment key={index}>
 
-                  <Grid item container justify="center" alignItems="flex-start" xs={10}>
+                  <Grid item container justify="center" alignItems="flex-start" className={classes.details} xs={12}>
 
-                    <Grid item container justify="flex-start" xs={12}>
+                    <Grid item container justify="center" xs={7}>
                       <input type="text" value={item} id={copyId} readOnly/>
                     </Grid>
 
-                    <Grid item container justify="flex-start" xs={12}>
+                    <Grid item container justify="center" xs={6}>
                       <div>
                         <Button
                           onClick={() => copyReferral(copyId)}
@@ -262,22 +225,17 @@ const user = (props: Props) => {
               )
             })}
 
-          </Grid>
-
         </Grid>
 
         : null
-
       }
-
     </Grid>
   )
 }
 
-
 const mapStateToProps = (state: ApplicationState): StateProps => {
   return {
-    user: state.userData.data as UserData,
+    user: state.userData.data as User,
     collection: state.collectionData.data as Collection
   }
 }
@@ -289,7 +247,7 @@ const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
  }
 }
 
-export const User = connect<StateProps, DispatchProps, {}, ApplicationState>(
+export const Welcome = connect<StateProps, DispatchProps, {}, ApplicationState>(
   mapStateToProps,
   mapDispatchToProps
-)(user)
+)(welcomeInfo)

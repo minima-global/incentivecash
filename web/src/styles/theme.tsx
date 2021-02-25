@@ -37,9 +37,10 @@ let theme = createMuiTheme ({
     fontWeightLight: 300,
     fontWeightRegular: 400,
     fontWeightMedium: 500,
+    fontWeightBold: 700,
     h1: {
       [breakpoints.up('xs')]: {
-        lineHeight: "2.4",
+        lineHeight: "1.5",
         fontSize:  "2.2em",
         fontWeight: 700,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
@@ -48,35 +49,35 @@ let theme = createMuiTheme ({
     },
     h2: {
       [breakpoints.up('xs')]: {
-        lineHeight: "2",
-        fontSize: "1.6em",
-        fontWeight: 700,
+        lineHeight: "1.5",
+        fontSize: "2em",
+        fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-        color: '#001C32'
+        color: '#91919D'
       }
     },
     h3: {
       [breakpoints.up('xs')]: {
-        lineHeight: '1.2',
-        fontSize: "1em",
-        fontWeight: 700,
+        lineHeight: '1.5',
+        fontSize: "1.25em",
+        fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-        color: '#001C32'
+        color: '#91919D'
       }
     },
     h4: {
       [breakpoints.up('xs')]: {
-        lineHeight: '1.2',
+        lineHeight: '1.5',
         fontSize: "1em",
         fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-        color: '#317aff'
+        color: '#91919D'
       }
     },
     h5: {
       [breakpoints.up('xs')]: {
         lineHeight: "1.2",
-        fontSize: "1em",
+        fontSize: "0.9em",
         fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         color: '#001C32'
@@ -84,11 +85,11 @@ let theme = createMuiTheme ({
     },
     h6: {
       [breakpoints.up('xs')]: {
-        lineHeight: "2",
-        fontSize: "1em",
-        fontWeight: 700,
+        lineHeight: "1.2",
+        fontSize: "0.9em",
+        fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-        color: '#001C32'
+        color: '#317AFF'
       }
     },
     subtitle1: {
@@ -99,11 +100,10 @@ let theme = createMuiTheme ({
       color: '#FFFFFF'
     },
     subtitle2: {
-      lineHeight: "1",
-      fontSize: "1em",
-      fontWeight: 600,
+      fontSize: "0.8em",
+      fontWeight: 400,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-      color: '#FF512F'
+      color: '#F0F0FA'
     },
     body1: {
       lineHeight: '1.1',
@@ -120,9 +120,10 @@ let theme = createMuiTheme ({
       color: '#001C32',
     },
     caption: {
-      fontSize: "0.9em",
+      fontSize: "1.1em",
       fontWeight: 700,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+      color: '#F0F0FA',
     },
     button: {
       fontSize: "1.8em",
@@ -157,73 +158,41 @@ let theme = createMuiTheme ({
 theme = responsiveFontSizes(theme)
 
 const themeStyles = makeStyles({
-  landing: {
-    margin: "0",
-    padding: "0",
-    height: "100vh",
-    width: "100vw",
-    background: 'linear-gradient(#001C32, #001C32)'
-  },
-  landingExit: {
-    margin: "0",
-    padding: "0",
-    height: "100vh",
-    width: "100vw",
-    background: 'linear-gradient(#001C32, #001C32)',
-    visibility: "hidden",
-    opacity: "0",
-    transition: "visibility 0s 0.5s, opacity 0.5s linear"
-  },
-  landingDisplay: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  landingLogoIcon: {
-    height: "100px",
-    width: '100px'
-  },
-  landingAppNameIcon: {
-    height: "25px",
-    width: '168px'
-  },
   root: {
     [breakpoints.up('xs')]: {
-      background: 'linear-gradient(#F0F0FA, #F0F0FA)',
+      background: 'linear-gradient(#000000, #000000)',
       height: "100vh",
       width: "100%",
       position: 'relative'
     },
     [breakpoints.up('md')]: {
+      background: 'linear-gradient(#000000, #000000)',
       marginTop: "5vh",
       marginBottom: "5vh",
       marginLeft: "auto",
       marginRight: "auto",
       height: "90vh",
-      width: "50%",
+      width: "40%",
       position: 'relative'
     }
   },
   header: {
     [breakpoints.up('xs')]: {
+      background: 'linear-gradient(#001C32, #001C32)',
       paddingRight: theme.spacing(4),
       paddingLeft: theme.spacing(4),
-      paddingTop: "32px",
       margin: "0",
-      textAlign: 'center',
-      background: 'linear-gradient(#001C32, #001C32)',
-      height: "70px",
+      height: "50px",
       width: "100%",
       position: 'absolute',
       top: '0'
     },
     [breakpoints.up('md')]: {
+      background: 'linear-gradient(#001C32, #001C32)',
       paddingRight: theme.spacing(5),
       paddingLeft: theme.spacing(5),
-      paddingTop: "30px",
       margin: "0",
-      background: 'linear-gradient(#001C32, #001C32)',
-      height: "90px",
+      height: "50px",
       width: "100%",
       position: 'absolute',
       top: '0'
@@ -231,65 +200,107 @@ const themeStyles = makeStyles({
   },
   subHeader: {
     [breakpoints.up('xs')]: {
+      background: 'linear-gradient(#F0F0FA, #F0F0FA)',
+      paddingRight: theme.spacing(4),
+      paddingLeft: theme.spacing(4),
+      paddingBottom: theme.spacing(1),
+      paddingTop: theme.spacing(1),
+      margin: "0",
+      height: "60px",
+      width: "100%",
+      position: 'absolute',
+      top: '50px'
+    },
+    [breakpoints.up('md')]: {
+      background: 'linear-gradient(#F0F0FA, #F0F0FA)',
       paddingRight: theme.spacing(5),
       paddingLeft: theme.spacing(5),
       paddingBottom: theme.spacing(1),
       paddingTop: theme.spacing(1),
       margin: "0",
       textAlign: 'center',
-      background: 'linear-gradient(#F0F0FA, #F0F0FA)',
       height: "60px",
       width: "100%",
       position: 'absolute',
-      top: '90px'
+      top: '50px'
+    }
+  },
+  loggedOutContent: {
+    [breakpoints.up('xs')]: {
+      background: 'linear-gradient(#F0F0FA, #F0F0FA)',
+      paddingRight: theme.spacing(4),
+      paddingLeft: theme.spacing(4),
+      margin: "0",
+      overflow: 'auto',
+      width: "100%",
+      position: 'absolute',
+      bottom: '121px',
+      top: '50px'
+    },
+    [breakpoints.up('md')]: {
+      background: 'linear-gradient(#F0F0FA, #F0F0FA)',
+      paddingRight: theme.spacing(5),
+      paddingLeft: theme.spacing(5),
+      margin: "0",
+      overflow: 'auto',
+      width: "100%",
+      position: 'absolute',
+      bottom: '121px',
+      top: '50px'
     }
   },
   content: {
     [breakpoints.up('xs')]: {
-      paddingRight: theme.spacing(5),
-      paddingLeft: theme.spacing(5),
-      margin: "0",
       background: 'linear-gradient(#FAFAFF, #FAFAFF)',
+      paddingRight: theme.spacing(4),
+      paddingLeft: theme.spacing(4),
+      margin: "0",
       overflow: 'auto',
       width: "100%",
       position: 'absolute',
-      bottom: '100px',
-      top: '150px'
+      bottom: '121px',
+      top: '110px'
+    },
+    [breakpoints.up('md')]: {
+      background: 'linear-gradient(#FAFAFF, #FAFAFF)',
+      paddingRight: theme.spacing(5),
+      paddingLeft: theme.spacing(5),
+      margin: "0",
+      overflow: 'auto',
+      width: "100%",
+      position: 'absolute',
+      bottom: '121px',
+      top: '110px'
     }
   },
   footer: {
     [breakpoints.up('xs')]: {
+      background: 'linear-gradient(#001C32, #001C32)',
+      paddingRight: theme.spacing(4),
+      paddingLeft: theme.spacing(4),
+      paddingTop: theme.spacing(1),
+      margin: "0",
+      height: "121px",
+      width: "100%",
+      position: 'absolute',
+      bottom: '0'
+    },
+    [breakpoints.up('md')]: {
+      background: 'linear-gradient(#001C32, #001C32)',
       paddingRight: theme.spacing(5),
       paddingLeft: theme.spacing(5),
-      paddingTop: "10px",
+      paddingTop: theme.spacing(1),
       margin: "0",
-      background: 'linear-gradient(#001C32, #001C32)',
-      height: "100px",
+      height: "121px",
       width: "100%",
       position: 'absolute',
       bottom: '0'
     }
   },
-  storeTitle: {
-    padding: "0",
-    margin: "0"
-  },
-  storeDescription: {
-    padding: "0",
-    margin: "0"
-  },
-  caption: {
-    padding: theme.spacing(1),
-    margin: "0"
-  },
   details: {
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
     margin: "0",
-  },
-  footerLinks: {
-    fontWeight: 400,
-    fontFamily: "\"Lato\", \"Arial\", \"sans-serif\", \"Roboto\"",
   },
   spinner: {
      position: 'relative',
@@ -369,6 +380,12 @@ const themeStyles = makeStyles({
       width: '40px'
     }
   },
+  userIcon: {
+    [breakpoints.up('xs')]: {
+      height: "35px",
+      width: '35px'
+    }
+  },
   footerIcon: {
     [breakpoints.up('xs')]: {
       height: "35px",
@@ -417,11 +434,82 @@ const themeStyles = makeStyles({
       width: '30px'
     }
   },
-  link: {
-    textDecoration: 'none'
+  form: {
+    paddingTop: theme.spacing(2),
+  },
+  formSubmit: {
+    width: '100%',
+    /*'& .MuiTextField-root': {
+      border: '1px solid',
+      borderColour: '#000000',
+      borderRadius: '6px',
+      width: '100ch',
+    },*/
+  },
+  formInput: {
+    border: '2px solid',
+    borderColour: '#C8C8D4',
+    borderRadius: '5px',
+    background: 'linear-gradient(#FFFFFF, #FFFFFF)'
+  },
+  formLabel: {
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+  },
+  formError: {
+    paddingTop: theme.spacing(1),
+    color: 'red'
+  },
+  formButton: {
+    paddingTop: theme.spacing(2)
+  },
+  submitButton: {
+    width: '100%',
+    background: 'linear-gradient(#317AFF, #317AFF)',
+  },
+  activeLink: {
+    lineHeight: "2",
+    fontSize: "1.6em",
+    fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+    color: '#001C32',
+    textDecoration: 'none',
+    '&:active': {
+      textDecoration: 'none',
+      fontWeight: 900
+    },
+    '&:hover': {
+      textDecoration: 'none',
+      color: '#a1c8ff'
+    }
+  },
+  inactiveLink: {
+    lineHeight: "2",
+    fontSize: "1.6em",
+    fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+    color: '#c7cdd7',
+    textDecoration: 'none',
+    '&:active': {
+      textDecoration: 'none',
+      fontWeight: 900
+    },
+    '&:hover': {
+      textDecoration: 'none',
+      color: '#a1c8ff'
+    }
+  },
+  iconLink: {
+    textDecoration: 'none',
   },
   hr: {
     height: "1px",
+    width: "100%"
+  },
+  hrBlue: {
+    backgroundColor: "#317aff",
+    width: "100%"
+  },
+  hrGrey: {
+    backgroundColor: "#C8C8D4",
     width: "100%"
   }
 })

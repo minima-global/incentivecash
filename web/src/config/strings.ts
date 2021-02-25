@@ -9,7 +9,7 @@ class App {
   static readonly enquiries = 'Chris Brown'
   static readonly email = 'chris.brown@minima.global'
   static readonly bugEmail = 'minima-global@fire.fundersclub.com'
-  static readonly version = '0.1.0'
+  static readonly version = '0.2.0'
   static readonly release = 'Testnet'
 }
 
@@ -19,7 +19,9 @@ class Paths {
   static readonly about = 'About'
   static readonly help = 'Help'
   static readonly contact = 'Contact'
+  static readonly welcome = 'Welcome'
 
+  static readonly signIn = 'Sign In'
   static readonly register = 'Register'
   static readonly registerReferral = `${Paths.register}`
   static readonly registerEmail = `${Paths.register}`
@@ -40,9 +42,16 @@ class GeneralError {
 
 class Home {
 
-  static readonly heading = `${App.appName}`
+  static readonly heading = `Welcome to the ${App.title} ${App.appName} system`
 
-  static readonly info = [`The ${App.title} Incentives Server!`,`For all ${App.title} incentive program enquires, please email ${App.enquiries} at ${App.email}.`]
+  static readonly downloadInfo = [`Please download the ${App.title} ${App.appName} MiniDapp using the button below`]
+
+  static readonly referralInfo = "Below are your referral link(s). Use the copy button(s) to share referrals with your friends and acquaintances."
+  static readonly referralCopy = "Copy Referral"
+
+  static readonly downloadMiniDapp = "MiniDapp"
+
+  //static readonly info = [`The ${App.title} Incentives Server!`,`For all ${App.title} incentive program enquires, please email ${App.enquiries} at ${App.email}.`]
 }
 
 class About {
@@ -58,7 +67,7 @@ class Help {
 
   static readonly info = [`Coming soon.`]
 
-  static readonly homeTip = 'Sign In'
+  static readonly homeTip = 'Home'
   static readonly helpTip = 'Help'
   static readonly contactTip = 'Contact'
   static readonly aboutTip = 'About'
@@ -66,27 +75,34 @@ class Help {
   static readonly loginTip = 'Sign In'
   static readonly logoutTip = 'Sign Out'
   static readonly registerTip = 'Register'
-  static readonly userTip = 'User'
+  static readonly userTip = 'Profile'
   static readonly rewardTip = 'Rewards'
   static readonly referralTip = 'Referrals'
+  static readonly downloadTip = 'Download'
+  static readonly referralCopyTip = 'Copy'
 }
 
 class Contact {
 
   static readonly heading = 'Contact'
 
-  static readonly info = [`To report a technical problem, please email a brief description of the issue to ${App.bugEmail}.`,`For all other enquires, please email ${App.author} at ${App.email}.`]
+  static readonly info = [`To report a technical problem, please email a brief description of the issue to ${App.bugEmail}.`,`For all other enquires, please email ${App.enquiries} at ${App.email}.`]
 }
 
 class User {
 
   static readonly loginHeading = 'Sign In'
-  static readonly userHeading = 'User'
+  static readonly userHeading = 'Profile'
 
   static readonly email = 'Email'
   static readonly password = 'Password'
   static readonly password2 = 'Re-type Password'
   static readonly loginButton = 'Sign In'
+
+  static readonly first = "First name"
+  static readonly last = "Last name"
+
+  static readonly lastAccess = 'Last Access'
 
   static readonly loginSuccess = 'Login Success'
   static readonly loginFailure = 'Login Failure'
@@ -130,6 +146,10 @@ class Register {
 class Reward {
 
   static readonly heading = 'Rewards'
+
+  static readonly amount = "Amount"
+  static readonly reason = "Reason"
+  static readonly date = "Date and Time"
 }
 
 class Referral {
