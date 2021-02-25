@@ -69,7 +69,7 @@ const userRegister = (props: Props) => {
     props.setActivePage(Local.register)
     let pushTimeout: any
 
-    console.log("stored summary: ", summary, "txSummary: ", props.tx.summary)
+    //console.log("stored summary: ", summary, "txSummary: ", props.tx.summary)
 
     const txSummary: string = props.tx.summary
     if( txSummary != summary ) {
@@ -120,65 +120,81 @@ const userRegister = (props: Props) => {
 
         <Grid item container justify="center" xs={6}>
 
-          <NavLink to={Local.signIn} className={classes.inactiveLink}>
-             {Paths.signIn}
-          </NavLink>
+         <NavLink to={Local.signIn} className={classes.inactiveLink}>
+          {Paths.signIn}
+         </NavLink>
 
-          <img src={hrFirst} className={classes.hr}/>
+         <img src={hrFirst} className={classes.hr}/>
 
-       </Grid>
+        </Grid>
 
-       <Grid item container justify="center" xs={6}>
+        <Grid item container justify="center" xs={6}>
 
-          <NavLink to={Local.signIn} className={classes.activeLink}>
-             {Paths.register}
-          </NavLink>
+         <NavLink to={Local.register} className={classes.activeLink}>
+          {Paths.register}
+         </NavLink>
 
-          <img src={hrFirst} className={classes.hr}/>
+         <img src={hrFirst} className={classes.hr}/>
 
         </Grid>
 
       </Grid>
 
-      <form onSubmit={formik.handleSubmit}>
-        <TextField
-          fullWidth
-          id="email"
-          name="email"
-          label={User.email}
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
-        />
-        <br/><br/>
-        <Grid item container justify="flex-start">
-          <Button
-            data-for='registerButton'
-            data-tip
-            style={{textTransform: 'none'}}
-            size='medium'
-            type='submit'
-            variant="contained"
-            color="primary"
-          >
-            {Register.registerButton}
-          </Button>
-          <ReactTooltip
-            id='registerButton'
-            place="bottom"
-            effect="solid"
-          >
-            {Help.registerTip}
-          </ReactTooltip>
-        </Grid>
-      </form>
+      <Grid item container className={classes.form} xs={12}>
+
+        <form onSubmit={formik.handleSubmit} className={classes.formSubmit}>
+          <Grid item container className={classes.formLabel} xs={12}>
+            <label htmlFor="email">{User.email}</label>
+          </Grid>
+          <Grid item container className={classes.formInput} xs={12}>
+            <TextField
+              fullWidth
+              variant="outlined"
+              id="outlined-basic"
+              name="email"
+              type="text"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+            />
+          </Grid>
+          <Grid item container className={classes.formError} xs={12}>
+            {formik.errors.email && formik.touched.email ? (
+              <div>{formik.errors.email}</div>
+            ) : null}
+          </Grid>
+          <Grid item container className={classes.formButton} xs={12}>
+            <Button
+              type='submit'
+              className={classes.submitButton}
+              color="primary"
+              size='medium'
+              variant="contained"
+              data-for='registerButton'
+              data-tip
+              style={{
+                textTransform: 'none',
+                fontSize: "1em",
+              }}
+            >
+              {Register.registerButton}
+            </Button>
+            <ReactTooltip
+              id='registerutton'
+              place="bottom"
+              effect="solid"
+            >
+              {Help.registerTip}
+            </ReactTooltip>
+          </Grid>
+        </form>
+      </Grid>
 
       <Grid item container xs={12} alignItems="flex-start">
         <Typography variant="h5">
           {summary}
         </Typography>
       </Grid>
+
     </Grid>
   )
 }
