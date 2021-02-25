@@ -32,8 +32,8 @@
       </ion-col>
     </ion-row>
     <ion-row class="has">
-      <ion-col class="ion-text-center welcome-subtitle">
-        If you have already signed up for <br> incentive cash, please login with <br>
+      <ion-col class="m-t7 ion-text-center welcome-subtitle">
+        If you have already signed up for <br> incentive cash, please sign in with <br>
         your username & password below.
         <br><br>
         Or click here to <a>register</a> now
@@ -74,24 +74,15 @@
         {{ loginStatus }}
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="loginStatus !== 'Login failed, please check your username and password.'" class="has ion-justify-content-center ion-align-items-center">
+    <ion-row *ngIf="loginStatus !== 'Sign in failed! Please check your username and password.'" class="has ion-justify-content-center ion-align-items-center">
       <ion-col class="progress ion-text-center">
         <ion-progress-bar color="primary" type="indeterminate"></ion-progress-bar> 
-      </ion-col>
-    </ion-row>
-    <ion-row *ngIf="loginStatus === 'Login failed, please check your username and password.'" class="has ion-justify-content-center ion-align-items-center">
-      <ion-col class="failure ion-text-center">
-        &times;
       </ion-col>
     </ion-row>
   </ion-grid>
 
 </ion-content>
 
-<ion-footer class="ion-no-border">
-  <ion-toolbar>
-    <ion-label>
-      &#169; Copyright 2021 Minima GmbH
-    </ion-label>
-  </ion-toolbar>
+<ion-footer class="ion-no-border ion-text-center">
+  &#169; Copyright 2021 Minima GmbH
 </ion-footer>

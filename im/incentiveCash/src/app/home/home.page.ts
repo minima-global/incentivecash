@@ -163,7 +163,7 @@ export class HomePage  {
       body: JSON.stringify(user)
     }).then((res: any) => {
       if (!res.ok) {
-        this.loginStatus = 'Login failed, please check your username and password.';
+        this.loginStatus = 'Sign in failed! Please check your username and password.';
         this.getReferenceButton.disabled = false;
 
         let statusText = res.statusText;

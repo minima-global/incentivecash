@@ -201,7 +201,7 @@ let StoreService = class StoreService {
                             }
                             else if ((coin.data.prevstate[0] && coin.data.prevstate[1]) && (coin.data.prevstate[1].data <= minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block)) {
                                 let diff = coin.data.prevstate[1].data - minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block;
-                                let percent = 100 / diff;
+                                let percent = Math.round((diff / coin.data.prevstate[1].data) * 10) / 10;
                                 temp.push({ index: i, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Ready', blockno: coin.data.prevstate[1].data, percent: percent });
                             }
                         }
@@ -699,7 +699,7 @@ AppRoutingModule = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("@media only screen and (min-width: 992px) {\n  ion-app {\n    margin: auto;\n    max-width: 700px;\n    max-height: 600px;\n    border: 1px solid rgba(0, 28, 50, 0.1);\n  }\n\n  body {\n    background: #F0F0FA;\n  }\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL2FwcC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFO0lBQ0UsWUFBQTtJQUNBLGdCQUFBO0lBQ0EsaUJBQUE7SUFDQSxzQ0FBQTtFQUNGOztFQUNBO0lBQ0UsbUJBQUE7RUFFRjtBQUNGIiwiZmlsZSI6ImFwcC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIkBtZWRpYSBvbmx5IHNjcmVlbiBhbmQgKG1pbi13aWR0aDogOTkycHgpIHtcbiAgaW9uLWFwcCB7XG4gICAgbWFyZ2luOiBhdXRvO1xuICAgIG1heC13aWR0aDogNzAwcHg7XG4gICAgbWF4LWhlaWdodDogNjAwcHg7XG4gICAgYm9yZGVyOiAxcHggc29saWQgcmdiYSgwLCAyOCwgNTAsIDAuMSk7XG4gIH1cbiAgYm9keSB7XG4gICAgYmFja2dyb3VuZDogI0YwRjBGQTtcbiAgfVxufSJdfQ== */");
+/* harmony default export */ __webpack_exports__["default"] = ("@media only screen and (min-width: 992px) {\n  ion-app {\n    margin: auto;\n    max-width: 740px;\n    max-height: 870px;\n    border: 1px solid rgba(0, 28, 50, 0.1);\n  }\n\n  body {\n    background: #F0F0FA;\n  }\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL2FwcC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFO0lBQ0UsWUFBQTtJQUNBLGdCQUFBO0lBQ0EsaUJBQUE7SUFDQSxzQ0FBQTtFQUNGOztFQUNBO0lBQ0UsbUJBQUE7RUFFRjtBQUNGIiwiZmlsZSI6ImFwcC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIkBtZWRpYSBvbmx5IHNjcmVlbiBhbmQgKG1pbi13aWR0aDogOTkycHgpIHtcbiAgaW9uLWFwcCB7XG4gICAgbWFyZ2luOiBhdXRvO1xuICAgIG1heC13aWR0aDogNzQwcHg7XG4gICAgbWF4LWhlaWdodDogODcwcHg7XG4gICAgYm9yZGVyOiAxcHggc29saWQgcmdiYSgwLCAyOCwgNTAsIDAuMSk7XG4gIH1cbiAgYm9keSB7XG4gICAgYmFja2dyb3VuZDogI0YwRjBGQTtcbiAgfVxufSJdfQ== */");
 
 /***/ }),
 
