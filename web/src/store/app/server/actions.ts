@@ -373,6 +373,7 @@ export const postPublicData = (url: string, data: object) => {
   }
 }
 
+/*
 export const getCollection = (url: string) => {
   return async (dispatch: AppDispatch, getState: Function) => {
 
@@ -421,3 +422,4 @@ export const getCollection = (url: string) => {
      })
   }
 }
+*/

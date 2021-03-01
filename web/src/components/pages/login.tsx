@@ -19,6 +19,7 @@ import { themeStyles } from '../../styles'
 import {
   ApplicationState,
   AppDispatch,
+  PageTypes,
   SignIn,
   TxData
 } from '../../store/types'
@@ -41,7 +42,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  setActivePage: (page: string) => void
+  setActivePage: () => void
   initUser: () => void
   initTx: () => void
   login: (user: SignIn) => void
@@ -61,7 +62,7 @@ const userLogin = (props: Props) => {
 
   useEffect(() => {
 
-    props.setActivePage(Local.signIn)
+    props.setActivePage()
     let pushTimeout: any
 
     if ( isFirstRun.current ) {
@@ -230,7 +231,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
  return {
-   setActivePage: (page: string) => dispatch(setActivePage(page)),
+   setActivePage: () => dispatch(setActivePage(PageTypes.SIGNIN)),
    initUser: () => dispatch(initUser()),
    initTx: () => dispatch(initTx()),
    login: (user: SignIn) => dispatch(login(user)),

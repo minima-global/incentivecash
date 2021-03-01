@@ -7,7 +7,6 @@ import { Decimal } from 'decimal.js'
 export interface ApplicationState {
   appData: AppDataProps
   userData: UserProps
-  collectionData: CollectionProps,
   tx: TxProps
 }
 
@@ -23,19 +22,24 @@ export interface ActionProps extends Action {
 export type AppDispatch = ThunkDispatch<ApplicationState, any, ActionProps>
 
 // Stuff pertinent to make this app' work
+export const enum PageTypes {
+  HOME = "home",
+  WELCOME = "welcome",
+  REGISTER = "register",
+  REGISTERREFERRAL = "registerReferral",
+  REGISTERPASSWORD = "registerPassword",
+  SIGNIN = "signin",
+  ABOUT = "about",
+  HELP = "help",
+  CONTACT = "contact"
+}
+
 export interface AppData {
-  activePage: string
+  activePage: PageTypes
 }
 
 export interface AppDataProps extends PayloadProps {
   data: AppData
-}
-
-// Info (about etc.) stuff
-export const enum InfoTypes {
-  ABOUT = "about",
-  HELP = "help",
-  CONTACT = "contact"
 }
 
 export interface InfoProps {
@@ -101,6 +105,7 @@ export interface UserProps extends PayloadProps {
 }
 
 // Collections
+/*
 export interface Collection {
   info: []
 }
@@ -108,6 +113,7 @@ export interface Collection {
 export interface CollectionProps extends PayloadProps {
   data: Collection
 }
+*/
 
 //Tx stuff
 export interface TxData {

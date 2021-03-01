@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { useHistory, useParams } from "react-router-dom"
+import { NavLink, useHistory, useParams } from "react-router-dom"
 
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -19,6 +18,7 @@ import { themeStyles } from '../../styles'
 import {
   ApplicationState,
   AppDispatch,
+  PageTypes,
   UserRegister,
   TxData
 } from '../../store/types'
@@ -47,7 +47,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  setActivePage: (page: string) => void
+  setActivePage: () => void
   initTx: () => void
   register: (user: UserRegister) => void
 }
@@ -66,7 +66,7 @@ const userRegister = (props: Props) => {
 
   useEffect(() => {
 
-    props.setActivePage(Local.register)
+    props.setActivePage()
     let pushTimeout: any
 
     //console.log("stored summary: ", summary, "txSummary: ", props.tx.summary)
@@ -207,7 +207,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
  return {
-   setActivePage: (page: string) => dispatch(setActivePage(page)),
+   setActivePage: () => dispatch(setActivePage(PageTypes.REGISTER)),
    initTx: () => dispatch(initTx()),
    register: (user: UserRegister) => dispatch(register(user))
  }

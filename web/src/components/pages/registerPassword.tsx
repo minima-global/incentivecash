@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { useHistory, useParams } from "react-router-dom"
+import { NavLink, useHistory, useParams } from 'react-router-dom'
 
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -19,6 +18,7 @@ import { themeStyles } from '../../styles'
 import {
   ApplicationState,
   AppDispatch,
+  PageTypes,
   User as UserData,
   UserRegisterPassword,
   TxData
@@ -60,14 +60,14 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  setActivePage: (page: string) => void
+  setActivePage: () => void
   initTx: () => void
   registerPassword: (user: UserRegisterPassword) => void
 }
 
 type Props = StateProps & DispatchProps
 
-const userRegister = (props: Props) => {
+const display = (props: Props) => {
 
   const [summary, setSummary] = useState("")
   let isFirstRun = useRef(true)
@@ -83,7 +83,7 @@ const userRegister = (props: Props) => {
 
   useEffect(() => {
 
-    props.setActivePage(Local.register)
+    props.setActivePage()
     let pushTimeout: any
 
     if ( isFirstRun.current ) {
@@ -292,7 +292,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
  return {
-   setActivePage: (page: string) => dispatch(setActivePage(page)),
+   setActivePage: () => dispatch(setActivePage(PageTypes.REGISTERPASSWORD)),
    initTx: () => dispatch(initTx()),
    registerPassword: (user: UserRegisterPassword) => dispatch(registerPassword(user))
  }
@@ -301,4 +301,4 @@ const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
 export const RegisterPassword = connect<StateProps, DispatchProps, {}, ApplicationState>(
   mapStateToProps,
   mapDispatchToProps
-)(userRegister)
+)(display)
