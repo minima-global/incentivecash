@@ -16,6 +16,8 @@ export class CashPage implements OnInit {
   shownSegments = 'claimed';
   
   rewards: Reward[] = [];
+  rewardsBtn: true;
+  incentivesBtn: false;
   totalClaimed: number = 0;
   totalUnclaimed: number = 0;
   timescript: string = 'LET owner = PREVSTATE ( 0 ) LET time = PREVSTATE ( 1 ) RETURN SIGNEDBY ( owner ) AND @BLKNUM GTE time';

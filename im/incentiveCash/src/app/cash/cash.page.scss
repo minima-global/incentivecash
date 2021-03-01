@@ -8,8 +8,19 @@ ion-title.user-details {
 }
 
 ion-list.cash-list {
+  ion-grid.pre-header {
+    margin-left: 27px;
+    margin-right: 27px;
+    ion-row ion-col {
+      border-bottom: 1px solid #707070;
+      padding-bottom: 12px;
+      margin-bottom: 10px;
+      font-size: 20px;
+      font-family: manrope-extrabold;
+    }
+  }
   background-color: transparent;
-  margin-top: 21px;
+  margin-top: 13px;
   ion-grid.header {
     margin-left: 27px;
     margin-right: 27px;
@@ -100,6 +111,10 @@ ion-toolbar.cash-progress-toolbar {
 
 @media only screen and (min-width: 992px) {
   ion-list.cash-list {
+    ion-grid.pre-header {
+      margin-left: 110px;
+      margin-right: 110px;
+    }
     ion-grid.cash {
       ion-row {
         padding-left: 110px;
@@ -123,4 +138,33 @@ ion-toolbar.cash-progress-toolbar {
       }
     }
   }
+}
+
+ion-footer.activity {
+  align-items: center;
+  display: inline-flex;
+  ion-toolbar {
+    ion-buttons {
+      justify-content: center;
+      div.footer-btn-wrapper {
+        display: flex;
+        width: 50px;
+        flex-direction: column;
+        ion-button {
+          border: 1px solid #F0F0FA;
+          border-radius: 50px;
+          width: 50px;
+          height: 50px;
+        }
+        ion-label {
+          margin-top: 15px;
+        }
+      }
+    }
+  }
+}
+
+.active {
+  border: 1px solid var(--ion-color-primary);
+  color: var(--ion-color-primary);
 }

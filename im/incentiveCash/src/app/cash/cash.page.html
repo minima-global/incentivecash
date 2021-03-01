@@ -13,7 +13,7 @@
   <ion-toolbar class="sub-toolbar">
     <ion-grid>
       <ion-row class="has">
-        <ion-col>Help</ion-col>
+        <ion-col>Profile</ion-col>
         <ion-col>Contact</ion-col>
         <ion-col>About</ion-col>
         <ion-col class="sign-out">
@@ -34,10 +34,16 @@
   </ion-header>
 
   <ion-list class="cash-list ion-no-padding">
+    <ion-grid class="pre-header ion-no-padding">
+      <ion-row>
+        <ion-col class="ion-no-padding">
+          Running Node Incentives
+        </ion-col>
+      </ion-row>
+    </ion-grid>
     <ion-grid class="header ion-no-padding m-b7">
       <ion-row>
-        <ion-col class="ion-text-left">Reward</ion-col>
-        <ion-col class="ion-text-right" style="padding-right: 25px">Amount</ion-col>
+        <ion-col class="ion-text-left" style="padding-right: 25px">Amount</ion-col>
         <ion-col class="ion-text-left">Due Date</ion-col>
         <ion-col class="ion-text-right">Status</ion-col>
       </ion-row>
@@ -51,14 +57,17 @@
 
     <ion-grid class="cash ion-no-padding" *ngFor="let cash of cashlist">
       <ion-row id="row{{cash.coinid}}" class="ion-no-margin">
-        <ion-col class="ion-text-left ion-no-padding"><p>{{'No.'+cash.index}}</p></ion-col>
-        <ion-col class="ion-text-right ion-no-padding" style="padding-right: 25px"><p>{{cash.cash_amount}}</p></ion-col>
+        <ion-col class="ion-text-left ion-no-padding" style="padding-right: 25px"><p>{{cash.cash_amount}}</p></ion-col>
         <ion-col class="ion-text-left ion-no-padding"><p>{{cash.blockno}}</p></ion-col>
         <ion-col class="ion-text-right ion-no-padding">
           <p *ngIf="cash.status === 'Ready'" class="ion-no-padding">
             <span (click)="collectCash(cash.coinid, cash.cash_amount, data.pKey, cash.tokenid, data.refID)" id="collect-btn{{cash.coinid}}">Collect</span>
           </p>
-          <ion-progress-bar type="determinate" value="{{cash.percent}}" class="ion-no-padding ion-no-margin" *ngIf="cash.status === 'Not Ready'"></ion-progress-bar>
+          <ion-progress-bar 
+          type="determinate"
+          value="{{cash.percent}}"
+          class="ion-no-padding ion-no-margin"
+          *ngIf="cash.status === 'Not Ready'"></ion-progress-bar>
         </ion-col>
       </ion-row>
     </ion-grid> 
@@ -68,10 +77,16 @@
   <ion-toolbar class="cash-progress-toolbar ion-no-padding">
   <!-- Default Segment -->
   <ion-segment #claimedSegment value="claimed" (ionChange)="segmentChanged($event)">
-    <ion-segment-button id="first" [ngStyle] = "shownSegments === 'claimed' ? {'border-bottom': 'none'} : {'border-bottom': '2px solid #C1C4CC'}" value="claimed">
+    <ion-segment-button 
+    id="first"
+    [ngStyle] = "shownSegments === 'claimed' ? {'border-bottom': 'none'} : {'border-bottom': '2px solid #C1C4CC'}"
+    value="claimed">
       <ion-label [ngStyle] = "shownSegments === 'claimed' ? {'color': '#001C32'} : {'color': '#C1C4CC'}">Claimed Total</ion-label>
     </ion-segment-button>
-    <ion-segment-button id="second" [ngStyle] = "shownSegments === 'unclaimed' ? {'border-bottom': 'none'} : {'border-bottom': '2px solid #C1C4CC'}" value="unclaimed">
+    <ion-segment-button 
+    id="second"
+    [ngStyle] = "shownSegments === 'unclaimed' ? {'border-bottom': 'none'} : {'border-bottom': '2px solid #C1C4CC'}"
+    value="unclaimed">
       <ion-label [ngStyle] = "shownSegments === 'unclaimed' ? {'color': '#001C32'} : {'color': '#C1C4CC'}">Unclaimed Total</ion-label>
     </ion-segment-button>
   </ion-segment>
@@ -87,6 +102,27 @@
   </ion-toolbar>
 </ion-content>
 
-<ion-footer class="ion-no-border ion-text-center">
-  &#169; Copyright 2021 Minima GmbH
+<ion-footer class="activity ion-no-border ion-text-center">
+  <ion-toolbar>
+    <ion-buttons>
+      <div [ngClass]="{'active' : rewardsBtn }" class="footer-btn-wrapper" style="margin-right: 45px;">
+        <ion-button>
+          <ion-icon name="cash"></ion-icon>
+        </ion-button>
+        <ion-label>
+          Rewards
+        </ion-label>
+      </div>
+      
+      <div class="footer-btn-wrapper" style="margin-left: 45px;">
+        <ion-button [ngClass]="{'active' : incentivesBtn }">
+          <ion-icon name="cash"></ion-icon>
+        </ion-button>
+        <ion-label>
+          Incentives
+        </ion-label>
+      </div>
+    </ion-buttons>
+  </ion-toolbar>
+
 </ion-footer>
