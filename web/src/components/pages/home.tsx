@@ -19,7 +19,7 @@ import { Remote } from '../../config'
 import {
   Login,
   RegisterReferral,
-  RegisterPassword,
+  RegisterPassword
 } from '.'
 
 interface StateProps {
