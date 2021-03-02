@@ -113,7 +113,7 @@ const userLogin = (props: Props) => {
   })
 
   return (
-    <Grid item container alignItems="stretch" xs={12}>
+    <Grid item container xs={12}>
 
       <Grid item container justify="flex-start" xs={6}>
 
@@ -122,21 +122,11 @@ const userLogin = (props: Props) => {
           data-for='loginButton'
           data-tip
           style={{
-            textAlign: 'left',
             textTransform: 'none'
           }}
         >
-          <Typography variant="h4">
-            {Paths.signIn}
-          </Typography>
+          {Paths.signIn}
         </Button>
-        <ReactTooltip
-          id='loginButton'
-          place="bottom"
-          effect="solid"
-        >
-          {Help.loginTip}
-        </ReactTooltip>
 
         <img src={hrFirst} className={classes.hr}/>
 
@@ -150,21 +140,11 @@ const userLogin = (props: Props) => {
             data-for='registerButton'
             data-tip
             style={{
-              textAlign: 'right',
               textTransform: 'none'
             }}
           >
-            <Typography variant="h5">
-              {Paths.register}
-            </Typography>
+            {Paths.register}
           </Button>
-          <ReactTooltip
-            id='registerButton'
-            place="bottom"
-            effect="solid"
-          >
-            {Help.registerTip}
-          </ReactTooltip>
 
        <img src={hrFirst} className={classes.hr}/>
 
@@ -218,7 +198,7 @@ const userLogin = (props: Props) => {
               color="primary"
               size='medium'
               variant="contained"
-              data-for='loginButton'
+              data-for='submitButton'
               data-tip
               style={{
                 textTransform: 'none',
@@ -228,7 +208,7 @@ const userLogin = (props: Props) => {
               {User.loginButton}
             </Button>
             <ReactTooltip
-              id='loginButton'
+              id='submitButton'
               place="bottom"
               effect="solid"
             >

@@ -143,7 +143,7 @@ const display = (props: Props) => {
 
   return (
 
-    <Grid item container alignItems="stretch" xs={12}>
+    <Grid item container xs={12}>
 
       <Grid item container justify="flex-start" xs={6}>
 
@@ -156,17 +156,8 @@ const display = (props: Props) => {
             textTransform: 'none'
           }}
         >
-          <Typography variant="h5">
-            {Paths.signIn}
-          </Typography>
+          {Paths.signIn}
         </Button>
-        <ReactTooltip
-          id='loginButton'
-          place="bottom"
-          effect="solid"
-        >
-          {Help.loginTip}
-        </ReactTooltip>
 
         <img src={hrFirst} className={classes.hr}/>
 
@@ -184,17 +175,8 @@ const display = (props: Props) => {
             color: '#001C32'
           }}
         >
-          <Typography variant="h4">
-            {Paths.register}
-          </Typography>
+          {Paths.register}
         </Button>
-        <ReactTooltip
-          id='registerButton'
-          place="bottom"
-          effect="solid"
-        >
-          {Help.registerTip}
-        </ReactTooltip>
 
        <img src={hrFirst} className={classes.hr}/>
 
