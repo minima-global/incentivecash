@@ -23,7 +23,7 @@ export type AppDispatch = ThunkDispatch<ApplicationState, any, ActionProps>
 
 // Stuff pertinent to make this app' work
 export const enum PageTypes {
-  HOME = "home",
+  NONE = "",
   WELCOME = "welcome",
   REGISTER = "register",
   REGISTERPASSWORD = "registerPassword",

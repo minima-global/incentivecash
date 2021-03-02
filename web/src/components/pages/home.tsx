@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { connect } from 'react-redux'
 
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
 import { themeStyles } from '../../styles'
+
+import { setActivePage } from '../../store/app/appData/actions'
 
 import {
   ApplicationState,
@@ -33,27 +35,43 @@ interface StateProps {
   appData: AppData
 }
 
-type Props = HomeProps & StateProps
+interface DispatchProps {
+  setActivePage: (page: PageTypes) => void
+}
+
+type Props = HomeProps & StateProps & DispatchProps
 
 const display = (props: Props) => {
 
-  const [page, setPage] = useState(props.page)
-
+  const [page, setPage] = useState(PageTypes.NONE)
+  let isFirstRun = useRef(true)
   const classes = themeStyles()
 
   useEffect(() => {
 
-    setPage(props.appData.activePage)
+    if ( isFirstRun.current ) {
+
+      if ( props.page != PageTypes.NONE ) {
+
+        props.setActivePage(props.page)
+
+      }
+      isFirstRun.current = false
+
+    } else {
+
+      setPage(props.appData.activePage)
+
+      console.log("Page: ", props.appData.activePage)
+    }
 
   }, [props.appData])
-
-  //console.log("Got page set: ", props.appData.activePage)
 
   return (
 
     <>
 
-      <Grid className={classes.leftContent} item container alignItems="flex-start" justify="flex-start" xs={6}>
+      <Grid className={classes.leftContent} item container alignItems="center" justify="flex-start" xs={6}>
 
         <Typography variant="h1">
           {HomeConfig.heading}
@@ -63,7 +81,7 @@ const display = (props: Props) => {
           <span style={{color: 'red' }}>{App.appName}<br/></span>
         </Typography>
 
-        <Grid item container justify="center" xs={12}>
+        <Grid item container xs={12}>
           <svg
              xmlns="http://www.w3.org/2000/svg"
              viewBox="0 0 2000 4"
@@ -111,6 +129,14 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
   return { appData: state.appData.data }
 }
 
-export const Home = connect<StateProps, {}, {}, ApplicationState>(
-  mapStateToProps
+
+const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
+ return {
+   setActivePage: (page: PageTypes) => dispatch(setActivePage(page))
+ }
+}
+
+export const Home = connect<StateProps, DispatchProps, {}, ApplicationState>(
+  mapStateToProps,
+  mapDispatchToProps
 )(display)

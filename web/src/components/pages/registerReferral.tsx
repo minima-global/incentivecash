@@ -66,7 +66,6 @@ const userRegister = (props: Props) => {
 
   useEffect(() => {
 
-    //props.setActivePage()
     let pushTimeout: any
 
     //console.log("stored summary: ", summary, "txSummary: ", props.tx.summary)
@@ -82,6 +81,7 @@ const userRegister = (props: Props) => {
           url = `${Local.register}/${uid}/${referral}/${email}`
         }
         pushTimeout = setTimeout(() => {
+          props.setActivePage(PageTypes.REGISTERPASSWORD)
           props.initTx()
           history.push(`${url}`)
         }, Misc.referralDelay)
@@ -114,7 +114,7 @@ const userRegister = (props: Props) => {
 
   return (
 
-    <Grid item container alignItems="center" xs={12}>
+    <Grid item container alignItems="stretch" xs={12}>
 
       <Grid item container justify="flex-start" xs={6}>
 

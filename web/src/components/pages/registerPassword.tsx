@@ -103,6 +103,7 @@ const display = (props: Props) => {
           setSummary(`${Register.login}`)
 
           pushTimeout = setTimeout(() => {
+            props.setActivePage(PageTypes.SIGNIN)
             props.initTx()
             history.push(`${Local.home}`)
           }, Misc.successLoginDelay)
@@ -142,7 +143,7 @@ const display = (props: Props) => {
 
   return (
 
-    <Grid item container alignItems="center" xs={12}>
+    <Grid item container alignItems="stretch" xs={12}>
 
       <Grid item container justify="flex-start" xs={6}>
 

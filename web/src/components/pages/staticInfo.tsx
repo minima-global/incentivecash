@@ -55,7 +55,7 @@ const appInfo = (props: Props) => {
 
         default:
 
-          props.setActivePage(PageTypes.HOME)
+          props.setActivePage(PageTypes.SIGNIN)
       }
 
     }, [props.page])

@@ -8,7 +8,7 @@ import {
 
 const initialState: AppDataProps = {
     data: {
-      activePage: PageTypes.HOME
+      activePage: PageTypes.SIGNIN
     }
 }
 
