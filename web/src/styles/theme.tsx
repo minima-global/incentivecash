@@ -162,7 +162,7 @@ const themeStyles = makeStyles({
       marginLeft: "auto",
       marginRight: "auto",
       height: "90vh",
-      width: "60vw",
+      width: "80%",
       position: 'relative'
     }
   },
@@ -197,7 +197,7 @@ const themeStyles = makeStyles({
       overflow: 'auto',
       width: "100%",
       position: 'absolute',
-      bottom: '121px',
+      bottom: '100px',
       top: '50px'
     },
     [breakpoints.up('md')]: {
@@ -208,7 +208,7 @@ const themeStyles = makeStyles({
       overflow: 'auto',
       width: "100%",
       position: 'absolute',
-      bottom: '121px',
+      bottom: '100px',
       top: '50px'
     }
   },
@@ -251,7 +251,7 @@ const themeStyles = makeStyles({
       paddingLeft: theme.spacing(4),
       paddingTop: theme.spacing(1),
       margin: "0",
-      height: "121px",
+      height: "100px",
       width: "100%",
       position: 'absolute',
       bottom: '0'
@@ -262,7 +262,7 @@ const themeStyles = makeStyles({
       paddingLeft: theme.spacing(5),
       paddingTop: theme.spacing(1),
       margin: "0",
-      height: "121px",
+      height: "100px",
       width: "100%",
       position: 'absolute',
       bottom: '0'

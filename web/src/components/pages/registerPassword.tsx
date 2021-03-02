@@ -71,7 +71,7 @@ const display = (props: Props) => {
 
   const [summary, setSummary] = useState("")
   let isFirstRun = useRef(true)
-  const storedToken = props.user.info.token
+  let storedToken = ""
   //console.log(storedToken)
 
   let { uid } = useParams<{ uid: string }>()
@@ -89,6 +89,17 @@ const display = (props: Props) => {
     if ( isFirstRun.current ) {
 
       isFirstRun.current = false
+
+      if ( props.user.info ) {
+
+        let storedToken = props.user.info.token
+
+      } else {
+
+        props.setActivePage(PageTypes.SIGNIN)
+        history.push(`${Local.home}`)
+
+      }
 
     } else {
 

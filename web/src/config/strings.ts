@@ -156,7 +156,7 @@ class Register {
   static readonly preBody = "Hello! This is your token - "
   static readonly postBody = " - Please input that exact (case-sensitive) token into the browser window that generated this email. If you close that window, you will need to re-register and generate another token. Many thanks. The Minima Team."
 
-  static readonly registerEmail = 'Please check your email for instructions as to how to complete your registration'
+  static readonly registerEmail = 'Register success. Please check your email for instructions as to how to complete your registration.'
 
   static readonly registerButton = 'Register'
 

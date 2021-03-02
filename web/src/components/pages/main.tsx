@@ -83,7 +83,8 @@ const display = (props: Props) => {
               data-for='logoutButton'
               data-tip
               style={{
-                textTransform: 'none'
+                textTransform: 'none',
+                fontSize: '0.8em'
               }}
             >
               <Typography style={{color: 'white'}} variant="h5">
