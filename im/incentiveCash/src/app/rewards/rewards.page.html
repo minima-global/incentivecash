@@ -1,0 +1,115 @@
+<ion-header class="ion-no-border" [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      <ion-grid class="ion-no-padding">
+        <ion-row>
+          <ion-col class="title ion-no-padding ion-text-center">
+            Minima Incentive Cash
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-title>
+  </ion-toolbar>
+  <ion-toolbar class="sub-toolbar">
+    <ion-grid>
+      <ion-row class="has">
+        <ion-col routerLink="/profile" routerLinkActive="hdr-toolbar-active">Profile</ion-col>
+        <ion-col>Contact</ion-col>
+        <ion-col>About</ion-col>
+        <ion-col class="sign-out">
+          <span id="sign-out-btn" (click) = 'signOut()'>
+            Sign out
+          </span>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Incentive Cash</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list class="cash-list ion-no-padding">
+    <ion-grid class="pre-header ion-no-padding">
+      <ion-row>
+        <ion-col class="ion-no-padding">
+          Other Rewards
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid class="header ion-no-padding m-b7">
+      <ion-row>
+        <ion-col class="ion-text-left" style="padding-right: 25px">Amount</ion-col>
+        <ion-col class="ion-text-left">Reason</ion-col>
+        <ion-col class="ion-text-right">Date</ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-grid class="cash ion-no-padding" *ngFor="let reward of rewardList">
+      <ion-row class="ion-no-margin">
+        <ion-col class="ion-text-left ion-no-padding" style="padding-right: 25px"><p>{{reward.amount}}</p></ion-col>
+        <ion-col class="ion-text-left ion-no-padding"><p>{{reward.reason}}</p></ion-col>
+        <ion-col class="ion-text-right ion-no-padding">
+          {{ reward.date_created }}
+        </ion-col>
+      </ion-row>
+    </ion-grid> 
+
+  </ion-list>
+
+  <ion-toolbar class="cash-progress-toolbar ion-no-padding">
+  <!-- Default Segment -->
+  <ion-segment #claimedSegment value="unclaimed" (ionChange)="segmentChanged($event)">
+    <ion-segment-button 
+    id="first"
+    [ngStyle] = "shownSegments === 'claimed' ? {'border-bottom': 'none'} : {'border-bottom': '2px solid #C1C4CC'}"
+    value="claimed">
+      <ion-label [ngStyle] = "shownSegments === 'claimed' ? {'color': '#001C32'} : {'color': '#C1C4CC'}">Claimed Total</ion-label>
+    </ion-segment-button>
+    <ion-segment-button 
+    id="second"
+    [ngStyle] = "shownSegments === 'unclaimed' ? {'border-bottom': 'none'} : {'border-bottom': '2px solid #C1C4CC'}"
+    value="unclaimed">
+      <ion-label [ngStyle] = "shownSegments === 'unclaimed' ? {'color': '#001C32'} : {'color': '#C1C4CC'}">Unclaimed Total</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-label class="ion-text-center" *ngIf="shownSegments === 'claimed'">
+    <h6>{{totalClaimed}}</h6>
+    <p>Minima Incentive Tokens</p>
+  </ion-label>
+  <ion-label class="ion-text-center" *ngIf="shownSegments === 'unclaimed'">
+    <h6>{{totalUnclaimed}}</h6>
+    <p>Minima Incentive Tokens</p>
+  </ion-label>
+  </ion-toolbar>
+</ion-content>
+
+<ion-footer class="activity ion-no-border ion-text-center">
+  <ion-toolbar>
+    <ion-buttons>
+      <div routerLinkActive="ftr-toolbar-active" class="footer-btn-wrapper" style="margin-right: 45px;">
+        <ion-button routerLink="/rewards">
+          <ion-icon name="cash"></ion-icon>
+        </ion-button>
+        <ion-label>
+          Rewards
+        </ion-label>
+      </div>
+      
+      <div routerLinkActive="ftr-toolbar-active" class="footer-btn-wrapper" style="margin-left: 45px;">
+        <ion-button routerLink="/cash">
+          <ion-icon name="cash"></ion-icon>
+        </ion-button>
+        <ion-label>
+          Incentives
+        </ion-label>
+      </div>
+    </ion-buttons>
+  </ion-toolbar>
+
+</ion-footer>

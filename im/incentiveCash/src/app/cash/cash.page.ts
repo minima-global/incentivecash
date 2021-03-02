@@ -16,8 +16,6 @@ export class CashPage implements OnInit {
   shownSegments = 'claimed';
   
   rewards: Reward[] = [];
-  rewardsBtn: true;
-  incentivesBtn: false;
   totalClaimed: number = 0;
   totalUnclaimed: number = 0;
   timescript: string = 'LET owner = PREVSTATE ( 0 ) LET time = PREVSTATE ( 1 ) RETURN SIGNEDBY ( owner ) AND @BLKNUM GTE time';
@@ -75,7 +73,6 @@ export class CashPage implements OnInit {
       user.loginData.refresh_token = '';
       this._storeService.data.next(user);
       document.location.reload();
-      this.presentToast('Login Status', 'You have signed out successfully');
     })
   }
 
