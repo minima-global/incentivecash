@@ -1128,6 +1128,13 @@ sub {
 .ion-align-items-baseline {
   align-items: baseline !important;
 }
+.no-borders {
+  background: none;
+  outline: none;
+  -webkit-appearance: none;
+  box-shadow: none !important;
+  border: none;
+}
 .no-ripple {
   --ripple-color: transparent;
   --ripple-color: transparent;
@@ -1163,7 +1170,7 @@ ion-header ion-toolbar.sub-toolbar ion-grid ion-row.has ion-col.sign-out span {
 }
 ion-header ion-toolbar.sub-toolbar ion-grid ion-row.has ion-col.sign-out span:hover {
   color: #f0f0fa;
-  background-color: #001C32;
+  background-color: #031B32;
   cursor: pointer;
 }
 @media only screen and (min-width: 992px) {
