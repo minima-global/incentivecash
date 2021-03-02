@@ -37,6 +37,8 @@ const display = (props: Props) => {
     dbase = Remote.devDbaseServerURL
   }
 
+  console.log("Got page set: ", props.appData.activePage)
+
   return (
 
     <Grid container alignItems="flex-start">

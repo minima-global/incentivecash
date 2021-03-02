@@ -60,7 +60,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  setActivePage: () => void
+  setActivePage: (page: PageTypes) => void
   initTx: () => void
   registerPassword: (user: UserRegisterPassword) => void
 }
@@ -83,7 +83,7 @@ const display = (props: Props) => {
 
   useEffect(() => {
 
-    props.setActivePage()
+    //props.setActivePage(PageTypes.REGISTERPASSWORD)
     let pushTimeout: any
 
     if ( isFirstRun.current ) {
@@ -144,27 +144,57 @@ const display = (props: Props) => {
 
     <Grid container alignItems="flex-start">
 
-      <Grid item container justify="flex-start" xs={12}>
+      <Grid item container justify="center" xs={6}>
 
-        <Grid item container justify="center" xs={6}>
+        <Button
+          onClick={() => props.setActivePage(PageTypes.SIGNIN)}
+          color="primary"
+          data-for='loginButton'
+          data-tip
+          style={{
+            textTransform: 'none'
+          }}
+        >
+          <Typography variant="h5">
+            {Paths.signIn}
+          </Typography>
+        </Button>
+        <ReactTooltip
+          id='loginButton'
+          place="bottom"
+          effect="solid"
+        >
+          {Help.loginTip}
+        </ReactTooltip>
 
-         <NavLink to={Local.signIn} className={classes.inactiveLink}>
-          {Paths.signIn}
-         </NavLink>
+        <img src={hrFirst} className={classes.hr}/>
 
-         <img src={hrFirst} className={classes.hr}/>
+      </Grid>
 
-        </Grid>
+      <Grid item container justify="center" xs={6}>
 
-        <Grid item container justify="center" xs={6}>
+        <Button
+          onClick={() => props.setActivePage(PageTypes.REGISTER)}
+          color="primary"
+          data-for='registerButton'
+          data-tip
+          style={{
+            textTransform: 'none'
+          }}
+        >
+          <Typography variant="h5">
+            {Paths.register}
+          </Typography>
+        </Button>
+        <ReactTooltip
+          id='registerButton'
+          place="bottom"
+          effect="solid"
+        >
+          {Help.registerTip}
+        </ReactTooltip>
 
-         <NavLink to={Local.register} className={classes.activeLink}>
-          {Paths.register}
-         </NavLink>
-
-         <img src={hrFirst} className={classes.hr}/>
-
-        </Grid>
+       <img src={hrFirst} className={classes.hr}/>
 
       </Grid>
 
@@ -292,7 +322,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
  return {
-   setActivePage: () => dispatch(setActivePage(PageTypes.REGISTERPASSWORD)),
+   setActivePage: (page: PageTypes) => dispatch(setActivePage(page)),
    initTx: () => dispatch(initTx()),
    registerPassword: (user: UserRegisterPassword) => dispatch(registerPassword(user))
  }
