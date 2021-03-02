@@ -73,6 +73,14 @@ let ProfilePage = class ProfilePage {
         });
     }
     signOut() {
+        document.getElementById('sign-out-btn').style.opacity = '0.5';
+        this._storeService.getUserDetailsOnce().then((res) => {
+            let user = res;
+            user.loginData.access_token = '';
+            user.loginData.refresh_token = '';
+            this._storeService.data.next(user);
+            document.location.reload();
+        });
     }
 };
 ProfilePage.ctorParameters = () => [

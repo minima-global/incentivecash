@@ -5,7 +5,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 @Component({
   selector: 'app-rewards',
   templateUrl: './rewards.page.html',
-  styleUrls: ['./rewards.page.scss'],
+  styleUrls: ['../cash/cash.page.scss'],
 })
 export class RewardsPage implements OnInit {
   
