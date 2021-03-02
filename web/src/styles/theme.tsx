@@ -111,8 +111,8 @@ let theme = createMuiTheme ({
     },
     caption: {
       lineHeight: "1.618",
-      fontSize: "1.1em",
-      fontWeight: 700,
+      fontSize: "0.7em",
+      fontWeight: 600,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
       color: '#F0F0FA',
     },
@@ -188,7 +188,31 @@ const themeStyles = makeStyles({
       top: '0'
     }
   },
-  content: {
+  contentWelcome: {
+    [breakpoints.up('xs')]: {
+      background: 'linear-gradient(#001C32, #001C32)',
+      border: '1px solid #001C32',
+      padding: "0",
+      margin: "0",
+      overflow: 'auto',
+      width: "100%",
+      position: 'absolute',
+      bottom: '100px',
+      top: '50px'
+    },
+    [breakpoints.up('md')]: {
+      background: 'linear-gradient(#001C32, #001C32)',
+      border: '1px solid #001C32',
+      padding: "0",
+      margin: "0",
+      overflow: 'auto',
+      width: "100%",
+      position: 'absolute',
+      bottom: '100px',
+      top: '50px'
+    },
+  },
+  contentHome: {
     [breakpoints.up('xs')]: {
       background: 'linear-gradient(#FAFAFF, #FAFAFF)',
       border: '1px solid #001C32',
@@ -230,6 +254,7 @@ const themeStyles = makeStyles({
   },
   rightContent: {
     [breakpoints.up('xs')]: {
+      background: 'linear-gradient(#FAFAFF, #FAFAFF)',
       paddingRight: theme.spacing(4),
       paddingLeft: theme.spacing(4),
       margin: "0",
@@ -237,6 +262,7 @@ const themeStyles = makeStyles({
       width: "100%"
     },
     [breakpoints.up('md')]: {
+      background: 'linear-gradient(#FAFAFF, #FAFAFF)',
       paddingRight: theme.spacing(5),
       paddingLeft: theme.spacing(5),
       margin: "0",
@@ -292,8 +318,8 @@ const themeStyles = makeStyles({
   },
   appIcon: {
     [breakpoints.up('xs')]: {
-      height: "50px",
-      width: '50px'
+      height: "65px",
+      width: '60px'
     }
   },
   downloadIcon: {

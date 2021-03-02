@@ -79,8 +79,11 @@ const display = (props: Props) => {
 
         <Typography variant="body1">
           <br/>
-          {Home.infoSecond}<br/><br/>
           {WelcomeConfig.moreInfo} <a href={App.website}>{App.website}</a>.<br/><br/>
+        </Typography>
+
+        <Typography variant="h3">
+          {WelcomeConfig.heading}
         </Typography>
 
       </Grid>
@@ -176,10 +179,7 @@ const display = (props: Props) => {
             <br/>
             {WelcomeConfig.infoSecond}<br />
           </Typography>
-          <Typography variant="h3">
-            {WelcomeConfig.heading}
-          </Typography>
-          
+
         </Grid>
 
       </Grid>

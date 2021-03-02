@@ -101,6 +101,10 @@ const display = (props: Props) => {
 
           </Grid>
 
+          <Grid className={classes.contentWelcome} alignItems="flex-start" item container xs={12}>
+            <Content />
+          </Grid>
+
         </>
 
       : (
@@ -115,19 +119,29 @@ const display = (props: Props) => {
 
           </Grid>
 
+          <Grid className={classes.contentHome} alignItems="flex-start" item container xs={12}>
+            <Content />
+          </Grid>
+
         </>
 
       )}
 
-      <Grid className={classes.content} alignItems="flex-start" item container xs={12}>
-        <Content />
-      </Grid>
 
-      <Grid item container className={classes.footer} justify="center" xs={12}>
+      <Grid item container className={classes.footer} xs={12}>
 
-        <Grid item container justify="center" xs={2}>
+        <Grid item container alignItems="center" justify="flex-start" xs={6}>
 
-          &nbsp;
+          <Typography variant="caption">
+            {App.catchLine}<br />
+            {App.copyright}
+          </Typography>
+
+        </Grid>
+
+        <Grid item container  alignItems="center" justify="flex-end" xs={6}>
+
+          <img className={classes.appIcon} src={minimaIcon} />
 
         </Grid>
 
