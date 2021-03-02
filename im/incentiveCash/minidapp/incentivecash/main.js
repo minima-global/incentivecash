@@ -705,6 +705,16 @@ const routes = [
         path: 'rewards',
         loadChildren: () => Promise.all(/*! import() | rewards-rewards-module */[__webpack_require__.e("common"), __webpack_require__.e("rewards-rewards-module")]).then(__webpack_require__.bind(null, /*! ./rewards/rewards.module */ "GvLF")).then(m => m.RewardsPageModule),
         canActivate: [_api_auth_guard_service__WEBPACK_IMPORTED_MODULE_1__["AuthGuardService"]]
+    },
+    {
+        path: 'contact',
+        loadChildren: () => __webpack_require__.e(/*! import() | contact-contact-module */ "contact-contact-module").then(__webpack_require__.bind(null, /*! ./contact/contact.module */ "BjQp")).then(m => m.ContactPageModule),
+        canActivate: [_api_auth_guard_service__WEBPACK_IMPORTED_MODULE_1__["AuthGuardService"]]
+    },
+    {
+        path: 'faqs',
+        loadChildren: () => __webpack_require__.e(/*! import() | faqs-faqs-module */ "faqs-faqs-module").then(__webpack_require__.bind(null, /*! ./faqs/faqs.module */ "Toy+")).then(m => m.FaqsPageModule),
+        canActivate: [_api_auth_guard_service__WEBPACK_IMPORTED_MODULE_1__["AuthGuardService"]]
     }
 ];
 let AppRoutingModule = class AppRoutingModule {
