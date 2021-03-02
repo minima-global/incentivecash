@@ -114,9 +114,9 @@ const userRegister = (props: Props) => {
 
   return (
 
-    <Grid container alignItems="flex-start">
+    <Grid item container alignItems="center" xs={12}>
 
-      <Grid item container justify="center" xs={6}>
+      <Grid item container justify="flex-start" xs={6}>
 
         <Button
           onClick={() => props.setActivePage(PageTypes.SIGNIN)}
@@ -143,7 +143,7 @@ const userRegister = (props: Props) => {
 
       </Grid>
 
-      <Grid item container justify="center" xs={6}>
+      <Grid item container justify="flex-end" xs={6}>
 
         <Button
           onClick={() => props.setActivePage(PageTypes.REGISTER)}
@@ -151,10 +151,11 @@ const userRegister = (props: Props) => {
           data-for='registerButton'
           data-tip
           style={{
-            textTransform: 'none'
+            textTransform: 'none',
+            color: '#001C32'
           }}
         >
-          <Typography variant="h5">
+          <Typography variant="h4">
             {Paths.register}
           </Typography>
         </Button>

@@ -1,9 +1,10 @@
 class App {
 
   static readonly title = 'Minima'
-  static readonly appName = 'Incentive Cash'
+  static readonly appName = 'Incentive Program'
   static readonly catchLine = `Powered by ${App.title}`
   static readonly tagline = ''
+  static readonly website = "http://www.minima.global"
   static readonly copyright = '© Copyright 2021 Minima GmbH'
   static readonly author = 'Dr Steve Huckle'
   static readonly enquiries = 'Chris Brown'
@@ -22,6 +23,7 @@ class Paths {
   static readonly welcome = 'Welcome'
 
   static readonly signIn = 'Sign In'
+  static readonly signOut = 'Sign Out'
   static readonly register = 'Register'
   static readonly registerReferral = `${Paths.register}`
   static readonly registerEmail = `${Paths.register}`
@@ -42,12 +44,27 @@ class GeneralError {
 
 class Home {
 
+  static readonly heading = "Welcome"
+  static readonly subHeading = `to the ${App.title}`
+
+  //+ `<span style={{color: 'red'}}>${App.appName}</span>`
+
+  static readonly info = `${App.title} is a truly decentralised, ultra-lean, blockchain running entirely on mobile and IoT devices.`
+  static readonly infoSecond = `The ${App.title} ${App.appName} exists to reward users for engaging in the ${App.title} community, helping us test our protocol, and building applications in our ecosystem. You can earn coins by simply registering for the program, downloading our app and running a node on your Android device.`
+  static readonly infoThird = `Join the ${App.title} community and participate in building the next era of decentralised web infrastructure.`
+  static readonly infoFourth = `Please note that at this stage in our development, in order to participate in the ${App.title} ${App.appName}, you will need to run an Android device.`
+  static readonly infoFifth = "Register and start earning coins today."
+
+  static readonly moreInfo = `To find out more about ${App.title}, please visit`
+
+  //static readonly info = [`The ${App.title} Incentives Server!`,`For all ${App.title} incentive program enquires, please email ${App.enquiries} at ${App.email}.`]
+}
+
+class Welcome {
+
   static readonly heading = `Welcome to the ${App.title} ${App.appName} system`
 
   static readonly downloadInfo = [`Please download the ${App.title} ${App.appName} MiniDapp using the button below`]
-
-  static readonly referralInfo = "Below are your referral link(s). Use the copy button(s) to share referrals with your friends and acquaintances."
-  static readonly referralCopy = "Copy Referral"
 
   static readonly downloadMiniDapp = "MiniDapp"
 
@@ -98,6 +115,7 @@ class User {
   static readonly password = 'Password'
   static readonly password2 = 'Re-type Password'
   static readonly loginButton = 'Sign In'
+  static readonly logoutButton = 'Sign Out'
 
   static readonly first = "First name"
   static readonly last = "Last name"
@@ -143,31 +161,6 @@ class Register {
   static readonly login = "Success - please login using your new password"
 }
 
-class Reward {
-
-  static readonly heading = 'Rewards'
-
-  static readonly amount = "Amount"
-  static readonly reason = "Reason"
-  static readonly date = "Date and Time"
-}
-
-class Referral {
-
-  static readonly heading = 'Referrals'
-
-  static readonly referralURL = "Referral URL"
-}
-
-class Collection {
-
-  static readonly heading = 'Collection'
-
-  static readonly getCollectionSuccess = 'Success'
-  static readonly getCollectionFailure = 'Failure'
-
-}
-
 class Post {
 
   static readonly postSuccess = 'Success'
@@ -179,13 +172,11 @@ export { App,
          Paths,
          GeneralError,
          Home,
+         Welcome,
          About,
          Help,
          Contact,
          User,
          Register,
-         Reward,
-         Referral,
-         Collection,
          Post
        }

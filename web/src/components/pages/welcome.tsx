@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { connect } from 'react-redux'
+import { useHistory } from "react-router-dom"
 //import { useParams } from 'react-router-dom'
 
 import Grid from '@material-ui/core/Grid'
@@ -24,8 +25,9 @@ import { setActivePage } from '../../store/app/appData/actions'
 
 import {
   Remote,
+  Local,
   Help,
-  Home
+  Welcome as WelcomeConfig
 } from '../../config'
 
 interface StateProps {
@@ -33,20 +35,22 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  setActivePage: () => void
+  setActivePage: (page: PageTypes) => void
 }
 
 type Props = StateProps & DispatchProps
 
 const display = (props: Props) => {
 
+  const history = useHistory()
   const classes = themeStyles()
 
   useEffect(() => {
 
     if ( !props.user.info.id ) {
 
-      // redirect to <Home>
+      props.setActivePage(PageTypes.SIGNIN)
+      history.push(`${Local.home}`)
 
     }
 
@@ -54,11 +58,11 @@ const display = (props: Props) => {
 
   return (
 
-    <Grid container justify="center" alignItems="flex-start">
+    <>
 
-      <Grid item container justify="center" className={classes.details} xs={7}>
+      <Grid item container justify="center" className={classes.rightContent} xs={7}>
         <Typography align="center" variant="h2">
-          {Home.heading}
+          {WelcomeConfig.heading}
         </Typography>
       </Grid>
 
@@ -71,13 +75,13 @@ const display = (props: Props) => {
         </svg>
       </Grid>
 
-      <Grid item container justify="center" className={classes.details} xs={7}>
+      <Grid item container justify="center" className={classes.rightContent} xs={7}>
         <Typography align="center" variant="h3">
-          {Home.downloadInfo}
+          {WelcomeConfig.downloadInfo}
         </Typography>
       </Grid>
 
-      <Grid item container justify="center" className={classes.details} xs={6}>
+      <Grid item container justify="center" className={classes.rightContent} xs={6}>
         <a href={Remote.miniDappURL} style={{textDecoration: 'none'}}>
           <Button
             className={classes.submitButton}
@@ -92,7 +96,7 @@ const display = (props: Props) => {
               fontSize: "1em",
             }}
           >
-            {Home.downloadMiniDapp}
+            {WelcomeConfig.downloadMiniDapp}
           </Button>
           <ReactTooltip
             id='download'
@@ -105,7 +109,7 @@ const display = (props: Props) => {
       </Grid>
 
 
-    </Grid>
+    </>
   )
 }
 
@@ -117,7 +121,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
  return {
-   setActivePage: () => dispatch(setActivePage(PageTypes.WELCOME))
+   setActivePage: (page: PageTypes) => dispatch(setActivePage(page))
  }
 }
 

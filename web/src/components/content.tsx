@@ -26,44 +26,44 @@ export const Content = () => {
       <Route
         name={Paths.help}
         exact path={Local.help}
-        render={() => <Info type={PageTypes.HELP}/>}
+        render={() => <Info page={PageTypes.HELP}/>}
       />
       <Route
         name={Paths.contact}
         exact path={Local.contact}
-        render={() => <Info type={PageTypes.CONTACT}/>}
+        render={() => <Info page={PageTypes.CONTACT}/>}
       />
       <Route
         name={Paths.about}
         exact path={Local.about}
-        render={() => <Info type={PageTypes.ABOUT}/>}
+        render={() => <Info page={PageTypes.ABOUT}/>}
       />
 
       <Route
         name={Paths.register}
         exact path={Local.register}
-        render={() => <Home />}
+        render={() => <Home page={PageTypes.REGISTER}/>}
       />
       <Route
         name={Paths.registerReferral}
         exact path={Local.registerReferral}
-        render={() => <Home />}
+        render={() => <Home page={PageTypes.REGISTER}/>}
       />
       <Route
         name={Paths.registerEmail}
         exact path={Local.registerEmail}
-        render={() => <Home />}
+        render={() => <Home page={PageTypes.REGISTERPASSWORD}/>}
       />
       <Route
         name={Paths.registerEmailUID}
         exact path={Local.registerEmailUID}
-        render={() => <Home />}
+        render={() => <Home page={PageTypes.REGISTERPASSWORD}/>}
       />
 
       <Route
         name={Paths.home}
         path={Local.home}
-        render= {() => <Home />}
+        render= {() => <Home page={PageTypes.SIGNIN}/>}
       />
 
     </Switch>

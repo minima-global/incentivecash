@@ -24,7 +24,6 @@ import {
   Register as RegisterConfig,
   Dbase,
   Smtp,
-  Collection,
   Post
 } from '../../../config'
 

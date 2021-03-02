@@ -16,7 +16,7 @@ import { About, Help, Contact } from '../../config/strings'
 import { setActivePage } from '../../store/app/appData/actions'
 
 interface StaticInfoProps {
-  type: PageTypes
+  page: PageTypes
 }
 
 interface DispatchProps {
@@ -34,7 +34,7 @@ const appInfo = (props: Props) => {
 
     useEffect(() => {
 
-      switch (props.type) {
+      switch (props.page) {
         case PageTypes.ABOUT:
 
           setPageData({ title: About.heading, data: About.info })
@@ -58,7 +58,7 @@ const appInfo = (props: Props) => {
           props.setActivePage(PageTypes.HOME)
       }
 
-    }, [props.type])
+    }, [props.page])
 
     return (
       <Grid container alignItems="flex-start">
@@ -77,7 +77,7 @@ const appInfo = (props: Props) => {
 
             <React.Fragment key={i}>
 
-              <Grid item container className={classes.details} xs={12}>
+              <Grid item container className={classes.rightContent} xs={12}>
                 <Typography variant="body1">
                   {data}
                 </Typography>

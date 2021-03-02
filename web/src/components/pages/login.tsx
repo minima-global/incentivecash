@@ -55,16 +55,13 @@ const userLogin = (props: Props) => {
 
   const [user, setUser] = useState({email: "", password: ""})
   const [summary, setSummary] = useState("")
-  let isFirstRun = useRef(true)
   const history = useHistory()
+  let isFirstRun = useRef(true)
 
   const classes = themeStyles()
 
-  //console.log("master blah")
-
   useEffect(() => {
 
-    //props.setActivePage(PageTypes.SIGNIN)
     let pushTimeout: any
 
     if ( isFirstRun.current ) {
@@ -84,6 +81,7 @@ const userLogin = (props: Props) => {
           props.getUser()
           pushTimeout = setTimeout(() => {
             props.initTx()
+            props.setActivePage(PageTypes.WELCOME)
             history.push(`${Local.welcome}`)
           }, Misc.successLoginDelay)
         }
@@ -115,21 +113,20 @@ const userLogin = (props: Props) => {
   })
 
   return (
+    <Grid item container alignItems="center" xs={12}>
 
-    <Grid container alignItems="flex-start">
-
-      <Grid item container justify="center" xs={6}>
+      <Grid item container justify="flex-start" xs={6}>
 
         <Button
           onClick={() => props.setActivePage(PageTypes.SIGNIN)}
-          color="primary"
           data-for='loginButton'
           data-tip
           style={{
+            textAlign: 'left',
             textTransform: 'none'
           }}
         >
-          <Typography variant="h5">
+          <Typography variant="h4">
             {Paths.signIn}
           </Typography>
         </Button>
@@ -145,7 +142,7 @@ const userLogin = (props: Props) => {
 
       </Grid>
 
-      <Grid item container justify="center" xs={6}>
+      <Grid item container justify="flex-end" xs={6}>
 
           <Button
             onClick={() => props.setActivePage(PageTypes.REGISTER)}
@@ -153,6 +150,7 @@ const userLogin = (props: Props) => {
             data-for='registerButton'
             data-tip
             style={{
+              textAlign: 'right',
               textTransform: 'none'
             }}
           >
@@ -249,11 +247,6 @@ const userLogin = (props: Props) => {
     </Grid>
   )
 }
-
-//error={formik.touched.password && Boolean(formik.errors.password)}
-// helperText={formik.touched.password && formik.errors.password}
-//error={formik.touched.email && Boolean(formik.errors.email)}
-//helperText={formik.touched.email && formik.errors.email}
 
 const mapStateToProps = (state: ApplicationState): StateProps => {
   return {

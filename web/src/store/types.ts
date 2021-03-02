@@ -26,7 +26,6 @@ export const enum PageTypes {
   HOME = "home",
   WELCOME = "welcome",
   REGISTER = "register",
-  REGISTERREFERRAL = "registerReferral",
   REGISTERPASSWORD = "registerPassword",
   SIGNIN = "signin",
   ABOUT = "about",

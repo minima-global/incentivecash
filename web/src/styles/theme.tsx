@@ -23,6 +23,7 @@ xl, extra-large: 1920px
 */
 
 const breakpoints = createBreakpoints({})
+
 let theme = createMuiTheme ({
   spacing: 8,
   typography: {
@@ -39,93 +40,84 @@ let theme = createMuiTheme ({
     fontWeightMedium: 500,
     fontWeightBold: 700,
     h1: {
-      [breakpoints.up('xs')]: {
-        lineHeight: "1.5",
-        fontSize:  "2.2em",
-        fontWeight: 700,
-        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-        color: '#001C32',
-      }
+      lineHeight: "1.618",
+      fontSize:  "2em",
+      fontWeight: 700,
+      fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+      color: '#F0F0FA'
     },
     h2: {
-      [breakpoints.up('xs')]: {
-        lineHeight: "1.5",
-        fontSize: "2em",
-        fontWeight: 400,
-        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-        color: '#91919D'
-      }
+      lineHeight: "1.618",
+      fontSize: "2em",
+      fontWeight: 400,
+      fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+      color: '#91919D'
     },
     h3: {
-      [breakpoints.up('xs')]: {
-        lineHeight: '1.5',
-        fontSize: "1.25em",
-        fontWeight: 400,
-        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-        color: '#91919D'
-      }
+      lineHeight: "1.618",
+      fontSize: "1.25em",
+      fontWeight: 400,
+      fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+      color: '#91919D'
     },
     h4: {
-      [breakpoints.up('xs')]: {
-        lineHeight: '1.5',
-        fontSize: "1em",
-        fontWeight: 400,
-        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-        color: '#91919D'
-      }
+      lineHeight: "1.618",
+      fontSize: "1em",
+      fontWeight: 400,
+      fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+      color: '#001C32'
     },
     h5: {
-      [breakpoints.up('xs')]: {
-        lineHeight: "1.2",
-        fontSize: "0.9em",
-        fontWeight: 400,
-        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-        color: '#001C32'
-      }
+      lineHeight: "1.618",
+      fontSize: "1em",
+      fontWeight: 400,
+      fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+      color: '#AAAABE'
     },
     h6: {
-      [breakpoints.up('xs')]: {
-        lineHeight: "1.2",
-        fontSize: "0.9em",
-        fontWeight: 400,
-        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-        color: '#317AFF'
-      }
+      lineHeight: "1.618",
+      fontSize: "0.9em",
+      fontWeight: 400,
+      fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+      color: '#317AFF'
     },
     subtitle1: {
-      lineHeight: "2.5",
+      lineHeight: "1.618",
       fontSize: "1em",
       fontWeight: 600,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
       color: '#FFFFFF'
     },
     subtitle2: {
+      lineHeight: "1.618",
       fontSize: "0.8em",
       fontWeight: 400,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
       color: '#F0F0FA'
     },
     body1: {
-      lineHeight: '1.1',
+      lineHeight: "1.618",
       fontSize: "1",
       fontWeight: 400,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-      color: '#001C32',
+      color: '#F0F0FA',
     },
     body2: {
-      lineHeight: '1',
+      lineHeight: "1.618",
       fontSize: "1",
       fontWeight: 400,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-      color: '#001C32',
+      color: '#AAAABE',
     },
     caption: {
+      lineHeight: "1.618",
       fontSize: "1.1em",
       fontWeight: 700,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
       color: '#F0F0FA',
     },
     button: {
+      lineHeight: "1.618",
       fontSize: "1.8em",
       textTransform: "uppercase",
       fontWeight: 500,
@@ -160,19 +152,17 @@ theme = responsiveFontSizes(theme)
 const themeStyles = makeStyles({
   root: {
     [breakpoints.up('xs')]: {
-      background: 'linear-gradient(#000000, #000000)',
       height: "100vh",
       width: "100%",
       position: 'relative'
     },
     [breakpoints.up('md')]: {
-      background: 'linear-gradient(#000000, #000000)',
       marginTop: "5vh",
       marginBottom: "5vh",
       marginLeft: "auto",
       marginRight: "auto",
       height: "90vh",
-      width: "40%",
+      width: "60vw",
       position: 'relative'
     }
   },
@@ -198,79 +188,60 @@ const themeStyles = makeStyles({
       top: '0'
     }
   },
-  subHeader: {
-    [breakpoints.up('xs')]: {
-      background: 'linear-gradient(#F0F0FA, #F0F0FA)',
-      paddingRight: theme.spacing(4),
-      paddingLeft: theme.spacing(4),
-      paddingBottom: theme.spacing(1),
-      paddingTop: theme.spacing(1),
-      margin: "0",
-      height: "60px",
-      width: "100%",
-      position: 'absolute',
-      top: '50px'
-    },
-    [breakpoints.up('md')]: {
-      background: 'linear-gradient(#F0F0FA, #F0F0FA)',
-      paddingRight: theme.spacing(5),
-      paddingLeft: theme.spacing(5),
-      paddingBottom: theme.spacing(1),
-      paddingTop: theme.spacing(1),
-      margin: "0",
-      textAlign: 'center',
-      height: "60px",
-      width: "100%",
-      position: 'absolute',
-      top: '50px'
-    }
-  },
-  loggedOutContent: {
-    [breakpoints.up('xs')]: {
-      background: 'linear-gradient(#F0F0FA, #F0F0FA)',
-      paddingRight: theme.spacing(4),
-      paddingLeft: theme.spacing(4),
-      margin: "0",
-      overflow: 'auto',
-      width: "100%",
-      position: 'absolute',
-      bottom: '121px',
-      top: '50px'
-    },
-    [breakpoints.up('md')]: {
-      background: 'linear-gradient(#F0F0FA, #F0F0FA)',
-      paddingRight: theme.spacing(5),
-      paddingLeft: theme.spacing(5),
-      margin: "0",
-      overflow: 'auto',
-      width: "100%",
-      position: 'absolute',
-      bottom: '121px',
-      top: '50px'
-    }
-  },
   content: {
     [breakpoints.up('xs')]: {
-      background: 'linear-gradient(#FAFAFF, #FAFAFF)',
-      paddingRight: theme.spacing(4),
-      paddingLeft: theme.spacing(4),
+      background: 'linear-gradient(#001C32, #001C32)',
+      border: '1px solid #001C32',
+      padding: "0",
       margin: "0",
       overflow: 'auto',
       width: "100%",
       position: 'absolute',
       bottom: '121px',
-      top: '110px'
+      top: '50px'
+    },
+    [breakpoints.up('md')]: {
+      background: 'linear-gradient(#001C32, #001C32)',
+      border: '1px solid #001C32',
+      padding: "0",
+      margin: "0",
+      overflow: 'auto',
+      width: "100%",
+      position: 'absolute',
+      bottom: '121px',
+      top: '50px'
+    }
+  },
+  leftContent: {
+    [breakpoints.up('xs')]: {
+      paddingRight: theme.spacing(4),
+      paddingLeft: theme.spacing(4),
+      margin: "0",
+      width: "100%"
+    },
+    [breakpoints.up('md')]: {
+      paddingRight: theme.spacing(5),
+      paddingLeft: theme.spacing(5),
+      margin: "0",
+      width: "100%"
+    }
+  },
+  rightContent: {
+    [breakpoints.up('xs')]: {
+      background: 'linear-gradient(#FAFAFF, #FAFAFF)',
+      paddingRight: theme.spacing(4),
+      paddingLeft: theme.spacing(4),
+      margin: "0",
+      height: "100%",
+      width: "100%"
     },
     [breakpoints.up('md')]: {
       background: 'linear-gradient(#FAFAFF, #FAFAFF)',
       paddingRight: theme.spacing(5),
       paddingLeft: theme.spacing(5),
       margin: "0",
-      overflow: 'auto',
-      width: "100%",
-      position: 'absolute',
-      bottom: '121px',
-      top: '110px'
+      height: "100%",
+      width: "100%"
     }
   },
   footer: {
@@ -296,11 +267,6 @@ const themeStyles = makeStyles({
       position: 'absolute',
       bottom: '0'
     }
-  },
-  details: {
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
-    margin: "0",
   },
   spinner: {
      position: 'relative',
@@ -447,8 +413,7 @@ const themeStyles = makeStyles({
     },*/
   },
   formInput: {
-    border: '2px solid',
-    borderColour: '#C8C8D4',
+    border: '2px solid #C8C8D4',
     borderRadius: '5px',
     background: 'linear-gradient(#FFFFFF, #FFFFFF)'
   },

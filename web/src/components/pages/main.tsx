@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useHistory } from 'react-router-dom'
 
 import GoogleFontLoader from 'react-google-font-loader'
 
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
+import ReactTooltip from 'react-tooltip'
+
+import logoutIcon from '../../images/logout01.svg'
+import minimaIcon from '../../images/minimaIcon.svg'
 
 import { Content } from '../content'
 
@@ -19,37 +24,39 @@ import {
   PageTypes
  } from '../../store'
 
-import IconButton from '@material-ui/core/IconButton'
-
-import ReactTooltip from 'react-tooltip'
-
-import helpIcon from '../../images/helpIcon.svg'
-import helpActiveIcon from '../../images/helpActiveIcon.svg'
-import infoIcon from '../../images/infoIcon.svg'
-import infoActiveIcon from '../../images/infoActiveIcon.svg'
-import contactIcon from '../../images/contactIcon.svg'
-import contactActiveIcon from '../../images/contactActiveIcon.svg'
-import logoutIcon from '../../images/logout01.svg'
-
-import minimaIcon from '../../images/minimaIcon.svg'
+import { setActivePage } from '../../store/app/appData/actions'
+import { initUser } from '../../store/app/server/actions'
 
 import { themeStyles } from '../../styles'
 
-import { Paths, Local, Help } from '../../config'
+import { Paths, Local, Help, User } from '../../config'
 
 interface StateProps {
   appData: AppData
 }
 
-type Props = StateProps
+interface DispatchProps {
+  initUser: () => void
+  setActivePage: (page: PageTypes) => void
+}
+
+type Props = StateProps & DispatchProps
 
 const display = (props: Props) => {
 
+  const history = useHistory()
   const classes = themeStyles()
+
+  const logOut = () => {
+
+    props.initUser()
+    props.setActivePage(PageTypes.SIGNIN)
+    history.push(`${Local.home}`)
+  }
 
   return (
 
-    <Grid className={classes.root} item container alignItems="flex-start">
+    <Grid className={classes.root}>
 
       <GoogleFontLoader
         fonts={[
@@ -68,11 +75,28 @@ const display = (props: Props) => {
 
         <>
 
-          <Grid item container justify="center" alignItems="center" className={classes.header} xs={12}>
+          <Grid item container justify="flex-end" alignItems="center" className={classes.header} xs={12}>
 
-            <Typography variant="caption">
-              {App.appName}
-            </Typography>
+            <Button
+              onClick={() => logOut()}
+              color="primary"
+              data-for='logoutButton'
+              data-tip
+              style={{
+                textTransform: 'none'
+              }}
+            >
+              <Typography style={{color: 'white'}} variant="h5">
+                {Paths.signOut}
+              </Typography>
+            </Button>
+            <ReactTooltip
+              id='logoutButton'
+              place="bottom"
+              effect="solid"
+            >
+              {Help.logoutTip}
+            </ReactTooltip>
 
           </Grid>
 
@@ -85,7 +109,7 @@ const display = (props: Props) => {
           <Grid item container justify="center" alignItems="center" className={classes.header} xs={12}>
 
             <Typography variant="caption">
-              {App.appName} + blah
+              &nbsp;
             </Typography>
 
           </Grid>
@@ -116,6 +140,14 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
   return { appData: state.appData.data }
 }
 
-export const Main = connect<StateProps, {}, {}, ApplicationState>(
-  mapStateToProps
+const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
+ return {
+   initUser: () => dispatch(initUser()),
+   setActivePage: (page: PageTypes) => dispatch(setActivePage(page))
+ }
+}
+
+export const Main = connect<StateProps, DispatchProps, {}, ApplicationState>(
+  mapStateToProps,
+  mapDispatchToProps
 )(display)
