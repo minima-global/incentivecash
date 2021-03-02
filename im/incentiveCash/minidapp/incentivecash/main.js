@@ -695,6 +695,10 @@ const routes = [
         path: 'cash/:id',
         loadChildren: () => __webpack_require__.e(/*! import() | cash-cash-module */ "cash-cash-module").then(__webpack_require__.bind(null, /*! ./cash/cash.module */ "pJyb")).then(m => m.CashPageModule),
         canActivate: [_api_auth_guard_service__WEBPACK_IMPORTED_MODULE_1__["AuthGuardService"]]
+    },
+    {
+        path: 'profile',
+        loadChildren: () => __webpack_require__.e(/*! import() | profile-profile-module */ "profile-profile-module").then(__webpack_require__.bind(null, /*! ./profile/profile.module */ "cRhG")).then(m => m.ProfilePageModule)
     }
 ];
 let AppRoutingModule = class AppRoutingModule {

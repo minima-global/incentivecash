@@ -21,6 +21,10 @@ const routes: Routes = [
     path: 'cash/:id',
     loadChildren: () => import('./cash/cash.module').then( m => m.CashPageModule),
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
   }
 ];
 

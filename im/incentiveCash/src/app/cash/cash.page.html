@@ -13,7 +13,7 @@
   <ion-toolbar class="sub-toolbar">
     <ion-grid>
       <ion-row class="has">
-        <ion-col>Profile</ion-col>
+        <ion-col routerLink="/profile" routerLinkActive="hdr-toolbar-active">Profile</ion-col>
         <ion-col>Contact</ion-col>
         <ion-col>About</ion-col>
         <ion-col class="sign-out">
@@ -105,8 +105,8 @@
 <ion-footer class="activity ion-no-border ion-text-center">
   <ion-toolbar>
     <ion-buttons>
-      <div [ngClass]="{'active' : rewardsBtn }" class="footer-btn-wrapper" style="margin-right: 45px;">
-        <ion-button>
+      <div routerLinkActive="ftr-toolbar-active" class="footer-btn-wrapper" style="margin-right: 45px;">
+        <ion-button routerLink="/rewards">
           <ion-icon name="cash"></ion-icon>
         </ion-button>
         <ion-label>
@@ -114,8 +114,8 @@
         </ion-label>
       </div>
       
-      <div class="footer-btn-wrapper" style="margin-left: 45px;">
-        <ion-button [ngClass]="{'active' : incentivesBtn }">
+      <div routerLinkActive="ftr-toolbar-active" class="footer-btn-wrapper" style="margin-left: 45px;">
+        <ion-button routerLink="/cash">
           <ion-icon name="cash"></ion-icon>
         </ion-button>
         <ion-label>
