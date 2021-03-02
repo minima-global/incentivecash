@@ -14,7 +14,7 @@
     <ion-grid>
       <ion-row class="has">
         <ion-col routerLink="/profile" routerLinkActive="hdr-toolbar-active">Profile</ion-col>
-        <ion-col routerLink="/faqs" routerLinkActive="hdr-toolbar-active">FAQs</ion-col>
+        <ion-col routerLink="faqs" routerLinkActive="hdr-toolbar-active">FAQs</ion-col>
         <ion-col routerLink="/contact" routerLinkActive="hdr-toolbar-active">Contact</ion-col>
         <ion-col class="sign-out">
           <span id="sign-out-btn" (click) = 'signOut()'>
@@ -33,42 +33,48 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-list class="profile-list ion-no-padding">
+  <ion-list class="contact-list ion-no-padding">
     <ion-grid class="pre-header ion-no-padding">
       <ion-row>
         <ion-col class="ion-no-padding">
-          Profile
+          Contact
         </ion-col>
       </ion-row>
     </ion-grid>
 
-    <ion-grid class="profile ion-no-padding">
-      <ion-row>
-        <ion-col size="2" class="ion-no-padding ion-text-left">
-          <ion-icon class="profile-icons" src="assets/emailIcon.svg"></ion-icon>
-        </ion-col>
-        <ion-col class="information">{{ user.email }}</ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="2" class="ion-no-padding ion-text-left">
-          <ion-icon class="profile-icons" src="assets/lastAccessIcon.svg"></ion-icon>
-        </ion-col>
-        <ion-col class="information">
-          <h6>Last access</h6>
-          <p>Date: 2021-02-18</p>
-          <p>Time: 16:36:29</p>
+    <ion-grid class="contact ion-no-padding">
+      <ion-row class="report-paragraph">
+        <ion-col>
+          <p>
+            To report a technical problem, please email a brief description of the issue to minima-global@fire.fundersclub.com. For all other enquires, please email our community management team at community@minima.global.
+          </p>
         </ion-col>
       </ion-row>
-      <ion-row>
-        <ion-col size="2" class="ion-no-padding ion-text-left">
-          <ion-icon class="profile-icons" src="assets/referralIcon.svg"></ion-icon>
-        </ion-col>
-        <ion-col class="information">
-          <h6>My referral code</h6>
-          <p>We will be issuing referral codes later on in the program</p>
-          <ion-button disabled type="button" fill="clear">Copy referral code</ion-button>
+      <ion-row class="general-paragraph">
+        <ion-col>
+          <p>
+            For general information regarding the Minima Rewards Program, please use the resources below.
+          </p>
         </ion-col>
       </ion-row>
+      <ion-list class="socials" lines="none">
+        <ion-item href="https://discord.com/invite/SgvQ6mc" target="_">
+          <ion-avatar><ion-icon src="assets/discordLogo.svg"></ion-icon></ion-avatar>
+          <ion-label>
+            <h6>Discord</h6>
+            <p>Use the incentive cash channel</p>
+          </ion-label>
+        </ion-item>
+        <ion-item href="https://t.me/Minima_Global" target="_">
+          <ion-avatar>
+            <ion-icon src="assets/telegramLogo.svg"></ion-icon>
+          </ion-avatar>
+          <ion-label>
+            <h6>Telegram</h6>
+            <p>Contact an admin</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
       
     </ion-grid>
   </ion-list>

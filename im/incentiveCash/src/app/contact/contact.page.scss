@@ -1,0 +1,49 @@
+ion-list.contact-list {
+  margin-top: 12px; 
+  background-color: transparent;
+  margin-left: 27px;
+  margin-right: 27px;
+  ion-grid.pre-header {
+    ion-row ion-col {
+      margin-bottom: 0px;
+    }
+  }
+  ion-grid.contact {
+    ion-row.report-paragraph {
+      border-bottom: 0.5px solid #D2E0FF;
+      padding-bottom: 2px;
+      margin-top: 2px;
+    }
+    ion-list.socials {
+      ion-item {
+        --background: transparent;
+        --background-hover: none;
+        --padding-start: 0;
+      }
+      background-color: transparent;
+      ion-avatar {
+        margin-right: 15px;
+      }
+      ion-icon {
+        width: 40px;
+        height: 40px;
+      }
+      margin-top: 21px;
+      h6 {
+        margin:0;
+        margin-bottom: 1px;
+      }
+      p {
+        margin:0;
+        color: #91919d;
+        margin-bottom: 1px;
+      }
+    }
+  }
+}
+@media only screen and (min-width: 992px ) {
+  ion-list.contact-list {
+    margin-left: 110px;
+    margin-right: 110px;
+  }
+}

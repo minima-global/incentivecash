@@ -14,8 +14,8 @@
     <ion-grid>
       <ion-row class="has">
         <ion-col class="no-borders" routerLink="/profile" routerLinkActive="hdr-toolbar-active">Profile</ion-col>
-        <ion-col>FAQs</ion-col>
-        <ion-col>Contact</ion-col>
+        <ion-col routerLink="faqs" routerLinkActive="hdr-toolbar-active">FAQs</ion-col>
+        <ion-col routerLink="/contact" routerLinkActive="hdr-toolbar-active">Contact</ion-col>
         <ion-col class="sign-out">
           <span id="sign-out-btn" (click) = 'signOut()'>
             Sign out

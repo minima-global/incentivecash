@@ -31,6 +31,11 @@ const routes: Routes = [
     path: 'rewards',
     loadChildren: () => import('./rewards/rewards.module').then( m => m.RewardsPageModule),
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'contact',
+    loadChildren: () => import('./contact/contact.module').then( m => m.ContactPageModule),
+    canActivate: [AuthGuard]
   }
 ];
 
