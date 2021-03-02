@@ -58,7 +58,7 @@ let theme = createMuiTheme ({
       fontSize: "1.25em",
       fontWeight: 400,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-      color: '#91919D'
+      color: 'red'
     },
     h4: {
       lineHeight: "1.618",

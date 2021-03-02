@@ -24,10 +24,12 @@ import {
 import { setActivePage } from '../../store/app/appData/actions'
 
 import {
+  App,
   Remote,
   Local,
   Help,
-  Welcome as WelcomeConfig
+  Welcome as WelcomeConfig,
+  Home
 } from '../../config'
 
 interface StateProps {
@@ -58,58 +60,131 @@ const display = (props: Props) => {
 
   return (
 
-    <>
+    <Grid item container alignItems="flex-start" xs={12}>
 
-      <Grid item container justify="center" className={classes.rightContent} xs={7}>
-        <Typography align="center" variant="h2">
-          {WelcomeConfig.heading}
+      <Grid className={classes.leftContent} item container justify="flex-start" xs={6}>
+
+        <Typography variant="h1">
+          <span style={{color: 'red' }}>{App.title}<br/></span> {WelcomeConfig.info}
         </Typography>
-      </Grid>
 
-      <Grid item container justify="center" xs={7}>
-        <svg
-           xmlns="http://www.w3.org/2000/svg"
-           viewBox="0 0 2000 4"
-        >
-          <line x2="2000" stroke="#317aff" strokeWidth={4} />
-        </svg>
-      </Grid>
+        <Grid item container xs={12}>
+          <svg
+             xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 2000 4"
+          >
+            <line x2="2000" stroke="#317aff" strokeWidth={4} />
+          </svg>
+        </Grid>
 
-      <Grid item container justify="center" className={classes.rightContent} xs={7}>
-        <Typography align="center" variant="h3">
-          {WelcomeConfig.downloadInfo}
+        <Typography variant="body1">
+          <br/>
+          {Home.infoSecond}<br/><br/>
+          {WelcomeConfig.moreInfo} <a href={App.website}>{App.website}</a>.<br/><br/>
         </Typography>
+
       </Grid>
 
-      <Grid item container justify="center" className={classes.rightContent} xs={6}>
-        <a href={Remote.miniDappURL} style={{textDecoration: 'none'}}>
-          <Button
-            className={classes.submitButton}
-            color="primary"
-            aria-label={Help.downloadTip}
-            size="medium"
-            variant="contained"
-            data-for='download'
-            data-tip
-            style={{
-              textTransform: 'none',
-              fontSize: "1em",
-            }}
-          >
-            {WelcomeConfig.downloadMiniDapp}
-          </Button>
-          <ReactTooltip
-            id='download'
-            place="top"
-            effect="solid"
-          >
-            {Help.downloadTip}
-          </ReactTooltip>
-        </a>
+      <Grid className={classes.rightContent} item container alignItems="flex-start" xs={6}>
+
+        <Grid item container justify="flex-start" xs={12}>
+
+          <Typography variant="h2">
+            {WelcomeConfig.subHeading}
+          </Typography>
+
+        </Grid>
+
+        <Grid item container justify="flex-start" xs={12}>
+
+          <Typography variant="h4">
+            {WelcomeConfig.downloadAPK} <a href={Remote.aPKVideo}>{Remote.aPKVideo}</a>.<br/><br/>
+          </Typography>
+
+        </Grid>
+
+        <Grid item container justify="center">
+
+          <a href={Remote.aPKURL} style={{textDecoration: 'none'}}>
+            <Button
+              className={classes.submitButton}
+              color="primary"
+              aria-label={Help.downloadTip}
+              size="medium"
+              variant="contained"
+              data-for='download'
+              data-tip
+              style={{
+                textTransform: 'none',
+                fontSize: "1em",
+              }}
+            >
+              {WelcomeConfig.aPKButton}
+            </Button>
+            <ReactTooltip
+              id='download'
+              place="top"
+              effect="solid"
+            >
+              {Help.downloadTip}
+            </ReactTooltip>
+          </a>
+
+        </Grid>
+
+        <Grid item container justify="flex-start" xs={12}>
+
+          <Typography variant="h4">
+            <br/>
+            {WelcomeConfig.downloadMiniDapp} <a href={Remote.miniDappVideo}>{Remote.miniDappVideo}</a>.<br/><br/>
+          </Typography>
+
+        </Grid>
+
+        <Grid item container justify="center">
+
+          <a href={Remote.miniDappURL} style={{textDecoration: 'none'}}>
+            <Button
+              className={classes.submitButton}
+              color="primary"
+              aria-label={Help.downloadTip}
+              size="medium"
+              variant="contained"
+              data-for='download'
+              data-tip
+              style={{
+                textTransform: 'none',
+                fontSize: "1em",
+              }}
+            >
+              {WelcomeConfig.miniDappButton}
+            </Button>
+            <ReactTooltip
+              id='download'
+              place="top"
+              effect="solid"
+            >
+              {Help.downloadTip}
+            </ReactTooltip>
+          </a>
+
+        </Grid>
+
+        <Grid item container justify="flex-start" xs={12}>
+
+          <Typography variant="h4">
+            <br/>
+            {WelcomeConfig.infoSecond}<br />
+          </Typography>
+          <Typography variant="h3">
+            {WelcomeConfig.heading}
+          </Typography>
+          
+        </Grid>
+
       </Grid>
 
-
-    </>
+    </Grid>
   )
 }
 

@@ -69,7 +69,7 @@ const display = (props: Props) => {
 
   return (
 
-    <>
+    <Grid item container alignItems="flex-start" xs={12}>
 
       <Grid className={classes.leftContent} item container alignItems="center" justify="flex-start" xs={6}>
 
@@ -101,7 +101,7 @@ const display = (props: Props) => {
 
       </Grid>
 
-      <Grid  className={classes.rightContent} item container  alignItems="center" justify="center" xs={6}>
+      <Grid className={classes.rightContent} item container  alignItems="center" justify="center" xs={6}>
 
         { page == PageTypes.REGISTER ?
 
@@ -121,7 +121,7 @@ const display = (props: Props) => {
         )}
 
       </Grid>
-    </>
+    </Grid>
   )
 }
 

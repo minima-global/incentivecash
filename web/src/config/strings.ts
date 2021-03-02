@@ -50,23 +50,37 @@ class Home {
   //+ `<span style={{color: 'red'}}>${App.appName}</span>`
 
   static readonly info = `${App.title} is a truly decentralised, ultra-lean, blockchain running entirely on mobile and IoT devices.`
+
   static readonly infoSecond = `The ${App.title} ${App.appName} exists to reward users for engaging in the ${App.title} community, helping us test our protocol, and building applications in our ecosystem. You can earn coins by simply registering for the program, downloading our app and running a node on your Android device.`
+
   static readonly infoThird = `Join the ${App.title} community and participate in building the next era of decentralised web infrastructure.`
   static readonly infoFourth = `Please note that at this stage in our development, in order to participate in the ${App.title} ${App.appName}, you will need to run an Android device.`
   static readonly infoFifth = "Register and start earning coins today."
 
   static readonly moreInfo = `To find out more about ${App.title}, please visit`
-
-  //static readonly info = [`The ${App.title} Incentives Server!`,`For all ${App.title} incentive program enquires, please email ${App.enquiries} at ${App.email}.`]
 }
 
 class Welcome {
 
-  static readonly heading = `Welcome to the ${App.title} ${App.appName} system`
+  static readonly heading = `Welcome to ${App.title}`
 
-  static readonly downloadInfo = [`Please download the ${App.title} ${App.appName} MiniDapp using the button below`]
+  static readonly subHeading = `Instructions`
 
-  static readonly downloadMiniDapp = "MiniDapp"
+  static readonly info = 'is a truly decentralised, ultra-lean blockchain running entirely on mobile and IoT devices.'
+
+  static readonly infoSecond = `Once the ${App.title} ${App.appName} MiniDapp is installed, open it up and sign in using the same email and password used to register on this website.`
+
+  static readonly moreInfo = `To find out more about ${App.title} and the ${App.title} ${App.appName}, please visit`
+
+  static readonly downloadAPK = `If you haven’t downloaded the ${App.title} APK already, please download and install it by clicking the button below - please note - at this stage in our development, the APK will only work on an Android device. For detailed installation instructions, please watch our instructional video at`
+
+  static readonly downloadMiniDapp= `Once the ${App.title} APK is installed on your mobile device, download and install the ${App.title} ${App.appName} MiniDapp. For detailed instructions as to how this can be done, please watch our instructional video at`
+
+  static readonly aPKInstructionURL = "http://www.minima.global"
+  static readonly miniDappInstructionURL = "http://www.minima.global"
+
+  static readonly aPKButton = `${App.title} APK`
+  static readonly miniDappButton = "MiniDapp"
 
   //static readonly info = [`The ${App.title} Incentives Server!`,`For all ${App.title} incentive program enquires, please email ${App.enquiries} at ${App.email}.`]
 }
