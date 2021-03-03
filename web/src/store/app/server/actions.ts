@@ -176,8 +176,8 @@ export const registerPassword = (user: UserRegisterPassword) => {
           //https://127.0.0.1:8085/#/register/8fced3eb-e945-4291-b558-acc54e3fd4e6/Twitter
 
           const rewardCreate = {
-            userid: `${user.uid}`,
-            amount: "1",
+            userid: user.uid,
+            amount: Dbase.referralReward,
             reason: "Referral",
             extrainfo: `${user.referral} ${user.email}`
           }
