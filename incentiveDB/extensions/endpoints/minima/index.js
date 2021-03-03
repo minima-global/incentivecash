@@ -19,10 +19,19 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
 	const { InvalidPayloadException, ServiceUnavailableException } = exceptions;
 
   let blockTime = config.defaultBlockTime;
-  //const scaleFactor = await helpers.getScaleFactor();
-  //console.log("Scale! ", scaleFactor);
-  const scaleFactor = config.defaultScaleFactor;
-  const header = "'Content-Type': 'application/json'";
+  let scaleFactor = config.defaultScaleFactor;
+  const tokenInfo = await helpers.getTokenInfo();
+  if ( tokenInfo.hasOwnProperty('response') ) {
+
+    tokenInfo.response.tokens.forEach(token => {
+
+      if ( token.tokenid == config.tokenID ) {
+
+        scaleFactor = token.scalefactor;
+        //console.log("Got scale factor!", token.scalefactor);
+      }
+    });
+  };
 
   router.get('/token', (req, res) => {
 
@@ -44,7 +53,9 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
     axios({
         method: 'POST',
         url: config.cmdURL,
-        headers: { header },
+        headers: {
+          'Content-Type': 'application/json'
+        },
         data: cmd
       })
       .then(function (response) {
@@ -104,7 +115,9 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
               axios({
                   method: 'POST',
                   url: config.cmdURL,
-                  headers: { header },
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
                   data: sendString
                 })
                 .then(function (response) {
@@ -221,7 +234,7 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
 
     } else if (req.body.event == "newblock") {
 
-      blockTime = parseInt(req.body.txpow.header.block, 10) + 3;
+      blockTime = parseInt(req.body.txpow.header.block, 10);
       return res.send("OK");
 
     } else {

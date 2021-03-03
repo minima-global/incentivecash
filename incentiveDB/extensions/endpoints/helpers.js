@@ -11,38 +11,29 @@ function getNumTokens( toDate ) {
 
 }
 
-async function getScaleFactor() {
+async function getTokenInfo() {
 
-  let scaleFactor = config.defaultScaleFactor;
-  const header = "'Content-Type': 'application/json'";
+  const urlOptions = {
+    method: 'POST',
+    url: config.cmdURL,
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data: "tokens"
+  };
 
-  await axios({
-      method: 'POST',
-      url: config.cmdURL,
-      headers: { header },
-      data: "tokens"
-    })
-    .then(function (response) {
+  try {
 
-      if ( response.data.response.tokens ) {
+    const response = await axios(urlOptions);
+    return response.data;
 
-        response.data.response.tokens.forEach(token => {
+  } catch (error) {
 
-          if ( token.tokenid == config.tokenID ) {
+    console.error(error);
+    return {};
+  }
 
-            scaleFactor = token.scalefactor;
-          }
-        });
-      }
-
-    })
-    .catch(function (error) {
-
-      console.log(error.message);
-    });
-
-    return scaleFactor;
 }
 
 exports.getNumTokens = getNumTokens;
-exports.getScaleFactor = getScaleFactor;
+exports.getTokenInfo = getTokenInfo;
