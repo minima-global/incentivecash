@@ -1,0 +1,20 @@
+ion-list.faqs-list {
+  margin-top: 12px; 
+  background-color: transparent;
+  margin-left: 27px;
+  margin-right: 27px;
+  ion-grid.pre-header {
+    ion-row ion-col {
+      margin-bottom: 0px;
+    }
+  }
+  ion-grid.faq {
+    
+  }
+}
+@media only screen and (min-width: 992px ) {
+  ion-list.faqs-list {
+    margin-left: 110px;
+    margin-right: 110px;
+  }
+}

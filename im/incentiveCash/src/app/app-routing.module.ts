@@ -21,6 +21,26 @@ const routes: Routes = [
     path: 'cash/:id',
     loadChildren: () => import('./cash/cash.module').then( m => m.CashPageModule),
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'rewards',
+    loadChildren: () => import('./rewards/rewards.module').then( m => m.RewardsPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'contact',
+    loadChildren: () => import('./contact/contact.module').then( m => m.ContactPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'faqs',
+    loadChildren: () => import('./faqs/faqs.module').then( m => m.FaqsPageModule),
+    canActivate: [AuthGuard]
   }
 ];
 

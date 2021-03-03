@@ -49,6 +49,8 @@ export class CashPage implements OnInit {
       this.cashlist = res;
     });
     this._storeService.rewards.subscribe((res: any) => {
+      this.totalClaimed = 0;
+      this.totalUnclaimed = 0;
       res.data.forEach((reward: Reward) => {
         if (reward.reason !== 'Claimed') {
           this.totalUnclaimed += reward.amount;
@@ -71,7 +73,6 @@ export class CashPage implements OnInit {
       user.loginData.refresh_token = '';
       this._storeService.data.next(user);
       document.location.reload();
-      this.presentToast('Login Status', 'You have signed out successfully');
     })
   }
 

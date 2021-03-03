@@ -96,3 +96,13 @@ ion-row.has ion-col.failure {
   font-size: 30px;
   color: #031B32;
 }
+
+ion-footer {
+  position: relative;
+  div.content {
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    bottom: 20px;
+  }
+}
