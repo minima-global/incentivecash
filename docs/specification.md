@@ -48,9 +48,13 @@ According to the docs, _Directus dynamically generates custom API endpoints base
 
 A web-based front end service (allowing users to register and login to the ID and download the minidapp will be a javascript single-page application. Minima will have to build that, using _React_ and the directus API.
 
-### Admin' Service
+### Incentive Admins
 
-Directus comes with a pre-packaged admin' app' that we can use to assign different user roles - _need to do more research into the capabilities of directus_.
+A web-based front end service that allows Incentive Admins to add referrals and rewards to users, as well as view all logging information.
+
+### System Admins
+
+Directus comes with a pre-packaged admin' app' for managing the ID.
 
 ### MiniDapp
 
