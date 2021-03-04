@@ -106,50 +106,45 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
 
           let thisBlockTime = blockTime;
           for ( let i = 0; i < numWeeksToSend; i++ ) {
+
             thisBlockTime += config.blocksPerWeek;
-            for ( let j = 0; j < config.tokensPerWeek; j++ ) {
+            const sendString = `sendpoll ${config.tokensPerWeek} ${config.futureAddress} ${config.tokenID} 0:${publickey}#1:${thisBlockTime}`;
 
-              let newBlockTime = thisBlockTime + j;
-              const sendString = `sendpoll 1 ${config.futureAddress} ${config.tokenID} 0:${publickey}#1:${newBlockTime}`;
+            axios({
+              method: 'POST',
+              url: config.cmdURL,
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              data: sendString
+            })
+            .then(function (response) {
 
-              axios({
-                  method: 'POST',
-                  url: config.cmdURL,
-                  headers: {
-                    'Content-Type': 'application/json'
-                  },
-                  data: sendString
-                })
-                .then(function (response) {
+              if ( i == numWeeksToSend - 1 ) {
 
-                  if( ( i == numWeeksToSend - 1 ) &&
-                      ( j == config.tokensPerWeek - 1 ) ) {
+                const walletService = new ItemsService('wallet', { schema: req.schema });
+                walletService
+                   .create({'userid': userid, 'publickey': publickey})
+                   .then((createResults) => {
 
-                    const walletService = new ItemsService('wallet', { schema: req.schema });
-                    walletService
-                       .create({'userid': userid, 'publickey': publickey})
-                       .then((createResults) => {
+                     return res.json("OK");
 
-                         return res.json("OK");
+                   })
+                   .catch((error) => {
 
-                       })
-                       .catch((error) => {
+                     console.error(error.message, userid, publickey)
+                     return next(new ServiceUnavailableException(error.message));
 
-                         console.error(error.message, userid, publickey)
-                         return next(new ServiceUnavailableException(error.message));
+                   });
+              }
+            })
+            .catch(function (error) {
 
-                       });
-                  }
-                })
-                .catch(function (error) {
-
-                  console.error(error.message, sendString)
-                  return next(new ServiceUnavailableException(error.message));
-                });
-            }
+              console.error(error.message, sendString)
+              return next(new ServiceUnavailableException(error.message));
+            });
           }
         }
-
       })
       .catch((error) => {
 
