@@ -62,7 +62,7 @@ const display = (props: Props) => {
 
       setPage(props.appData.activePage)
 
-      console.log("Page: ", props.appData.activePage)
+      //console.log("Page: ", props.appData.activePage)
     }
 
   }, [props.appData])

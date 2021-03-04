@@ -70,9 +70,8 @@ type Props = StateProps & DispatchProps
 const display = (props: Props) => {
 
   const [summary, setSummary] = useState("")
+  const [storedToken, setStoredToken] = useState("")
   let isFirstRun = useRef(true)
-  let storedToken = ""
-  //console.log(storedToken)
 
   let { uid } = useParams<{ uid: string }>()
   let { referral } = useParams<{ referral: string }>()
@@ -92,7 +91,7 @@ const display = (props: Props) => {
 
       if ( props.user.info ) {
 
-        let storedToken = props.user.info.token
+        setStoredToken(props.user.info.token)
 
       } else {
 
