@@ -228,7 +228,6 @@ let StoreService = class StoreService {
                 .then((data) => {
                 let json = data;
                 this.referralCode.next(json);
-                console.log(json);
             });
         });
     }
@@ -238,15 +237,27 @@ let StoreService = class StoreService {
                 if (res.status) {
                     let temp = [];
                     res.response.coins.forEach((coin, i) => {
+                        // scaleFactor
                         coin.data.coin.amount = coin.data.coin.amount * token.scaleFactor;
+                        // progressBar
+                        let percent = ((minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block / coin.data.prevstate[1].data) * 10) / 10;
+                        // actualTime
+                        let diff = coin.data.prevstate[1].data - minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block;
+                        let today = new Date();
+                        // todays milliseconds
+                        let ms = today.getTime();
+                        // difference milliseconds
+                        let diff_ms = diff * 20;
+                        // total ms
+                        let total_ms = diff_ms + ms;
+                        // difference
+                        let difference = total_ms - ms;
                         if (coin.data.coin.tokenid === token.tokenId) {
                             if (coin.data.prevstate[1] && (coin.data.prevstate[1].data > minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block)) {
-                                temp.push({ index: i + 1, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data });
+                                temp.push({ index: i + 1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data, percent: percent });
                             }
                             else if ((coin.data.prevstate[0] && coin.data.prevstate[1]) && (coin.data.prevstate[1].data <= minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block)) {
-                                let diff = coin.data.prevstate[1].data - minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block;
-                                let percent = Math.round((diff / coin.data.prevstate[1].data) * 10) / 10;
-                                temp.push({ index: i + 1, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Ready', blockno: coin.data.prevstate[1].data, percent: percent });
+                                temp.push({ index: i + 1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Ready', blockno: coin.data.prevstate[1].data, percent: percent });
                             }
                         }
                     });
@@ -710,12 +721,12 @@ const routes = [
     },
     {
         path: 'cash',
-        loadChildren: () => Promise.all(/*! import() | cash-cash-module */[__webpack_require__.e("common"), __webpack_require__.e("cash-cash-module")]).then(__webpack_require__.bind(null, /*! ./cash/cash.module */ "pJyb")).then(m => m.CashPageModule),
+        loadChildren: () => Promise.all(/*! import() | cash-cash-module */[__webpack_require__.e("default~cash-cash-module~rewards-rewards-module"), __webpack_require__.e("cash-cash-module")]).then(__webpack_require__.bind(null, /*! ./cash/cash.module */ "pJyb")).then(m => m.CashPageModule),
         canActivate: [_api_auth_guard_service__WEBPACK_IMPORTED_MODULE_1__["AuthGuardService"]]
     },
     {
         path: 'cash/:id',
-        loadChildren: () => Promise.all(/*! import() | cash-cash-module */[__webpack_require__.e("common"), __webpack_require__.e("cash-cash-module")]).then(__webpack_require__.bind(null, /*! ./cash/cash.module */ "pJyb")).then(m => m.CashPageModule),
+        loadChildren: () => Promise.all(/*! import() | cash-cash-module */[__webpack_require__.e("default~cash-cash-module~rewards-rewards-module"), __webpack_require__.e("cash-cash-module")]).then(__webpack_require__.bind(null, /*! ./cash/cash.module */ "pJyb")).then(m => m.CashPageModule),
         canActivate: [_api_auth_guard_service__WEBPACK_IMPORTED_MODULE_1__["AuthGuardService"]]
     },
     {
@@ -725,7 +736,7 @@ const routes = [
     },
     {
         path: 'rewards',
-        loadChildren: () => Promise.all(/*! import() | rewards-rewards-module */[__webpack_require__.e("common"), __webpack_require__.e("rewards-rewards-module")]).then(__webpack_require__.bind(null, /*! ./rewards/rewards.module */ "GvLF")).then(m => m.RewardsPageModule),
+        loadChildren: () => Promise.all(/*! import() | rewards-rewards-module */[__webpack_require__.e("default~cash-cash-module~rewards-rewards-module"), __webpack_require__.e("rewards-rewards-module")]).then(__webpack_require__.bind(null, /*! ./rewards/rewards.module */ "GvLF")).then(m => m.RewardsPageModule),
         canActivate: [_api_auth_guard_service__WEBPACK_IMPORTED_MODULE_1__["AuthGuardService"]]
     },
     {

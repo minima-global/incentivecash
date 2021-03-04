@@ -58,7 +58,7 @@
         *ngIf="cash.status === 'Not Ready'"></ion-progress-bar>
       </ion-col>
     </ion-row>
-    <ion-row class="table-footer">
+    <ion-row *ngIf="cashlist && cashlist.length > 0" class="table-footer">
       <ion-col class="ion-no-padding">
         Total Amount: <span>{{ totalRemaining }}</span>
       </ion-col>

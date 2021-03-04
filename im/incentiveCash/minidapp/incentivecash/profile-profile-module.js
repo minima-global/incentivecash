@@ -76,7 +76,7 @@ let ProfilePage = class ProfilePage {
         });
         this._storeService.referralCode.subscribe((res) => {
             this.referralCode = res;
-            console.log(this.referralCode);
+            //console.log(this.referralCode);
         });
     }
     copy(code) {

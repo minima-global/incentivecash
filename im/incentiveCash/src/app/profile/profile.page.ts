@@ -20,7 +20,7 @@ export class ProfilePage implements OnInit {
     });
     this._storeService.referralCode.subscribe((res: ReferralCode) => {
       this.referralCode = res;
-      console.log(this.referralCode);
+      //console.log(this.referralCode);
     });
   }
 

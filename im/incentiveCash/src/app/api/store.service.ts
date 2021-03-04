@@ -26,6 +26,7 @@ export interface UserDetails {
 export interface IncentiveCash {
   index: number
   collect_date: string
+  millisecond: any
   cash_amount: string
   coinid: string
   tokenid: string
@@ -135,7 +136,6 @@ export class StoreService {
       .then((data) => {
         let json = data; 
         this.referralCode.next(json);
-        console.log(json);
       })
     })
   }
@@ -146,14 +146,27 @@ export class StoreService {
         if (res.status) {
           let temp: IncentiveCash[] = [];
           res.response.coins.forEach((coin, i) => {
+            // scaleFactor
             coin.data.coin.amount = coin.data.coin.amount * token.scaleFactor;
+            // progressBar
+            let percent = ((Minima.block/coin.data.prevstate[1].data)*10)/10;
+            // actualTime
+            let diff = coin.data.prevstate[1].data - Minima.block;
+            let today = new Date();
+            // todays milliseconds
+            let ms = today.getTime();
+            // difference milliseconds
+            let diff_ms = diff*20;
+            // total ms
+            let total_ms = diff_ms + ms;
+            // difference
+            let difference = total_ms - ms;
+
             if (coin.data.coin.tokenid === token.tokenId) {
               if (coin.data.prevstate[1] && (coin.data.prevstate[1].data > Minima.block)) {
-                temp.push({index: i+1, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data})
-              } else if ((coin.data.prevstate[0] && coin.data.prevstate[1]) && (coin.data.prevstate[1].data <= Minima.block)) {
-                let diff = coin.data.prevstate[1].data - Minima.block;
-                let percent = Math.round((diff/coin.data.prevstate[1].data) * 10) / 10;
-                temp.push({index: i+1, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Ready', blockno: coin.data.prevstate[1].data, percent: percent})  
+                temp.push({index: i+1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data, percent: percent})
+              } else if ((coin.data.prevstate[0] && coin.data.prevstate[1]) && (coin.data.prevstate[1].data <= Minima.block)) {                
+                temp.push({index: i+1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Ready', blockno: coin.data.prevstate[1].data, percent: percent})  
               }
             }
           });

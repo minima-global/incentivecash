@@ -31,7 +31,8 @@ ion-grid.table {
         font-variant-numeric: tabular-nums;
       }
       ion-progress-bar {
-        --buffer-background: transparent;
+        --buffer-background: #FAFAFF;
+        --background: FAFAFF;
         --progress-background: var(--ion-color-primary);
         border: 1px solid var(--ion-color-primary);
         height: 24px;

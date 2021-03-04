@@ -53,7 +53,7 @@
           </p>
         </ion-col>
     </ion-row>
-    <ion-row class="table-footer">
+    <ion-row *ngIf="rewardList && rewardList.length > 0" class="table-footer">
       <ion-col class="ion-no-padding">
         Total Amount: <span>{{ totalClaimed }}</span>
       </ion-col>

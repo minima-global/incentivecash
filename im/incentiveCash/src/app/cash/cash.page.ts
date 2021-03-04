@@ -1,10 +1,9 @@
 import { MinimaService } from './../api/minima.service';
 import { StoreService, UserDetails, IncentiveCash, Reward } from './../api/store.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Minima } from 'minima';
 import { IonSegment, ToastController } from '@ionic/angular';
-import { first } from 'rxjs/operators';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-cash',
@@ -16,6 +15,7 @@ export class CashPage implements OnInit {
   @ViewChild('claimedSegment', {static: false}) claimedSegment: IonSegment;
   shownSegments = 'claimed';
   
+  date: string;
   rewards: Reward[] = [];
   totalRemaining = 0;
   timescript: string = 'LET owner = PREVSTATE ( 0 ) LET time = PREVSTATE ( 1 ) RETURN SIGNEDBY ( owner ) AND @BLKNUM GTE time';
@@ -49,6 +49,7 @@ export class CashPage implements OnInit {
 
       this.cashlist = this.cashlist.slice().sort(this.byAscDate);
       this.cashlist.forEach(cash => {
+        cash.millisecond = moment(cash.millisecond).format('DD-MM-YYYY, HH:mm:ss');
         this.totalRemaining += parseInt(cash.cash_amount);
       })
     });
