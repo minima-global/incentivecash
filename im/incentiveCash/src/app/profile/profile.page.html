@@ -65,8 +65,9 @@
         </ion-col>
         <ion-col class="information">
           <h6>My referral code</h6>
-          <p>We will be issuing referral codes later on in the program</p>
-          <ion-button disabled type="button" fill="clear">Copy referral code</ion-button>
+          <p *ngIf="referralCode && referralCode.data[0].name.length > 0">Copy your referral code and share it.</p>
+          <p *ngIf="!referralCode">You don't currently have a referral code.</p>
+           <ion-button (click)="copy( 'https://incentive.minima.global/#/register/'+user.refID+'/'+referralCode.data[0].name )" [disabled]="!referralCode && referralCode.data[0].name.length === 0" type="button" fill="clear">Copy referral code</ion-button>
         </ion-col>
       </ion-row>
       
@@ -80,7 +81,7 @@
     <ion-buttons>
       <div routerLinkActive="ftr-toolbar-active" class="footer-btn-wrapper" style="margin-right: 45px;">
         <ion-button routerLink="/rewards">
-          <ion-icon src="assets/rewardsIcon.svg"></ion-icon>
+          <ion-icon name="star"></ion-icon>
         </ion-button>
         <ion-label>
           Rewards

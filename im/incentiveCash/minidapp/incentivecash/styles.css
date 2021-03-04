@@ -1173,19 +1173,39 @@ ion-header ion-toolbar.sub-toolbar ion-grid ion-row.has ion-col.sign-out span:ho
   background-color: #031B32;
   cursor: pointer;
 }
+ion-toolbar.total {
+  height: 40px;
+  border-top: 1px solid gray;
+  padding-left: 27px;
+  padding-right: 27px;
+  --background: #FAFAFF;
+  bottom: 121px;
+  position: absolute;
+}
+ion-toolbar.total ion-grid.total-rewards {
+  background: transparent;
+  color: var(--ion-color-primary);
+  font-family: manrope-bold;
+  --border-color: #7D8B99;
+  --border-width: 1px 0 0 0;
+}
+ion-toolbar.total ion-grid.total-rewards ion-row ion-col {
+  margin-bottom: 5px;
+}
+ion-toolbar.total ion-grid.total-rewards ion-row ion-col span {
+  color: #031B32;
+  font-family: manrope-bold;
+}
 @media only screen and (min-width: 992px) {
   ion-header ion-toolbar.sub-toolbar {
     padding-left: 30px;
     padding-right: 47px;
   }
-}
-ion-toolbar.cash-progress-toolbar {
-  --background: #F1F5FF;
-  position: absolute;
-  bottom: 121px;
-  height: 137px;
-  --border-color: #91919d;
-  --border-width: 1px 0 0 0 ;
+
+  ion-toolbar.total {
+    padding-left: 110px;
+    padding-right: 110px;
+  }
 }
 ion-footer {
   height: 121px;

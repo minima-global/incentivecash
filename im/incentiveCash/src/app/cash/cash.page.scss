@@ -1,17 +1,9 @@
-ion-title.user-details {
-  ion-grid ion-row ion-col {
-    font-size: 14px;
-  span {
-    font-family: manrope-light;
-  }
-  }
-}
-
-ion-list.cash-list {
-  ion-grid.pre-header {
+ion-grid.table {
+  ion-row.header {
     margin-left: 27px;
     margin-right: 27px;
-    ion-row ion-col {
+    ion-col {
+      margin-top: 15px;
       border-bottom: 1px solid #707070;
       padding-bottom: 12px;
       margin-bottom: 10px;
@@ -19,27 +11,25 @@ ion-list.cash-list {
       font-family: manrope-extrabold;
     }
   }
-  background-color: transparent;
-  margin-top: 13px;
-  ion-grid.header {
+  ion-row.table-header {
+    border-bottom: 1px solid #7D8B99;
     margin-left: 27px;
     margin-right: 27px;
-    border-bottom: 1px solid #7D8B99;
-    ion-row ion-col {
+    ion-col {
       padding-bottom: 5px;
       font-size: 14px;
       color: #91919d;
       font-family: manrope-bold;
     }
   }
-}
-ion-list.cash-list {
-  ion-grid.cash {
-    ion-row ion-col p {
-      font-size: 13px;
-      font-variant-numeric: tabular-nums;
-    }
-    ion-row ion-col {
+  ion-row.table-content {
+    padding-left: 27px;
+    padding-right: 27px;
+    ion-col {
+      p {
+        font-size: 13px;
+        font-variant-numeric: tabular-nums;
+      }
       ion-progress-bar {
         --buffer-background: transparent;
         --progress-background: var(--ion-color-primary);
@@ -50,98 +40,60 @@ ion-list.cash-list {
         margin-top: 6px;
         float: right;
       }
-    }
-    ion-row ion-col span {
-      border-radius: 5px;
-      text-transform: none;
-      background-color: var(--ion-color-primary);
-      color: #f0f0fa;
-      font-family: manrope-bold;
-      padding-top: 3px;
-      padding-bottom: 3px;
-      padding-left: 9px;
-      padding-right: 9px;
-      cursor: pointer;
-    }
-    ion-row {
-      padding-left: 27px;
-      padding-right: 27px;
-    }
-    ion-row ion-col span:hover {
-      background-color: #346FE5;
+      span {
+        border-radius: 5px;
+        text-transform: none;
+        background-color: var(--ion-color-primary);
+        color: #f0f0fa;
+        font-family: manrope-bold;
+        padding-top: 3px;
+        padding-bottom: 3px;
+        padding-left: 9px;
+        padding-right: 9px;
+        cursor: pointer;
+      }
+      span:hover {
+        background-color: #346FE5;
+      }
     }
   }
-  ion-grid.cash:nth-child(odd) {
+  ion-row.table-content:nth-child(odd) {
     background-color: #F0F0FA;
     background: #F0F0FA;
-
   }
-}
-ion-toolbar.cash-progress-toolbar {
-  ion-segment {
-    ion-segment-button {
-      ion-label {
-        color: #001C32;
-        font-size: 20px;
-        text-transform: none;
+  ion-row.table-footer {
+    border-top: 1px solid #7D8B99;
+    margin-left: 27px;
+    margin-right: 27px;
+    ion-col {
+      font-family: manrope-medium;
+      color: var(--ion-color-primary);
+      span {
+        font-family: manrope-bold;
+        color: #031B32;  
       }
     }
-    ion-segment-button#first {
-      margin-left: 27px;
-      margin-right: 5px;
-    }
-    ion-segment-button#second {
-      margin-right: 27px;
-      margin-left: 5px;
-    }
-  }
-  ion-label {
-    h6 {
-      margin-top: 12px;
-      color: var(--ion-color-primary);
-      font-size: 20px;
-    }
-    p {
-      font-size: 16px;
-      color: #001C32;
-    }
   }
 }
-
 
 @media only screen and (min-width: 992px) {
-  ion-list.cash-list {
-    ion-grid.pre-header {
+  ion-grid.table {
+    ion-row.header {    
       margin-left: 110px;
       margin-right: 110px;
     }
-    ion-grid.cash {
-      ion-row {
-        padding-left: 110px;
-        padding-right: 110px;
-      }
-    }
-  }
-  ion-list.cash-list {
-    ion-grid.header {
+    ion-row.table-header {
       margin-left: 110px;
       margin-right: 110px;
     }
-  }
-  ion-toolbar.cash-progress-toolbar {
-    ion-segment {
-      ion-segment-button#first {
-        margin-left: 95px;
-      }
-      ion-segment-button#second {
-        margin-right: 95px;
-      }
+    ion-row.table-content {
+      padding-left: 110px;
+      padding-right: 110px;
+    }
+    ion-row.table-footer {
+      margin-left: 110px;
+      margin-right: 110px;
     }
   }
 }
 
-
-.active {
-  border: 1px solid var(--ion-color-primary);
-  color: var(--ion-color-primary);
-}

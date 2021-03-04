@@ -70,20 +70,42 @@ ion-header ion-toolbar.sub-toolbar {
     cursor: pointer;
   }
 }
+
+ion-toolbar.total {
+  height: 40px;
+  border-top: 1px solid gray;
+  padding-left: 27px;
+  padding-right: 27px;
+  --background: #FAFAFF;
+  bottom: 121px;
+  position: absolute;
+  ion-grid.total-rewards {
+    background: transparent;
+    color: var(--ion-color-primary);
+    font-family: manrope-bold;
+    --border-color: #7D8B99;
+    --border-width: 1px 0 0 0;
+    ion-row ion-col {
+      margin-bottom: 5px;
+      span {
+        color: #031B32;
+        font-family: manrope-bold;
+      }
+    }
+  }
+}
+
 @media only screen and (min-width: 992px) {
   ion-header ion-toolbar.sub-toolbar {
     padding-left: 30px;
     padding-right: 47px;
   }
+  ion-toolbar.total {
+    padding-left: 110px;
+    padding-right: 110px;
+  }
 }
-ion-toolbar.cash-progress-toolbar {
-  --background: #F1F5FF;
-  position: absolute;
-  bottom: 121px;
-  height: 137px;
-  --border-color: #91919d;
-  --border-width: 1px 0 0 0 ;
-}
+
 ion-footer {
   height: 121px;
   background-color: #031B32;

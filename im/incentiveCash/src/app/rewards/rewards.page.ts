@@ -1,6 +1,7 @@
 import { IonSegment } from '@ionic/angular';
-import { StoreService, Reward, UserDetails } from './../api/store.service';
+import { StoreService, Rewards, Reward, UserDetails } from './../api/store.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-rewards',
@@ -12,24 +13,23 @@ export class RewardsPage implements OnInit {
 
   @ViewChild('claimedSegment', {static: false}) claimedSegment: IonSegment;
   rewardList: Reward[] = [];
-  totalClaimed: number = 0
-  totalUnclaimed: number = 0;
+  totalClaimed = 0;
   shownSegments = 'unclaimed';
 
   constructor(private _storeService: StoreService) { }
 
   ngOnInit() {
-    this._storeService.rewards.subscribe((res: any) => {
+    this._storeService.rewards.subscribe((res: Rewards) => {
       this.rewardList = [];
       this.totalClaimed = 0;
-      this.totalUnclaimed = 0;
+    
       res.data.forEach((reward: Reward) => {
-        if (reward.reason !== 'Claimed') {
-          this.rewardList.push(reward);
-          this.totalUnclaimed += reward.amount;
-        } else {
-          this.totalClaimed += reward.amount;
-        }
+        let date = new Date(reward.date_created);
+        let ms = date.getTime();
+        let format = moment(ms).format('DD-MM-YYYY, HH:mm:ss');
+        reward.date_created = format;
+        this.rewardList.push(reward);
+        this.totalClaimed += reward.amount;
       })
     });
   }

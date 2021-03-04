@@ -159,10 +159,12 @@ let StoreService = class StoreService {
         this.cashlist = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
         this.tokenId = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
         this.rewards = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
+        this.referralCode = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
         // track this script
         minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].cmd('extrascript \"' + this.timescript + "\"", (res) => { });
         this.getUserDetailsOnce().then((res) => {
             this.fetchRewards(res.refID, res.loginData.access_token);
+            this.fetchRerral(res.refID, res.loginData.access_token);
         });
         this.fetchTokenID();
     }
@@ -171,7 +173,6 @@ let StoreService = class StoreService {
             .toPromise();
     }
     fetchRewards(uid, tkn) {
-        //http://incentivedb.minima.global/items/reward?filter={ "Userid": { "_eq": "${props.user.info.id}" }}
         const url = 'https://incentivedb.minima.global/items/reward?filter={ "Userid": { "_eq": "' + uid + '"}}';
         fetch(url, {
             method: 'GET',
@@ -192,11 +193,11 @@ let StoreService = class StoreService {
         });
     }
     fetchTokenID() {
-        const url = 'https://incentivedb.minima.global/custom/utils/token';
+        const url = 'https://incentivedb.minima.global/custom/minima/token';
         fetch(url, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             }
         })
             .then((res) => {
@@ -210,13 +211,34 @@ let StoreService = class StoreService {
             });
         });
     }
+    fetchRerral(uid, tkn) {
+        const url = 'https://incentivedb.minima.global/items/referral?filter={ "Userid": { "_eq": "' + uid + '"}}';
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ` + tkn
+            }
+        })
+            .then((res) => {
+            if (!res.ok) {
+                console.log('Failed to get referral code');
+            }
+            return res.json()
+                .then((data) => {
+                let json = data;
+                this.referralCode.next(json);
+                console.log(json);
+            });
+        });
+    }
     pollCash() {
         minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].cmd('coins relevant address:' + this.timeaddress, (res) => {
-            //console.log(res);     
             this.tokenId.subscribe((token) => {
                 if (res.status) {
                     let temp = [];
                     res.response.coins.forEach((coin, i) => {
+                        coin.data.coin.amount = coin.data.coin.amount * token.scaleFactor;
                         if (coin.data.coin.tokenid === token.tokenId) {
                             if (coin.data.prevstate[1] && (coin.data.prevstate[1].data > minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block)) {
                                 temp.push({ index: i + 1, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data });

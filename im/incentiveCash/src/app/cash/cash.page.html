@@ -33,73 +33,37 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-list class="cash-list ion-no-padding">
-    <ion-grid class="pre-header ion-no-padding">
-      <ion-row>
-        <ion-col class="ion-no-padding">
-          Running Node Incentives
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-    <ion-grid class="header ion-no-padding m-b7">
-      <ion-row>
-        <ion-col class="ion-text-left" style="padding-right: 25px">Amount</ion-col>
-        <ion-col class="ion-text-left">Due Date</ion-col>
-        <ion-col class="ion-text-right">Status</ion-col>
-      </ion-row>
-    </ion-grid>
-
-    <ion-grid *ngIf="cashdummy.length === 0" [hidden]="true" class="ion-no-padding m-t7">
-      <ion-row>
-        <ion-col class="ion-no-padding">No incentive cash yet...</ion-col>
-      </ion-row>
-    </ion-grid>
-
-    <ion-grid class="cash ion-no-padding" *ngFor="let cash of cashlist">
-      <ion-row id="row{{cash.coinid}}" class="ion-no-margin">
-        <ion-col class="ion-text-left ion-no-padding" style="padding-right: 25px"><p>{{cash.cash_amount}}</p></ion-col>
-        <ion-col class="ion-text-left ion-no-padding"><p>{{cash.blockno}}</p></ion-col>
-        <ion-col class="ion-text-right ion-no-padding">
-          <p *ngIf="cash.status === 'Ready'" class="ion-no-padding">
-            <span (click)="collectCash(cash.coinid, cash.cash_amount, data.pKey, cash.tokenid, data.refID)" id="collect-btn{{cash.coinid}}">Collect</span>
-          </p>
-          <ion-progress-bar 
-          type="determinate"
-          value="{{cash.percent}}"
-          class="ion-no-padding ion-no-margin"
-          *ngIf="cash.status === 'Not Ready'"></ion-progress-bar>
-        </ion-col>
-      </ion-row>
-    </ion-grid> 
-
-  </ion-list>
-
-  <ion-toolbar class="cash-progress-toolbar ion-no-padding">
-  <!-- Default Segment -->
-  <ion-segment #claimedSegment value="claimed" (ionChange)="segmentChanged($event)">
-    <ion-segment-button 
-    id="first"
-    [ngStyle] = "shownSegments === 'claimed' ? {'border-bottom': 'none'} : {'border-bottom': '2px solid #C1C4CC'}"
-    value="claimed">
-      <ion-label [ngStyle] = "shownSegments === 'claimed' ? {'color': '#001C32'} : {'color': '#C1C4CC'}">Claimed Total</ion-label>
-    </ion-segment-button>
-    <ion-segment-button 
-    id="second"
-    [ngStyle] = "shownSegments === 'unclaimed' ? {'border-bottom': 'none'} : {'border-bottom': '2px solid #C1C4CC'}"
-    value="unclaimed">
-      <ion-label [ngStyle] = "shownSegments === 'unclaimed' ? {'color': '#001C32'} : {'color': '#C1C4CC'}">Unclaimed Total</ion-label>
-    </ion-segment-button>
-  </ion-segment>
-
-  <ion-label class="ion-text-center" *ngIf="shownSegments === 'claimed'">
-    <h6>{{totalClaimed}}</h6>
-    <p>Minima Incentive Tokens</p>
-  </ion-label>
-  <ion-label class="ion-text-center" *ngIf="shownSegments === 'unclaimed'">
-    <h6>{{totalUnclaimed}}</h6>
-    <p>Minima Incentive Tokens</p>
-  </ion-label>
-  </ion-toolbar>
+  <ion-grid class="table ion-no-padding">
+    <ion-row class="header ion-no-padding">
+      <ion-col class="ion-no-padding">
+        Incentives
+      </ion-col>
+    </ion-row>
+    <ion-row class="table-header">
+      <ion-col class="ion-text-left">Amount</ion-col>
+      <ion-col class="ion-text-left">Due Date</ion-col>
+      <ion-col class="ion-text-right">Status</ion-col>
+    </ion-row>
+    <ion-row class="table-content ion-no-margin" id="row{{cash.coinid}}" *ngFor="let cash of cashlist">
+      <ion-col class="ion-text-left ion-no-padding"><p>{{cash.cash_amount}}</p></ion-col>
+      <ion-col class="ion-text-left ion-no-padding"><p>{{cash.blockno}}</p></ion-col>
+      <ion-col class="ion-text-right ion-no-padding">
+        <p *ngIf="cash.status === 'Ready'" class="ion-no-padding">
+          <span (click)="collectCash(cash.coinid, cash.cash_amount, data.pKey, cash.tokenid, data.refID)" id="collect-btn{{cash.coinid}}">Collect</span>
+        </p>
+        <ion-progress-bar 
+        type="determinate"
+        value="{{cash.percent}}"
+        class="ion-no-padding ion-no-margin"
+        *ngIf="cash.status === 'Not Ready'"></ion-progress-bar>
+      </ion-col>
+    </ion-row>
+    <ion-row class="table-footer">
+      <ion-col class="ion-no-padding">
+        Total Amount: <span>{{ totalRemaining }}</span>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
 
 <ion-footer class="activity ion-no-border ion-text-center">

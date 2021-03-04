@@ -33,62 +33,32 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-list class="cash-list ion-no-padding">
-    <ion-grid class="pre-header ion-no-padding">
-      <ion-row>
-        <ion-col class="ion-no-padding">
-          Other Rewards
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-    <ion-grid class="header ion-no-padding m-b7">
-      <ion-row>
-        <ion-col class="ion-text-left" style="padding-right: 25px">Amount</ion-col>
-        <ion-col class="ion-text-left">Reason</ion-col>
-        <ion-col class="ion-text-right">Date</ion-col>
-      </ion-row>
-    </ion-grid>
-
-    <ion-grid class="cash ion-no-padding" *ngFor="let reward of rewardList">
-      <ion-row class="ion-no-margin">
-        <ion-col class="ion-text-left ion-no-padding" style="padding-right: 25px"><p>{{reward.amount}}</p></ion-col>
+  <ion-grid class="table ion-no-padding">
+    <ion-row class="header ion-no-padding">
+      <ion-col class="ion-no-padding">
+        Rewards
+      </ion-col>
+    </ion-row>
+    <ion-row class="table-header">
+      <ion-col class="ion-text-left">Amount</ion-col>
+      <ion-col class="ion-text-left">Reason</ion-col>
+      <ion-col class="ion-text-right">Date</ion-col>
+    </ion-row>
+    <ion-row class="table-content ion-no-margin" *ngFor="let reward of rewardList">
+      <ion-col class="ion-text-left ion-no-padding"><p>{{reward.amount}}</p></ion-col>
         <ion-col class="ion-text-left ion-no-padding"><p>{{reward.reason}}</p></ion-col>
         <ion-col class="ion-text-right ion-no-padding">
           <p>
             {{ reward.date_created }}
           </p>
         </ion-col>
-      </ion-row>
-    </ion-grid> 
-
-  </ion-list>
-
-  <ion-toolbar class="cash-progress-toolbar ion-no-padding">
-  <!-- Default Segment -->
-  <ion-segment #claimedSegment value="unclaimed" (ionChange)="segmentChanged($event)">
-    <ion-segment-button 
-    id="first"
-    [ngStyle] = "shownSegments === 'claimed' ? {'border-bottom': 'none'} : {'border-bottom': '2px solid #C1C4CC'}"
-    value="claimed">
-      <ion-label [ngStyle] = "shownSegments === 'claimed' ? {'color': '#001C32'} : {'color': '#C1C4CC'}">Claimed Total</ion-label>
-    </ion-segment-button>
-    <ion-segment-button 
-    id="second"
-    [ngStyle] = "shownSegments === 'unclaimed' ? {'border-bottom': 'none'} : {'border-bottom': '2px solid #C1C4CC'}"
-    value="unclaimed">
-      <ion-label [ngStyle] = "shownSegments === 'unclaimed' ? {'color': '#001C32'} : {'color': '#C1C4CC'}">Unclaimed Total</ion-label>
-    </ion-segment-button>
-  </ion-segment>
-
-  <ion-label class="ion-text-center" *ngIf="shownSegments === 'claimed'">
-    <h6>{{totalClaimed}}</h6>
-    <p>Minima Incentive Tokens</p>
-  </ion-label>
-  <ion-label class="ion-text-center" *ngIf="shownSegments === 'unclaimed'">
-    <h6>{{totalUnclaimed}}</h6>
-    <p>Minima Incentive Tokens</p>
-  </ion-label>
-  </ion-toolbar>
+    </ion-row>
+    <ion-row class="table-footer">
+      <ion-col class="ion-no-padding">
+        Total Amount: <span>{{ totalClaimed }}</span>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
 
 <ion-footer class="activity ion-no-border ion-text-center">

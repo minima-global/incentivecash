@@ -5,9 +5,13 @@ import { Minima } from 'minima';
 
 export interface Reward {
   amount: number,
-  date_created: string,
+  date_created: any,
   extrainfo: string,
   reason: string
+}
+
+export interface Rewards {
+  data: Reward[]
 }
 export interface UserDetails {
   email: string,
@@ -32,6 +36,16 @@ export interface IncentiveCash {
 
 interface IncentiveTokenID {
   tokenId: string
+  scaleFactor: number
+}
+
+interface Referral {
+  date_created: string
+  id: number 
+  name: string
+}
+export interface ReferralCode {
+  data: Referral[];
 }
 
 @Injectable({
@@ -45,13 +59,15 @@ export class StoreService {
   data: Subject<UserDetails> = new ReplaySubject<UserDetails>(1);
   cashlist: Subject<IncentiveCash[]> = new ReplaySubject<IncentiveCash[]>(1);
   tokenId: Subject<IncentiveTokenID> = new ReplaySubject<IncentiveTokenID>(1);
-  rewards: Subject<Reward[]> = new ReplaySubject<Reward[]>(1);
+  rewards: Subject<Rewards> = new ReplaySubject<Rewards>(1);
+  referralCode: Subject<ReferralCode> = new ReplaySubject<ReferralCode>(1);
 
   constructor() {
     // track this script
     Minima.cmd('extrascript \"'+this.timescript+"\"", (res: any) => {});
     this.getUserDetailsOnce().then((res: UserDetails) => {
       this.fetchRewards(res.refID, res.loginData.access_token);
+      this.fetchRerral(res.refID, res.loginData.access_token);
     })
     this.fetchTokenID();
   }
@@ -62,7 +78,6 @@ export class StoreService {
   }
 
   fetchRewards(uid: string, tkn: string) {
-    //http://incentivedb.minima.global/items/reward?filter={ "Userid": { "_eq": "${props.user.info.id}" }}
     const url = 'https://incentivedb.minima.global/items/reward?filter={ "Userid": { "_eq": "'+uid+'"}}';
     fetch(url, {
       method: 'GET',
@@ -76,7 +91,7 @@ export class StoreService {
         console.log('Failed to retrieve '+uid+'\'s rewards');
       }
       return res.json()
-      .then((data: Reward[]) => {
+      .then((data: Rewards) => {
         let json = data;
         this.rewards.next(json);
       })
@@ -84,11 +99,11 @@ export class StoreService {
   }
 
   fetchTokenID() {
-    const url = 'https://incentivedb.minima.global/custom/utils/token';
+    const url = 'https://incentivedb.minima.global/custom/minima/token';
     fetch(url, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       }
     })
     .then((res: any) => {
@@ -103,13 +118,35 @@ export class StoreService {
     })
   }
 
+  fetchRerral(uid: string, tkn: string) {
+    const url = 'https://incentivedb.minima.global/items/referral?filter={ "Userid": { "_eq": "'+uid+'"}}';
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer `+tkn
+      }
+    })
+    .then((res: any) => {
+      if (!res.ok) {
+        console.log('Failed to get referral code');
+      }
+      return res.json()
+      .then((data) => {
+        let json = data; 
+        this.referralCode.next(json);
+        console.log(json);
+      })
+    })
+  }
+
   pollCash() {
-    Minima.cmd('coins relevant address:'+this.timeaddress, (res: any) => {
-      //console.log(res);     
+    Minima.cmd('coins relevant address:'+this.timeaddress, (res: any) => {   
       this.tokenId.subscribe((token: IncentiveTokenID) => {
         if (res.status) {
           let temp: IncentiveCash[] = [];
           res.response.coins.forEach((coin, i) => {
+            coin.data.coin.amount = coin.data.coin.amount * token.scaleFactor;
             if (coin.data.coin.tokenid === token.tokenId) {
               if (coin.data.prevstate[1] && (coin.data.prevstate[1].data > Minima.block)) {
                 temp.push({index: i+1, collect_date: '...', cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data})

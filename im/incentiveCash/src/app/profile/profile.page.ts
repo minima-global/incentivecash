@@ -1,4 +1,5 @@
-import { StoreService, UserDetails } from './../api/store.service';
+import { ToastController } from '@ionic/angular';
+import { StoreService, UserDetails, ReferralCode } from './../api/store.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -9,13 +10,29 @@ import { Component, OnInit } from '@angular/core';
 export class ProfilePage implements OnInit {
 
   user: UserDetails = {email: '', refID: '', pKey: ''};
+  referralCode: ReferralCode;
 
-  constructor(private _storeService: StoreService ) { }
+  constructor(private _storeService: StoreService, public toastController: ToastController ) { }
 
   ngOnInit() {
     this._storeService.getUserDetailsOnce().then((res: UserDetails) => {
       this.user = res;
-    })
+    });
+    this._storeService.referralCode.subscribe((res: ReferralCode) => {
+      this.referralCode = res;
+      console.log(this.referralCode);
+    });
+  }
+
+  copy(code: string) {
+    document.addEventListener('copy', (e: ClipboardEvent) => {
+      e.clipboardData.setData('text/plain', code);
+      this.presentToast('Copied To Clipboard', 'primary', 'bottom');
+      e.preventDefault();
+      document.removeEventListener('copy', null);
+    });
+    document.execCommand('copy');
+
   }
 
   signOut() {
@@ -27,6 +44,17 @@ export class ProfilePage implements OnInit {
       this._storeService.data.next(user);
       document.location.reload();
     })
+  }
+
+  async presentToast(msg: string, clr: string, posn: "top" | "bottom" | "middle") {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 1000,
+      color: clr,
+      position: posn,
+      buttons: ['cancel']
+    });
+    await toast.present();
   }
 
 }

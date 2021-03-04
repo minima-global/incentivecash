@@ -24,6 +24,7 @@
     "@capacitor/core": "2.4.6",
     "@ionic/angular": "^5.5.2",
     "minima": "file:../../../npm/minima.js/minima-0.96.15.tgz",
+    "moment": "^2.29.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"

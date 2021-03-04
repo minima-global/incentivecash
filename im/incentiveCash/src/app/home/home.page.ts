@@ -95,7 +95,7 @@ export class HomePage  {
               this.postAKey(user.refID);
             } else {
               this.loginStatus = 'Login successful!';
-              this.router.navigate(['/cash']);
+              this.router.navigate(['/rewards']);
               this.loginForm.reset();
               this.loginStatus = '';
               let temp = user;
@@ -136,7 +136,7 @@ export class HomePage  {
         })
         .then(data => {
           this.loginStatus = 'Login successful!';
-          this.router.navigate(['/cash']);
+          this.router.navigate(['/rewards']);
           this.loginForm.reset();
           this.loginStatus = '';
           this._storeService.getUserDetailsOnce().then((user: UserDetails) => {

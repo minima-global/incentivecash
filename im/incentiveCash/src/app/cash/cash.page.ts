@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Minima } from 'minima';
 import { IonSegment, ToastController } from '@ionic/angular';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-cash',
@@ -16,8 +17,7 @@ export class CashPage implements OnInit {
   shownSegments = 'claimed';
   
   rewards: Reward[] = [];
-  totalClaimed: number = 0;
-  totalUnclaimed: number = 0;
+  totalRemaining = 0;
   timescript: string = 'LET owner = PREVSTATE ( 0 ) LET time = PREVSTATE ( 1 ) RETURN SIGNEDBY ( owner ) AND @BLKNUM GTE time';
   data: UserDetails = {
     email: '',
@@ -34,8 +34,6 @@ export class CashPage implements OnInit {
   cashlist: IncentiveCash[];
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
     private _storeService: StoreService,
     private _Minima: MinimaService,
     public toastController: ToastController) { }
@@ -46,19 +44,20 @@ export class CashPage implements OnInit {
       this.data = res;
     });
     this._storeService.cashlist.subscribe((res: IncentiveCash[]) => {
+      this.totalRemaining = 0;
       this.cashlist = res;
-    });
-    this._storeService.rewards.subscribe((res: any) => {
-      this.totalClaimed = 0;
-      this.totalUnclaimed = 0;
-      res.data.forEach((reward: Reward) => {
-        if (reward.reason !== 'Claimed') {
-          this.totalUnclaimed += reward.amount;
-        } else {
-          this.totalClaimed += reward.amount;
-        }
+
+      this.cashlist = this.cashlist.slice().sort(this.byAscDate);
+      this.cashlist.forEach(cash => {
+        this.totalRemaining += parseInt(cash.cash_amount);
       })
     });
+  }
+
+  byAscDate(a: IncentiveCash, b: IncentiveCash) {
+    let firstblock = parseInt(a.blockno);
+    let secblock = parseInt(b.blockno);
+    return firstblock-secblock;
   }
 
   segmentChanged(ev: any) {

@@ -55,22 +55,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "mrSG");
 /* harmony import */ var _raw_loader_profile_page_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! raw-loader!./profile.page.html */ "tXh8");
 /* harmony import */ var _profile_page_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./profile.page.scss */ "zxxS");
-/* harmony import */ var _api_store_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../api/store.service */ "IcAf");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ionic/angular */ "TEn/");
+/* harmony import */ var _api_store_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../api/store.service */ "IcAf");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ "fXoL");
+
 
 
 
 
 
 let ProfilePage = class ProfilePage {
-    constructor(_storeService) {
+    constructor(_storeService, toastController) {
         this._storeService = _storeService;
+        this.toastController = toastController;
         this.user = { email: '', refID: '', pKey: '' };
     }
     ngOnInit() {
         this._storeService.getUserDetailsOnce().then((res) => {
             this.user = res;
         });
+        this._storeService.referralCode.subscribe((res) => {
+            this.referralCode = res;
+            console.log(this.referralCode);
+        });
+    }
+    copy(code) {
+        document.addEventListener('copy', (e) => {
+            e.clipboardData.setData('text/plain', code);
+            this.presentToast('Copied To Clipboard', 'primary', 'bottom');
+            e.preventDefault();
+            document.removeEventListener('copy', null);
+        });
+        document.execCommand('copy');
     }
     signOut() {
         document.getElementById('sign-out-btn').style.opacity = '0.5';
@@ -82,12 +98,25 @@ let ProfilePage = class ProfilePage {
             document.location.reload();
         });
     }
+    presentToast(msg, clr, posn) {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            const toast = yield this.toastController.create({
+                message: msg,
+                duration: 1000,
+                color: clr,
+                position: posn,
+                buttons: ['cancel']
+            });
+            yield toast.present();
+        });
+    }
 };
 ProfilePage.ctorParameters = () => [
-    { type: _api_store_service__WEBPACK_IMPORTED_MODULE_3__["StoreService"] }
+    { type: _api_store_service__WEBPACK_IMPORTED_MODULE_4__["StoreService"] },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_3__["ToastController"] }
 ];
 ProfilePage = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
-    Object(_angular_core__WEBPACK_IMPORTED_MODULE_4__["Component"])({
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_5__["Component"])({
         selector: 'app-profile',
         template: _raw_loader_profile_page_html__WEBPACK_IMPORTED_MODULE_1__["default"],
         styles: [_profile_page_scss__WEBPACK_IMPORTED_MODULE_2__["default"]]
@@ -107,7 +136,7 @@ ProfilePage = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<ion-header class=\"ion-no-border\" [translucent]=\"true\">\n  <ion-toolbar>\n    <ion-title>\n      <ion-grid class=\"ion-no-padding\">\n        <ion-row>\n          <ion-col class=\"title ion-no-padding ion-text-center\">\n            Minima Incentive Cash\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n    </ion-title>\n  </ion-toolbar>\n  <ion-toolbar class=\"sub-toolbar\">\n    <ion-grid>\n      <ion-row class=\"has\">\n        <ion-col class=\"no-borders\" routerLink=\"/profile\" routerLinkActive=\"hdr-toolbar-active\">Profile</ion-col>\n        <ion-col class=\"no-borders\" routerLink=\"/faqs\" routerLinkActive=\"hdr-toolbar-active\">FAQs</ion-col>\n        <ion-col class=\"no-borders\" routerLink=\"/contact\" routerLinkActive=\"hdr-toolbar-active\">Contact</ion-col>\n        <ion-col class=\"sign-out\">\n          <span id=\"sign-out-btn\" (click) = 'signOut()'>\n            Sign out\n          </span>\n        </ion-col>\n      </ion-row>\n    </ion-grid>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content [fullscreen]=\"true\">\n  <ion-header collapse=\"condense\">\n    <ion-toolbar>\n      <ion-title size=\"large\">Incentive Cash</ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-list class=\"profile-list ion-no-padding\">\n    <ion-grid class=\"pre-header ion-no-padding\">\n      <ion-row>\n        <ion-col class=\"ion-no-padding\">\n          Profile\n        </ion-col>\n      </ion-row>\n    </ion-grid>\n\n    <ion-grid class=\"profile ion-no-padding\">\n      <ion-row>\n        <ion-col size=\"2\" class=\"ion-no-padding ion-text-left\">\n          <ion-icon class=\"profile-icons\" src=\"assets/emailIcon.svg\"></ion-icon>\n        </ion-col>\n        <ion-col class=\"information\">{{ user.email }}</ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col size=\"2\" class=\"ion-no-padding ion-text-left\">\n          <ion-icon class=\"profile-icons\" src=\"assets/lastAccessIcon.svg\"></ion-icon>\n        </ion-col>\n        <ion-col class=\"information\">\n          <h6>Last access</h6>\n          <p>Date: 2021-02-18</p>\n          <p>Time: 16:36:29</p>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col size=\"2\" class=\"ion-no-padding ion-text-left\">\n          <ion-icon class=\"profile-icons\" src=\"assets/referralIcon.svg\"></ion-icon>\n        </ion-col>\n        <ion-col class=\"information\">\n          <h6>My referral code</h6>\n          <p>We will be issuing referral codes later on in the program</p>\n          <ion-button disabled type=\"button\" fill=\"clear\">Copy referral code</ion-button>\n        </ion-col>\n      </ion-row>\n      \n    </ion-grid>\n  </ion-list>\n\n</ion-content>\n\n<ion-footer class=\"activity ion-no-border ion-text-center\">\n  <ion-toolbar>\n    <ion-buttons>\n      <div routerLinkActive=\"ftr-toolbar-active\" class=\"footer-btn-wrapper\" style=\"margin-right: 45px;\">\n        <ion-button routerLink=\"/rewards\">\n          <ion-icon src=\"assets/rewardsIcon.svg\"></ion-icon>\n        </ion-button>\n        <ion-label>\n          Rewards\n        </ion-label>\n      </div>\n      \n      <div routerLinkActive=\"ftr-toolbar-active\" class=\"footer-btn-wrapper\" style=\"margin-left: 45px;\">\n        <ion-button routerLink=\"/cash\">\n          <ion-icon name=\"cash\"></ion-icon>\n        </ion-button>\n        <ion-label>\n          Incentives\n        </ion-label>\n      </div>\n    </ion-buttons>\n  </ion-toolbar>\n\n</ion-footer>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<ion-header class=\"ion-no-border\" [translucent]=\"true\">\n  <ion-toolbar>\n    <ion-title>\n      <ion-grid class=\"ion-no-padding\">\n        <ion-row>\n          <ion-col class=\"title ion-no-padding ion-text-center\">\n            Minima Incentive Cash\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n    </ion-title>\n  </ion-toolbar>\n  <ion-toolbar class=\"sub-toolbar\">\n    <ion-grid>\n      <ion-row class=\"has\">\n        <ion-col class=\"no-borders\" routerLink=\"/profile\" routerLinkActive=\"hdr-toolbar-active\">Profile</ion-col>\n        <ion-col class=\"no-borders\" routerLink=\"/faqs\" routerLinkActive=\"hdr-toolbar-active\">FAQs</ion-col>\n        <ion-col class=\"no-borders\" routerLink=\"/contact\" routerLinkActive=\"hdr-toolbar-active\">Contact</ion-col>\n        <ion-col class=\"sign-out\">\n          <span id=\"sign-out-btn\" (click) = 'signOut()'>\n            Sign out\n          </span>\n        </ion-col>\n      </ion-row>\n    </ion-grid>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content [fullscreen]=\"true\">\n  <ion-header collapse=\"condense\">\n    <ion-toolbar>\n      <ion-title size=\"large\">Incentive Cash</ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-list class=\"profile-list ion-no-padding\">\n    <ion-grid class=\"pre-header ion-no-padding\">\n      <ion-row>\n        <ion-col class=\"ion-no-padding\">\n          Profile\n        </ion-col>\n      </ion-row>\n    </ion-grid>\n\n    <ion-grid class=\"profile ion-no-padding\">\n      <ion-row>\n        <ion-col size=\"2\" class=\"ion-no-padding ion-text-left\">\n          <ion-icon class=\"profile-icons\" src=\"assets/emailIcon.svg\"></ion-icon>\n        </ion-col>\n        <ion-col class=\"information\">{{ user.email }}</ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col size=\"2\" class=\"ion-no-padding ion-text-left\">\n          <ion-icon class=\"profile-icons\" src=\"assets/lastAccessIcon.svg\"></ion-icon>\n        </ion-col>\n        <ion-col class=\"information\">\n          <h6>Last access</h6>\n          <p>Date: 2021-02-18</p>\n          <p>Time: 16:36:29</p>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col size=\"2\" class=\"ion-no-padding ion-text-left\">\n          <ion-icon class=\"profile-icons\" src=\"assets/referralIcon.svg\"></ion-icon>\n        </ion-col>\n        <ion-col class=\"information\">\n          <h6>My referral code</h6>\n          <p *ngIf=\"referralCode && referralCode.data[0].name.length > 0\">Copy your referral code and share it.</p>\n          <p *ngIf=\"!referralCode\">You don't currently have a referral code.</p>\n           <ion-button (click)=\"copy( 'https://incentive.minima.global/#/register/'+user.refID+'/'+referralCode.data[0].name )\" [disabled]=\"!referralCode && referralCode.data[0].name.length === 0\" type=\"button\" fill=\"clear\">Copy referral code</ion-button>\n        </ion-col>\n      </ion-row>\n      \n    </ion-grid>\n  </ion-list>\n\n</ion-content>\n\n<ion-footer class=\"activity ion-no-border ion-text-center\">\n  <ion-toolbar>\n    <ion-buttons>\n      <div routerLinkActive=\"ftr-toolbar-active\" class=\"footer-btn-wrapper\" style=\"margin-right: 45px;\">\n        <ion-button routerLink=\"/rewards\">\n          <ion-icon name=\"star\"></ion-icon>\n        </ion-button>\n        <ion-label>\n          Rewards\n        </ion-label>\n      </div>\n      \n      <div routerLinkActive=\"ftr-toolbar-active\" class=\"footer-btn-wrapper\" style=\"margin-left: 45px;\">\n        <ion-button routerLink=\"/cash\">\n          <ion-icon name=\"cash\"></ion-icon>\n        </ion-button>\n        <ion-label>\n          Incentives\n        </ion-label>\n      </div>\n    </ion-buttons>\n  </ion-toolbar>\n\n</ion-footer>\n");
 
 /***/ }),
 
