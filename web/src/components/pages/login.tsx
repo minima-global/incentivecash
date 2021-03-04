@@ -19,6 +19,7 @@ import { themeStyles } from '../../styles'
 import {
   ApplicationState,
   AppDispatch,
+  PageTypes,
   SignIn,
   TxData
 } from '../../store/types'
@@ -41,7 +42,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  setActivePage: (page: string) => void
+  setActivePage: (page: PageTypes) => void
   initUser: () => void
   initTx: () => void
   login: (user: SignIn) => void
@@ -54,14 +55,13 @@ const userLogin = (props: Props) => {
 
   const [user, setUser] = useState({email: "", password: ""})
   const [summary, setSummary] = useState("")
-  let isFirstRun = useRef(true)
   const history = useHistory()
+  let isFirstRun = useRef(true)
 
   const classes = themeStyles()
 
   useEffect(() => {
 
-    props.setActivePage(Local.signIn)
     let pushTimeout: any
 
     if ( isFirstRun.current ) {
@@ -81,6 +81,7 @@ const userLogin = (props: Props) => {
           props.getUser()
           pushTimeout = setTimeout(() => {
             props.initTx()
+            props.setActivePage(PageTypes.WELCOME)
             history.push(`${Local.welcome}`)
           }, Misc.successLoginDelay)
         }
@@ -112,30 +113,40 @@ const userLogin = (props: Props) => {
   })
 
   return (
+    <Grid item container xs={12}>
 
-    <Grid container alignItems="flex-start">
+      <Grid item container justify="flex-start" xs={6}>
 
-      <Grid item container justify="flex-start" xs={12}>
-
-        <Grid item container justify="center" xs={6}>
-
-         <NavLink to={Local.signIn} className={classes.activeLink}>
+        <Button
+          onClick={() => props.setActivePage(PageTypes.SIGNIN)}
+          data-for='loginButton'
+          data-tip
+          style={{
+            textTransform: 'none'
+          }}
+        >
           {Paths.signIn}
-         </NavLink>
+        </Button>
 
-         <img src={hrFirst} className={classes.hr}/>
+        <img src={hrFirst} className={classes.hr}/>
 
-        </Grid>
+      </Grid>
 
-        <Grid item container justify="center" xs={6}>
+      <Grid item container justify="flex-end" xs={6}>
 
-         <NavLink to={Local.register} className={classes.inactiveLink}>
-          {Paths.register}
-         </NavLink>
+          <Button
+            onClick={() => props.setActivePage(PageTypes.REGISTER)}
+            color="primary"
+            data-for='registerButton'
+            data-tip
+            style={{
+              textTransform: 'none'
+            }}
+          >
+            {Paths.register}
+          </Button>
 
-         <img src={hrFirst} className={classes.hr}/>
-
-        </Grid>
+       <img src={hrFirst} className={classes.hr}/>
 
       </Grid>
 
@@ -187,7 +198,7 @@ const userLogin = (props: Props) => {
               color="primary"
               size='medium'
               variant="contained"
-              data-for='loginButton'
+              data-for='submitButton'
               data-tip
               style={{
                 textTransform: 'none',
@@ -197,7 +208,7 @@ const userLogin = (props: Props) => {
               {User.loginButton}
             </Button>
             <ReactTooltip
-              id='loginButton'
+              id='submitButton'
               place="bottom"
               effect="solid"
             >
@@ -217,11 +228,6 @@ const userLogin = (props: Props) => {
   )
 }
 
-//error={formik.touched.password && Boolean(formik.errors.password)}
-// helperText={formik.touched.password && formik.errors.password}
-//error={formik.touched.email && Boolean(formik.errors.email)}
-//helperText={formik.touched.email && formik.errors.email}
-
 const mapStateToProps = (state: ApplicationState): StateProps => {
   return {
     tx: state.tx.data as TxData
@@ -230,7 +236,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
  return {
-   setActivePage: (page: string) => dispatch(setActivePage(page)),
+   setActivePage: (page: PageTypes) => dispatch(setActivePage(page)),
    initUser: () => dispatch(initUser()),
    initTx: () => dispatch(initTx()),
    login: (user: SignIn) => dispatch(login(user)),

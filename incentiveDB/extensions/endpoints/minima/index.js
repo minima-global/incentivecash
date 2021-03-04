@@ -2,6 +2,7 @@ const axios = require('axios');
 const Joi = require("joi");
 
 const config = require ('../config');
+const helpers = require ('../helpers');
 
 const keySchema = Joi.object({
   userid: Joi.string().required(),
@@ -12,18 +13,35 @@ const cmdSchema = Joi.object({
   cmd: Joi.string().required()
 });
 
-module.exports = function registerEndpoint(router, { services, exceptions }) {
+module.exports = async function registerEndpoint(router, { services, exceptions }) {
 
   const { ItemsService, UsersService } = services;
 	const { InvalidPayloadException, ServiceUnavailableException } = exceptions;
 
-  let blockTime = "122500";
-  const url = 'http://localhost:9002/cmd'
-  const header = "'Content-Type': 'application/json'"
+  let blockTime = config.defaultBlockTime;
+  let scaleFactor = config.defaultScaleFactor;
+  const tokenInfo = await helpers.getTokenInfo();
+  if ( tokenInfo.hasOwnProperty('response') ) {
 
-  // /usr/bin/tmux new-session -d -s minima '/usr/bin/java -Xmx2G -jar /home/drsteve/minima/jar/minima.jar -daemon -externalurl http://127.0.0.1:8055/custom/minima/txn'
+    tokenInfo.response.tokens.forEach(token => {
 
-  // curl --silent --header "Content-Type: application/json" --request POST --data '{"cmd":"balance"}' https://incentivedb.minima.global/custom/minima/cmd | jq
+      if ( token.tokenid == config.tokenID ) {
+
+        scaleFactor = token.scalefactor;
+        //console.log("Got scale factor!", token.scalefactor);
+      }
+    });
+  };
+
+  router.get('/token', (req, res) => {
+
+    const token = {
+      tokenId: config.tokenID,
+      scaleFactor: scaleFactor
+    }
+
+    return res.send(JSON.stringify(token));
+	});
 
   router.post('/cmd', (req, res, next) => {
 
@@ -34,8 +52,10 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
 
     axios({
         method: 'POST',
-        url: url,
-        headers: { header },
+        url: config.cmdURL,
+        headers: {
+          'Content-Type': 'application/json'
+        },
         data: cmd
       })
       .then(function (response) {
@@ -81,50 +101,50 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
 
         } else {
 
-          const maxSend = 3;
-          for (let i = 0; i < maxSend; i++) {
+          const numTokens = helpers.getNumTokens(new Date());
+          const numWeeksToSend = numTokens / config.tokensPerWeek;
 
-            //console.log("block ", blockTime);
+          let thisBlockTime = blockTime;
+          for ( let i = 0; i < numWeeksToSend; i++ ) {
 
-            let thisBlock = +blockTime + (i * maxSend);
-            const sendString = `sendpoll 1 ${config.futureAddress} ${config.tokenID} 0:${publickey}#1:${thisBlock}`;
-            //console.log("sendString: ", sendString)
+            thisBlockTime += config.blocksPerWeek;
+            const sendString = `sendpoll ${config.tokensPerWeek} ${config.futureAddress} ${config.tokenID} 0:${publickey}#1:${thisBlockTime}`;
 
             axios({
-                method: 'POST',
-                url: url,
-                headers: { header },
-                data: sendString
-              })
-              .then(function (response) {
+              method: 'POST',
+              url: config.cmdURL,
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              data: sendString
+            })
+            .then(function (response) {
 
-                if( i == maxSend - 1) {
+              if ( i == numWeeksToSend - 1 ) {
 
-                  const walletService = new ItemsService('wallet', { schema: req.schema });
-                  walletService
-                     .create({'userid': userid, 'publickey': publickey})
-                     .then((createResults) => {
+                const walletService = new ItemsService('wallet', { schema: req.schema });
+                walletService
+                   .create({'userid': userid, 'publickey': publickey})
+                   .then((createResults) => {
 
-                       return res.json("OK");
+                     return res.json("OK");
 
-                     })
-                     .catch((error) => {
+                   })
+                   .catch((error) => {
 
-                       console.error(error.message)
-                       return next(new ServiceUnavailableException(error.message));
+                     console.error(error.message, userid, publickey)
+                     return next(new ServiceUnavailableException(error.message));
 
-                     });
+                   });
+              }
+            })
+            .catch(function (error) {
 
-                }
-              })
-              .catch(function (error) {
-
-                console.error(error.message, sendString)
-                return next(new ServiceUnavailableException(error.message));
-              });
-           }
+              console.error(error.message, sendString)
+              return next(new ServiceUnavailableException(error.message));
+            });
+          }
         }
-
       })
       .catch((error) => {
 
@@ -150,7 +170,7 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
         //console.log("has outputs: ", txOutputs)
         let uid = req.body.txpow.body.txn.state[0].data.replace(/\[/g,'');
         uid = uid.replace(/\]/g,'');
-        const thisAmount = config.scaleFactor * txOutputs[0].amount
+        const thisAmount = scaleFactor * txOutputs[0].amount
 
         const userService = new UsersService({ schema: req.schema });
         userService
@@ -209,7 +229,7 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
 
     } else if (req.body.event == "newblock") {
 
-      blockTime = parseInt(req.body.txpow.header.block, 10) + 3;
+      blockTime = parseInt(req.body.txpow.header.block, 10);
       return res.send("OK");
 
     } else {

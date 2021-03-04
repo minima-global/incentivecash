@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { useHistory, useParams } from "react-router-dom"
+import { NavLink, useHistory, useParams } from 'react-router-dom'
 
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -19,6 +18,7 @@ import { themeStyles } from '../../styles'
 import {
   ApplicationState,
   AppDispatch,
+  PageTypes,
   User as UserData,
   UserRegisterPassword,
   TxData
@@ -60,19 +60,18 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  setActivePage: (page: string) => void
+  setActivePage: (page: PageTypes) => void
   initTx: () => void
   registerPassword: (user: UserRegisterPassword) => void
 }
 
 type Props = StateProps & DispatchProps
 
-const userRegister = (props: Props) => {
+const display = (props: Props) => {
 
   const [summary, setSummary] = useState("")
+  const [storedToken, setStoredToken] = useState("")
   let isFirstRun = useRef(true)
-  const storedToken = props.user.info.token
-  //console.log(storedToken)
 
   let { uid } = useParams<{ uid: string }>()
   let { referral } = useParams<{ referral: string }>()
@@ -83,12 +82,23 @@ const userRegister = (props: Props) => {
 
   useEffect(() => {
 
-    props.setActivePage(Local.register)
+    //props.setActivePage(PageTypes.REGISTERPASSWORD)
     let pushTimeout: any
 
     if ( isFirstRun.current ) {
 
       isFirstRun.current = false
+
+      if ( props.user.info ) {
+
+        setStoredToken(props.user.info.token)
+
+      } else {
+
+        props.setActivePage(PageTypes.SIGNIN)
+        history.push(`${Local.home}`)
+
+      }
 
     } else {
 
@@ -103,6 +113,7 @@ const userRegister = (props: Props) => {
           setSummary(`${Register.login}`)
 
           pushTimeout = setTimeout(() => {
+            props.setActivePage(PageTypes.SIGNIN)
             props.initTx()
             history.push(`${Local.home}`)
           }, Misc.successLoginDelay)
@@ -142,29 +153,42 @@ const userRegister = (props: Props) => {
 
   return (
 
-    <Grid container alignItems="flex-start">
+    <Grid item container xs={12}>
 
-      <Grid item container justify="flex-start" xs={12}>
+      <Grid item container justify="flex-start" xs={6}>
 
-        <Grid item container justify="center" xs={6}>
-
-         <NavLink to={Local.signIn} className={classes.inactiveLink}>
+        <Button
+          onClick={() => props.setActivePage(PageTypes.SIGNIN)}
+          color="primary"
+          data-for='loginButton'
+          data-tip
+          style={{
+            textTransform: 'none'
+          }}
+        >
           {Paths.signIn}
-         </NavLink>
+        </Button>
 
-         <img src={hrFirst} className={classes.hr}/>
+        <img src={hrFirst} className={classes.hr}/>
 
-        </Grid>
+      </Grid>
 
-        <Grid item container justify="center" xs={6}>
+      <Grid item container justify="flex-end" xs={6}>
 
-         <NavLink to={Local.register} className={classes.activeLink}>
+        <Button
+          onClick={() => props.setActivePage(PageTypes.REGISTER)}
+          color="primary"
+          data-for='registerButton'
+          data-tip
+          style={{
+            textTransform: 'none',
+            color: '#001C32'
+          }}
+        >
           {Paths.register}
-         </NavLink>
+        </Button>
 
-         <img src={hrFirst} className={classes.hr}/>
-
-        </Grid>
+       <img src={hrFirst} className={classes.hr}/>
 
       </Grid>
 
@@ -292,7 +316,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
  return {
-   setActivePage: (page: string) => dispatch(setActivePage(page)),
+   setActivePage: (page: PageTypes) => dispatch(setActivePage(page)),
    initTx: () => dispatch(initTx()),
    registerPassword: (user: UserRegisterPassword) => dispatch(registerPassword(user))
  }
@@ -301,4 +325,4 @@ const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
 export const RegisterPassword = connect<StateProps, DispatchProps, {}, ApplicationState>(
   mapStateToProps,
   mapDispatchToProps
-)(userRegister)
+)(display)

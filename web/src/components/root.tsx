@@ -10,6 +10,13 @@ import { Main } from './pages'
 
 const Root = ({ store }: any) => {
 
+  let path = window.location.href
+  const indexOf = path.indexOf("index")
+  if (indexOf > -1) {
+      const redirect = path.substr(0, indexOf)
+      window.location.href = redirect
+  }
+
   return (
 
     <Provider store={store}>

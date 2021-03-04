@@ -30,6 +30,11 @@ class Remote {
 
   static readonly miniDappURL = 'https://github.com/minima-global/incentivecash/raw/main/im/incentiveCash/minidapp/incentivecash.minidapp'
 
+  static readonly aPKURL = 'https://github.com/minima-global/MiniDroid/raw/master/apk/minima-0.97.13.1.apk'
+
+  static readonly aPKVideo = 'https://www.youtube.com/watch?v=osjVMAyeg6I'
+  static readonly miniDappVideo = 'https://www.youtube.com/watch?v=osjVMAyeg6I'
+
   static readonly userLogin = '/auth/login'
   static readonly userPath = '/users/me'
   static readonly itemsPath = '/items'

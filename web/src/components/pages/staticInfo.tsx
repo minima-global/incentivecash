@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
-import { ApplicationState, AppDispatch, InfoProps, InfoTypes } from '../../store/types'
+import { ApplicationState, AppDispatch, InfoProps, PageTypes } from '../../store/types'
 
 import hrFirst from '../../images/hrFirst.svg'
 
@@ -16,49 +16,49 @@ import { About, Help, Contact } from '../../config/strings'
 import { setActivePage } from '../../store/app/appData/actions'
 
 interface StaticInfoProps {
-  type: InfoTypes
+  page: PageTypes
 }
 
 interface DispatchProps {
-  setActivePage: (page: string) => void
+  setActivePage: (page: PageTypes) => void
 }
 
 type Props = StaticInfoProps & DispatchProps
 
 const appInfo = (props: Props) => {
 
-    const [pageData, setPageData] = useState({title: About.heading,
+    const [pageData, setPageData] = useState<InfoProps>({title: About.heading,
     data: About.info})
 
     const classes = themeStyles()
 
     useEffect(() => {
 
-      switch (props.type) {
-        case InfoTypes.ABOUT:
+      switch (props.page) {
+        case PageTypes.ABOUT:
 
           setPageData({ title: About.heading, data: About.info })
-          props.setActivePage(Local.about)
+          props.setActivePage(PageTypes.ABOUT)
           break
 
-        case InfoTypes.HELP:
+        case PageTypes.HELP:
 
           setPageData({ title: Help.heading, data: Help.info })
-          props.setActivePage(Local.help)
+          props.setActivePage(PageTypes.HELP)
           break
 
-        case InfoTypes.CONTACT:
+        case PageTypes.CONTACT:
 
           setPageData({ title: Contact.heading, data: Contact.info })
-          props.setActivePage(Local.contact)
+          props.setActivePage(PageTypes.CONTACT)
           break
 
         default:
 
-          props.setActivePage(Local.home)
+          props.setActivePage(PageTypes.SIGNIN)
       }
 
-    }, [props.type])
+    }, [props.page])
 
     return (
       <Grid container alignItems="flex-start">
@@ -77,7 +77,7 @@ const appInfo = (props: Props) => {
 
             <React.Fragment key={i}>
 
-              <Grid item container className={classes.details} xs={12}>
+              <Grid item container className={classes.rightContent} xs={12}>
                 <Typography variant="body1">
                   {data}
                 </Typography>
@@ -92,7 +92,7 @@ const appInfo = (props: Props) => {
 
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
  return {
-   setActivePage: (page: string) => dispatch(setActivePage(page))
+   setActivePage: (page: PageTypes) => dispatch(setActivePage(page))
  }
 }
 

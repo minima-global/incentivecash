@@ -21,16 +21,6 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
 
 	});
 
-  router.get('/token', (req, res) => {
-
-    const token = {
-      tokenId: `${config.tokenID}`
-    }
-
-    return res.send(JSON.stringify(token));
-
-	});
-
   router.post('/getKey', (req, res, next) => {
 
     const { error } = keySchema.validate(req.body);

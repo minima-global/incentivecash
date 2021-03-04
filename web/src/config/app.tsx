@@ -1,6 +1,6 @@
 class Misc {
     static readonly successLoginDelay = 1500
-    static readonly referralDelay = 1500
+    static readonly referralDelay = 4500
 }
 
 class Smtp {
@@ -14,6 +14,7 @@ class Dbase {
 
   static readonly rewardsTable = "reward"
   static readonly referralsTable = "referral"
+  static readonly referralReward = "50"
 }
 
 export { Misc, Smtp, Dbase }

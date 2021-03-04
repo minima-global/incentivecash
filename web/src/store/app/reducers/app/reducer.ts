@@ -2,12 +2,13 @@ import {
     ActionProps,
     AppDataActionTypes,
     AppDataProps,
-    AppData
+    AppData,
+    PageTypes
 } from '../../../types'
 
 const initialState: AppDataProps = {
     data: {
-      activePage: '/'
+      activePage: PageTypes.SIGNIN
     }
 }
 
