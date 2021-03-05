@@ -50,6 +50,22 @@ ion-list.profile-list {
         background-color: #031B32;
         color: #F0F0FA;
       }
+      input {
+        border-radius: 5px;
+        width: 100%;
+        border: none;
+        background: #FFF;
+        padding: 10px;
+        letter-spacing: 0.2em;
+        white-space: normal;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      input:hover {
+        cursor: pointer;
+        background-color: #031B32;
+        color: #F0F0FA;
+      }
     }
   }
 }

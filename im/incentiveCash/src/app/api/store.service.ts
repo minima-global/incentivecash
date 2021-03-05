@@ -3,6 +3,10 @@ import { ReplaySubject, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Minima } from 'minima';
 
+export interface LastAccess {
+  milliseconds: number
+}
+
 export interface Reward {
   amount: number,
   date_created: any,
@@ -62,6 +66,7 @@ export class StoreService {
   tokenId: Subject<IncentiveTokenID> = new ReplaySubject<IncentiveTokenID>(1);
   rewards: Subject<Rewards> = new ReplaySubject<Rewards>(1);
   referralCode: Subject<ReferralCode> = new ReplaySubject<ReferralCode>(1);
+  lastAccess: Subject<LastAccess> = new ReplaySubject<LastAccess>(1);
 
   constructor() {
     // track this script

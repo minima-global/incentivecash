@@ -160,6 +160,7 @@ let StoreService = class StoreService {
         this.tokenId = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
         this.rewards = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
         this.referralCode = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
+        this.lastAccess = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
         // track this script
         minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].cmd('extrascript \"' + this.timescript + "\"", (res) => { });
         this.getUserDetailsOnce().then((res) => {
@@ -721,22 +722,22 @@ const routes = [
     },
     {
         path: 'cash',
-        loadChildren: () => Promise.all(/*! import() | cash-cash-module */[__webpack_require__.e("default~cash-cash-module~rewards-rewards-module"), __webpack_require__.e("cash-cash-module")]).then(__webpack_require__.bind(null, /*! ./cash/cash.module */ "pJyb")).then(m => m.CashPageModule),
+        loadChildren: () => Promise.all(/*! import() | cash-cash-module */[__webpack_require__.e("default~cash-cash-module~profile-profile-module~rewards-rewards-module"), __webpack_require__.e("common"), __webpack_require__.e("cash-cash-module")]).then(__webpack_require__.bind(null, /*! ./cash/cash.module */ "pJyb")).then(m => m.CashPageModule),
         canActivate: [_api_auth_guard_service__WEBPACK_IMPORTED_MODULE_1__["AuthGuardService"]]
     },
     {
         path: 'cash/:id',
-        loadChildren: () => Promise.all(/*! import() | cash-cash-module */[__webpack_require__.e("default~cash-cash-module~rewards-rewards-module"), __webpack_require__.e("cash-cash-module")]).then(__webpack_require__.bind(null, /*! ./cash/cash.module */ "pJyb")).then(m => m.CashPageModule),
+        loadChildren: () => Promise.all(/*! import() | cash-cash-module */[__webpack_require__.e("default~cash-cash-module~profile-profile-module~rewards-rewards-module"), __webpack_require__.e("common"), __webpack_require__.e("cash-cash-module")]).then(__webpack_require__.bind(null, /*! ./cash/cash.module */ "pJyb")).then(m => m.CashPageModule),
         canActivate: [_api_auth_guard_service__WEBPACK_IMPORTED_MODULE_1__["AuthGuardService"]]
     },
     {
         path: 'profile',
-        loadChildren: () => __webpack_require__.e(/*! import() | profile-profile-module */ "profile-profile-module").then(__webpack_require__.bind(null, /*! ./profile/profile.module */ "cRhG")).then(m => m.ProfilePageModule),
+        loadChildren: () => Promise.all(/*! import() | profile-profile-module */[__webpack_require__.e("default~cash-cash-module~profile-profile-module~rewards-rewards-module"), __webpack_require__.e("profile-profile-module")]).then(__webpack_require__.bind(null, /*! ./profile/profile.module */ "cRhG")).then(m => m.ProfilePageModule),
         canActivate: [_api_auth_guard_service__WEBPACK_IMPORTED_MODULE_1__["AuthGuardService"]]
     },
     {
         path: 'rewards',
-        loadChildren: () => Promise.all(/*! import() | rewards-rewards-module */[__webpack_require__.e("default~cash-cash-module~rewards-rewards-module"), __webpack_require__.e("rewards-rewards-module")]).then(__webpack_require__.bind(null, /*! ./rewards/rewards.module */ "GvLF")).then(m => m.RewardsPageModule),
+        loadChildren: () => Promise.all(/*! import() | rewards-rewards-module */[__webpack_require__.e("default~cash-cash-module~profile-profile-module~rewards-rewards-module"), __webpack_require__.e("common"), __webpack_require__.e("rewards-rewards-module")]).then(__webpack_require__.bind(null, /*! ./rewards/rewards.module */ "GvLF")).then(m => m.RewardsPageModule),
         canActivate: [_api_auth_guard_service__WEBPACK_IMPORTED_MODULE_1__["AuthGuardService"]]
     },
     {

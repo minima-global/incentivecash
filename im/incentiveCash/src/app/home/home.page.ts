@@ -95,6 +95,8 @@ export class HomePage  {
               this.postAKey(user.refID);
             } else {
               this.loginStatus = 'Login successful!';
+              this.lastAccess();
+
               this.router.navigate(['/rewards']);
               this.loginForm.reset();
               this.loginStatus = '';
@@ -136,6 +138,8 @@ export class HomePage  {
         })
         .then(data => {
           this.loginStatus = 'Login successful!';
+          this.lastAccess();
+
           this.router.navigate(['/rewards']);
           this.loginForm.reset();
           this.loginStatus = '';
@@ -214,7 +218,13 @@ export class HomePage  {
 
   this.getReferenceButton.disabled = false;
   this.loginStatus = '';
-  //this.loginForm.reset();
+  }
+
+  lastAccess() {
+    // GET CURRENT TIME
+    let date = new Date();
+    let ms = date.getTime();
+    this._storeService.lastAccess.next({milliseconds: ms});
   }
 
   get username() {

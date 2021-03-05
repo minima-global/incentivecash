@@ -105,14 +105,6 @@ ion-toolbar.total {
     padding-right: 110px;
   }
 }
-
-ion-footer {
-  height: 121px;
-  background-color: #031B32;
-  color: #F0F0FA;
-  padding-top: 10px;
-  font-size: 10px;
-}
 ion-toolbar {
   --padding-start: 7px;
   --padding-end: 7px;
@@ -164,6 +156,13 @@ ion-button.sign-up-btn {
 ion-button.sign-up-btn:hover {
   background-color: #346FE5;
 }
+ion-footer {
+  height: 121px;
+  background-color: #031B32;
+  color: #F0F0FA;
+  padding-top: 10px;
+  font-size: 10px;
+}
 ion-footer.activity {
   align-items: center;
   display: inline-flex;
@@ -182,6 +181,24 @@ ion-footer.activity {
         }
         ion-label {
           margin-top: 15px;
+        }
+      }
+    }
+  }
+}
+@media only screen and (max-height: 665px) {
+  ion-footer.activity {
+    height: 71px;
+    ion-toolbar {
+      ion-buttons {
+        div.footer-btn-wrapper {
+          ion-button {
+            width: 30px;
+            height: 30px;
+          }
+          ion-label {
+            margin-top: 5px;
+          }
         }
       }
     }

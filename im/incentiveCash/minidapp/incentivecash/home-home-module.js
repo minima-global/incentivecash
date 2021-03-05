@@ -205,6 +205,7 @@ let HomePage = class HomePage {
                         }
                         else {
                             this.loginStatus = 'Login successful!';
+                            this.lastAccess();
                             this.router.navigate(['/rewards']);
                             this.loginForm.reset();
                             this.loginStatus = '';
@@ -245,6 +246,7 @@ let HomePage = class HomePage {
                 })
                     .then(data => {
                     this.loginStatus = 'Login successful!';
+                    this.lastAccess();
                     this.router.navigate(['/rewards']);
                     this.loginForm.reset();
                     this.loginStatus = '';
@@ -319,7 +321,12 @@ let HomePage = class HomePage {
         });
         this.getReferenceButton.disabled = false;
         this.loginStatus = '';
-        //this.loginForm.reset();
+    }
+    lastAccess() {
+        // GET CURRENT TIME
+        let date = new Date();
+        let ms = date.getTime();
+        this._storeService.lastAccess.next({ milliseconds: ms });
     }
     get username() {
         return this.loginForm.get('uName');

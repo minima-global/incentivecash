@@ -1,6 +1,7 @@
 import { ToastController } from '@ionic/angular';
-import { StoreService, UserDetails, ReferralCode } from './../api/store.service';
+import { StoreService, UserDetails, ReferralCode, LastAccess } from './../api/store.service';
 import { Component, OnInit } from '@angular/core';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-profile',
@@ -11,6 +12,9 @@ export class ProfilePage implements OnInit {
 
   user: UserDetails = {email: '', refID: '', pKey: ''};
   referralCode: ReferralCode;
+  lastAccess: LastAccess;
+  date: string;
+  time: string;
 
   constructor(private _storeService: StoreService, public toastController: ToastController ) { }
 
@@ -20,7 +24,11 @@ export class ProfilePage implements OnInit {
     });
     this._storeService.referralCode.subscribe((res: ReferralCode) => {
       this.referralCode = res;
-      //console.log(this.referralCode);
+    });
+    this._storeService.lastAccess.subscribe((res: LastAccess) => {
+      this.lastAccess = res;
+      this.date = moment(this.lastAccess.milliseconds).format('DD-MM-YYYY');
+      this.time = moment(this.lastAccess.milliseconds).format('HH:mm:ss');
     });
   }
 

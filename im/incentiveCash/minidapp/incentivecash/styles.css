@@ -1207,13 +1207,6 @@ ion-toolbar.total ion-grid.total-rewards ion-row ion-col span {
     padding-right: 110px;
   }
 }
-ion-footer {
-  height: 121px;
-  background-color: #031B32;
-  color: #F0F0FA;
-  padding-top: 10px;
-  font-size: 10px;
-}
 ion-toolbar {
   --padding-start: 7px;
   --padding-end: 7px;
@@ -1265,6 +1258,13 @@ ion-button.sign-up-btn {
 ion-button.sign-up-btn:hover {
   background-color: #346FE5;
 }
+ion-footer {
+  height: 121px;
+  background-color: #031B32;
+  color: #F0F0FA;
+  padding-top: 10px;
+  font-size: 10px;
+}
 ion-footer.activity {
   align-items: center;
   display: inline-flex;
@@ -1285,6 +1285,18 @@ ion-footer.activity ion-toolbar ion-buttons div.footer-btn-wrapper ion-button {
 }
 ion-footer.activity ion-toolbar ion-buttons div.footer-btn-wrapper ion-label {
   margin-top: 15px;
+}
+@media only screen and (max-height: 665px) {
+  ion-footer.activity {
+    height: 71px;
+  }
+  ion-footer.activity ion-toolbar ion-buttons div.footer-btn-wrapper ion-button {
+    width: 30px;
+    height: 30px;
+  }
+  ion-footer.activity ion-toolbar ion-buttons div.footer-btn-wrapper ion-label {
+    margin-top: 5px;
+  }
 }
 ion-grid.pre-header ion-row ion-col {
   border-bottom: 1px solid #707070;
