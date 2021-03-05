@@ -6,7 +6,7 @@ function getNumTokens( toDate ) {
   const timeDifference = config.mainnetLaunch.getTime() - toDate.getTime();
   const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
   const numTokens = config.tokensPerDay * daysDifference;
-  const remainder = config.tokensPerWeek - (numTokens % config.tokensPerWeek);
+  const remainder = config.tokenBatches - (numTokens % config.tokenBatches);
   return numTokens + remainder;
 
 }
