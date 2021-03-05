@@ -15,6 +15,9 @@ class Dbase {
   static readonly rewardsTable = "reward"
   static readonly referralsTable = "referral"
   static readonly referralReward = "50"
+  static readonly referralText = "Referral"
+  static readonly welcomeReward = "1"
+  static readonly welcomeText = "Welcome"
 }
 
 export { Misc, Smtp, Dbase }

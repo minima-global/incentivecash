@@ -169,22 +169,31 @@ export const registerPassword = (user: UserRegisterPassword) => {
       })
       .then(data => {
 
-        //console.log("here with: ", user.uid, user.referral)
+        //console.log("here with new user data: ", data)
+
+        const welcomeReward = {
+          userid: data.id,
+          amount: Dbase.welcomeReward,
+          reason: Dbase.welcomeText,
+          extrainfo: `${user.referral} ${user.email}`
+        }
+
+        const postURL = `${dbase}${Remote.itemsPath}/${Dbase.rewardsTable}`
+
+        dispatch(postPublicData(postURL, welcomeReward))
 
         if ( user.uid && user.referral) {
 
           //https://127.0.0.1:8085/#/register/8fced3eb-e945-4291-b558-acc54e3fd4e6/Twitter
 
-          const rewardCreate = {
+          const referrerReward = {
             userid: user.uid,
             amount: Dbase.referralReward,
-            reason: "Referral",
+            reason: Dbase.referralText,
             extrainfo: `${user.referral} ${user.email}`
           }
 
-          const postURL = `${dbase}${Remote.itemsPath}/${Dbase.rewardsTable}`
-
-          dispatch(postPublicData(postURL,rewardCreate))
+          dispatch(postPublicData(postURL, referrerReward))
 
         } else {
 
