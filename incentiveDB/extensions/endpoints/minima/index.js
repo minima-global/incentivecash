@@ -7,6 +7,7 @@ const helpers = require ('../helpers');
 const keySchema = Joi.object({
   userid: Joi.string().required(),
   publickey: Joi.string().required(),
+  address: Joi.string().required()
 });
 
 const cmdSchema = Joi.object({
@@ -77,6 +78,7 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
 
     const userid = req.body.userid;
     const publickey = req.body.publickey;
+    const address = req.body.address;
 
     const userService = new UsersService({ schema: req.schema });
     userService
@@ -102,13 +104,13 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
         } else {
 
           const numTokens = helpers.getNumTokens(new Date());
-          const numWeeksToSend = numTokens / config.tokensPerWeek;
+          const numBatches = numTokens / config.tokenBatches;
 
           let thisBlockTime = blockTime;
-          for ( let i = 0; i < numWeeksToSend; i++ ) {
+          for ( let i = 0; i < numBatches; i++ ) {
 
-            thisBlockTime += config.blocksPerWeek;
-            const sendString = `sendpoll ${config.tokensPerWeek} ${config.futureAddress} ${config.tokenID} 0:${publickey}#1:${thisBlockTime}`;
+            thisBlockTime += config.blocksPerBatch;
+            const sendString = `sendpoll ${config.tokenBatches} ${config.futureAddress} ${config.tokenID} 0:${publickey}#1:${thisBlockTime}`;
 
             axios({
               method: 'POST',
@@ -120,11 +122,11 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
             })
             .then(function (response) {
 
-              if ( i == numWeeksToSend - 1 ) {
+              if ( i == numBatches - 1 ) {
 
                 const walletService = new ItemsService('wallet', { schema: req.schema });
                 walletService
-                   .create({'userid': userid, 'publickey': publickey})
+                   .create({'userid': userid, 'publickey': publickey, 'address': address})
                    .then((createResults) => {
 
                      return res.json("OK");
@@ -132,7 +134,7 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
                    })
                    .catch((error) => {
 
-                     console.error(error.message, userid, publickey)
+                     console.error(error.message, userid, publickey, address)
                      return next(new ServiceUnavailableException(error.message));
 
                    });
