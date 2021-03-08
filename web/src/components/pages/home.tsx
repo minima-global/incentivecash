@@ -1,10 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { connect } from 'react-redux'
 
+import { useTheme } from '@material-ui/core/styles'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
+
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
-import { themeStyles } from '../../styles'
+import { theme, themeStyles } from '../../styles'
 
 import { setActivePage } from '../../store/app/appData/actions'
 
@@ -45,6 +48,9 @@ const display = (props: Props) => {
 
   const [page, setPage] = useState(PageTypes.NONE)
   let isFirstRun = useRef(true)
+
+  const theme = useTheme()
+  const breakpoints = useMediaQuery(theme.breakpoints.up('md')) ? 12 : 6
   const classes = themeStyles()
 
   useEffect(() => {
@@ -71,7 +77,7 @@ const display = (props: Props) => {
 
     <Grid item container alignItems="flex-start" xs={12}>
 
-      <Grid className={classes.leftContent} item container alignItems="center" justify="flex-start" xs={6}>
+      <Grid className={classes.leftContent} item container alignItems="center" justify="flex-start" xs={breakpoints}>
 
         <Typography variant="h1">
           {HomeConfig.heading}
@@ -101,7 +107,7 @@ const display = (props: Props) => {
 
       </Grid>
 
-      <Grid className={classes.rightContent} item container  alignItems="center" justify="center" xs={6}>
+      <Grid className={classes.rightContent} item container  alignItems="center" justify="center" xs={breakpoints}>
 
         { page == PageTypes.REGISTER ?
 

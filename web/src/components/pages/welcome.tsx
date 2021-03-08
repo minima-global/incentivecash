@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { useHistory } from "react-router-dom"
-//import { useParams } from 'react-router-dom'
+import { useTheme } from '@material-ui/core/styles'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -45,6 +46,9 @@ type Props = StateProps & DispatchProps
 const display = (props: Props) => {
 
   const history = useHistory()
+
+  const theme = useTheme()
+  const breakpoints = useMediaQuery(theme.breakpoints.up('md')) ? 12 : 6
   const classes = themeStyles()
 
   useEffect(() => {
@@ -62,7 +66,7 @@ const display = (props: Props) => {
 
     <Grid item container alignItems="flex-start" xs={12}>
 
-      <Grid className={classes.leftContent} item container justify="flex-start" xs={6}>
+      <Grid className={classes.leftContent} item container justify="flex-start" xs={breakpoints}>
 
         <Typography variant="h1">
           <span style={{color: 'red' }}>{App.title}<br/></span> {WelcomeConfig.info}
@@ -88,7 +92,7 @@ const display = (props: Props) => {
 
       </Grid>
 
-      <Grid className={classes.rightContent} item container alignItems="flex-start" xs={6}>
+      <Grid className={classes.rightContent} item container alignItems="flex-start" xs={breakpoints}>
 
         <Grid item container justify="flex-start" xs={12}>
 
