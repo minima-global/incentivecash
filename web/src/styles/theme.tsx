@@ -190,7 +190,7 @@ const themeStyles = makeStyles({
   },
   contentWelcome: {
     [breakpoints.up('xs')]: {
-      background: 'linear-gradient(#001C32, #001C32)',
+      background: 'linear-gradient(#FAFAFF, #FAFAFF)',
       border: '1px solid #001C32',
       padding: "0",
       margin: "0",
