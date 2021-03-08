@@ -156,7 +156,7 @@ const themeStyles = makeStyles({
       width: "100%",
       position: 'relative'
     },
-    [breakpoints.up('md')]: {
+    [breakpoints.up('lg')]: {
       marginTop: "5vh",
       marginBottom: "5vh",
       marginLeft: "auto",
@@ -177,7 +177,7 @@ const themeStyles = makeStyles({
       position: 'absolute',
       top: '0'
     },
-    [breakpoints.up('md')]: {
+    [breakpoints.up('lg')]: {
       background: 'linear-gradient(#001C32, #001C32)',
       paddingRight: theme.spacing(5),
       paddingLeft: theme.spacing(5),
@@ -190,7 +190,7 @@ const themeStyles = makeStyles({
   },
   contentWelcome: {
     [breakpoints.up('xs')]: {
-      background: 'linear-gradient(#001C32, #001C32)',
+      background: 'linear-gradient(#FAFAFF, #FAFAFF)',
       border: '1px solid #001C32',
       padding: "0",
       margin: "0",
@@ -200,7 +200,7 @@ const themeStyles = makeStyles({
       bottom: '100px',
       top: '50px'
     },
-    [breakpoints.up('md')]: {
+    [breakpoints.up('lg')]: {
       background: 'linear-gradient(#001C32, #001C32)',
       border: '1px solid #001C32',
       padding: "0",
@@ -224,7 +224,7 @@ const themeStyles = makeStyles({
       bottom: '100px',
       top: '50px'
     },
-    [breakpoints.up('md')]: {
+    [breakpoints.up('lg')]: {
       background: 'linear-gradient(#FAFAFF, #FAFAFF)',
       border: '1px solid #001C32',
       padding: "0",
@@ -242,9 +242,10 @@ const themeStyles = makeStyles({
       paddingRight: theme.spacing(4),
       paddingLeft: theme.spacing(4),
       margin: "0",
-      width: "100%"
+      width: "100%",
+      hieght: "100%"
     },
-    [breakpoints.up('md')]: {
+    [breakpoints.up('lg')]: {
       background: 'linear-gradient(#001C32, #001C32)',
       paddingRight: theme.spacing(5),
       paddingLeft: theme.spacing(5),
@@ -261,12 +262,11 @@ const themeStyles = makeStyles({
       height: "100%",
       width: "100%"
     },
-    [breakpoints.up('md')]: {
+    [breakpoints.up('lg')]: {
       background: 'linear-gradient(#FAFAFF, #FAFAFF)',
       paddingRight: theme.spacing(5),
       paddingLeft: theme.spacing(5),
       margin: "0",
-      height: "100%",
       width: "100%"
     }
   },
@@ -282,7 +282,7 @@ const themeStyles = makeStyles({
       position: 'absolute',
       bottom: '0'
     },
-    [breakpoints.up('md')]: {
+    [breakpoints.up('lg')]: {
       background: 'linear-gradient(#001C32, #001C32)',
       paddingRight: theme.spacing(5),
       paddingLeft: theme.spacing(5),
@@ -420,7 +420,7 @@ const themeStyles = makeStyles({
       height: "15px",
       width: '15px'
     },
-    [breakpoints.up('md')]: {
+    [breakpoints.up('lg')]: {
       margin: 'auto',
       height: "30px",
       width: '30px'
