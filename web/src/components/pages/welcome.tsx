@@ -69,21 +69,12 @@ const display = (props: Props) => {
       <Grid className={classes.leftContent} item container justify="flex-start" xs={breakpoints}>
 
         <Typography variant="h1">
-          <span style={{color: 'red' }}>{App.title}<br/></span> {WelcomeConfig.info}
+          <span style={{color: 'red' }}>{App.title}</span> {WelcomeConfig.info}
         </Typography>
-
-        <Grid item container xs={12}>
-          <svg
-             xmlns="http://www.w3.org/2000/svg"
-             viewBox="0 0 2000 4"
-          >
-            <line x2="2000" stroke="#317aff" strokeWidth={4} />
-          </svg>
-        </Grid>
 
         <Typography variant="body1">
           <br/>
-          {WelcomeConfig.moreInfo} <a href={App.website}>{App.website}</a>.<br/><br/>
+          {WelcomeConfig.moreInfo} <a className={classes.activeLink} href={App.website}>{App.website}</a>.<br/><br/>
         </Typography>
 
         <Typography variant="h3">
@@ -191,6 +182,17 @@ const display = (props: Props) => {
     </Grid>
   )
 }
+
+/*
+<Grid item container xs={12}>
+  <svg
+     xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 2000 4"
+  >
+    <line x2="2000" stroke="#317aff" strokeWidth={4} />
+  </svg>
+</Grid>
+*/
 
 const mapStateToProps = (state: ApplicationState): StateProps => {
   return {

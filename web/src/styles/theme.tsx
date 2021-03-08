@@ -40,8 +40,8 @@ let theme = createMuiTheme ({
     fontWeightMedium: 500,
     fontWeightBold: 700,
     h1: {
-      lineHeight: "1.618",
-      fontSize:  "2em",
+      lineHeight: "1.5",
+      fontSize:  "2.5em",
       fontWeight: 700,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
       color: '#F0F0FA'
@@ -459,10 +459,7 @@ const themeStyles = makeStyles({
     background: 'linear-gradient(#317AFF, #317AFF)',
   },
   activeLink: {
-    lineHeight: "2",
-    fontSize: "1.6em",
-    fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-    color: '#001C32',
+    color: '#317AFF',
     textDecoration: 'none',
     '&:active': {
       textDecoration: 'none',
@@ -474,9 +471,6 @@ const themeStyles = makeStyles({
     }
   },
   inactiveLink: {
-    lineHeight: "2",
-    fontSize: "1.6em",
-    fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
     color: '#c7cdd7',
     textDecoration: 'none',
     '&:active': {

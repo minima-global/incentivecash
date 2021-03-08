@@ -49,14 +49,14 @@ class Home {
 
   //+ `<span style={{color: 'red'}}>${App.appName}</span>`
 
-  static readonly info = `${App.title} is a truly decentralised, ultra-lean blockchain, capable of running on mobile and IoT devices.`
+  static readonly info = `${App.title} is a truly decentralised, ultra-lean blockchain, running entirely on mobile and IoT devices.`
 
-  static readonly infoSecond = `Join the ${App.title} community and participate in building the next era of decentralised web infrastructure.`
+  static readonly infoSecond = `The ${App.title} ${App.appName} exists to reward users for contributing to the ${App.title} community; for example, you might help test the protocol or build an application to run in the ecosystem. You can even earn coins simply by registering for the program and then downloading the ${App.title} APK so you can run a node on your Android device.`
 
-  static readonly infoThird = `The ${App.title} ${App.appName} exists to reward users for contributing to the ${App.title} community; for example, you might help test the protocol or build an application to run in the ecosystem. You can even earn coins simply by registering for the program and then downloading the ${App.title} APK so you can run a node on your Android device.`
+  static readonly infoThird = `Join the ${App.title} community and participate in building the next era of decentralised web infrastructure.`
 
   static readonly infoFourth = `Please note that at this stage in our development, in order to participate in the ${App.title} ${App.appName}, you will need to run an Android device.`
-  static readonly infoFifth = "Register and start earning coins today."
+  static readonly infoFifth = "and start earning coins today."
 
   static readonly moreInfo = `To find out more about ${App.title}, please visit`
 }
@@ -67,7 +67,7 @@ class Welcome {
 
   static readonly subHeading = `Instructions`
 
-  static readonly info = 'is a truly decentralised, ultra-lean blockchain running entirely on mobile and IoT devices.'
+  static readonly info = 'is a truly decentralised, ultra-lean blockchain running entirely on mobile and IoT devices'
 
   static readonly infoSecond = `Once the ${App.title} ${App.appName} MiniDapp is installed, open it up and sign in using the same email and password used to register on this website.`
 
