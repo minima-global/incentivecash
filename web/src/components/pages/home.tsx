@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { connect } from 'react-redux'
+import { Link } from "react-router-dom"
 
 import { useTheme } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
@@ -19,7 +20,9 @@ import {
 } from '../../store/types'
 
 import {
+  Local,
   Remote,
+  Paths,
   Home as HomeConfig,
   App
 } from '../../config'
@@ -52,6 +55,8 @@ const display = (props: Props) => {
   const theme = useTheme()
   const breakpoints = useMediaQuery(theme.breakpoints.up('lg')) ? 6 : 12
   const classes = themeStyles()
+
+  const registerPath = `#${Local.register}`
 
   useEffect(() => {
 
@@ -87,22 +92,18 @@ const display = (props: Props) => {
           <span style={{color: 'red' }}>{App.appName}<br/></span>
         </Typography>
 
-        <Grid item container xs={12}>
-          <svg
-             xmlns="http://www.w3.org/2000/svg"
-             viewBox="0 0 2000 4"
-          >
-            <line x2="2000" stroke="#317aff" strokeWidth={4} />
-          </svg>
-        </Grid>
-
         <Typography variant="body1">
           <br/>
-          {HomeConfig.info} {HomeConfig.moreInfo} <a href={App.website}>{App.website}</a>.<br/><br/>
+          {HomeConfig.info} {HomeConfig.moreInfo} <a className={classes.activeLink} href={App.website}>{App.website}</a>.<br/><br/>
           {HomeConfig.infoSecond}<br/><br/>
           {HomeConfig.infoThird}<br/><br/>
-          {HomeConfig.infoFourth}<br/><br/>
-          {HomeConfig.infoFifth}
+          <Link
+            className={classes.activeLink}
+            to={Local.register}
+            onClick={() => props.setActivePage(PageTypes.REGISTER)}
+          >
+            {Paths.register}
+          </Link> {HomeConfig.infoFourth}
         </Typography>
 
       </Grid>
@@ -130,6 +131,17 @@ const display = (props: Props) => {
     </Grid>
   )
 }
+
+/*
+<Grid item container xs={12}>
+  <svg
+     xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 2000 4"
+  >
+    <line x2="2000" stroke="#317aff" strokeWidth={4} />
+  </svg>
+</Grid>
+*/
 
 const mapStateToProps = (state: ApplicationState): StateProps => {
   return { appData: state.appData.data }

@@ -40,7 +40,7 @@ let theme = createMuiTheme ({
     fontWeightMedium: 500,
     fontWeightBold: 700,
     h1: {
-      lineHeight: "1.618",
+      lineHeight: "1.5",
       fontSize:  "2em",
       fontWeight: 700,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
@@ -190,7 +190,6 @@ const themeStyles = makeStyles({
   },
   contentWelcome: {
     [breakpoints.up('xs')]: {
-      background: 'linear-gradient(#FAFAFF, #FAFAFF)',
       border: '1px solid #001C32',
       padding: "0",
       margin: "0",
@@ -201,7 +200,6 @@ const themeStyles = makeStyles({
       top: '50px'
     },
     [breakpoints.up('lg')]: {
-      background: 'linear-gradient(#001C32, #001C32)',
       border: '1px solid #001C32',
       padding: "0",
       margin: "0",
@@ -214,7 +212,6 @@ const themeStyles = makeStyles({
   },
   contentHome: {
     [breakpoints.up('xs')]: {
-      background: 'linear-gradient(#FAFAFF, #FAFAFF)',
       border: '1px solid #001C32',
       padding: "0",
       margin: "0",
@@ -225,7 +222,6 @@ const themeStyles = makeStyles({
       top: '50px'
     },
     [breakpoints.up('lg')]: {
-      background: 'linear-gradient(#FAFAFF, #FAFAFF)',
       border: '1px solid #001C32',
       padding: "0",
       margin: "0",
@@ -242,15 +238,15 @@ const themeStyles = makeStyles({
       paddingRight: theme.spacing(4),
       paddingLeft: theme.spacing(4),
       margin: "0",
-      width: "100%",
-      hieght: "100%"
+      width: "100%"
     },
     [breakpoints.up('lg')]: {
       background: 'linear-gradient(#001C32, #001C32)',
       paddingRight: theme.spacing(5),
       paddingLeft: theme.spacing(5),
       margin: "0",
-      width: "100%"
+      width: "100%",
+      height: "100%"
     }
   },
   rightContent: {
@@ -259,7 +255,6 @@ const themeStyles = makeStyles({
       paddingRight: theme.spacing(4),
       paddingLeft: theme.spacing(4),
       margin: "0",
-      height: "100%",
       width: "100%"
     },
     [breakpoints.up('lg')]: {
@@ -267,7 +262,8 @@ const themeStyles = makeStyles({
       paddingRight: theme.spacing(5),
       paddingLeft: theme.spacing(5),
       margin: "0",
-      width: "100%"
+      width: "100%",
+      height: "100%"
     }
   },
   footer: {
@@ -459,10 +455,7 @@ const themeStyles = makeStyles({
     background: 'linear-gradient(#317AFF, #317AFF)',
   },
   activeLink: {
-    lineHeight: "2",
-    fontSize: "1.6em",
-    fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-    color: '#001C32',
+    color: '#317AFF',
     textDecoration: 'none',
     '&:active': {
       textDecoration: 'none',
@@ -474,9 +467,6 @@ const themeStyles = makeStyles({
     }
   },
   inactiveLink: {
-    lineHeight: "2",
-    fontSize: "1.6em",
-    fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
     color: '#c7cdd7',
     textDecoration: 'none',
     '&:active': {
