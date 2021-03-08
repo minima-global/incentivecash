@@ -46,7 +46,7 @@ HomePageRoutingModule = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<ion-header class=\"ion-no-border\" [translucent]=\"true\">\n  <ion-toolbar>\n    <ion-title>\n      <ion-grid class=\"ion-no-padding\">\n        <ion-row>\n          <ion-col class=\"title ion-no-padding ion-text-center\">\n            Minima Incentive Cash\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content [fullscreen]=\"true\">\n  <ion-header collapse=\"condense\">\n    <ion-toolbar>\n      <ion-title size=\"large\">Blank</ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-grid class=\"welcome-container\">\n    <ion-row>\n      <ion-col class=\"ion-text-center welcome\">\n        Welcome to the Minima <br>\n        Incentive Cash MiniDapp\n      </ion-col>\n    </ion-row>\n    <ion-row class=\"has\">\n      <ion-col>\n        <div class=\"blue-ruler\"></div>\n      </ion-col>\n    </ion-row>\n    <ion-row class=\"has\">\n      <ion-col class=\"m-t7 ion-text-center welcome-subtitle\">\n        If you have already signed up for <br> incentive cash, please sign in with <br>\n        your username & password below.\n        <br><br>\n        Or click here to <a>register</a> now\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n\n  <form [formGroup]=\"loginForm\" (ngSubmit)=\"getReferenceID()\" >\n    <ion-list>\n      <ion-item class=\"ion-no-padding no-ripple\" lines=\"none\">\n        <ion-label position=\"stacked\">Email</ion-label>\n        <ion-input clearInput=\"true\" formControlName=\"uName\"></ion-input>\n      </ion-item>\n      <ion-item class=\"ion-no-padding no-ripple\" lines=\"none\">\n        <ion-label position=\"stacked\">Password</ion-label>\n        <ion-input clearInput=\"true\" formControlName=\"password\" type=\"password\"></ion-input>\n      </ion-item>\n\n      \n      <ion-button #getReferenceButton class=\"sign-up-btn\" fill=\"clear\" expand=\"block\" type=\"submit\">\n        Sign in\n      </ion-button>\n\n    </ion-list>\n  </form> \n\n  <ion-grid>\n    <ion-row class=\"has\">\n      <ion-col class=\"forgot ion-text-center\">\n        Forgot password?\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n\n  <ion-grid class=\"login-status-wrapper\" [hidden]=\"loginStatus.length === 0\">\n    <ion-row class=\"has\">\n      <ion-col class=\"login-status ion-text-center\">\n        {{ loginStatus }}\n      </ion-col>\n    </ion-row>\n    <ion-row *ngIf=\"loginStatus !== 'Sign in failed! Check your sign in details.'\" class=\"has ion-justify-content-center ion-align-items-center\">\n      <ion-col class=\"progress ion-text-center\">\n        <ion-progress-bar color=\"primary\" type=\"indeterminate\"></ion-progress-bar> \n      </ion-col>\n    </ion-row>\n  </ion-grid>\n\n</ion-content>\n\n<ion-footer class=\"ion-no-border\">\n  <div class=\"content\">\n    &#169; Copyright 2021 Minima GmbH\n  </div>\n</ion-footer>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<ion-header class=\"ion-no-border\" [translucent]=\"true\">\n  <ion-toolbar>\n    <ion-title>\n      <ion-grid class=\"ion-no-padding\">\n        <ion-row>\n          <ion-col class=\"title ion-no-padding ion-text-center\">\n            Minima Incentive Program\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content [fullscreen]=\"true\">\n  <ion-header collapse=\"condense\">\n    <ion-toolbar>\n      <ion-title size=\"large\">Blank</ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-grid class=\"welcome-container\">\n    <ion-row>\n      <ion-col class=\"ion-text-center welcome\">\n        Welcome to the<br>\n        Minima Incentive Program\n      </ion-col>\n    </ion-row>\n    <ion-row class=\"has\">\n      <ion-col>\n        <div class=\"blue-ruler\"></div>\n      </ion-col>\n    </ion-row>\n    <ion-row class=\"has\">\n      <ion-col class=\"m-t7 ion-text-center welcome-subtitle\">\n        If you have already signed up for our<br>Incentive Program, please sign in using <br>\n        your email & password below.\n        <br><br>\n        Or click here to <a>register</a> now\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n\n  <form [formGroup]=\"loginForm\" (ngSubmit)=\"getReferenceID()\" >\n    <ion-list>\n      <ion-item class=\"ion-no-padding no-ripple\" lines=\"none\">\n        <ion-label position=\"stacked\">Email</ion-label>\n        <ion-input clearInput=\"true\" formControlName=\"uName\"></ion-input>\n      </ion-item>\n      <ion-item class=\"ion-no-padding no-ripple\" lines=\"none\">\n        <ion-label position=\"stacked\">Password</ion-label>\n        <ion-input clearInput=\"true\" formControlName=\"password\" type=\"password\"></ion-input>\n      </ion-item>\n\n      \n      <ion-button #getReferenceButton class=\"sign-up-btn\" fill=\"clear\" expand=\"block\" type=\"submit\">\n        Sign in\n      </ion-button>\n\n    </ion-list>\n  </form> \n\n  <ion-grid>\n    <ion-row class=\"has\">\n      <ion-col class=\"forgot ion-text-center\">\n        Forgot password?\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n\n  <ion-grid class=\"login-status-wrapper\" [hidden]=\"loginStatus.length === 0\">\n    <ion-row class=\"has\">\n      <ion-col class=\"login-status ion-text-center\">\n        {{ loginStatus }}\n      </ion-col>\n    </ion-row>\n    <ion-row *ngIf=\"loginStatus !== 'Sign in failed! Check your sign in details.'\" class=\"has ion-justify-content-center ion-align-items-center\">\n      <ion-col class=\"progress ion-text-center\">\n        <ion-progress-bar color=\"primary\" type=\"indeterminate\"></ion-progress-bar> \n      </ion-col>\n    </ion-row>\n  </ion-grid>\n\n</ion-content>\n\n<ion-footer class=\"ion-no-border\">\n  <div class=\"content\">\n    &#169; Copyright 2021 Minima GmbH\n  </div>\n</ion-footer>\n");
 
 /***/ }),
 
@@ -206,7 +206,14 @@ let HomePage = class HomePage {
                         else {
                             this.loginStatus = 'Login successful!';
                             this.lastAccess();
-                            this.router.navigate(['/rewards']);
+                            minima__WEBPACK_IMPORTED_MODULE_7__["Minima"].file.load('first.txt', (res) => {
+                                if (res.success) {
+                                    this.router.navigate(['/rewards']);
+                                }
+                                else {
+                                    this.router.navigate(['/welcome']);
+                                }
+                            });
                             this.loginForm.reset();
                             this.loginStatus = '';
                             let temp = user;
@@ -248,7 +255,14 @@ let HomePage = class HomePage {
                     .then(data => {
                     this.loginStatus = 'Login successful!';
                     this.lastAccess();
-                    this.router.navigate(['/rewards']);
+                    minima__WEBPACK_IMPORTED_MODULE_7__["Minima"].file.load('first.txt', (res) => {
+                        if (res.success) {
+                            this.router.navigate(['/rewards']);
+                        }
+                        else {
+                            this.router.navigate(['/welcome']);
+                        }
+                    });
                     this.loginForm.reset();
                     this.loginStatus = '';
                     this._storeService.getUserDetailsOnce().then((user) => {

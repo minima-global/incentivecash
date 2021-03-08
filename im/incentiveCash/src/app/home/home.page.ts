@@ -97,7 +97,14 @@ export class HomePage  {
               this.loginStatus = 'Login successful!';
               this.lastAccess();
 
-              this.router.navigate(['/rewards']);
+              Minima.file.load('first.txt', (res: any) => {
+                if (res.success) {
+                  this.router.navigate(['/rewards']);
+                } else {
+                  this.router.navigate(['/welcome']);
+                }
+              });
+              
               this.loginForm.reset();
               this.loginStatus = '';
               let temp = user;
@@ -141,7 +148,14 @@ export class HomePage  {
           this.loginStatus = 'Login successful!';
           this.lastAccess();
 
-          this.router.navigate(['/rewards']);
+          Minima.file.load('first.txt', (res: any) => {
+            if (res.success) {
+              this.router.navigate(['/rewards']);
+            } else {
+              this.router.navigate(['/welcome']);
+            }
+          });
+          
           this.loginForm.reset();
           this.loginStatus = '';
           this._storeService.getUserDetailsOnce().then((user: UserDetails) => {

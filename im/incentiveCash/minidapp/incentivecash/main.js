@@ -752,7 +752,13 @@ const routes = [
     },
     {
         path: 'password',
-        loadChildren: () => __webpack_require__.e(/*! import() | password-password-module */ "password-password-module").then(__webpack_require__.bind(null, /*! ./password/password.module */ "k6Cy")).then(m => m.PasswordPageModule)
+        loadChildren: () => __webpack_require__.e(/*! import() | password-password-module */ "password-password-module").then(__webpack_require__.bind(null, /*! ./password/password.module */ "k6Cy")).then(m => m.PasswordPageModule),
+        canActivate: [_api_auth_guard_service__WEBPACK_IMPORTED_MODULE_1__["AuthGuardService"]]
+    },
+    {
+        path: 'welcome',
+        loadChildren: () => __webpack_require__.e(/*! import() | welcome-welcome-module */ "welcome-welcome-module").then(__webpack_require__.bind(null, /*! ./welcome/welcome.module */ "pi15")).then(m => m.WelcomePageModule),
+        canActivate: [_api_auth_guard_service__WEBPACK_IMPORTED_MODULE_1__["AuthGuardService"]]
     }
 ];
 let AppRoutingModule = class AppRoutingModule {
