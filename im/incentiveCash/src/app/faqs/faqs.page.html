@@ -24,6 +24,15 @@
       </ion-row>
     </ion-grid>
   </ion-toolbar>
+  <ion-toolbar class="page-header ion-no-padding">
+    <ion-grid class="ion-no-padding">
+      <ion-row class="header ion-no-padding">
+        <ion-col class="ion-no-padding">
+          FAQs
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
@@ -34,14 +43,6 @@
   </ion-header>
 
   <ion-list class="faqs-list ion-no-padding">
-    <ion-grid class="pre-header ion-no-padding">
-      <ion-row>
-        <ion-col class="ion-no-padding">
-          FAQs
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-
     <ion-grid class="faq ion-no-padding">
       <ion-row>
         <ion-col>
@@ -54,8 +55,8 @@
 
 </ion-content>
 
-<ion-footer class="activity ion-no-border ion-text-center">
-  <ion-toolbar>
+<ion-footer class="ion-no-padding ion-no-border ion-text-center">
+  <ion-toolbar class="activity">
     <ion-buttons>
       <div routerLinkActive="ftr-toolbar-active" class="footer-btn-wrapper" style="margin-right: 45px;">
         <ion-button routerLink="/rewards">

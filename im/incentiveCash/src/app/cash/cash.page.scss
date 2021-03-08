@@ -1,27 +1,10 @@
+::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none;
+}
+
 ion-grid.table {
-  ion-row.header {
-    margin-left: 27px;
-    margin-right: 27px;
-    ion-col {
-      margin-top: 15px;
-      border-bottom: 1px solid #707070;
-      padding-bottom: 12px;
-      margin-bottom: 10px;
-      font-size: 20px;
-      font-family: manrope-extrabold;
-    }
-  }
-  ion-row.table-header {
-    border-bottom: 1px solid #7D8B99;
-    margin-left: 27px;
-    margin-right: 27px;
-    ion-col {
-      padding-bottom: 5px;
-      font-size: 14px;
-      color: #91919d;
-      font-family: manrope-bold;
-    }
-  }
+  margin-top: 15px;
   ion-row.table-content {
     padding-left: 27px;
     padding-right: 27px;
@@ -58,22 +41,12 @@ ion-grid.table {
       }
     }
   }
-  ion-row.table-content:nth-child(odd) {
+  ion-row.table-content:nth-child(even) {
     background-color: #F0F0FA;
     background: #F0F0FA;
   }
-  ion-row.table-footer {
-    border-top: 1px solid #7D8B99;
-    margin-left: 27px;
-    margin-right: 27px;
-    ion-col {
-      font-family: manrope-medium;
-      color: var(--ion-color-primary);
-      span {
-        font-family: manrope-bold;
-        color: #031B32;  
-      }
-    }
+  ion-row.table-content:last-child {
+    margin-bottom: 15px;
   }
 }
 
@@ -94,6 +67,22 @@ ion-grid.table {
     ion-row.table-footer {
       margin-left: 110px;
       margin-right: 110px;
+    }
+  }
+  ion-header {
+    ion-toolbar.page-header {
+      padding-left: 110px;
+      padding-right: 110px;
+    }
+    ion-toolbar.table-header {
+      padding-left: 110px;
+      padding-right: 110px;
+    }
+  }
+  ion-footer {
+    ion-toolbar.table-footer {
+      padding-left: 110px;
+      padding-right: 110px;
     }
   }
 }
