@@ -64,25 +64,26 @@ const display = (props: Props) => {
 
   return (
 
-    <>
-      <Grid className={classes.leftContent} item container alignItems="flex-start" justify="flex-start" xs={breakpoints}>
+    <Grid item container alignItems="flex-start">
+      <Grid className={classes.leftContent} item container justify="flex-start" xs={breakpoints}>
 
         <Typography variant="h1">
           <span style={{color: 'red' }}>{App.title}</span> {WelcomeConfig.info}
         </Typography>
 
         <Typography variant="body1">
-          {WelcomeConfig.moreInfo} <a className={classes.activeLink} href={App.website}>{App.website}</a>.<br/><br/>
+          <br/><br/>
+          {WelcomeConfig.moreInfo} <a className={classes.activeLink} href={App.website}>{App.website}</a>.<br/>
           {WelcomeConfig.infoThird}
         </Typography>
 
         <Typography variant="h3">
-          {WelcomeConfig.heading}
+          {WelcomeConfig.heading}<br/><br/>
         </Typography>
 
       </Grid>
 
-      <Grid className={classes.rightContent} item container alignItems="flex-start" xs={breakpoints}>
+      <Grid className={classes.rightContent} item container xs={breakpoints}>
 
         <Grid item container justify="flex-start" xs={12}>
 
@@ -177,7 +178,7 @@ const display = (props: Props) => {
         </Grid>
 
       </Grid>
-    </>
+    </Grid>
   )
 }
 

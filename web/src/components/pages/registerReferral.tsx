@@ -114,8 +114,7 @@ const userRegister = (props: Props) => {
 
   return (
 
-    <Grid item container xs={12}>
-
+    <>
       <Grid item container justify="flex-start" xs={6}>
 
         <Button
@@ -207,8 +206,7 @@ const userRegister = (props: Props) => {
           {summary}
         </Typography>
       </Grid>
-
-    </Grid>
+    </>
   )
 }
 

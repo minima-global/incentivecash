@@ -152,6 +152,7 @@ theme = responsiveFontSizes(theme)
 const themeStyles = makeStyles({
   root: {
     [breakpoints.up('xs')]: {
+      background: 'linear-gradient(#FAFAFF, #FAFAFF)',
       height: "100vh",
       width: "100%",
       position: 'relative'
@@ -190,6 +191,7 @@ const themeStyles = makeStyles({
   },
   contentWelcome: {
     [breakpoints.up('xs')]: {
+      background: 'linear-gradient(#FAFAFF, #FAFAFF)',
       border: '1px solid #001C32',
       padding: "0",
       margin: "0",
@@ -212,6 +214,7 @@ const themeStyles = makeStyles({
   },
   contentHome: {
     [breakpoints.up('xs')]: {
+      background: 'linear-gradient(#FAFAFF, #FAFAFF)',
       border: '1px solid #001C32',
       padding: "0",
       margin: "0",
@@ -238,7 +241,8 @@ const themeStyles = makeStyles({
       paddingRight: theme.spacing(4),
       paddingLeft: theme.spacing(4),
       margin: "0",
-      width: "100%"
+      width: "100%",
+      height: "100%"
     },
     [breakpoints.up('lg')]: {
       background: 'linear-gradient(#001C32, #001C32)',
@@ -254,8 +258,8 @@ const themeStyles = makeStyles({
       background: 'linear-gradient(#FAFAFF, #FAFAFF)',
       paddingRight: theme.spacing(4),
       paddingLeft: theme.spacing(4),
-      margin: "0",
-      width: "100%"
+      width: "100%",
+      height: "100%"
     },
     [breakpoints.up('lg')]: {
       background: 'linear-gradient(#FAFAFF, #FAFAFF)',

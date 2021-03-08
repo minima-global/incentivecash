@@ -113,8 +113,8 @@ const userLogin = (props: Props) => {
   })
 
   return (
-    <Grid item container xs={12}>
 
+    <>
       <Grid item container justify="flex-start" xs={6}>
 
         <Button
@@ -218,13 +218,13 @@ const userLogin = (props: Props) => {
         </form>
       </Grid>
 
-      <Grid item container xs={12} alignItems="flex-start">
+      <Grid item container xs={12}>
         <Typography variant="h5">
           {summary}
         </Typography>
       </Grid>
 
-    </Grid>
+    </>
   )
 }
 

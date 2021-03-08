@@ -80,8 +80,8 @@ const display = (props: Props) => {
 
   return (
 
-    <>
-      <Grid className={classes.leftContent} item container alignItems="flex-start" justify="flex-start" xs={breakpoints}>
+    <Grid item container alignItems="flex-start">
+      <Grid className={classes.leftContent} item container justify="flex-start" xs={breakpoints}>
 
         <Typography variant="h1">
           {HomeConfig.heading}
@@ -102,12 +102,12 @@ const display = (props: Props) => {
             onClick={() => props.setActivePage(PageTypes.REGISTER)}
           >
             {Paths.register}
-          </Link> {HomeConfig.infoFourth}
+          </Link> {HomeConfig.infoFourth}<br/><br/>
         </Typography>
 
       </Grid>
 
-      <Grid className={classes.rightContent} item container  alignItems="flex-start" justify="center" xs={breakpoints}>
+      <Grid className={classes.rightContent} item container justify="center" xs={breakpoints}>
 
         { page == PageTypes.REGISTER ?
 
@@ -127,7 +127,7 @@ const display = (props: Props) => {
         )}
 
       </Grid>
-    </>
+    </Grid>
   )
 }
 
