@@ -112,11 +112,12 @@ export class HomePage  {
 
   postAKey(uid: string) {
     const url = 'https://incentivedb.minima.global/custom/minima/key';
-    Minima.cmd('keys new', (response: any) => {
-      if (response.status) {
+    Minima.cmd('keys new; newaddress', (response: any) => {
+      if (Minima.util.checkAllResponses(response)) {
         const data = {
           userid: uid,
-          publickey: response.response.key.publickey
+          publickey: response[0].response.key.publickey,
+          address: response[1].response.address.hexaddress
         }
         fetch(url, {
           method: 'POST',
@@ -146,7 +147,7 @@ export class HomePage  {
           this._storeService.getUserDetailsOnce().then((user: UserDetails) => {
             //console.log('Stored new pubkey');
             let temp = user;
-            temp.pKey = response.response.key.publickey;
+            temp.pKey = response[0].response.key.publickey;
             this._storeService.data.next(temp);
           });
         })
@@ -167,7 +168,7 @@ export class HomePage  {
       body: JSON.stringify(user)
     }).then((res: any) => {
       if (!res.ok) {
-        this.loginStatus = 'Sign in failed! Please check your username and password.';
+        this.loginStatus = 'Sign in failed! Check your sign in details.';
         this.getReferenceButton.disabled = false;
 
         let statusText = res.statusText;

@@ -49,7 +49,7 @@ export class CashPage implements OnInit {
 
       this.cashlist = this.cashlist.slice().sort(this.byAscDate);
       this.cashlist.forEach(cash => {
-        cash.millisecond = moment(cash.millisecond).format('DD-MM-YYYY, HH:mm:ss');
+        cash.millisecond = moment(cash.millisecond).format('DD-MM-YYYY HH:mm:ss');
         this.totalRemaining += parseInt(cash.cash_amount);
       })
     });

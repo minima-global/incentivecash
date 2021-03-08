@@ -13,14 +13,32 @@
   <ion-toolbar class="sub-toolbar">
     <ion-grid>
       <ion-row class="has">
-        <ion-col class="no-borders" routerLink="/profile" routerLinkActive="hdr-toolbar-active">Profile</ion-col>
+        <ion-col class="no-borders ion-text-left" routerLink="/profile" routerLinkActive="hdr-toolbar-active">Profile</ion-col>
         <ion-col class="no-borders" routerLink="/faqs" routerLinkActive="hdr-toolbar-active">FAQs</ion-col>
         <ion-col class="no-borders" routerLink="/contact" routerLinkActive="hdr-toolbar-active">Contact</ion-col>
         <ion-col class="no-borders" class="sign-out">
-          <span id="sign-out-btn" (click) = 'signOut()'>
-            Sign out
-          </span>
+            <span (click) = 'signOut()'>
+              Sign out
+            </span>
         </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+  <ion-toolbar class="page-header ion-no-padding">
+    <ion-grid class="ion-no-padding">
+      <ion-row class="header ion-no-padding">
+        <ion-col class="ion-no-padding">
+          Rewards
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+  <ion-toolbar class="table-header ion-no-padding">
+    <ion-grid class="ion-no-padding">
+      <ion-row class="table-header ion-no-padding">
+        <ion-col class="ion-text-left">Amount</ion-col>
+        <ion-col class="ion-text-left">Reason</ion-col>
+        <ion-col class="ion-text-right">Date</ion-col>
       </ion-row>
     </ion-grid>
   </ion-toolbar>
@@ -34,16 +52,6 @@
   </ion-header>
 
   <ion-grid class="table ion-no-padding">
-    <ion-row class="header ion-no-padding">
-      <ion-col class="ion-no-padding">
-        Rewards
-      </ion-col>
-    </ion-row>
-    <ion-row class="table-header">
-      <ion-col class="ion-text-left">Amount</ion-col>
-      <ion-col class="ion-text-left">Reason</ion-col>
-      <ion-col class="ion-text-right">Date</ion-col>
-    </ion-row>
     <ion-row class="table-content ion-no-margin" *ngFor="let reward of rewardList">
       <ion-col class="ion-text-left ion-no-padding"><p>{{reward.amount}}</p></ion-col>
         <ion-col class="ion-text-left ion-no-padding"><p>{{reward.reason}}</p></ion-col>
@@ -53,16 +61,20 @@
           </p>
         </ion-col>
     </ion-row>
-    <ion-row *ngIf="rewardList && rewardList.length > 0" class="table-footer">
-      <ion-col class="ion-no-padding">
-        Total Amount: <span>{{ totalClaimed }}</span>
-      </ion-col>
-    </ion-row>
   </ion-grid>
 </ion-content>
 
-<ion-footer class="activity ion-no-border ion-text-center">
-  <ion-toolbar>
+<ion-footer class="ion-no-border ion-no-padding ion-text-center">
+  <ion-toolbar class="table-footer ion-no-padding">
+    <ion-grid class="ion-no-padding">
+      <ion-row>
+        <ion-col class="ion-no-padding">
+          Total Amount: <span>{{ totalClaimed }}</span>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+  <ion-toolbar class="activity ion-no-padding">
     <ion-buttons>
       <div routerLinkActive="ftr-toolbar-active" class="footer-btn-wrapper" style="margin-right: 45px;">
         <ion-button class="no-borders" routerLink="/rewards">

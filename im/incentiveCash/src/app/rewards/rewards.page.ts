@@ -26,7 +26,7 @@ export class RewardsPage implements OnInit {
       res.data.forEach((reward: Reward) => {
         let date = new Date(reward.date_created);
         let ms = date.getTime();
-        let format = moment(ms).format('DD-MM-YYYY, HH:mm:ss');
+        let format = moment(ms).format('DD-MM-YYYY HH:mm:ss');
         reward.date_created = format;
         this.rewardList.push(reward);
         this.totalClaimed += reward.amount;
