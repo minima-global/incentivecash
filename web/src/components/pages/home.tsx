@@ -97,14 +97,13 @@ const display = (props: Props) => {
           {HomeConfig.info} {HomeConfig.moreInfo} <a className={classes.activeLink} href={App.website}>{App.website}</a>.<br/><br/>
           {HomeConfig.infoSecond}<br/><br/>
           {HomeConfig.infoThird}<br/><br/>
-          {HomeConfig.infoFourth}<br/><br/>
           <Link
             className={classes.activeLink}
             to={Local.register}
             onClick={() => props.setActivePage(PageTypes.REGISTER)}
           >
             {Paths.register}
-          </Link> {HomeConfig.infoFifth}
+          </Link> {HomeConfig.infoFourth}
         </Typography>
 
       </Grid>

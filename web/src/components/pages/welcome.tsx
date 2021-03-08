@@ -75,6 +75,7 @@ const display = (props: Props) => {
         <Typography variant="body1">
           <br/>
           {WelcomeConfig.moreInfo} <a className={classes.activeLink} href={App.website}>{App.website}</a>.<br/><br/>
+          {WelcomeConfig.infoThird}<br/><br/>
         </Typography>
 
         <Typography variant="h3">
