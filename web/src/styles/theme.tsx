@@ -96,14 +96,14 @@ let theme = createMuiTheme ({
       color: '#F0F0FA'
     },
     body1: {
-      lineHeight: "1.618",
+      lineHeight: "1.5",
       fontSize: "1",
       fontWeight: 400,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
       color: '#F0F0FA',
     },
     body2: {
-      lineHeight: "1.618",
+      lineHeight: "1.5",
       fontSize: "1",
       fontWeight: 400,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
@@ -225,6 +225,7 @@ const themeStyles = makeStyles({
       top: '50px'
     },
     [breakpoints.up('lg')]: {
+      background: 'linear-gradient(#001C32, #001C32)',
       border: '1px solid #001C32',
       padding: "0",
       margin: "0",
@@ -241,8 +242,7 @@ const themeStyles = makeStyles({
       paddingRight: theme.spacing(4),
       paddingLeft: theme.spacing(4),
       margin: "0",
-      width: "100%",
-      height: "100%"
+      width: "100%"
     },
     [breakpoints.up('lg')]: {
       background: 'linear-gradient(#001C32, #001C32)',
@@ -258,8 +258,7 @@ const themeStyles = makeStyles({
       background: 'linear-gradient(#FAFAFF, #FAFAFF)',
       paddingRight: theme.spacing(4),
       paddingLeft: theme.spacing(4),
-      width: "100%",
-      height: "100%"
+      width: "100%"
     },
     [breakpoints.up('lg')]: {
       background: 'linear-gradient(#FAFAFF, #FAFAFF)',
