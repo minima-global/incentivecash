@@ -50,7 +50,7 @@ const display = (props: Props) => {
   let isFirstRun = useRef(true)
 
   const theme = useTheme()
-  const breakpoints = useMediaQuery(theme.breakpoints.up('md')) ? 12 : 6
+  const breakpoints = useMediaQuery(theme.breakpoints.up('lg')) ? 6 : 12
   const classes = themeStyles()
 
   useEffect(() => {

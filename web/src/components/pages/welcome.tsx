@@ -48,7 +48,7 @@ const display = (props: Props) => {
   const history = useHistory()
 
   const theme = useTheme()
-  const breakpoints = useMediaQuery(theme.breakpoints.up('md')) ? 12 : 6
+  const breakpoints = useMediaQuery(theme.breakpoints.up('lg')) ? 6 : 12
   const classes = themeStyles()
 
   useEffect(() => {
