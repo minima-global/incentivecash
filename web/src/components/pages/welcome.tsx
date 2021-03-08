@@ -64,18 +64,16 @@ const display = (props: Props) => {
 
   return (
 
-    <Grid item container alignItems="flex-start" xs={12}>
-
-      <Grid className={classes.leftContent} item container justify="flex-start" xs={breakpoints}>
+    <>
+      <Grid className={classes.leftContent} item container alignItems="flex-start" justify="flex-start" xs={breakpoints}>
 
         <Typography variant="h1">
           <span style={{color: 'red' }}>{App.title}</span> {WelcomeConfig.info}
         </Typography>
 
         <Typography variant="body1">
-          <br/>
           {WelcomeConfig.moreInfo} <a className={classes.activeLink} href={App.website}>{App.website}</a>.<br/><br/>
-          {WelcomeConfig.infoThird}<br/><br/>
+          {WelcomeConfig.infoThird}
         </Typography>
 
         <Typography variant="h3">
@@ -179,8 +177,7 @@ const display = (props: Props) => {
         </Grid>
 
       </Grid>
-
-    </Grid>
+    </>
   )
 }
 
