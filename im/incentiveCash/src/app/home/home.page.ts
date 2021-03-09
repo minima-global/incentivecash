@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Minima } from 'minima';
 import { IonButton } from '@ionic/angular';
-import { SlowBuffer, transcode } from 'buffer';
+import { SlowBuffer } from 'buffer';
 
 interface User {
   email: string
@@ -61,9 +61,9 @@ export class HomePage  {
         },
         body: JSON.stringify(data)
       })
-      .then( response => {
+      .then(response => {
         if (!response.ok) {
-          this.loginStatus = 'Login failed! Error: '+response.statusText;
+          this.loginStatus = 'Login failed!  Public key not found!';
           const statusText = response.statusText;
           return response.json()
           .then((data) => {
@@ -114,6 +114,9 @@ export class HomePage  {
           });
         }
       })
+      .catch(error => {
+        alert(error.message);
+      })
     });
   }
 
@@ -135,7 +138,7 @@ export class HomePage  {
         })
         .then(res => {
           if (!res.ok) {
-            this.loginStatus = 'Login failed!  Error: '+res.statusText;
+            this.loginStatus = 'Login failed!  Public key could not be posted!';
             const statusText = response.statusText;
             return res.json()
             .then((data) => {
@@ -166,7 +169,7 @@ export class HomePage  {
           });
         })
         .catch(error => {
-          alert(error);
+          alert(error.message);
         })
       }
     });
@@ -180,7 +183,7 @@ export class HomePage  {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(user)
-    }).then((res) => {
+    }).then((res: any) => {
       if (!res.ok) {
         this.loginStatus = 'Sign in failed! Check your sign in details.';
         this.getReferenceButton.disabled = false;
@@ -225,10 +228,10 @@ export class HomePage  {
 
     })
     .catch(error => {
-      alert(error);
+      alert(error.message);
     })
   .catch(error => {
-    alert(error);
+    alert(error.message);
   })
 
   this.getReferenceButton.disabled = false;

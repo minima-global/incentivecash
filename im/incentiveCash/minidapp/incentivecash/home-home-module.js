@@ -172,7 +172,7 @@ let HomePage = class HomePage {
             })
                 .then(response => {
                 if (!response.ok) {
-                    this.loginStatus = 'Login failed! Error: ' + response.statusText;
+                    this.loginStatus = 'Login failed!  Public key not found!';
                     const statusText = response.statusText;
                     return response.json()
                         .then((data) => {
@@ -222,6 +222,9 @@ let HomePage = class HomePage {
                         }
                     });
                 }
+            })
+                .catch(error => {
+                alert(error.message);
             });
         });
     }
@@ -243,7 +246,7 @@ let HomePage = class HomePage {
                 })
                     .then(res => {
                     if (!res.ok) {
-                        this.loginStatus = 'Login failed!  Error: ' + res.statusText;
+                        this.loginStatus = 'Login failed!  Public key could not be posted!';
                         const statusText = response.statusText;
                         return res.json()
                             .then((data) => {
@@ -273,7 +276,7 @@ let HomePage = class HomePage {
                     });
                 })
                     .catch(error => {
-                    alert(error);
+                    alert(error.message);
                 });
             }
         });
@@ -329,10 +332,10 @@ let HomePage = class HomePage {
             this.getPubKey();
         })
             .catch(error => {
-            alert(error);
+            alert(error.message);
         })
             .catch(error => {
-            alert(error);
+            alert(error.message);
         });
         this.getReferenceButton.disabled = false;
         this.loginStatus = '';
