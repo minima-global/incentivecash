@@ -13,9 +13,10 @@ const numDaysPerBatch = 5;
 const tokenBatches = numDaysPerBatch * tokensPerDay;
 const blockTimeSeconds = 20;
 //const blocksPerDay = 86400 / blockTimeSeconds;
-const blocksPerDay = 3;
+const blocksPerDay = 1;
 const blocksPerBatch = numDaysPerBatch * blocksPerDay;
-const blockWindow = 180;
+//const blockWindow = 180;
+const blockWindow = 2;
 
 exports.cmdURL = cmdURL;
 exports.devNull = devNull;
@@ -30,3 +31,4 @@ exports.tokenBatches = tokenBatches;
 exports.blockTimeSeconds = blockTimeSeconds;
 exports.blocksPerDay = blocksPerDay;
 exports.blocksPerBatch = blocksPerBatch;
+exports.blockWindow = blockWindow;
