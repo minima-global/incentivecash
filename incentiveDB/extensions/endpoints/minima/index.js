@@ -104,7 +104,8 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
         } else {
 
           const numTokens = helpers.getNumTokens(new Date());
-          const numBatches = numTokens / config.tokenBatches;
+          //const numBatches = numTokens / config.tokenBatches;
+          const numBatches = 3;
 
           let thisBlockTime = blockTime;
           for ( let i = 0; i < numBatches; i++ ) {
