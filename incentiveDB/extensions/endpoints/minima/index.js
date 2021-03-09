@@ -110,7 +110,8 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
           for ( let i = 0; i < numBatches; i++ ) {
 
             thisBlockTime += config.blocksPerBatch;
-            const sendString = `sendpoll ${config.tokenBatches} ${config.futureAddress} ${config.tokenID} 0:${publickey}#1:${thisBlockTime}`;
+            maxBlockTime = thisBlockTime + config.blockWindow;
+            const sendString = `sendpoll ${config.tokenBatches} ${config.futureAddress} ${config.tokenID} 0:${publickey}#1:${thisBlockTime}#2:${maxBlockTime}`;
 
             axios({
               method: 'POST',
