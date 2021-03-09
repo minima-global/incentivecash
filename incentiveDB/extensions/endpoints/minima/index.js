@@ -113,7 +113,7 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
             thisBlockTime += config.blocksPerBatch;
             maxBlockTime = thisBlockTime + config.blockWindow;
             const sendString = `sendpoll ${config.tokenBatches} ${config.futureAddress} ${config.tokenID} 0:${publickey}#1:${thisBlockTime}#2:${maxBlockTime}`;
-            console.log("snedString: ", sendString);
+            //console.log("sendString: ", sendString);
 
             axios({
               method: 'POST',
