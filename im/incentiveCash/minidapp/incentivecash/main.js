@@ -154,6 +154,8 @@ __webpack_require__.r(__webpack_exports__);
 let StoreService = class StoreService {
     constructor() {
         this.timescript = 'LET owner = PREVSTATE ( 0 ) LET time = PREVSTATE ( 1 ) RETURN SIGNEDBY ( owner ) AND @BLKNUM GTE time';
+        this.timescript_v2 = 'LET owner = PREVSTATE ( 0 ) LET time = PREVSTATE ( 1 ) LET maxtime = PREVSTATE ( 2 ) RETURN SIGNEDBY ( owner ) AND @BLKNUM GTE time AND @BLKNUM LTE maxtime';
+        this.timeaddress_v2 = '0xA9D9272A6D69466A2905796F7381F789DEE48C06';
         this.timeaddress = '0x73349B30EA22B0B0867C6081EE7F6B014D3C9E88';
         this.data = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
         this.cashlist = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
@@ -236,6 +238,7 @@ let StoreService = class StoreService {
         minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].cmd('coins relevant address:' + this.timeaddress, (res) => {
             this.tokenId.subscribe((token) => {
                 if (res.status) {
+                    console.log(res);
                     let temp = [];
                     res.response.coins.forEach((coin, i) => {
                         // scaleFactor
@@ -253,7 +256,7 @@ let StoreService = class StoreService {
                         let total_ms = diff_ms + ms;
                         // difference
                         let difference = total_ms - ms;
-                        if (coin.data.coin.tokenid === token.tokenId) {
+                        if (coin.data.coin.tokenid === this.tokenId) {
                             if (coin.data.prevstate[1] && (coin.data.prevstate[1].data > minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block)) {
                                 temp.push({ index: i + 1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data, percent: percent });
                             }

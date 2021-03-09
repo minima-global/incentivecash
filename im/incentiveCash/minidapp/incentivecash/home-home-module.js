@@ -172,7 +172,7 @@ let HomePage = class HomePage {
             })
                 .then(response => {
                 if (!response.ok) {
-                    this.loginStatus = 'Login failed!  Public key not found!';
+                    this.loginStatus = 'Login failed! Error: ' + response.statusText;
                     const statusText = response.statusText;
                     return response.json()
                         .then((data) => {
@@ -243,7 +243,7 @@ let HomePage = class HomePage {
                 })
                     .then(res => {
                     if (!res.ok) {
-                        this.loginStatus = 'Login failed!  Public key not found!';
+                        this.loginStatus = 'Login failed!  Error: ' + res.statusText;
                         const statusText = response.statusText;
                         return res.json()
                             .then((data) => {

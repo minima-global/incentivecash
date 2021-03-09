@@ -59,6 +59,8 @@ export interface ReferralCode {
 export class StoreService {
 
   timescript: string = 'LET owner = PREVSTATE ( 0 ) LET time = PREVSTATE ( 1 ) RETURN SIGNEDBY ( owner ) AND @BLKNUM GTE time';
+  timescript_v2: string = 'LET owner = PREVSTATE ( 0 ) LET time = PREVSTATE ( 1 ) LET maxtime = PREVSTATE ( 2 ) RETURN SIGNEDBY ( owner ) AND @BLKNUM GTE time AND @BLKNUM LTE maxtime';
+  timeaddress_v2: string = '0xA9D9272A6D69466A2905796F7381F789DEE48C06';
   timeaddress: string = '0x73349B30EA22B0B0867C6081EE7F6B014D3C9E88';
 
   data: Subject<UserDetails> = new ReplaySubject<UserDetails>(1);
@@ -149,6 +151,7 @@ export class StoreService {
     Minima.cmd('coins relevant address:'+this.timeaddress, (res: any) => {   
       this.tokenId.subscribe((token: IncentiveTokenID) => {
         if (res.status) {
+          console.log(res);
           let temp: IncentiveCash[] = [];
           res.response.coins.forEach((coin, i) => {
             // scaleFactor
@@ -167,12 +170,12 @@ export class StoreService {
             // difference
             let difference = total_ms - ms;
 
-            if (coin.data.coin.tokenid === token.tokenId) {
+            if (coin.data.coin.tokenid === this.tokenId) {
               if (coin.data.prevstate[1] && (coin.data.prevstate[1].data > Minima.block)) {
                 temp.push({index: i+1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data, percent: percent})
               } else if ((coin.data.prevstate[0] && coin.data.prevstate[1]) && (coin.data.prevstate[1].data <= Minima.block)) {                
                 temp.push({index: i+1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Ready', blockno: coin.data.prevstate[1].data, percent: percent})  
-              }
+              } 
             }
           });
           this.cashlist.next(temp);
