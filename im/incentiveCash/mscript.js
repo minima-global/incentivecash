@@ -1,1 +1,0 @@
-import Minima from 'minima';
