@@ -3,6 +3,7 @@ const Joi = require("joi");
 
 const config = require ('../config');
 const helpers = require ('../helpers');
+const logger = require ('../logger');
 
 const keySchema = Joi.object({
   userid: Joi.string().required(),
@@ -34,17 +35,24 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
     });
   };
 
-  router.get('/token', (req, res) => {
+  router.get(config.uRLs.token.url, (req, res) => {
 
     const token = {
       tokenId: config.tokenID,
       scaleFactor: scaleFactor
     }
 
+    const logData = {
+      loggingtypeid: config.uRLs.token.index,
+      loggingtype: "URL",
+      data: config.uRLs.token.url
+    }
+    logger.log(ItemsService, logData, req.schema)
+
     return res.send(JSON.stringify(token));
 	});
 
-  router.post('/cmd', (req, res, next) => {
+  router.post(config.uRLs.token.url, (req, res, next) => {
 
     const { error } = cmdSchema.validate(req.body);
     if (error) return next(new InvalidPayloadException(error.message));
@@ -71,7 +79,7 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
       });
   });
 
-  router.post('/key', (req, res, next) => {
+  router.post(config.uRLs.key.url, (req, res, next) => {
 
     const { error } = keySchema.validate(req.body);
     if (error) return next(new InvalidPayloadException(error.message));
@@ -104,8 +112,8 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
         } else {
 
           const numTokens = helpers.getNumTokens(new Date());
-          //const numBatches = numTokens / config.tokenBatches;
-          const numBatches = 3;
+          const numBatches = numTokens / config.tokenBatches;
+          //const numBatches = 3;
 
           let thisBlockTime = blockTime;
           for ( let i = 0; i < numBatches; i++ ) {
@@ -127,7 +135,7 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
 
               if ( i == numBatches - 1 ) {
 
-                const walletService = new ItemsService('wallet', { schema: req.schema });
+                const walletService = new ItemsService(config.tables.wallet.table, { schema: req.schema });
                 walletService
                    .create({'userid': userid, 'publickey': publickey, 'address': address})
                    .then((createResults) => {
@@ -158,7 +166,7 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
       });
 	});
 
-  router.post('/txn', (req, res, next) => {
+  router.post(config.uRLs.txn.url, (req, res, next) => {
 
     if ( req.body.event == "newtxpow" ) {
 
@@ -207,7 +215,7 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
                 extrainfo: `txpowid: ${req.body.txpow.txpowid}`
               }
 
-              const rewardService = new ItemsService('reward', { schema: req.schema });
+              const rewardService = new ItemsService(config.tables.reward.table, { schema: req.schema });
               rewardService
                 .create(rewardCreate)
                 .then(function (response) {

@@ -11,7 +11,7 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
   const { ItemsService, UsersService } = services;
 	const { InvalidPayloadException, ServiceUnavailableException } = exceptions;
 
-  router.get('/futureAddress', (req, res) => {
+  router.get(config.uRLs.futureAddress.url, (req, res) => {
 
     const future = {
       futureAddress: `${config.futureAddress}`
@@ -21,13 +21,13 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
 
 	});
 
-  router.post('/getKey', (req, res, next) => {
+  router.post(config.uRLs.getKey.url, (req, res, next) => {
 
     const { error } = keySchema.validate(req.body);
     if (error) return next(new InvalidPayloadException(error.message));
     const userid = req.body.userid
 
-    const walletService = new ItemsService('wallet', { schema: req.schema });
+    const walletService = new ItemsService(config.tables.wallet.table, { schema: req.schema });
 		walletService
 			.readByQuery({ sort: 'userid', fields: ['*'] })
 			.then((results) => {

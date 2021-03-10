@@ -12,11 +12,56 @@ const tokensPerDay = 2;
 const numDaysPerBatch = 5;
 const tokenBatches = numDaysPerBatch * tokensPerDay;
 const blockTimeSeconds = 20;
-//const blocksPerDay = 86400 / blockTimeSeconds;
-const blocksPerDay = 4;
+const blocksPerDay = 86400 / blockTimeSeconds;
+//const blocksPerDay = 4;
 const blocksPerBatch = numDaysPerBatch * blocksPerDay;
-//const blockWindow = 180;
-const blockWindow = 10;
+const blockWindow = 180;
+
+const uRLs = {
+  token: {
+    url: "/token",
+    index: 1
+  },
+  key: {
+    url: "/key",
+    index: 2
+  },
+  cmd: {
+    url: "/cmd",
+    index: 3
+  },
+  txn: {
+    url: "/txn",
+    index: 4
+  },
+  futureAddress: {
+    url: "/futureAddress",
+    index: 5
+  },
+  getKey: {
+    url: "/getKey",
+    index: 6
+  }
+}
+
+const tables = {
+  wallet: {
+    table: "wallet",
+    index: 1
+  },
+  reward: {
+    table: "reward",
+    index: 2
+  },
+  referral: {
+    table: "referral",
+    index: 3
+  },
+  log: {
+    table: "log",
+    index: 4
+  }
+}
 
 exports.cmdURL = cmdURL;
 exports.devNull = devNull;
@@ -32,3 +77,5 @@ exports.blockTimeSeconds = blockTimeSeconds;
 exports.blocksPerDay = blocksPerDay;
 exports.blocksPerBatch = blocksPerBatch;
 exports.blockWindow = blockWindow;
+exports.uRLs = uRLs;
+exports.tables = tables;
