@@ -32,8 +32,6 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
 			.readByQuery({ sort: 'userid', fields: ['*'] })
 			.then((results) => {
 
-        //console.log("got users: ", results)
-
         let pubkeys = [];
         for (let i = 0; i < results.length; i++) {
 
@@ -41,6 +39,13 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
             pubkeys.push(results[i].publickey);
           }
         }
+
+        const logData = {
+          loggingtypeid: config.uRLs.getKey.index,
+          loggingtype: "URL",
+          data: `${config.uRLs.getKey.url} userid`
+        }
+        logger.log(ItemsService, logData, req.schema)
 
         const userKeys = {
           publickeys: pubkeys

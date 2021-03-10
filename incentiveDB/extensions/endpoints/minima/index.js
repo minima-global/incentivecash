@@ -52,7 +52,7 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
     return res.send(JSON.stringify(token));
 	});
 
-  router.post(config.uRLs.token.url, (req, res, next) => {
+  router.post(config.uRLs.cmd.url, (req, res, next) => {
 
     const { error } = cmdSchema.validate(req.body);
     if (error) return next(new InvalidPayloadException(error.message));
@@ -68,6 +68,13 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
         data: cmd
       })
       .then(function (response) {
+
+        const logData = {
+          loggingtypeid: config.uRLs.cmd.index,
+          loggingtype: "URL",
+          data: config.uRLs.cmd.url
+        }
+        logger.log(ItemsService, logData, req.schema)
 
         return res.send(JSON.stringify(response.data.response));
 
@@ -138,7 +145,14 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
                 const walletService = new ItemsService(config.tables.wallet.table, { schema: req.schema });
                 walletService
                    .create({'userid': userid, 'publickey': publickey, 'address': address})
-                   .then((createResults) => {
+                   .then(id => {
+
+                     const logData = {
+                       loggingtypeid: id,
+                       loggingtype: "Wallet",
+                       data: userid
+                     }
+                     logger.log(ItemsService, logData, req.schema)
 
                      return res.json("OK");
 
@@ -218,7 +232,14 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
               const rewardService = new ItemsService(config.tables.reward.table, { schema: req.schema });
               rewardService
                 .create(rewardCreate)
-                .then(function (response) {
+                .then(id => {
+
+                  const logData = {
+                    loggingtypeid: id,
+                    loggingtype: "Reward",
+                    data: "Claimed"
+                  }
+                  logger.log(ItemsService, logData, req.schema)
 
                   return res.send("OK");
                 })
