@@ -10,7 +10,7 @@ cp -rf www/* minidapp/incentivecash
 
 cp src/assets/bg.svg minidapp/incentivecash
 
-
+cp ./service.js minidapp/incentivecash
 
 cp src/assets/minidapp.conf minidapp/incentivecash
 

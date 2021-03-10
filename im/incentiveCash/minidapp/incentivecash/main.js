@@ -232,6 +232,7 @@ let StoreService = class StoreService {
             return res.json()
                 .then((data) => {
                 let json = data;
+                console.log('Fetched referral code: ' + JSON.stringify(json));
                 this.referralCode.next(json);
             });
         });
@@ -239,7 +240,6 @@ let StoreService = class StoreService {
     pollCash() {
         minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].cmd('coins relevant address:' + this.timeaddress_v2, (res) => {
             this.tokenId.subscribe((token) => {
-                console.log(res);
                 if (res.status) {
                     let temp = [];
                     res.response.coins.forEach((coin, i) => {

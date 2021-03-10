@@ -144,15 +144,16 @@ export class StoreService {
       return res.json()
       .then((data) => {
         let json = data; 
+        console.log('Fetched referral code: '+ JSON.stringify(json));
         this.referralCode.next(json);
       })
     })
   }
+  
 
   pollCash() {
     Minima.cmd('coins relevant address:'+this.timeaddress_v2, (res: any) => {   
       this.tokenId.subscribe((token: IncentiveTokenID) => {
-        console.log(res);
         if (res.status) {
           let temp: IncentiveCash[] = [];
           res.response.coins.forEach((coin, i) => {
