@@ -48,6 +48,7 @@ export class HomePage  {
 
   getPubKey() {
     this._storeService.getUserDetailsOnce().then((user: UserDetails) => {
+      console.log('uid'+ user.loginData.access_token + ' refId'+ user.refID);
       const data = {
         userid: user.refID
       }
@@ -223,14 +224,14 @@ export class HomePage  {
               refresh_token: token.refreshToken
             }
           }
-          this._storeService.data.next(user);          
+          this._storeService.data.next(user);  
+          
+          this.getPubKey();
         } else {
           console.log('Failed to retrieve user details from server..');
         }
-
       });
-      this.getPubKey();
-
+      
     })
     .catch(error => {
       alert(error);

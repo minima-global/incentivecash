@@ -158,6 +158,7 @@ let HomePage = class HomePage {
     }
     getPubKey() {
         this._storeService.getUserDetailsOnce().then((user) => {
+            console.log('uid' + user.loginData.access_token + ' refId' + user.refID);
             const data = {
                 userid: user.refID
             };
@@ -331,12 +332,12 @@ let HomePage = class HomePage {
                         }
                     };
                     this._storeService.data.next(user);
+                    this.getPubKey();
                 }
                 else {
                     console.log('Failed to retrieve user details from server..');
                 }
             });
-            this.getPubKey();
         })
             .catch(error => {
             alert(error);

@@ -1,23 +1,29 @@
+const { Minima } = require("minima");
+
 var tokenid = ''; var uid = '';
 function fetchTokenID() {
   const url = 'https://incentivedb.minima.global/custom/minima/token';
-  fetch(url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    }
-  })
-  .then(function(res) {
-    if (!res.ok) {
-      console.log('Failed to get token');
-    }
-    return res.json()
-    .then((data) => {
-      if (data && data.tokenId.length > 0) {
-        tokenid = data.tokenId;
-      }
-    })
-  })
+  Minima.net.GET(url, function(res) {
+    tokenid = res.result.tokenId;
+    Minima.log(tokenid);
+  });
+  // fetch(url, {
+  //   method: 'GET',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   }
+  // })
+  // .then(function(res) {
+  //   if (!res.ok) {
+  //     console.log('Failed to get token');
+  //   }
+  //   return res.json()
+  //   .then((data) => {
+  //     if (data && data.tokenId.length > 0) {
+  //       tokenid = data.tokenId;
+  //     }
+  //   })
+  // })
 }
 function getUID() {
   Minima.file.load('uid.txt', function(res) {
@@ -28,6 +34,7 @@ function getUID() {
   });
 }
 function postTransaction(coinid, amount, pKey, tokenid, uid) {
+  Minima.log('trying to post transaction');
   if (document.getElementById('collect-btn'+coinid)) {
     document.getElementById('collect-btn'+coinid).style.opacity = '0.5';
     document.getElementById('row'+coinid).style.opacity = '0.5';
@@ -55,30 +62,35 @@ function postTransaction(coinid, amount, pKey, tokenid, uid) {
   });
 }
 
-function pollCash(block) {
+function getCash() {
   var timeaddress = '0xA9D9272A6D69466A2905796F7381F789DEE48C06';
-  if (block % 20 == false) {
-    Minima.cmd('coins relevant address:'+timeaddress, function(res) {
+  Minima.cmd('coins relevant address:'+timeaddress, function(res) {
 
-      if (res.status) {
+    if (res.status) {
+      Minima.log('Looking for relevant transactions...');
 
-        res.response.coins.forEach(function(coin, i) {
+      res.response.coins.forEach(function(coin, i) {
 
-          if (coin.data.coin.tokenid == tokenid) {
+        if (coin.data.coin.tokenid == tokenid) {
 
-            if ((coin.data.prevstate[0] && coin.data.prevstate[1] && coin.data.prevstate[2]) && (coin.data.prevstate[1].data <= Minima.block && coin.data.prevstate[2].data >= Minima.block)) {
+          if ((coin.data.prevstate[0] && coin.data.prevstate[1] && coin.data.prevstate[2]) && coin.data.prevstate[1].data <= Minima.block && coin.data.prevstate[2].data >= Minima.block) {
 
-              postTransaction(coin.data.coin.coinid, coin.data.coin.amount, coin.data.prevstate[0], tokenid, uid);              
-
-            }
+            postTransaction(coin.data.coin.coinid, coin.data.coin.amount, coin.data.prevstate[0], tokenid, uid);              
 
           }
 
-        });
+        }
 
-      }
+      });
 
-    });
+    }
+
+  });
+}
+function pollCash(block) {
+  Minima.log('Trying to post.');
+  if (block % 20 == false) {
+    getCash();
   }
 }
 
@@ -86,8 +98,13 @@ Minima.init(function(msg){
   if(msg.event == 'connected') {
 
   } else if(msg.event == 'newblock') {
-    getUID();
-    fetchTokenID();
+    if (uid && uid.length === 0) {
+      getUID();
+    }
+
+    if (tokenid && tokenid.length === 0) {    
+      fetchTokenID();
+    }
     pollCash(msg.info.txpow.header.block);
   }
 });
