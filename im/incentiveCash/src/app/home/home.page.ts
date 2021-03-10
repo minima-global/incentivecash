@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Minima } from 'minima';
 import { IonButton } from '@ionic/angular';
-import { SlowBuffer } from 'buffer';
 
 interface User {
   email: string
@@ -115,7 +114,7 @@ export class HomePage  {
         }
       })
       .catch(error => {
-        alert(error.message);
+        alert(error);
       })
     });
   }
@@ -124,53 +123,59 @@ export class HomePage  {
     const url = 'https://incentivedb.minima.global/custom/minima/key';
     Minima.cmd('keys new; newaddress', (response: any) => {
       if (Minima.util.checkAllResponses(response)) {
-        const data = {
-          userid: uid,
-          publickey: response[0].response.key.publickey,
-          address: response[1].response.address.hexaddress
-        }
-        fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        })
-        .then(res => {
-          if (!res.ok) {
-            this.loginStatus = 'Login failed!  Public key could not be posted!';
-            const statusText = response.statusText;
-            return res.json()
-            .then((data) => {
-              throw new Error(statusText);
-            })
+        if (uid && uid.length > 0 && response[0] && response[1] && response[0].response.key.publickey && response[1].response.address.hexaddress) {
+          const data = {
+            userid: uid,
+            publickey: response[0].response.key.publickey,
+            address: response[1].response.address.hexaddress
           }
-          return res.json()
-        })
-        .then(data => {
-          this.loginStatus = 'Login successful!';
-          this.lastAccess();
-
-          Minima.file.load('first.txt', (res: any) => {
-            if (res.success) {
-              this.router.navigate(['/rewards']);
-            } else {
-              this.router.navigate(['/welcome']);
+          fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          })
+          .then(res => {
+            console.log(res);
+            if (!res.ok) {
+              this.loginStatus = 'Login failed!  Public key could not be posted!';
+              const statusText = response.statusText;
+              return res.json()
+              .then((data) => {
+                throw new Error(statusText);
+              })
             }
-          });
-          
-          this.loginForm.reset();
-          this.loginStatus = '';
-          this._storeService.getUserDetailsOnce().then((user: UserDetails) => {
-            //console.log('Stored new pubkey');
-            let temp = user;
-            temp.pKey = response[0].response.key.publickey;
-            this._storeService.data.next(temp);
-          });
-        })
-        .catch(error => {
-          alert(error.message);
-        })
+            return res.json()
+          })
+          .then(data => {
+            this.loginStatus = 'Login successful!';
+            this.lastAccess();
+
+            Minima.file.load('first.txt', (res: any) => {
+              if (res.success) {
+                this.router.navigate(['/rewards']);
+              } else {
+                this.router.navigate(['/welcome']);
+              }
+            });
+            
+            this.loginForm.reset();
+            this.loginStatus = '';
+            this._storeService.getUserDetailsOnce().then((user: UserDetails) => {
+              let temp = user;
+              temp.pKey = response[0].response.key.publickey;
+              this._storeService.data.next(temp);
+              // save this for service.js
+              Minima.file.save(JSON.stringify({uid: user.refID}), 'uid.txt',  (res: any) => {});
+            });
+          })
+          .catch(errors => {
+            alert(errors);
+          })
+        }
+      } else {
+        alert('POSTING FAILED!  Payload is wrong');
       }
     });
   }
@@ -228,10 +233,10 @@ export class HomePage  {
 
     })
     .catch(error => {
-      alert(error.message);
+      alert(error);
     })
   .catch(error => {
-    alert(error.message);
+    alert(error);
   })
 
   this.getReferenceButton.disabled = false;

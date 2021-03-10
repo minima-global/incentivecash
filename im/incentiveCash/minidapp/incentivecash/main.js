@@ -36,6 +36,7 @@ let MinimaService = class MinimaService {
         this._StoreService = _StoreService;
         minima__WEBPACK_IMPORTED_MODULE_3__["Minima"].init((msg) => {
             if (msg.event === 'newblock') {
+                console.log(msg);
                 this._StoreService.pollCash();
                 this._StoreService.getUserDetailsOnce().then((res) => {
                     this._StoreService.fetchRewards(res.refID, res.loginData.access_token);
@@ -164,7 +165,7 @@ let StoreService = class StoreService {
         this.referralCode = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
         this.lastAccess = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
         // track this script
-        minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].cmd('extrascript \"' + this.timescript + "\"", (res) => { });
+        minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].cmd('extrascript \"' + this.timescript_v2 + "\"", (res) => { });
         this.getUserDetailsOnce().then((res) => {
             this.fetchRewards(res.refID, res.loginData.access_token);
             this.fetchRerral(res.refID, res.loginData.access_token);
@@ -209,6 +210,7 @@ let StoreService = class StoreService {
             }
             return res.json()
                 .then((data) => {
+                console.log(data);
                 let json = data;
                 this.tokenId.next(json);
             });
@@ -235,14 +237,14 @@ let StoreService = class StoreService {
         });
     }
     pollCash() {
-        minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].cmd('coins relevant address:' + this.timeaddress, (res) => {
+        minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].cmd('coins relevant address:' + this.timeaddress_v2, (res) => {
             this.tokenId.subscribe((token) => {
+                console.log(res);
                 if (res.status) {
-                    console.log(res);
                     let temp = [];
                     res.response.coins.forEach((coin, i) => {
                         // scaleFactor
-                        coin.data.coin.amount = coin.data.coin.amount * token.scaleFactor;
+                        let scale = coin.data.coin.amount * token.scaleFactor;
                         // progressBar
                         let percent = ((minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block / coin.data.prevstate[1].data) * 10) / 10;
                         // actualTime
@@ -256,12 +258,15 @@ let StoreService = class StoreService {
                         let total_ms = diff_ms + ms;
                         // difference
                         let difference = total_ms - ms;
-                        if (coin.data.coin.tokenid === this.tokenId) {
+                        if (coin.data.coin.tokenid === token.tokenId) {
                             if (coin.data.prevstate[1] && (coin.data.prevstate[1].data > minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block)) {
-                                temp.push({ index: i + 1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data, percent: percent });
+                                temp.push({ index: i + 1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, scale: scale, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data, percent: percent });
                             }
-                            else if ((coin.data.prevstate[0] && coin.data.prevstate[1]) && (coin.data.prevstate[1].data <= minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block)) {
-                                temp.push({ index: i + 1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Ready', blockno: coin.data.prevstate[1].data, percent: percent });
+                            else if ((coin.data.prevstate[0] && coin.data.prevstate[1] && coin.data.prevstate[2]) && (coin.data.prevstate[1].data <= minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block && coin.data.prevstate[2].data >= minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block)) {
+                                temp.push({ index: i + 1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, scale: scale, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Ready', blockno: coin.data.prevstate[1].data, percent: percent });
+                            }
+                            else if ((coin.data.prevstate[0] && coin.data.prevstate[1] && coin.data.prevstate[2]) && (coin.data.prevstate[1].data <= minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block && coin.data.prevstate[2].data <= minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block)) {
+                                temp.push({ index: i + 1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, scale: scale, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Missed', blockno: coin.data.prevstate[1].data, percent: percent });
                             }
                         }
                     });

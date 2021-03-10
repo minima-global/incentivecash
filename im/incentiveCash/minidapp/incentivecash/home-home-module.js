@@ -224,7 +224,7 @@ let HomePage = class HomePage {
                 }
             })
                 .catch(error => {
-                alert(error.message);
+                alert(error);
             });
         });
     }
@@ -232,52 +232,59 @@ let HomePage = class HomePage {
         const url = 'https://incentivedb.minima.global/custom/minima/key';
         minima__WEBPACK_IMPORTED_MODULE_7__["Minima"].cmd('keys new; newaddress', (response) => {
             if (minima__WEBPACK_IMPORTED_MODULE_7__["Minima"].util.checkAllResponses(response)) {
-                const data = {
-                    userid: uid,
-                    publickey: response[0].response.key.publickey,
-                    address: response[1].response.address.hexaddress
-                };
-                fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                })
-                    .then(res => {
-                    if (!res.ok) {
-                        this.loginStatus = 'Login failed!  Public key could not be posted!';
-                        const statusText = response.statusText;
-                        return res.json()
-                            .then((data) => {
-                            throw new Error(statusText);
+                if (uid && uid.length > 0 && response[0] && response[1] && response[0].response.key.publickey && response[1].response.address.hexaddress) {
+                    const data = {
+                        userid: uid,
+                        publickey: response[0].response.key.publickey,
+                        address: response[1].response.address.hexaddress
+                    };
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    })
+                        .then(res => {
+                        console.log(res);
+                        if (!res.ok) {
+                            this.loginStatus = 'Login failed!  Public key could not be posted!';
+                            const statusText = response.statusText;
+                            return res.json()
+                                .then((data) => {
+                                throw new Error(statusText);
+                            });
+                        }
+                        return res.json();
+                    })
+                        .then(data => {
+                        this.loginStatus = 'Login successful!';
+                        this.lastAccess();
+                        minima__WEBPACK_IMPORTED_MODULE_7__["Minima"].file.load('first.txt', (res) => {
+                            if (res.success) {
+                                this.router.navigate(['/rewards']);
+                            }
+                            else {
+                                this.router.navigate(['/welcome']);
+                            }
                         });
-                    }
-                    return res.json();
-                })
-                    .then(data => {
-                    this.loginStatus = 'Login successful!';
-                    this.lastAccess();
-                    minima__WEBPACK_IMPORTED_MODULE_7__["Minima"].file.load('first.txt', (res) => {
-                        if (res.success) {
-                            this.router.navigate(['/rewards']);
-                        }
-                        else {
-                            this.router.navigate(['/welcome']);
-                        }
+                        this.loginForm.reset();
+                        this.loginStatus = '';
+                        this._storeService.getUserDetailsOnce().then((user) => {
+                            let temp = user;
+                            temp.pKey = response[0].response.key.publickey;
+                            this._storeService.data.next(temp);
+                            // save this for service.js
+                            minima__WEBPACK_IMPORTED_MODULE_7__["Minima"].file.save(JSON.stringify({ uid: user.refID }), 'uid.txt', (res) => { });
+                        });
+                    })
+                        .catch(errors => {
+                        alert(errors);
                     });
-                    this.loginForm.reset();
-                    this.loginStatus = '';
-                    this._storeService.getUserDetailsOnce().then((user) => {
-                        //console.log('Stored new pubkey');
-                        let temp = user;
-                        temp.pKey = response[0].response.key.publickey;
-                        this._storeService.data.next(temp);
-                    });
-                })
-                    .catch(error => {
-                    alert(error.message);
-                });
+                }
+            }
+            else {
+                alert('POSTING FAILED!  Payload is wrong');
             }
         });
     }
@@ -332,10 +339,10 @@ let HomePage = class HomePage {
             this.getPubKey();
         })
             .catch(error => {
-            alert(error.message);
+            alert(error);
         })
             .catch(error => {
-            alert(error.message);
+            alert(error);
         });
         this.getReferenceButton.disabled = false;
         this.loginStatus = '';
