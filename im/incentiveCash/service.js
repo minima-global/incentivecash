@@ -56,15 +56,15 @@ function postTransaction(coinid, amount, pKey, tokenid, uid) {
 }
 
 function pollCash(block) {
-  let timeaddress = '0xA9D9272A6D69466A2905796F7381F789DEE48C06';
-  if (block % 20) {
+  var timeaddress = '0xA9D9272A6D69466A2905796F7381F789DEE48C06';
+  if (block % 20 == false) {
     Minima.cmd('coins relevant address:'+timeaddress, function(res) {
 
       if (res.status) {
 
         res.response.coins.forEach(function(coin, i) {
 
-          if (coin.data.coin.tokenid === tokenid) {
+          if (coin.data.coin.tokenid == tokenid) {
 
             if ((coin.data.prevstate[0] && coin.data.prevstate[1] && coin.data.prevstate[2]) && (coin.data.prevstate[1].data <= Minima.block && coin.data.prevstate[2].data >= Minima.block)) {
 
