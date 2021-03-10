@@ -1,4 +1,5 @@
 ion-grid.welcome {
+  font-family: manrope-regular;
   margin-top: 70px;
   ion-row.first {
     ion-col {
@@ -38,6 +39,7 @@ ion-grid.welcome {
     margin-top: 70px;
     ion-col {
       ion-button {
+        font-family: manrope-regular;
         width: 164px;
         height: 44px;
         background-color: var(--ion-color-primary);
