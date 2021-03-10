@@ -10,11 +10,9 @@ const logSchema = Joi.object({
 
 function log(service, info, schema) {
 
-  console.log("blah", info);
-
   const { error } = logSchema.validate(info);
   if (error) {
-    console.error(error.message)
+    console.error("Log error: " + error.message)
   } else {
 
     const ItemsService = service;
@@ -38,8 +36,6 @@ function log(service, info, schema) {
         console.error(error.message);
       });
   }
-
-
 }
 
 exports.log = log;
