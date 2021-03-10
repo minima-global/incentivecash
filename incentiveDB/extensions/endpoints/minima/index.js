@@ -104,13 +104,16 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
         } else {
 
           const numTokens = helpers.getNumTokens(new Date());
-          const numBatches = numTokens / config.tokenBatches;
+          //const numBatches = numTokens / config.tokenBatches;
+          const numBatches = 3;
 
           let thisBlockTime = blockTime;
           for ( let i = 0; i < numBatches; i++ ) {
 
             thisBlockTime += config.blocksPerBatch;
-            const sendString = `sendpoll ${config.tokenBatches} ${config.futureAddress} ${config.tokenID} 0:${publickey}#1:${thisBlockTime}`;
+            maxBlockTime = thisBlockTime + config.blockWindow;
+            const sendString = `sendpoll ${config.tokenBatches} ${config.futureAddress} ${config.tokenID} 0:${publickey}#1:${thisBlockTime}#2:${maxBlockTime}`;
+            //console.log("sendString: ", sendString);
 
             axios({
               method: 'POST',
