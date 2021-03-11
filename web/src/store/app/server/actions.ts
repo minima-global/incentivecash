@@ -179,7 +179,7 @@ export const registerPassword = (user: UserRegisterPassword) => {
 
         //console.log("welcome reward: ", welcomeReward)
 
-        const postURL = `${dbase}${Remote.itemsPath}/${Dbase.rewardsTable}`
+        const postURL = `${dbase}${Remote.customPath}${Remote.rewardsPath}`
 
         dispatch(postPublicData(postURL, welcomeReward))
 
