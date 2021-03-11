@@ -59,8 +59,12 @@ const uRLs = {
     index: 10
   },
   trigger: {
-    url: "/referral",
+    url: "/trigger",
     index: 11
+  },
+  getTriggers: {
+    url: "/getTriggers",
+    index: 12
   }
 }
 
@@ -80,6 +84,10 @@ const tables = {
   log: {
     table: "log",
     index: 4
+  },
+  trigger: {
+    table: "trigger",
+    index: 5
   }
 }
 
