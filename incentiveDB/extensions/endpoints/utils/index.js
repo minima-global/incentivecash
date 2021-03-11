@@ -22,7 +22,7 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
 
 	});
 
-  router.get(config.uRLs.getKey.url, (req, res, next) => {
+  router.post(config.uRLs.getKey.url, (req, res, next) => {
 
     const { error } = keySchema.validate(req.body);
     if (error) return next(new InvalidPayloadException(error.message));

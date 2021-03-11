@@ -46,7 +46,7 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
     });
   };
 
-  router.get(config.uRLs.referral.url, (req, res, next) => {
+  router.post(config.uRLs.getReferral.url, (req, res, next) => {
 
     const { error } = getUserSchema.validate(req.body);
     if (error) return next(new InvalidPayloadException(error.message));
@@ -83,7 +83,7 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
     //return res.send(JSON.stringify(token));
 	});
 
-  router.get(config.uRLs.reward.url, (req, res, next) => {
+  router.post(config.uRLs.getReward.url, (req, res, next) => {
 
     const { error } = getUserSchema.validate(req.body);
     if (error) return next(new InvalidPayloadException(error.message));

@@ -46,9 +46,21 @@ const uRLs = {
     url: "/reward",
     index: 7
   },
+  getReward: {
+    url: "/getReward",
+    index: 8
+  },
   referral: {
     url: "/referral",
-    index: 8
+    index: 9
+  },
+  getReferral: {
+    url: "/getReferral",
+    index: 10
+  },
+  trigger: {
+    url: "/referral",
+    index: 11
   }
 }
 
