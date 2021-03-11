@@ -41,6 +41,14 @@ const uRLs = {
   getKey: {
     url: "/getKey",
     index: 6
+  },
+  reward: {
+    url: "/reward",
+    index: 7
+  },
+  referral: {
+    url: "/referral",
+    index: 8
   }
 }
 

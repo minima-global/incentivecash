@@ -43,7 +43,7 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
         const logData = {
           loggingtypeid: config.uRLs.getKey.index,
           loggingtype: "URL",
-          data: `${config.uRLs.getKey.url} userid`
+          data: `post ${config.uRLs.getKey.url} userid`
         }
         logger.log(ItemsService, logData, req.schema)
 

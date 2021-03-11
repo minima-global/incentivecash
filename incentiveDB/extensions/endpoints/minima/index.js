@@ -15,6 +15,17 @@ const cmdSchema = Joi.object({
   cmd: Joi.string().required()
 });
 
+const getUserSchema = Joi.object({
+  userid: Joi.string().required()
+});
+
+const postRewardSchema = Joi.object({
+  userid: Joi.string().required(),
+  amount: Joi.number().required(),
+  reason: Joi.string().required(),
+  extrainfo: Joi.string()
+});
+
 module.exports = async function registerEndpoint(router, { services, exceptions }) {
 
   const { ItemsService, UsersService } = services;
@@ -35,7 +46,114 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
     });
   };
 
-  router.get(config.uRLs.token.url, (req, res) => {
+  router.get(config.uRLs.referral.url, (req, res, next) => {
+
+    const { error } = getUserSchema.validate(req.body);
+    if (error) return next(new InvalidPayloadException(error.message));
+
+    const userid = req.body.userid;
+
+    const referralService = new ItemsService(config.tables.referral.table, { schema: req.schema });
+    referralService
+      .readByQuery({ sort: 'userid', fields: ['*'] })
+      .then(results => {
+
+        let userReferrals = [];
+        for (let i = 0; i < results.length; i++) {
+          if ( results[i].userid == userid ) {
+            //console.log("Userid: ", results[i].userid );
+            userReferrals.push(results[i]);
+          }
+        }
+
+        const logData = {
+          loggingtypeid: config.uRLs.referral.index,
+          loggingtype: "URL",
+          data: `get ${config.uRLs.referral.url} ${userid}`
+        }
+        logger.log(ItemsService, logData, req.schema)
+
+        return res.send(JSON.stringify(userReferrals));
+      })
+      .catch(function (error) {
+
+        console.error(error.message)
+        return next(new ServiceUnavailableException(error.message));
+      })
+    //return res.send(JSON.stringify(token));
+	});
+
+  router.get(config.uRLs.reward.url, (req, res, next) => {
+
+    const { error } = getUserSchema.validate(req.body);
+    if (error) return next(new InvalidPayloadException(error.message));
+
+    const userid = req.body.userid;
+
+    const rewardService = new ItemsService(config.tables.reward.table, { schema: req.schema });
+    rewardService
+      .readByQuery({ sort: 'userid', fields: ['*'] })
+      .then(results => {
+
+        let userRewards = [];
+        for (let i = 0; i < results.length; i++) {
+          if ( results[i].userid == userid ) {
+            //console.log("Userid: ", results[i].userid );
+            userRewards.push(results[i]);
+          }
+        }
+
+        const logData = {
+          loggingtypeid: config.uRLs.reward.index,
+          loggingtype: "URL",
+          data: `get ${config.uRLs.reward.url} ${userid}`
+        }
+        logger.log(ItemsService, logData, req.schema)
+        return res.send(JSON.stringify(userRewards));
+      })
+      .catch(function (error) {
+
+        console.error(error.message)
+        return next(new ServiceUnavailableException(error.message));
+      })
+    //return res.send(JSON.stringify(token));
+	});
+
+  router.post(config.uRLs.reward.url, (req, res, next) => {
+
+    const { error } = postRewardSchema.validate(req.body);
+    if (error) return next(new InvalidPayloadException(error.message));
+
+    const userid = req.body.userid;
+    const amount = req.body.amount;
+    const reason = req.body.reason;
+    const extrainfo = req.body.extrainfo ? req.body.extrainfo : "";
+
+    const rewardService = new ItemsService(config.tables.reward.table, { schema: req.schema });
+    rewardService
+       .create({'userid': userid, 'amount': amount, 'reason': reason, 'extrainfo': extrainfo})
+       .then(id => {
+
+         const logData = {
+           loggingtypeid: id,
+           loggingtype: "Reward",
+           data: userid
+         }
+         logger.log(ItemsService, logData, req.schema)
+
+         return res.json("OK");
+
+       })
+       .catch((error) => {
+
+         console.error(error.message, userid, amount, reason, extrainfo)
+         return next(new ServiceUnavailableException(error.message));
+
+       });
+    //return res.send(JSON.stringify(token));
+	});
+
+  router.get(config.uRLs.token.url, (req, res, next) => {
 
     const token = {
       tokenId: config.tokenID,
@@ -45,7 +163,7 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
     const logData = {
       loggingtypeid: config.uRLs.token.index,
       loggingtype: "URL",
-      data: config.uRLs.token.url
+      data: `get ${config.uRLs.token.url}`
     }
     logger.log(ItemsService, logData, req.schema)
 
@@ -72,7 +190,7 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
         const logData = {
           loggingtypeid: config.uRLs.cmd.index,
           loggingtype: "URL",
-          data: config.uRLs.cmd.url
+          data: `post ${config.uRLs.cmd.url} ${cmd}`
         }
         logger.log(ItemsService, logData, req.schema)
 
@@ -237,7 +355,7 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
                   const logData = {
                     loggingtypeid: id,
                     loggingtype: "Reward",
-                    data: "Claimed"
+                    data: `Claimed ${uid}`
                   }
                   logger.log(ItemsService, logData, req.schema)
 
