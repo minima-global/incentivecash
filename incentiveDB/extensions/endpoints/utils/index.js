@@ -1,6 +1,7 @@
 const Joi = require("joi");
 
 const config = require ('../config');
+const logger = require ('../logger');
 
 const keySchema = Joi.object({
   userid: Joi.string().required()
