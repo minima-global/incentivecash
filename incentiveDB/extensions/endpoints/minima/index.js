@@ -41,7 +41,6 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
       if ( token.tokenid == config.tokenID ) {
 
         scaleFactor = token.scalefactor;
-        //console.log("Got scale factor!", token.scalefactor);
       }
     });
   };

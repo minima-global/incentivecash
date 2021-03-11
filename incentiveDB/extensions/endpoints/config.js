@@ -17,6 +17,9 @@ const blocksPerDay = 86400 / blockTimeSeconds;
 const blocksPerBatch = numDaysPerBatch * blocksPerDay;
 const blockWindow = 180;
 
+const JSONRPCVERSION = "2.0"
+const minimaRPC = "MinimaRPC"
+
 const uRLs = {
   token: {
     url: "/token",
@@ -107,3 +110,5 @@ exports.blocksPerBatch = blocksPerBatch;
 exports.blockWindow = blockWindow;
 exports.uRLs = uRLs;
 exports.tables = tables;
+exports.JSONRPCVERSION = JSONRPCVERSION;
+exports.minimaRPC = minimaRPC;
