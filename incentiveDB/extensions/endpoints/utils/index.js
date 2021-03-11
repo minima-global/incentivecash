@@ -1,6 +1,7 @@
 const Joi = require("joi");
 
 const config = require ('../config');
+const logger = require ('../logger');
 
 const keySchema = Joi.object({
   userid: Joi.string().required()
@@ -11,7 +12,7 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
   const { ItemsService, UsersService } = services;
 	const { InvalidPayloadException, ServiceUnavailableException } = exceptions;
 
-  router.get('/futureAddress', (req, res) => {
+  router.get(config.uRLs.futureAddress.url, (req, res) => {
 
     const future = {
       futureAddress: `${config.futureAddress}`
@@ -21,18 +22,16 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
 
 	});
 
-  router.post('/getKey', (req, res, next) => {
+  router.post(config.uRLs.getKey.url, (req, res, next) => {
 
     const { error } = keySchema.validate(req.body);
     if (error) return next(new InvalidPayloadException(error.message));
     const userid = req.body.userid
 
-    const walletService = new ItemsService('wallet', { schema: req.schema });
+    const walletService = new ItemsService(config.tables.wallet.table, { schema: req.schema });
 		walletService
 			.readByQuery({ sort: 'userid', fields: ['*'] })
 			.then((results) => {
-
-        //console.log("got users: ", results)
 
         let pubkeys = [];
         for (let i = 0; i < results.length; i++) {
@@ -41,6 +40,13 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
             pubkeys.push(results[i].publickey);
           }
         }
+
+        const logData = {
+          loggingtypeid: config.uRLs.getKey.index,
+          loggingtype: "URL",
+          data: `post ${config.uRLs.getKey.url} userid`
+        }
+        logger.log(ItemsService, logData, req.schema)
 
         const userKeys = {
           publickeys: pubkeys

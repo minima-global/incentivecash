@@ -172,13 +172,14 @@ export const registerPassword = (user: UserRegisterPassword) => {
         //console.log("here with new user data: ", data)
 
         const welcomeReward = {
-          userid: data.id,
+          userid: data.data.id,
           amount: Dbase.welcomeReward,
-          reason: Dbase.welcomeText,
-          extrainfo: `${user.referral} ${user.email}`
+          reason: Dbase.welcomeText
         }
 
-        const postURL = `${dbase}${Remote.itemsPath}/${Dbase.rewardsTable}`
+        //console.log("welcome reward: ", welcomeReward)
+
+        const postURL = `${dbase}${Remote.customPath}${Remote.rewardsPath}`
 
         dispatch(postPublicData(postURL, welcomeReward))
 
