@@ -36,10 +36,9 @@ let MinimaService = class MinimaService {
         this._StoreService = _StoreService;
         minima__WEBPACK_IMPORTED_MODULE_3__["Minima"].init((msg) => {
             if (msg.event === 'newblock') {
-                console.log(msg);
                 this._StoreService.pollCash();
                 this._StoreService.getUserDetailsOnce().then((res) => {
-                    this._StoreService.fetchRewards(res.refID, res.loginData.access_token);
+                    this._StoreService.fetchRewards(res.refID);
                 });
             }
         });
@@ -142,58 +141,121 @@ const environment = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StoreService", function() { return StoreService; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "mrSG");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "qCKp");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "kU1M");
-/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! minima */ "Kmpd");
-/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(minima__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _directus_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./directus.service */ "o2mp");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs */ "qCKp");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "kU1M");
+/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! minima */ "Kmpd");
+/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(minima__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
 
 
 let StoreService = class StoreService {
-    constructor() {
+    constructor(_directus) {
+        this._directus = _directus;
         this.timescript = 'LET owner = PREVSTATE ( 0 ) LET time = PREVSTATE ( 1 ) RETURN SIGNEDBY ( owner ) AND @BLKNUM GTE time';
         this.timescript_v2 = 'LET owner = PREVSTATE ( 0 ) LET time = PREVSTATE ( 1 ) LET maxtime = PREVSTATE ( 2 ) RETURN SIGNEDBY ( owner ) AND @BLKNUM GTE time AND @BLKNUM LTE maxtime';
         this.timeaddress_v2 = '0xA9D9272A6D69466A2905796F7381F789DEE48C06';
         this.timeaddress = '0x73349B30EA22B0B0867C6081EE7F6B014D3C9E88';
-        this.data = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
-        this.cashlist = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
-        this.tokenId = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
-        this.rewards = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
-        this.referralCode = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
-        this.lastAccess = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"](1);
+        this.data = new rxjs__WEBPACK_IMPORTED_MODULE_3__["ReplaySubject"](1);
+        this.cashlist = new rxjs__WEBPACK_IMPORTED_MODULE_3__["ReplaySubject"](1);
+        this.tokenId = new rxjs__WEBPACK_IMPORTED_MODULE_3__["ReplaySubject"](1);
+        this.rewards = new rxjs__WEBPACK_IMPORTED_MODULE_3__["ReplaySubject"](1);
+        this.referralCode = new rxjs__WEBPACK_IMPORTED_MODULE_3__["ReplaySubject"](1);
+        this.lastAccess = new rxjs__WEBPACK_IMPORTED_MODULE_3__["ReplaySubject"](1);
         // track this script
-        minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].cmd('extrascript \"' + this.timescript_v2 + "\"", (res) => { });
+        minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].cmd('extrascript \"' + this.timescript_v2 + "\"", (res) => { });
         this.getUserDetailsOnce().then((res) => {
-            this.fetchRewards(res.refID, res.loginData.access_token);
-            this.fetchRerral(res.refID, res.loginData.access_token);
+            this.fetchRewards(res.refID);
+            this.fetchRerral(res.refID);
+            this.fetchTokenID();
         });
-        this.fetchTokenID();
+    }
+    checkRefreshToken() {
+        console.log('CHECK REFRESH TOKEN');
+        this.getUserDetailsOnce().then((res) => {
+            let expiry_time = res.loginData.sessions.sessionEnd.getTime();
+            let current_time = new Date().getTime();
+            let refresh_token = res.loginData.refresh_token;
+            let time_apart = expiry_time - current_time;
+            console.log(time_apart);
+            if (time_apart <= 300000) {
+                console.log('LESS THAN 5 mins LEFT, Time to update access_token');
+                // time to get a new access_token
+                if (refresh_token && refresh_token.length > 0)
+                    this.updateAccessToken(refresh_token);
+            }
+        });
+    }
+    updateAccessToken(refresh_token) {
+        console.log('UPDATINGACCESSTOKEN');
+        const data = {
+            refresh_token: refresh_token
+        };
+        const url = 'https://incentivedb.minima.global/auth/refresh';
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((response) => {
+            if (!response.ok) {
+                console.log('Failed to get a new token');
+                let status = response.status;
+                let statusText = response.statusText;
+                return response.json()
+                    .then((data) => {
+                    throw new Error('Error ' + status + ' ' + statusText);
+                });
+            }
+            return response.json();
+        }).then(data => {
+            console.log(data);
+            this.getUserDetailsOnce().then((user) => {
+                let temp = user;
+                console.log('Old User Data');
+                console.log(temp);
+                temp.loginData.access_token = data.access_token;
+                temp.loginData.refresh_token = data.refresh_token;
+                temp.loginData.expires = data.expires;
+                // update session times
+                let sessionStart = new Date();
+                let currentTime = sessionStart.getTime();
+                let expiryTime = currentTime + temp.loginData.expires;
+                let sessionEnd = new Date(expiryTime);
+                temp.loginData.sessions.sessionStart = sessionStart;
+                temp.loginData.sessions.sessionEnd = sessionEnd;
+                this.data.next(temp);
+                console.log(temp);
+            });
+        });
     }
     getUserDetailsOnce() {
-        return this.data.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["take"])(1))
+        return this.data.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["take"])(1))
             .toPromise();
     }
-    fetchRewards(uid, tkn) {
-        const url = 'https://incentivedb.minima.global/items/reward?filter={ "Userid": { "_eq": "' + uid + '"}}';
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ` + tkn
-            }
-        })
+    fetchRewards(uid) {
+        this._directus.fetchRewards(uid)
             .then((res) => {
             if (!res.ok) {
-                console.log('Failed to retrieve ' + uid + '\'s rewards');
+                console.log('minima/getRewards failed to fetch resources.');
             }
-            return res.json()
-                .then((data) => {
-                let json = data;
-                this.rewards.next(json);
-            });
+            return res.json();
+        }).then(data => {
+            console.log(data);
+            if (data.errors) {
+                console.log(data.errors);
+            }
+            else {
+                console.log('Observable rewards updated.');
+                this.rewards.next(data);
+            }
+        }).catch((error) => {
+            console.log(error);
         });
     }
     fetchTokenID() {
@@ -203,42 +265,58 @@ let StoreService = class StoreService {
             headers: {
                 'Content-Type': 'application/json',
             }
-        })
-            .then((res) => {
-            if (!res.ok) {
-                console.log('Failed to get token');
-            }
-            return res.json()
-                .then((data) => {
-                console.log(data);
-                let json = data;
-                this.tokenId.next(json);
-            });
+        }).then(response => {
+            console.log(response);
+            return response.json();
+        }).then(data => {
+            console.log(data);
+            this.tokenId.next(data);
+        }).catch(error => {
+            console.log(error);
         });
+        // this._directus.getTokenId()
+        // .then(res => {
+        //   console.log(res);
+        //   // if (!res.ok) {
+        //   //    console.log('/custom/minima/token failed to fetch resources.')
+        //   //    console.log(res);
+        //   // }
+        //   // return res.json()
+        // }).then(data => {
+        //   // console.log(data);
+        //   // if (data.errors) {
+        //   //   console.log(data.errors);
+        //   // } else {
+        //   //   this.tokenId.next(data)
+        //   // }
+        // }).catch((error) => {
+        //   console.log(error) }
+        // );
     }
-    fetchRerral(uid, tkn) {
-        const url = 'https://incentivedb.minima.global/items/referral?filter={ "Userid": { "_eq": "' + uid + '"}}';
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ` + tkn
-            }
-        })
+    fetchRerral(uid) {
+        this._directus.getReferral(uid)
             .then((res) => {
             if (!res.ok) {
-                console.log('Failed to get referral code');
+                console.log('/minima/utils/getReferral failed to fetch resources');
+                console.log(res);
             }
-            return res.json()
-                .then((data) => {
-                let json = data;
-                console.log('Fetched referral code: ' + JSON.stringify(json));
-                this.referralCode.next(json);
-            });
+            return res.json();
+        }).then(data => {
+            console.log(data);
+            if (data.errors) {
+                console.log(data.errors);
+            }
+            else {
+                console.log('Observable referralCode has been updated');
+                this.referralCode.next(data);
+            }
+            this.referralCode.next(data);
+        }).catch(error => {
+            console.log(error);
         });
     }
     pollCash() {
-        minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].cmd('coins relevant address:' + this.timeaddress_v2, (res) => {
+        minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].cmd('coins relevant address:' + this.timeaddress_v2, (res) => {
             this.tokenId.subscribe((token) => {
                 if (res.status) {
                     let temp = [];
@@ -246,9 +324,9 @@ let StoreService = class StoreService {
                         // scaleFactor
                         let scale = coin.data.coin.amount * token.scaleFactor;
                         // progressBar
-                        let percent = ((minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block / coin.data.prevstate[1].data) * 10) / 10;
+                        let percent = ((minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].block / coin.data.prevstate[1].data) * 10) / 10;
                         // actualTime
-                        let diff = coin.data.prevstate[1].data - minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block;
+                        let diff = coin.data.prevstate[1].data - minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].block;
                         let today = new Date();
                         // todays milliseconds
                         let ms = today.getTime();
@@ -259,13 +337,13 @@ let StoreService = class StoreService {
                         // difference
                         let difference = total_ms - ms;
                         if (coin.data.coin.tokenid === token.tokenId) {
-                            if (coin.data.prevstate[1] && (coin.data.prevstate[1].data > minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block)) {
+                            if (coin.data.prevstate[1] && (coin.data.prevstate[1].data > minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].block)) {
                                 temp.push({ index: i + 1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, scale: scale, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data, percent: percent });
                             }
-                            else if ((coin.data.prevstate[0] && coin.data.prevstate[1] && coin.data.prevstate[2]) && (coin.data.prevstate[1].data <= minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block && coin.data.prevstate[2].data >= minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block)) {
+                            else if ((coin.data.prevstate[0] && coin.data.prevstate[1] && coin.data.prevstate[2]) && (coin.data.prevstate[1].data <= minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].block && coin.data.prevstate[2].data >= minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].block)) {
                                 temp.push({ index: i + 1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, scale: scale, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Ready', blockno: coin.data.prevstate[1].data, percent: percent });
                             }
-                            else if ((coin.data.prevstate[0] && coin.data.prevstate[1] && coin.data.prevstate[2]) && (coin.data.prevstate[1].data <= minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block && coin.data.prevstate[2].data <= minima__WEBPACK_IMPORTED_MODULE_4__["Minima"].block)) {
+                            else if ((coin.data.prevstate[0] && coin.data.prevstate[1] && coin.data.prevstate[2]) && (coin.data.prevstate[1].data <= minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].block && coin.data.prevstate[2].data <= minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].block)) {
                                 temp.push({ index: i + 1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, scale: scale, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Missed', blockno: coin.data.prevstate[1].data, percent: percent });
                             }
                         }
@@ -276,9 +354,11 @@ let StoreService = class StoreService {
         });
     }
 };
-StoreService.ctorParameters = () => [];
+StoreService.ctorParameters = () => [
+    { type: _directus_service__WEBPACK_IMPORTED_MODULE_1__["DirectusService"] }
+];
 StoreService = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
-    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Injectable"])({
         providedIn: 'root'
     })
 ], StoreService);
@@ -366,21 +446,22 @@ let AuthService = class AuthService {
     constructor(jwtHelper, _StoreService) {
         this.jwtHelper = jwtHelper;
         this._StoreService = _StoreService;
+        this.session = 0;
+        this.currentTime = 0;
+        this.sessionEnd = 0;
     }
     isAuthenticated() {
-        var token = '';
-        this._StoreService.data.subscribe((user) => {
-            token = user.loginData.access_token;
-            if (token.length > 0) {
-                return true;
-            }
+        return !!this.checkSessions();
+    }
+    checkSessions() {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            yield this._StoreService.getUserDetailsOnce().then((user) => {
+                this.currentTime = new Date().getTime();
+                this.sessionEnd = user.loginData.sessions.sessionEnd.getTime();
+                this.session = this.sessionEnd - this.currentTime;
+                return this.session;
+            });
         });
-        if (token.length > 0) {
-            return true;
-        }
-        else {
-            return false;
-        }
     }
 };
 AuthService.ctorParameters = () => [
@@ -697,6 +778,120 @@ webpackAsyncContext.keys = function webpackAsyncContextKeys() {
 };
 webpackAsyncContext.id = "kLfG";
 module.exports = webpackAsyncContext;
+
+/***/ }),
+
+/***/ "o2mp":
+/*!*****************************************!*\
+  !*** ./src/app/api/directus.service.ts ***!
+  \*****************************************/
+/*! exports provided: DirectusService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DirectusService", function() { return DirectusService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "mrSG");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "fXoL");
+
+
+let DirectusService = class DirectusService {
+    constructor() { }
+    _get(url) {
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }).then(response => {
+            return response.json();
+        }).catch(error => {
+            console.log(error);
+        });
+    }
+    get(url, data) {
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        }).then(response => {
+            return response;
+        }).catch(error => {
+            console.log(error);
+        });
+    }
+    post(url, data) {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            return fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then((response) => {
+                return response;
+            }).catch(error => {
+                console.log(error);
+            });
+        });
+    }
+    tknPost(url, data, token) {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            return fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `bearer ` + token
+                },
+                body: JSON.stringify(data)
+            }).then((response) => {
+                return response;
+            }).catch((error) => {
+                console.log(error);
+            });
+        });
+    }
+    getTokenId() {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            const url = 'https://incentivedb.minima.global/custom/minima/token';
+            return this._get(url);
+        });
+    }
+    getReferral(uid) {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            const url = 'https://incentivedb.minima.global/custom/minima/getReferral';
+            return this.post(url, { "userid": uid });
+        });
+    }
+    getKey(uid) {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            const url = 'https://incentivedb.minima.global/custom/utils/getKey';
+            return this.post(url, { "userid": uid });
+        });
+    }
+    postAKey(data) {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            const url = 'https://incentivedb.minima.global/custom/minima/key';
+            return this.post(url, data);
+        });
+    }
+    fetchRewards(uid) {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            const url = 'https://incentivedb.minima.global/custom/minima/getReward';
+            return this.post(url, { "userid": uid });
+        });
+    }
+};
+DirectusService.ctorParameters = () => [];
+DirectusService = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+        providedIn: 'root'
+    })
+], DirectusService);
+
+
 
 /***/ }),
 

@@ -67,6 +67,7 @@ let ContactPage = class ContactPage {
         this._storeService = _storeService;
     }
     ngOnInit() {
+        this._storeService.checkRefreshToken();
     }
     signOut() {
         document.getElementById('sign-out-btn').style.opacity = '0.5';

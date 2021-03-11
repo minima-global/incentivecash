@@ -93,6 +93,46 @@ HomePageModule = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
 
 /***/ }),
 
+/***/ "d1rb":
+/*!**************************************!*\
+  !*** ./src/app/api/login.service.ts ***!
+  \**************************************/
+/*! exports provided: LoginService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginService", function() { return LoginService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "mrSG");
+/* harmony import */ var _directus_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./directus.service */ "o2mp");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "fXoL");
+
+
+
+let LoginService = class LoginService {
+    constructor(_directus) {
+        this._directus = _directus;
+    }
+    login(user) {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            const url = "https://incentivedb.minima.global/auth/login";
+            return this._directus.post(url, user);
+        });
+    }
+};
+LoginService.ctorParameters = () => [
+    { type: _directus_service__WEBPACK_IMPORTED_MODULE_1__["DirectusService"] }
+];
+LoginService = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Injectable"])({
+        providedIn: 'root'
+    })
+], LoginService);
+
+
+
+/***/ }),
+
 /***/ "f6od":
 /*!*************************************!*\
   !*** ./src/app/home/home.page.scss ***!
@@ -119,12 +159,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "mrSG");
 /* harmony import */ var _raw_loader_home_page_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! raw-loader!./home.page.html */ "WcN3");
 /* harmony import */ var _home_page_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./home.page.scss */ "f6od");
-/* harmony import */ var _api_store_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../api/store.service */ "IcAf");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/router */ "tyNb");
-/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! minima */ "Kmpd");
-/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(minima__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _api_directus_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../api/directus.service */ "o2mp");
+/* harmony import */ var _api_login_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../api/login.service */ "d1rb");
+/* harmony import */ var _api_store_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../api/store.service */ "IcAf");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/router */ "tyNb");
+/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! minima */ "Kmpd");
+/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(minima__WEBPACK_IMPORTED_MODULE_9__);
+
+
 
 
 
@@ -134,7 +178,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let HomePage = class HomePage {
-    constructor(formBuilder, router, _storeService) {
+    constructor(_loginService, _directus, formBuilder, router, _storeService) {
+        this._loginService = _loginService;
+        this._directus = _directus;
         this.formBuilder = formBuilder;
         this.router = router;
         this._storeService = _storeService;
@@ -148,6 +194,7 @@ let HomePage = class HomePage {
         });
     }
     getReferenceID() {
+        console.log('GETTING USER ID');
         const user = {
             email: this.username.value,
             password: this.password.value
@@ -156,89 +203,85 @@ let HomePage = class HomePage {
         this.getReferenceButton.disabled = true;
         this.login(user);
     }
-    getPubKey() {
-        this._storeService.getUserDetailsOnce().then((user) => {
-            console.log('uid' + user.loginData.access_token + ' refId' + user.refID);
-            const data = {
-                userid: user.refID
-            };
-            const url = 'https://incentivedb.minima.global/custom/utils/getKey';
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ` + user.loginData.access_token
-                },
-                body: JSON.stringify(data)
-            })
-                .then(response => {
-                if (!response.ok) {
-                    this.loginStatus = 'Login failed!  Public key not found!';
-                    const statusText = response.statusText;
-                    return response.json()
-                        .then((data) => {
-                        throw new Error(statusText);
+    getPubKey(user) {
+        // console.log('GETTING PUB KEY');
+        this._directus.getKey(user.refID)
+            .then((res) => {
+            if (!res.ok) {
+                this.loginStatus = 'Login Failed! Public key not found.';
+                this.getReferenceButton.disabled = false;
+            }
+            return res.json();
+        }).then(data => {
+            console.log(data);
+            if (data.errors) {
+                this.loginStatus = data.errors[0].message;
+            }
+            else if (data.publickeys) {
+                this.checkPubKey(user, data);
+            }
+        }).catch(error => {
+            console.log(error);
+        }).finally(() => {
+            this.loginStatus = '';
+            this.getReferenceButton.disabled = false;
+        });
+    }
+    checkPubKey(user, data) {
+        // check if current key exists on server
+        if (data.publickeys && data.publickeys.length === 0) {
+            // post a new key
+            this.postAKey(user.refID);
+        }
+        else {
+            // check current keys with remote keys to find a match
+            let nodeKeys = [];
+            let serverKeys = data.publickeys;
+            minima__WEBPACK_IMPORTED_MODULE_9__["Minima"].cmd('keys', (res) => {
+                if (res.status) {
+                    // console.log(res);
+                    res.response.publickeys.forEach(element => {
+                        nodeKeys.push(element);
                     });
                 }
-                return response.json();
-            })
-                .then(data => {
-                // check if current key exists on server
-                if (data.publickeys && data.publickeys.length === 0) {
-                    // post a new key
+                // matching keys found
+                const intersection = nodeKeys.filter(element => serverKeys.includes(element.publickey));
+                if (intersection.length === 0) {
                     this.postAKey(user.refID);
                 }
                 else {
-                    // check current keys with remote keys to find a match
-                    let nodeKeys = [];
-                    let serverKeys = data.publickeys;
-                    minima__WEBPACK_IMPORTED_MODULE_7__["Minima"].cmd('keys', (res) => {
-                        if (res.status) {
-                            // console.log(res);
-                            res.response.publickeys.forEach(element => {
-                                nodeKeys.push(element);
-                            });
-                        }
-                        // matching keys found
-                        const intersection = nodeKeys.filter(element => serverKeys.includes(element.publickey));
-                        if (intersection.length === 0) {
-                            this.postAKey(user.refID);
+                    this.loginStatus = 'Login successful!';
+                    this.lastAccess();
+                    minima__WEBPACK_IMPORTED_MODULE_9__["Minima"].file.load('first.txt', (res) => {
+                        if (res.success) {
+                            this.router.navigate(['/rewards']);
                         }
                         else {
-                            this.loginStatus = 'Login successful!';
-                            this.lastAccess();
-                            minima__WEBPACK_IMPORTED_MODULE_7__["Minima"].file.load('first.txt', (res) => {
-                                if (res.success) {
-                                    this.router.navigate(['/rewards']);
-                                }
-                                else {
-                                    this.router.navigate(['/welcome']);
-                                }
-                            });
-                            this.loginForm.reset();
-                            this.loginStatus = '';
-                            let temp = user;
-                            temp.pKey = intersection[0].publickey;
-                            this._storeService.data.next(temp);
+                            this.router.navigate(['/welcome']);
                         }
                     });
+                    this.loginForm.reset();
+                    this.loginStatus = '';
+                    let temp = user;
+                    temp.pKey = intersection[0].publickey;
+                    this._storeService.data.next(temp);
                 }
-            })
-                .catch(error => {
-                alert(error);
             });
-        });
+        }
     }
     postAKey(uid) {
         const url = 'https://incentivedb.minima.global/custom/minima/key';
-        minima__WEBPACK_IMPORTED_MODULE_7__["Minima"].cmd('keys new; newaddress', (response) => {
-            if (minima__WEBPACK_IMPORTED_MODULE_7__["Minima"].util.checkAllResponses(response)) {
+        minima__WEBPACK_IMPORTED_MODULE_9__["Minima"].cmd('keys new; newaddress', (response) => {
+            if (minima__WEBPACK_IMPORTED_MODULE_9__["Minima"].util.checkAllResponses(response)) {
                 if (uid && uid.length > 0 && response[0] && response[1] && response[0].response.key.publickey && response[1].response.address.hexaddress) {
                     const data = {
                         userid: uid,
                         publickey: response[0].response.key.publickey,
                         address: response[1].response.address.hexaddress
                     };
+                    this._directus.postAKey(data)
+                        .then(res => {
+                    });
                     fetch(url, {
                         method: 'POST',
                         headers: {
@@ -261,7 +304,7 @@ let HomePage = class HomePage {
                         .then(data => {
                         this.loginStatus = 'Login successful!';
                         this.lastAccess();
-                        minima__WEBPACK_IMPORTED_MODULE_7__["Minima"].file.load('first.txt', (res) => {
+                        minima__WEBPACK_IMPORTED_MODULE_9__["Minima"].file.load('first.txt', (res) => {
                             if (res.success) {
                                 this.router.navigate(['/rewards']);
                             }
@@ -276,7 +319,7 @@ let HomePage = class HomePage {
                             temp.pKey = response[0].response.key.publickey;
                             this._storeService.data.next(temp);
                             // save this for service.js
-                            minima__WEBPACK_IMPORTED_MODULE_7__["Minima"].file.save(JSON.stringify({ uid: user.refID }), 'uid.txt', (res) => { });
+                            minima__WEBPACK_IMPORTED_MODULE_9__["Minima"].file.save(JSON.stringify({ uid: user.refID }), 'uid.txt', (res) => { });
                         });
                     })
                         .catch(errors => {
@@ -290,36 +333,49 @@ let HomePage = class HomePage {
         });
     }
     login(user) {
-        const url = 'https://incentivedb.minima.global/auth/login';
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(user)
-        }).then((res) => {
+        console.log('LOGGING IN');
+        this._loginService.login(user)
+            .then((res) => {
             if (!res.ok) {
                 this.loginStatus = 'Sign in failed! Check your sign in details.';
                 this.getReferenceButton.disabled = false;
-                let statusText = res.statusText;
-                return res.json()
-                    .then((data) => {
-                    throw new Error(statusText);
-                });
             }
             return res.json();
+        }).then(data => {
+            //console.log(data);
+            if (data.errors) {
+                this.loginStatus = data.errors[0].message;
+            }
+            else if (data.data.access_token) {
+                this.loginStatus = 'Authenticated!  Checking public key...';
+                const token = {
+                    access_token: data.data.access_token,
+                    refresh_token: data.data.refresh_token,
+                    expires: data.data.expires
+                };
+                this.updateUserData(token);
+            }
         })
-            .then(data => {
-            this.loginStatus = 'Authenticated!  Checking public key...';
-            // accessToken
-            const token = {
-                accessToken: data.data.access_token,
-                refreshToken: data.data.refresh_token,
-                info: {}
-            };
-            const url = 'https://incentivedb.minima.global/users/me?access_token=' + token.accessToken + '';
-            minima__WEBPACK_IMPORTED_MODULE_7__["Minima"].net.GET(url, (res) => {
+            .catch(error => console.warn(error))
+            .finally(() => {
+            setTimeout(() => {
+                this.getReferenceButton.disabled = false;
+                this.loginStatus = '';
+            }, 5000);
+        });
+    }
+    updateUserData(token) {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            const url = 'https://incentivedb.minima.global/users/me?access_token=' + token.access_token + '';
+            minima__WEBPACK_IMPORTED_MODULE_9__["Minima"].net.GET(url, (res) => {
+                //console.log(res);
+                // create sessions
+                let sessionStart = new Date();
+                let currentTime = sessionStart.getTime();
+                let expiryTime = currentTime + token.expires;
+                let sessionEnd = new Date(expiryTime);
                 let plainResponse = decodeURIComponent(res.result);
+                //console.log(plainResponse);
                 let data = JSON.parse(plainResponse);
                 if (data && data.data.id.length !== 0) {
                     let user = {
@@ -328,25 +384,22 @@ let HomePage = class HomePage {
                         refID: data.data.id,
                         loginData: {
                             access_token: token.accessToken,
-                            refresh_token: token.refreshToken
+                            refresh_token: token.refreshToken,
+                            expires: token.expires,
+                            sessions: {
+                                sessionStart: sessionStart,
+                                sessionEnd: sessionEnd
+                            }
                         }
                     };
                     this._storeService.data.next(user);
-                    this.getPubKey();
+                    this.getPubKey(user);
                 }
                 else {
                     console.log('Failed to retrieve user details from server..');
                 }
             });
-        })
-            .catch(error => {
-            alert(error);
-        })
-            .catch(error => {
-            alert(error);
         });
-        this.getReferenceButton.disabled = false;
-        this.loginStatus = '';
     }
     lastAccess() {
         // GET CURRENT TIME
@@ -365,15 +418,17 @@ let HomePage = class HomePage {
     }
 };
 HomePage.ctorParameters = () => [
-    { type: _angular_forms__WEBPACK_IMPORTED_MODULE_5__["FormBuilder"] },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_6__["Router"] },
-    { type: _api_store_service__WEBPACK_IMPORTED_MODULE_3__["StoreService"] }
+    { type: _api_login_service__WEBPACK_IMPORTED_MODULE_4__["LoginService"] },
+    { type: _api_directus_service__WEBPACK_IMPORTED_MODULE_3__["DirectusService"] },
+    { type: _angular_forms__WEBPACK_IMPORTED_MODULE_7__["FormBuilder"] },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_8__["Router"] },
+    { type: _api_store_service__WEBPACK_IMPORTED_MODULE_5__["StoreService"] }
 ];
 HomePage.propDecorators = {
-    getReferenceButton: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_4__["ViewChild"], args: ['getReferenceButton', { static: false },] }]
+    getReferenceButton: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_6__["ViewChild"], args: ['getReferenceButton', { static: false },] }]
 };
 HomePage = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
-    Object(_angular_core__WEBPACK_IMPORTED_MODULE_4__["Component"])({
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_6__["Component"])({
         selector: 'app-home',
         template: _raw_loader_home_page_html__WEBPACK_IMPORTED_MODULE_1__["default"],
         styles: [_home_page_scss__WEBPACK_IMPORTED_MODULE_2__["default"]]

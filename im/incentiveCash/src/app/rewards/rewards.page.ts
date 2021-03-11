@@ -1,5 +1,5 @@
 import { IonSegment } from '@ionic/angular';
-import { StoreService, Rewards, Reward, UserDetails } from './../api/store.service';
+import { StoreService, Rewards, UserDetails } from './../api/store.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 
@@ -12,25 +12,29 @@ export class RewardsPage implements OnInit {
   
 
   @ViewChild('claimedSegment', {static: false}) claimedSegment: IonSegment;
-  rewardList: Reward[] = [];
+  rewardList: Rewards[] = [];
   totalClaimed = 0;
   shownSegments = 'unclaimed';
 
   constructor(private _storeService: StoreService) { }
 
   ngOnInit() {
-    this._storeService.rewards.subscribe((res: Rewards) => {
+    this._storeService.checkRefreshToken();
+
+    this._storeService.rewards.subscribe((res: Rewards[]) => {
       this.rewardList = [];
       this.totalClaimed = 0;
-    
-      res.data.forEach((reward: Reward) => {
-        let date = new Date(reward.date_created);
-        let ms = date.getTime();
-        let format = moment(ms).format('DD-MM-YYYY HH:mm:ss');
-        reward.date_created = format;
-        this.rewardList.push(reward);
-        this.totalClaimed += reward.amount;
-      })
+      // console.log(res);
+      if (res) {
+        res.forEach((reward: Rewards) => {
+          let date = new Date(reward.date_created);
+          let ms = date.getTime();
+          let format = moment(ms).format('DD-MM-YYYY HH:mm:ss');
+          reward.date_created = format;
+          this.rewardList.push(reward);
+          this.totalClaimed += reward.amount;
+        })
+      }
     });
   }
 

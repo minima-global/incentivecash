@@ -52,23 +52,30 @@
   </ion-header>
 
   <ion-grid class="table ion-no-padding">
-    <ion-row class="table-content ion-no-margin" id="row{{cash.coinid}}" *ngFor="let cash of cashlist">
-      <ion-col class="ion-text-left ion-no-padding"><p>{{cash.scale}}</p></ion-col>
-      <ion-col class="ion-text-left ion-no-padding"><p>{{cash.blockno}}</p></ion-col>
-      <ion-col class="ion-text-right ion-no-padding">
-        <p *ngIf="cash.status === 'Ready'" class="ion-no-padding">
-          <span (click)="collectCash(cash.coinid, cash.cash_amount, data.pKey, cash.tokenid, data.refID)" id="collect-btn{{cash.coinid}}">Collect</span>
-        </p>
-        <p *ngIf="cash.status === 'Missed'" class="ion-no-padding" style="color: red">
-          You were too late, &#9785;
-        </p>
-        <ion-progress-bar 
-        type="determinate"
-        value="{{cash.percent}}"
-        class="ion-no-padding ion-no-margin"
-        *ngIf="cash.status === 'Not Ready'"></ion-progress-bar>
+    <ion-row *ngIf="cashlist && cashlist.length === 0" class="ion-no-padding">
+      <ion-col class="empty-list ion-no-padding ion-text-center">
+        Your incentive cash will display here.
       </ion-col>
     </ion-row>
+    <div *ngIf="cashlist && cashlist.length > 0">
+      <ion-row class="table-content ion-no-margin" id="row{{cash.coinid}}" *ngFor="let cash of cashlist">
+        <ion-col class="ion-text-left ion-no-padding"><p>{{cash.scale}}</p></ion-col>
+        <ion-col class="ion-text-left ion-no-padding"><p>{{cash.blockno}}</p></ion-col>
+        <ion-col class="ion-text-right ion-no-padding">
+          <p *ngIf="cash.status === 'Ready'" class="ion-no-padding">
+            <span (click)="collectCash(cash.coinid, cash.cash_amount, data.pKey, cash.tokenid, data.refID)" id="collect-btn{{cash.coinid}}">Collect</span>
+          </p>
+          <p *ngIf="cash.status === 'Missed'" class="ion-no-padding" style="color: red">
+            You were too late, &#9785;
+          </p>
+          <ion-progress-bar 
+          type="determinate"
+          value="{{cash.percent}}"
+          class="ion-no-padding ion-no-margin"
+          *ngIf="cash.status === 'Not Ready'"></ion-progress-bar>
+        </ion-col>
+      </ion-row>
+    </div>
   </ion-grid>
 </ion-content>
 

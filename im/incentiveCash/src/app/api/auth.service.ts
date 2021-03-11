@@ -7,22 +7,23 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 })
 export class AuthService {
 
+  session = 0; 
+  currentTime = 0;
+  sessionEnd = 0;
   constructor(public jwtHelper: JwtHelperService, private _StoreService: StoreService) { }
 
   public isAuthenticated(): boolean {
-    var token = '';
-    this._StoreService.data.subscribe((user: UserDetails) => {
-      token = user.loginData.access_token;
+    return !!this.checkSessions();  
+  }
 
-      if (token.length > 0) {
-        return true;
-      }
-    });
+  async checkSessions() {    
+    await this._StoreService.getUserDetailsOnce().then((user: UserDetails) => {
+      this.currentTime = new Date().getTime();
+      this.sessionEnd = user.loginData.sessions.sessionEnd.getTime();
 
-    if (token.length > 0) {
-      return true;
-    } else {
-      return false;
-    }
+      this.session = this.sessionEnd - this.currentTime;
+      
+      return this.session;
+    })
   }
 }

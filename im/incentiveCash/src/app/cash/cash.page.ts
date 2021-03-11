@@ -39,18 +39,21 @@ export class CashPage implements OnInit {
     public toastController: ToastController) { }
 
   ngOnInit() {
+    this._storeService.checkRefreshToken();
+
     this._storeService.pollCash();
     this._storeService.data.subscribe((res: any) => {
       this.data = res;
     });
     this._storeService.cashlist.subscribe((res: IncentiveCash[]) => {
+      console.log(res);
       this.totalRemaining = 0;
       this.cashlist = res;
 
       this.cashlist = this.cashlist.slice().sort(this.byAscDate);
       this.cashlist.forEach(cash => {
         cash.millisecond = moment(cash.millisecond).format('DD-MM-YYYY HH:mm:ss');
-        this.totalRemaining += parseInt(cash.cash_amount);
+        this.totalRemaining += cash.scale;
       })
     });
   }

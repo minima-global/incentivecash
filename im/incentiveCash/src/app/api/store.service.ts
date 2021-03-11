@@ -1,3 +1,4 @@
+import { DirectusService } from './directus.service';
 import { Injectable } from '@angular/core';
 import { ReplaySubject, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -15,16 +16,27 @@ export interface Reward {
 }
 
 export interface Rewards {
-  data: Reward[]
+  amount: number,
+  date_created: any,
+  extrainfo: string,
+  reason: string
 }
+
+interface JWT {
+  access_token: string
+  expires: number
+  refresh_token: string
+  sessions: {
+    sessionStart: Date 
+    sessionEnd: Date
+  }
+}
+
 export interface UserDetails {
   email: string,
   refID: string,
   pKey: string,
-  loginData?: {
-    access_token: string
-    refresh_token: string
-  }
+  loginData?: JWT
 }
 
 export interface IncentiveCash {
@@ -45,13 +57,10 @@ interface IncentiveTokenID {
   scaleFactor: number
 }
 
-interface Referral {
+export interface ReferralCode {
   date_created: string
   id: number 
   name: string
-}
-export interface ReferralCode {
-  data: Referral[];
 }
 
 @Injectable({
@@ -67,18 +76,88 @@ export class StoreService {
   data: Subject<UserDetails> = new ReplaySubject<UserDetails>(1);
   cashlist: Subject<IncentiveCash[]> = new ReplaySubject<IncentiveCash[]>(1);
   tokenId: Subject<IncentiveTokenID> = new ReplaySubject<IncentiveTokenID>(1);
-  rewards: Subject<Rewards> = new ReplaySubject<Rewards>(1);
-  referralCode: Subject<ReferralCode> = new ReplaySubject<ReferralCode>(1);
+  rewards: Subject<Rewards[]> = new ReplaySubject<Rewards[]>(1);
+  referralCode: Subject<ReferralCode[]> = new ReplaySubject<ReferralCode[]>(1);
   lastAccess: Subject<LastAccess> = new ReplaySubject<LastAccess>(1);
 
-  constructor() {
+  constructor(private _directus: DirectusService) {
     // track this script
     Minima.cmd('extrascript \"'+this.timescript_v2+"\"", (res: any) => {});
     this.getUserDetailsOnce().then((res: UserDetails) => {
-      this.fetchRewards(res.refID, res.loginData.access_token);
-      this.fetchRerral(res.refID, res.loginData.access_token);
+      this.fetchRewards(res.refID);
+      this.fetchRerral(res.refID);
+      this.fetchTokenID();
     })
-    this.fetchTokenID();
+  }
+
+  checkRefreshToken() {
+    console.log('CHECK REFRESH TOKEN');
+
+    this.getUserDetailsOnce().then((res: UserDetails) => {
+      let expiry_time = res.loginData.sessions.sessionEnd.getTime();
+      let current_time = new Date().getTime();
+      let refresh_token = res.loginData.refresh_token;
+
+
+      let time_apart = expiry_time - current_time;
+      console.log(time_apart);
+      if (time_apart <= 300000) {
+        console.log('LESS THAN 5 mins LEFT, Time to update access_token');
+        // time to get a new access_token
+        if (refresh_token && refresh_token.length > 0)
+        this.updateAccessToken(refresh_token);
+      }
+
+
+    });
+  }
+
+  updateAccessToken(refresh_token: string) {
+    console.log('UPDATINGACCESSTOKEN');
+    const data = {
+      refresh_token: refresh_token
+    }
+    const url = 'https://incentivedb.minima.global/auth/refresh';
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }).then((response) => {
+      if (!response.ok) {
+        console.log('Failed to get a new token');
+        let status = response.status;
+        let statusText = response.statusText;
+        return response.json()
+        .then((data) => {
+          throw new Error('Error '+ status+' '+statusText);
+        })
+      }
+      return response.json()
+    }).then(data => {
+      console.log(data);
+
+      this.getUserDetailsOnce().then((user: UserDetails) => {
+        let temp = user;
+        console.log('Old User Data'); 
+        console.log(temp);
+        temp.loginData.access_token = data.access_token;
+        temp.loginData.refresh_token = data.refresh_token;
+        temp.loginData.expires = data.expires;
+        // update session times
+        let sessionStart = new Date();
+        let currentTime = sessionStart.getTime();
+        let expiryTime = currentTime + temp.loginData.expires;
+        let sessionEnd = new Date(expiryTime);
+        temp.loginData.sessions.sessionStart = sessionStart;
+        temp.loginData.sessions.sessionEnd = sessionEnd;
+
+        this.data.next(temp);
+        console.log(temp);
+      });
+
+    })
   }
 
   getUserDetailsOnce() {
@@ -86,71 +165,89 @@ export class StoreService {
       .toPromise();
   }
 
-  fetchRewards(uid: string, tkn: string) {
-    const url = 'https://incentivedb.minima.global/items/reward?filter={ "Userid": { "_eq": "'+uid+'"}}';
-    fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer `+tkn
-      }
-    })
+  fetchRewards(uid: string) {
+    this._directus.fetchRewards(uid)
     .then((res: any) => {
       if (!res.ok) {
-        console.log('Failed to retrieve '+uid+'\'s rewards');
+        console.log('minima/getRewards failed to fetch resources.');
       }
       return res.json()
-      .then((data: Rewards) => {
-        let json = data;
-        this.rewards.next(json);
-      })
-    })
+    }).then(data => {
+      console.log(data);
+      if (data.errors) {
+        console.log(data.errors)
+      } else {
+        console.log('Observable rewards updated.');
+        this.rewards.next(data);
+      }
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 
   fetchTokenID() {
+
     const url = 'https://incentivedb.minima.global/custom/minima/token';
     fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
+        //Authorization: `Bearer ` + token // if access_token is available        
       }
+    }).then(response => {
+      console.log(response);
+
+      return response.json()
+
+    }).then(data => {
+      console.log(data);
+      this.tokenId.next(data);
+    }).catch(error => {
+      console.log(error);
     })
-    .then((res: any) => {
-      if (!res.ok) {
-        console.log('Failed to get token');
-      }
-      return res.json()
-      .then((data) => {
-        console.log(data);
-        let json = data;
-        this.tokenId.next(json);
-      })
-    })
+
+    // this._directus.getTokenId()
+    // .then(res => {
+    //   console.log(res);
+    //   // if (!res.ok) {
+    //   //    console.log('/custom/minima/token failed to fetch resources.')
+    //   //    console.log(res);
+    //   // }
+    //   // return res.json()
+    // }).then(data => {
+    //   // console.log(data);
+    //   // if (data.errors) {
+    //   //   console.log(data.errors);
+    //   // } else {
+    //   //   this.tokenId.next(data)
+    //   // }
+    // }).catch((error) => {
+    //   console.log(error) }
+    // );
   }
 
-  fetchRerral(uid: string, tkn: string) {
-    const url = 'https://incentivedb.minima.global/items/referral?filter={ "Userid": { "_eq": "'+uid+'"}}';
-    fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer `+tkn
-      }
-    })
+  fetchRerral(uid: string) {
+    this._directus.getReferral(uid)
     .then((res: any) => {
       if (!res.ok) {
-        console.log('Failed to get referral code');
+        console.log('/minima/utils/getReferral failed to fetch resources');
+        console.log(res);
       }
       return res.json()
-      .then((data) => {
-        let json = data; 
-        console.log('Fetched referral code: '+ JSON.stringify(json));
-        this.referralCode.next(json);
-      })
-    })
+    }).then(data => {
+      console.log(data);
+      if (data.errors) {
+        console.log(data.errors);
+      } else {
+        console.log('Observable referralCode has been updated');
+        this.referralCode.next(data);
+      }
+      this.referralCode.next(data);
+    }).catch(error => {
+      console.log(error);
+    });
   }
   
-
   pollCash() {
     Minima.cmd('coins relevant address:'+this.timeaddress_v2, (res: any) => {   
       this.tokenId.subscribe((token: IncentiveTokenID) => {

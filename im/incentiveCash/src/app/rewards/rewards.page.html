@@ -52,15 +52,23 @@
   </ion-header>
 
   <ion-grid class="table ion-no-padding">
-    <ion-row class="table-content ion-no-margin" *ngFor="let reward of rewardList">
-      <ion-col class="ion-text-left ion-no-padding"><p>{{reward.amount}}</p></ion-col>
-        <ion-col class="ion-text-left ion-no-padding"><p>{{reward.reason}}</p></ion-col>
-        <ion-col class="ion-text-right ion-no-padding">
-          <p>
-            {{ reward.date_created }}
-          </p>
-        </ion-col>
+    <ion-row *ngIf="rewardList && rewardList.length === 0" class="ion-no-padding">
+      <ion-col class="empty-list ion-no-padding ion-text-center">
+        Your rewards will be displayed here.
+      </ion-col>
     </ion-row>
+    <div *ngIf="rewardList && rewardList.length > 0">
+      <ion-row class="table-content ion-no-margin" *ngFor="let reward of rewardList">
+        <ion-col class="ion-text-left ion-no-padding"><p>{{reward.amount}}</p></ion-col>
+          <ion-col class="ion-text-left ion-no-padding"><p>{{reward.reason}}</p></ion-col>
+          <ion-col class="ion-text-right ion-no-padding">
+            <p>
+              {{ reward.date_created }}
+            </p>
+          </ion-col>
+      </ion-row>  
+    </div>
+    
   </ion-grid>
 </ion-content>
 

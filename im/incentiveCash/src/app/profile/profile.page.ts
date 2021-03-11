@@ -11,7 +11,7 @@ import * as moment from 'moment';
 export class ProfilePage implements OnInit {
 
   user: UserDetails = {email: '', refID: '', pKey: ''};
-  referralCode: ReferralCode;
+  referralCode: ReferralCode[]; 
   lastAccess: LastAccess;
   date: string;
   time: string;
@@ -19,16 +19,28 @@ export class ProfilePage implements OnInit {
   constructor(private _storeService: StoreService, public toastController: ToastController ) { }
 
   ngOnInit() {
+    this._storeService.checkRefreshToken();
+
     this._storeService.getUserDetailsOnce().then((res: UserDetails) => {
       this.user = res;
     });
-    this._storeService.referralCode.subscribe((res: ReferralCode) => {
+    this._storeService.referralCode.subscribe((res: ReferralCode[]) => {
       this.referralCode = res;
     });
     this._storeService.lastAccess.subscribe((res: LastAccess) => {
       this.lastAccess = res;
       this.date = moment(this.lastAccess.milliseconds).format('DD-MM-YYYY');
       this.time = moment(this.lastAccess.milliseconds).format('HH:mm:ss');
+    });
+  }
+
+  async fetchUserDetails() {
+    await this._storeService.getUserDetailsOnce().then((res: UserDetails) => {
+      this.user = res;
+
+      if (this.user.email.length === 0) {
+        
+      }
     });
   }
 

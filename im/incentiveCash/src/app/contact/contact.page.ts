@@ -11,6 +11,7 @@ export class ContactPage implements OnInit {
   constructor(private _storeService: StoreService) { }
 
   ngOnInit() {
+    this._storeService.checkRefreshToken();
   }
 
   signOut() {
