@@ -236,8 +236,8 @@ export class HomePage  {
           pKey: '',
           refID: data.data.id,
           loginData: {
-            access_token: token.accessToken,
-            refresh_token: token.refreshToken,
+            access_token: token.access_token,
+            refresh_token: token.refresh_token,
             expires: token.expires,
             sessions: {
               sessionStart: sessionStart,

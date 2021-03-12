@@ -98,14 +98,13 @@ export class StoreService {
       let current_time = new Date().getTime();
       let refresh_token = res.loginData.refresh_token;
 
-
       let time_apart = expiry_time - current_time;
       console.log(time_apart);
       if (time_apart <= 300000) {
         console.log('LESS THAN 5 mins LEFT, Time to update access_token');
         // time to get a new access_token
-        if (refresh_token && refresh_token.length > 0)
         this.updateAccessToken(refresh_token);
+        
       }
 
 
@@ -117,6 +116,7 @@ export class StoreService {
     const data = {
       refresh_token: refresh_token
     }
+    console.log(data);
     const url = 'https://incentivedb.minima.global/auth/refresh';
     fetch(url, {
       method: 'POST',
