@@ -33,7 +33,7 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
 
   let blockTime = config.defaultBlockTime;
   let scaleFactor = config.defaultScaleFactor;
-  const tokenInfo = await helpers.getTokenInfo();
+  const tokenInfo = await helpers.postMinimaRPC("tokens");
   if ( tokenInfo.hasOwnProperty('response') ) {
 
     tokenInfo.response.tokens.forEach(token => {
@@ -169,38 +169,30 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
     return res.send(JSON.stringify(token));
 	});
 
-  router.post(config.uRLs.cmd.url, (req, res, next) => {
+  router.post(config.uRLs.cmd.url, async (req, res, next) => {
 
     const { error } = cmdSchema.validate(req.body);
     if (error) return next(new InvalidPayloadException(error.message));
 
-    const cmd = req.body.cmd;
+    const data = await helpers.postMinimaRPC(req.body.cmd);
+    if ( data.hasOwnProperty('response') ) {
 
-    axios({
-        method: 'POST',
-        url: config.cmdURL,
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        data: cmd
-      })
-      .then(function (response) {
+      const logData = {
+        loggingtypeid: config.uRLs.cmd.index,
+        loggingtype: "URL",
+        data: `post ${config.uRLs.cmd.url} ${req.body.cmd}`
+      }
+      logger.log(ItemsService, logData, req.schema)
 
-        const logData = {
-          loggingtypeid: config.uRLs.cmd.index,
-          loggingtype: "URL",
-          data: `post ${config.uRLs.cmd.url} ${cmd}`
-        }
-        logger.log(ItemsService, logData, req.schema)
+      return res.send(JSON.stringify(data.response));
 
-        return res.send(JSON.stringify(response.data.response));
+    } else {
 
-      })
-      .catch(function (error) {
+      console.error(error.message)
+      return next(new ServiceUnavailableException(error.message));
 
-        console.error(error.message)
-        return next(new ServiceUnavailableException(error.message));
-      });
+    }
+
   });
 
   router.post(config.uRLs.key.url, (req, res, next) => {

@@ -11,7 +11,7 @@ function getNumTokens( toDate ) {
 
 }
 
-async function getTokenInfo() {
+async function postMinimaRPC( command ) {
 
   const urlOptions = {
     method: 'POST',
@@ -19,7 +19,7 @@ async function getTokenInfo() {
     headers: {
       'Content-Type': 'application/json'
     },
-    data: "tokens"
+    data: command
   };
 
   try {
@@ -36,4 +36,4 @@ async function getTokenInfo() {
 }
 
 exports.getNumTokens = getNumTokens;
-exports.getTokenInfo = getTokenInfo;
+exports.postMinimaRPC = postMinimaRPC;
