@@ -167,6 +167,7 @@ export class StoreService {
   }
 
   fetchRewards(uid: string) {
+    console.log('Getting Rewards');
     this._directus.fetchRewards(uid)
     .then((res: any) => {
       if (!res.ok) {

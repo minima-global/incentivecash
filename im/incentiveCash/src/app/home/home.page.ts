@@ -69,10 +69,7 @@ export class HomePage  {
       }
     }).catch(error => {
       console.log(error);
-    }).finally(() => {
-      this.loginStatus = '';
-      this.getReferenceButton.disabled = false;
-    });
+    })
   }
 
   checkPubKey(user: UserDetails, data: any) {
@@ -103,8 +100,10 @@ export class HomePage  {
           Minima.file.load('first.txt', (res: any) => {
             if (res.success) {
               this.router.navigate(['/rewards']);
+              this.getReferenceButton.disabled = false;
             } else {
               this.router.navigate(['/welcome']);
+              this.getReferenceButton.disabled = false;
             }
           });
           
@@ -128,33 +127,19 @@ export class HomePage  {
             publickey: response[0].response.key.publickey,
             address: response[1].response.address.hexaddress
           }
-
           this._directus.postAKey(data)
-          .then(res => {
-
-          })
-
-          fetch(url, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-          })
-          .then(res => {
-            console.log(res);
+          .then((res: any) => {
             if (!res.ok) {
-              this.loginStatus = 'Login failed!  Public key could not be posted!';
-              const statusText = response.statusText;
-              return res.json()
-              .then((data) => {
-                throw new Error(statusText);
-              })
+              this.loginStatus = 'Sign in failed!  Public key was not posted';
+              this.getReferenceButton.disabled = false;
             }
             return res.json()
-          })
-          .then(data => {
-            this.loginStatus = 'Login successful!';
+          }).then(data => {
+            if (data.errors) {
+              this.loginStatus = data.errors[0].message;
+              return;
+            }
+            this.loginStatus = 'Sign in successful!';
             this.lastAccess();
 
             Minima.file.load('first.txt', (res: any) => {
@@ -164,9 +149,7 @@ export class HomePage  {
                 this.router.navigate(['/welcome']);
               }
             });
-            
             this.loginForm.reset();
-            this.loginStatus = '';
             this._storeService.getUserDetailsOnce().then((user: UserDetails) => {
               let temp = user;
               temp.pKey = response[0].response.key.publickey;
@@ -174,13 +157,15 @@ export class HomePage  {
               // save this for service.js
               Minima.file.save(JSON.stringify({uid: user.refID}), 'uid.txt',  (res: any) => {});
             });
-          })
-          .catch(errors => {
-            alert(errors);
+
+          }).catch(error => {
+            console.log(error)
+          }).finally(() => {
+            setTimeout(() => {
+              this.loginStatus = '';
+            }, 3000);
           })
         }
-      } else {
-        alert('POSTING FAILED!  Payload is wrong');
       }
     });
   }
@@ -209,15 +194,9 @@ export class HomePage  {
         }
       })
       .catch(error => console.warn(error))
-      .finally(() => {
-        setTimeout(() => {
-          this.getReferenceButton.disabled = false;
-          this.loginStatus = '';
-        }, 5000);
-      })
   }
 
-  async updateUserData(token: any) {
+  updateUserData(token: any) {
     const url = 'https://incentivedb.minima.global/users/me?access_token='+token.access_token+'';
     Minima.net.GET(url, (res: any) => {
       //console.log(res);

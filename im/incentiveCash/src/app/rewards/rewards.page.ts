@@ -18,9 +18,15 @@ export class RewardsPage implements OnInit {
 
   constructor(private _storeService: StoreService) { }
 
-  ngOnInit() {
+  ionViewWillEnter() {
+    console.log('Entered Rewards Page');
+    this._storeService.getUserDetailsOnce().then((user: UserDetails) => {
+      this._storeService.fetchRewards(user.refID);
+    });
     this._storeService.checkRefreshToken();
+  }
 
+  ngOnInit() {
     this._storeService.rewards.subscribe((res: Rewards[]) => {
       this.rewardList = [];
       this.totalClaimed = 0;

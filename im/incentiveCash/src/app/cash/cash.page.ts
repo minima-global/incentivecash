@@ -46,7 +46,6 @@ export class CashPage implements OnInit {
       this.data = res;
     });
     this._storeService.cashlist.subscribe((res: IncentiveCash[]) => {
-      console.log(res);
       this.totalRemaining = 0;
       this.cashlist = res;
 
