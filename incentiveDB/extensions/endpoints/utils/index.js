@@ -11,7 +11,7 @@ const keySchema = Joi.object({
 const triggerSchema = Joi.object({
   jsonrpc: Joi.string().required(),
   method: Joi.string().required(),
-  params: Joi.object().required(),
+  params: Joi.array(),
   id: Joi.number().required()
 });
 
@@ -36,6 +36,10 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
 
 	});
 
+  //curl --silent --header "Content-Type: application/json" --request POST --data '{"jsonrpc":"2.0","method":"send","params":[13,"MxQA55QJS7EIT3I2HQWIH566QWBM3EC2OP","0xCBDE084D0A44A8F6EBDBD2CBF448D448E88E06EC008F4A0E3C004EC234A50C21E59A9CE4D7C7ECE60351FE1E90A5D1E80DA816734C2BA2C3B5363448D9245B50",""],"id":1}'  http://localhost:8055/custom/utils/trigger | jq
+  //curl --silent --header "Content-Type: application/json" --request POST --data '{"jsonrpc":"2.0","method":"send","params":[15,"0x5AF1C7854D9C82EA1CC7E5DC2519ECE0FC09BA06","0x00",""],"id":1}'  http://localhost:8055/custom/utils/trigger
+  //curl --silent --header "Content-Type: application/json" --request POST --data '{"jsonrpc":"2.0","method":"gimme50","params":["0x5AF1C7854D9C82EA1CC7E5DC2519ECE0FC09BA06","0x00"],"id":2}'  http://localhost:8055/custom/utils/trigger
+
   router.post(config.uRLs.trigger.url, (req, res, next) => {
 
     const { error } = triggerSchema.validate(req.body);
@@ -43,7 +47,7 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
 
 
     const jsonrpc = req.body.jsonrpc
-    const method = req.body.method
+    let method = req.body.method
     const params = req.body.params
     const id = req.body.id
 
@@ -65,11 +69,19 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
             if ( ( results[i].id == id ) &&
                  ( results[i].method == method ) ) {
 
+              let command = results[i].command
+              //console.log("command ", command);
+
               if ( results[i].protocol == config.minimaRPC ) {
 
-                const thisData = method + " " + params.amount + " " + params.address + " " + params.tokenid + " " + params.statevars
+                const setParams = results[i].setparams ? results[i].setparams + " " : " "
+                command += " " + setParams
+                for (let j = 0; j < params.length; j++) {
+                  command += params[j] + " "
+                }
+                command = command.trim()
 
-                //console.log(thisData);
+                //console.log("this command ", command);
 
                 const urlOptions = {
                   method: 'POST',
@@ -77,7 +89,7 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
                   headers: {
                     'Content-Type': 'application/json'
                   },
-                  data: thisData
+                  data: command
                 };
 
                 try {
@@ -98,10 +110,7 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
                   };
                   return res.send(JSON.stringify(response));
                 }
-
               }
-
-              //curl --silent --header "Content-Type: application/json" --request POST --data '{"jsonrpc":"2.0","method":"send","params":{"amount": 1,"address":"MxQA55QJS7EIT3I2HQWIH566QWBM3EC2OP","tokenid":"0xCBDE084D0A44A8F6EBDBD2CBF448D448E88E06EC008F4A0E3C004EC234A50C21E59A9CE4D7C7ECE60351FE1E90A5D1E80DA816734C2BA2C3B5363448D9245B50","statevars": ""},"id":1}'  http://localhost:8055/custom/utils/trigger
             }
           }
 
