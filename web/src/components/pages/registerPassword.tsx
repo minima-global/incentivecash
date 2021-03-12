@@ -200,6 +200,7 @@ const display = (props: Props) => {
           <Grid item container className={classes.formInput} xs={12}>
             <TextField
               fullWidth
+              size="small"
               variant="outlined"
               id="outlined-basic"
               name="email"
@@ -219,6 +220,7 @@ const display = (props: Props) => {
           <Grid item container className={classes.formInput} xs={12}>
             <TextField
               fullWidth
+              size="small"
               variant="outlined"
               id="outlined-basic"
               name="token"
@@ -238,6 +240,7 @@ const display = (props: Props) => {
           <Grid item container className={classes.formInput} xs={12}>
             <TextField
               fullWidth
+              size="small"
               variant="outlined"
               id="outlined-basic"
               name="password"
@@ -257,6 +260,7 @@ const display = (props: Props) => {
           <Grid item container className={classes.formInput} xs={12}>
             <TextField
               fullWidth
+              size="small"
               variant="outlined"
               id="outlined-basic"
               name="password2"

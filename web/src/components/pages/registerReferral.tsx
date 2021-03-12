@@ -161,6 +161,7 @@ const userRegister = (props: Props) => {
           <Grid item container className={classes.formInput} xs={12}>
             <TextField
               fullWidth
+              size="small" 
               variant="outlined"
               id="outlined-basic"
               name="email"

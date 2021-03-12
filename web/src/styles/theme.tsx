@@ -443,8 +443,8 @@ const themeStyles = makeStyles({
     background: 'linear-gradient(#FFFFFF, #FFFFFF)'
   },
   formLabel: {
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
+    paddingTop: theme.spacing(0),
+    paddingBottom: theme.spacing(0),
   },
   formError: {
     paddingTop: theme.spacing(1),

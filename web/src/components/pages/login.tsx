@@ -159,6 +159,7 @@ const userLogin = (props: Props) => {
           <Grid item container className={classes.formInput} xs={12}>
             <TextField
               fullWidth
+              size="small"
               variant="outlined"
               id="outlined-basic"
               name="email"
@@ -173,11 +174,12 @@ const userLogin = (props: Props) => {
             ) : null}
           </Grid>
           <Grid item container className={classes.formLabel} xs={12}>
-            <label htmlFor="email">{User.password}</label>
+            <label htmlFor="password">{User.password}</label>
           </Grid>
           <Grid item container className={classes.formInput} xs={12}>
             <TextField
               fullWidth
+              size="small"
               variant="outlined"
               id="outlined-basic"
               name="password"
