@@ -1,4 +1,3 @@
-const axios = require('axios');
 const Joi = require("joi");
 
 const config = require ('../config');
@@ -67,7 +66,7 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
 
         const logData = {
           loggingtypeid: config.uRLs.referral.index,
-          loggingtype: "URL",
+          loggingtype: config.logTypes.URL,
           data: `get ${config.uRLs.referral.url} ${userid}`
         }
         logger.log(ItemsService, logData, req.schema)
@@ -104,7 +103,7 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
 
         const logData = {
           loggingtypeid: config.uRLs.reward.index,
-          loggingtype: "URL",
+          loggingtype: config.logTypes.URL,
           data: `get ${config.uRLs.reward.url} ${userid}`
         }
         logger.log(ItemsService, logData, req.schema)
@@ -135,7 +134,7 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
 
          const logData = {
            loggingtypeid: id,
-           loggingtype: "Reward",
+           loggingtype: config.logTypes.REWARD,
            data: userid
          }
          logger.log(ItemsService, logData, req.schema)
@@ -161,7 +160,7 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
 
     const logData = {
       loggingtypeid: config.uRLs.token.index,
-      loggingtype: "URL",
+      loggingtype: config.logTypes.URL,
       data: `get ${config.uRLs.token.url}`
     }
     logger.log(ItemsService, logData, req.schema)
@@ -179,7 +178,7 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
 
       const logData = {
         loggingtypeid: config.uRLs.cmd.index,
-        loggingtype: "URL",
+        loggingtype: config.logTypes.URL,
         data: `post ${config.uRLs.cmd.url} ${req.body.cmd}`
       }
       logger.log(ItemsService, logData, req.schema)
@@ -207,7 +206,7 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
     const userService = new UsersService({ schema: req.schema });
     userService
       .readByQuery({ sort: 'id', fields: ['*'] })
-      .then((results) => {
+      .then( async (results) => {
 
         //super inefficient, but I can't get .readByKey working :(
         //console.log("My results: ", results)
@@ -236,18 +235,10 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
 
             thisBlockTime += config.blocksPerBatch;
             maxBlockTime = thisBlockTime + config.blockWindow;
-            const sendString = `sendpoll ${config.tokenBatches} ${config.futureAddress} ${config.tokenID} 0:${publickey}#1:${thisBlockTime}#2:${maxBlockTime}`;
-            //console.log("sendString: ", sendString);
 
-            axios({
-              method: 'POST',
-              url: config.cmdURL,
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              data: sendString
-            })
-            .then(function (response) {
+            const data = await helpers.postMinimaRPC(`sendpoll ${config.tokenBatches} ${config.futureAddress} ${config.tokenID} 0:${publickey}#1:${thisBlockTime}#2:${maxBlockTime}`);
+
+            if ( data.hasOwnProperty('response') ) {
 
               if ( i == numBatches - 1 ) {
 
@@ -258,7 +249,7 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
 
                      const logData = {
                        loggingtypeid: id,
-                       loggingtype: "Wallet",
+                       loggingtype: config.logTypes.WALLET,
                        data: userid
                      }
                      logger.log(ItemsService, logData, req.schema)
@@ -273,12 +264,11 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
 
                    });
               }
-            })
-            .catch(function (error) {
+            } else {
 
               console.error(error.message, sendString)
               return next(new ServiceUnavailableException(error.message));
-            });
+            }
           }
         }
       })
@@ -334,7 +324,7 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
               const rewardCreate = {
                 userid: `${uid}`,
                 amount: `${thisAmount}`,
-                reason: "Claimed",
+                reason: config.rewardTypes.CLAIMED,
                 extrainfo: `txpowid: ${req.body.txpow.txpowid}`
               }
 
@@ -345,8 +335,8 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
 
                   const logData = {
                     loggingtypeid: id,
-                    loggingtype: "Reward",
-                    data: `Claimed ${uid}`
+                    loggingtype: config.logTypes.REWARD,
+                    data: `${config.rewardTypes.CLAIMED} ${uid}`
                   }
                   logger.log(ItemsService, logData, req.schema)
 

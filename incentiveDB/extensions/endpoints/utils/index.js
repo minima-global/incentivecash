@@ -1,4 +1,3 @@
-const axios = require('axios');
 const Joi = require("joi");
 
 const config = require ('../config');
@@ -25,7 +24,7 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
 
     const logData = {
       loggingtypeid: config.uRLs.futureAddress.index,
-      loggingtype: "URL",
+      loggingtype: config.logTypes.URL,
       data: `get ${config.uRLs.futureAddress.url}`
     }
     logger.log(ItemsService, logData, req.schema)
@@ -71,7 +70,7 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
 
           const logData = {
             loggingtypeid: config.uRLs.getTriggers.index,
-            loggingtype: "Trigger",
+            loggingtype: config.logTypes.TRIGGER,
             data: `post ${config.uRLs.trigger.url} ${id}`
           }
           logger.log(ItemsService, logData, req.schema)
@@ -131,7 +130,7 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
 
         const logData = {
           loggingtypeid: config.uRLs.getTriggers.index,
-          loggingtype: "Trigger",
+          loggingtype: config.logTypes.TRIGGER,
           data: `get ${config.uRLs.getTriggers.url}`
         }
         logger.log(ItemsService, logData, req.schema)
@@ -176,7 +175,7 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
 
         const logData = {
           loggingtypeid: config.uRLs.getKey.index,
-          loggingtype: "URL",
+          loggingtype: config.logTypes.URL,
           data: `post ${config.uRLs.getKey.url} userid`
         }
         logger.log(ItemsService, logData, req.schema)
