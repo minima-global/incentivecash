@@ -79,6 +79,7 @@ export class StoreService {
   rewards: Subject<Rewards[]> = new ReplaySubject<Rewards[]>(1);
   referralCode: Subject<ReferralCode[]> = new ReplaySubject<ReferralCode[]>(1);
   lastAccess: Subject<LastAccess> = new ReplaySubject<LastAccess>(1);
+  userRewards: Subject<string> = new ReplaySubject<string>(1);
 
   constructor(private _directus: DirectusService) {
     // track this script
@@ -179,6 +180,8 @@ export class StoreService {
       } else {
         console.log('Observable rewards updated.');
         this.rewards.next(data);
+        const json = JSON.stringify(data);
+        this.userRewards.next(json);
       }
     }).catch((error) => {
       console.log(error);
