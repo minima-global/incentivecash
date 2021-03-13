@@ -467,18 +467,7 @@ const themeStyles = makeStyles({
     paddingTop: theme.spacing(2),
   },
   formSubmit: {
-    width: '100%',
-    /*'& .MuiTextField-root': {
-      border: '1px solid',
-      borderColour: '#000000',
-      borderRadius: '6px',
-      width: '100ch',
-    },*/
-  },
-  formInput: {
-    border: '2px solid #C8C8D4',
-    borderRadius: '5px',
-    background: 'linear-gradient(#FFFFFF, #FFFFFF)'
+    width: '100%'
   },
   formLabel: {
     paddingTop: theme.spacing(0),
