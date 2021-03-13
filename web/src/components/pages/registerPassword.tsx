@@ -158,9 +158,7 @@ const display = (props: Props) => {
 
         <Button
           onClick={() => props.setActivePage(PageTypes.SIGNIN)}
-          color="primary"
-          data-for='loginButton'
-          data-tip
+          color="secondary"
           style={{
             textTransform: 'none'
           }}
@@ -176,9 +174,6 @@ const display = (props: Props) => {
 
         <Button
           onClick={() => props.setActivePage(PageTypes.REGISTER)}
-          color="primary"
-          data-for='registerButton'
-          data-tip
           style={{
             textTransform: 'none',
             color: '#001C32'
@@ -197,16 +192,15 @@ const display = (props: Props) => {
           <Grid item container className={classes.formLabel} xs={12}>
             <label htmlFor="email">{User.email}</label>
           </Grid>
-          <Grid item container className={classes.formInput} xs={12}>
+          <Grid item container xs={12}>
             <TextField
               fullWidth
               size="small"
-              variant="outlined"
-              id="outlined-basic"
               name="email"
               type="text"
               value={formik.values.email}
               onChange={formik.handleChange}
+              InputProps={{ disableUnderline: true }}
             />
           </Grid>
           <Grid item container className={classes.formError} xs={12}>
@@ -217,16 +211,15 @@ const display = (props: Props) => {
           <Grid item container className={classes.formLabel} xs={12}>
             <label htmlFor="token">{Register.token}</label>
           </Grid>
-          <Grid item container className={classes.formInput} xs={12}>
+          <Grid item container xs={12}>
             <TextField
               fullWidth
               size="small"
-              variant="outlined"
-              id="outlined-basic"
               name="token"
               type="text"
               value={formik.values.token}
               onChange={formik.handleChange}
+              InputProps={{ disableUnderline: true }}
             />
           </Grid>
           <Grid item container className={classes.formError} xs={12}>
@@ -237,16 +230,15 @@ const display = (props: Props) => {
           <Grid item container className={classes.formLabel} xs={12}>
             <label htmlFor="password">{User.password}</label>
           </Grid>
-          <Grid item container className={classes.formInput} xs={12}>
+          <Grid item container xs={12}>
             <TextField
               fullWidth
               size="small"
-              variant="outlined"
-              id="outlined-basic"
               name="password"
               type="password"
               value={formik.values.password}
               onChange={formik.handleChange}
+              InputProps={{ disableUnderline: true }}
             />
           </Grid>
           <Grid item container className={classes.formError} xs={12}>
@@ -257,16 +249,15 @@ const display = (props: Props) => {
           <Grid item container className={classes.formLabel} xs={12}>
             <label htmlFor="password2">{User.password2}</label>
           </Grid>
-          <Grid item container className={classes.formInput} xs={12}>
+          <Grid item container xs={12}>
             <TextField
               fullWidth
               size="small"
-              variant="outlined"
-              id="outlined-basic"
               name="password2"
               type="password"
               value={formik.values.password2}
               onChange={formik.handleChange}
+              InputProps={{ disableUnderline: true }}
             />
           </Grid>
           <Grid item container className={classes.formError} xs={12}>

@@ -119,10 +119,9 @@ const userLogin = (props: Props) => {
 
         <Button
           onClick={() => props.setActivePage(PageTypes.SIGNIN)}
-          data-for='loginButton'
-          data-tip
           style={{
-            textTransform: 'none'
+            textTransform: 'none',
+            color: '#001C32'
           }}
         >
           {Paths.signIn}
@@ -136,9 +135,7 @@ const userLogin = (props: Props) => {
 
           <Button
             onClick={() => props.setActivePage(PageTypes.REGISTER)}
-            color="primary"
-            data-for='registerButton'
-            data-tip
+            color="secondary"
             style={{
               textTransform: 'none'
             }}
@@ -156,16 +153,15 @@ const userLogin = (props: Props) => {
           <Grid item container className={classes.formLabel} xs={12}>
             <label htmlFor="email">{User.email}</label>
           </Grid>
-          <Grid item container className={classes.formInput} xs={12}>
+          <Grid item container xs={12}>
             <TextField
               fullWidth
               size="small"
-              variant="outlined"
-              id="outlined-basic"
               name="email"
               type="text"
               value={formik.values.email}
               onChange={formik.handleChange}
+              InputProps={{ disableUnderline: true }}
             />
           </Grid>
           <Grid item container className={classes.formError} xs={12}>
@@ -176,16 +172,15 @@ const userLogin = (props: Props) => {
           <Grid item container className={classes.formLabel} xs={12}>
             <label htmlFor="password">{User.password}</label>
           </Grid>
-          <Grid item container className={classes.formInput} xs={12}>
+          <Grid item container xs={12}>
             <TextField
               fullWidth
               size="small"
-              variant="outlined"
-              id="outlined-basic"
               name="password"
               type="password"
               value={formik.values.password}
               onChange={formik.handleChange}
+              InputProps={{ disableUnderline: true }}
             />
           </Grid>
           <Grid item container className={classes.formError} xs={12}>
