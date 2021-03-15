@@ -273,8 +273,8 @@ const themeStyles = makeStyles({
     },
     [breakpoints.up('lg')]: {
       background: 'linear-gradient(#001C32, #001C32)',
-      paddingRight: theme.spacing(5),
-      paddingLeft: theme.spacing(5),
+      paddingRight: theme.spacing(12),
+      paddingLeft: theme.spacing(12),
       margin: "0",
       width: "100%",
       height: "100%"
@@ -289,8 +289,8 @@ const themeStyles = makeStyles({
     },
     [breakpoints.up('lg')]: {
       background: 'linear-gradient(#FAFAFF, #FAFAFF)',
-      paddingRight: theme.spacing(5),
-      paddingLeft: theme.spacing(5),
+      paddingRight: theme.spacing(12),
+      paddingLeft: theme.spacing(12),
       margin: "0",
       width: "100%",
       height: "100%"
