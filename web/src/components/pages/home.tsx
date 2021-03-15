@@ -83,30 +83,33 @@ const display = (props: Props) => {
   return (
 
     <>
-      <Grid className={classes.leftContent} item container justify="flex-start" xs={breakpoints}>
 
-        <Typography variant="h1">
-          {HomeConfig.heading}
-          <br/>
-          {HomeConfig.subHeading}
-          <br/>
-          <span style={{color: 'red' }}>{App.appName}<br/></span>
-        </Typography>
+      <Grid className={classes.leftContent} item container alignItems="flex-start" xs={breakpoints}>
 
-        <Typography variant="body1">
-          <br/>
-          {HomeConfig.info} {HomeConfig.moreInfo} <a className={classes.activeLink} href={App.website}>{App.website}</a>.<br/><br/>
-          {HomeConfig.infoSecond}<br/><br/>
-          {HomeConfig.infoThird}<br/><br/>
-          <Link
-            className={classes.activeLink}
-            to={Local.register}
-            onClick={() => props.setActivePage(PageTypes.REGISTER)}
-          >
-            {Paths.register}
-          </Link> {HomeConfig.infoFourth}
-          <br/><br/>
-        </Typography>
+        <Grid item container alignItems="flex-start" xs={12}>
+          <Typography variant="h1">
+            {HomeConfig.heading}
+            <br/>
+            {HomeConfig.subHeading}
+            <br/>
+            <span style={{color: 'red' }}>{App.appName}</span>
+          </Typography>
+        </Grid>
+
+        <Grid item container alignItems="flex-start" xs={12}>
+          <Typography variant="body1">
+            {HomeConfig.info} {HomeConfig.moreInfo} <a className={classes.activeLink} href={App.website}>{App.website}</a>.<br/><br/>
+            {HomeConfig.infoSecond}<br/><br/>
+            {HomeConfig.infoThird}<br/><br/>
+            <Link
+              className={classes.activeLink}
+              to={Local.register}
+              onClick={() => props.setActivePage(PageTypes.REGISTER)}
+            >
+              {Paths.register}
+            </Link> {HomeConfig.infoFourth}
+          </Typography>
+        </Grid>
 
       </Grid>
 

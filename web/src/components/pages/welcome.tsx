@@ -65,27 +65,24 @@ const display = (props: Props) => {
   return (
 
     <>
-      <Grid className={classes.leftContent} item container justify="flex-start" xs={breakpoints}>
+      <Grid className={classes.leftContent} item container justify="flex-start" alignItems="center" xs={breakpoints}>
 
         <Typography variant="h1">
           <span style={{color: 'red' }}>{App.title}</span> {WelcomeConfig.info}
-          <br/>
         </Typography>
 
         <Typography variant="h3">
-          <br/>
           {WelcomeConfig.heading}<br/>
         </Typography>
 
         <Typography variant="body1">
-          <br/>
-          {WelcomeConfig.moreInfo} <a className={classes.activeLink} href={App.website}>{App.website}</a>.<br/>
-          {WelcomeConfig.infoThird}<br/><br/>
+          {WelcomeConfig.moreInfo} <a className={classes.activeLink} href={App.website}>{App.website}</a>.<br/><br/>
+          {WelcomeConfig.infoThird}
         </Typography>
 
       </Grid>
 
-      <Grid className={classes.rightContent} item container xs={breakpoints}>
+      <Grid className={classes.rightContent} item container alignItems= "center" xs={breakpoints}>
 
         <Grid item container justify="flex-start" xs={12}>
 
