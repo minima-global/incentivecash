@@ -7,7 +7,6 @@ import GoogleFontLoader from 'react-google-font-loader'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
-import ReactTooltip from 'react-tooltip'
 
 import logoutIcon from '../../images/logout01.svg'
 import minimaIcon from '../../images/minimaIcon.svg'
@@ -80,8 +79,6 @@ const display = (props: Props) => {
             <Button
               onClick={() => logOut()}
               color="primary"
-              data-for='logoutButton'
-              data-tip
               style={{
                 textTransform: 'none',
                 fontSize: '0.8em'
@@ -91,17 +88,10 @@ const display = (props: Props) => {
                 {Paths.signOut}
               </Typography>
             </Button>
-            <ReactTooltip
-              id='logoutButton'
-              place="bottom"
-              effect="solid"
-            >
-              {Help.logoutTip}
-            </ReactTooltip>
 
           </Grid>
 
-          <Grid className={classes.contentWelcome} alignItems="flex-start" item container xs={12}>
+          <Grid className={classes.contentWelcome} item container xs={12}>
             <Content />
           </Grid>
 
@@ -111,7 +101,7 @@ const display = (props: Props) => {
 
         <>
 
-          <Grid item container justify="center" alignItems="center" className={classes.header} xs={12}>
+          <Grid item container className={classes.header} xs={12}>
 
             <Typography variant="caption">
               &nbsp;
@@ -119,7 +109,7 @@ const display = (props: Props) => {
 
           </Grid>
 
-          <Grid className={classes.contentHome} alignItems="flex-start" item container xs={12}>
+          <Grid className={classes.contentHome} item container xs={12}>
             <Content />
           </Grid>
 

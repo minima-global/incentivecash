@@ -84,7 +84,7 @@ const display = (props: Props) => {
 
     <>
 
-      <Grid className={classes.leftContent} item container alignItems="flex-start" xs={breakpoints}>
+      <Grid className={classes.leftContent} item container alignItems="center" xs={breakpoints}>
 
         <Grid item container alignItems="flex-start" xs={12}>
           <Typography variant="h1">
@@ -92,13 +92,10 @@ const display = (props: Props) => {
             <br/>
             {HomeConfig.subHeading}
             <br/>
-            <span style={{color: 'red' }}>{App.appName}</span>
+            <span style={{color: 'red' }}>{App.appName}<br/></span>
           </Typography>
-        </Grid>
-
-        <Grid item container alignItems="flex-start" xs={12}>
           <Typography variant="body1">
-            {HomeConfig.info} {HomeConfig.moreInfo} <a className={classes.activeLink} href={App.website}>{App.website}</a>.<br/><br/>
+            <br/>{HomeConfig.info} {HomeConfig.moreInfo} <a className={classes.activeLink} href={App.website}>{App.website}</a>.<br/><br/>
             {HomeConfig.infoSecond}<br/><br/>
             {HomeConfig.infoThird}<br/><br/>
             <Link
