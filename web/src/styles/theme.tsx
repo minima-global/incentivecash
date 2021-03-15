@@ -465,7 +465,7 @@ const themeStyles = makeStyles({
     color: 'red'
   },
   formButton: {
-    paddingTop: theme.spacing(3)
+    paddingTop: theme.spacing(4)
   },
   formSummary: {
     paddingTop: theme.spacing(2)
