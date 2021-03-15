@@ -38,11 +38,15 @@ export const Content = () => {
         exact path={Local.about}
         render={() => <Info page={PageTypes.ABOUT}/>}
       />
-
       <Route
         name={Paths.reset}
         exact path={Local.reset}
         render={() => <Home page={PageTypes.RESET}/>}
+      />
+      <Route
+        name={Paths.reset}
+        exact path={Local.reset}
+        render={() => <Home page={PageTypes.RESETPASSWORD}/>}
       />
       <Route
         name={Paths.register}

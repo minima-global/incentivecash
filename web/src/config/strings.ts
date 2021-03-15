@@ -26,6 +26,7 @@ class Paths {
   static readonly signOut = 'Sign Out'
   static readonly register = 'Register'
   static readonly reset = 'Password Reset'
+  static readonly resetPassword = 'Password Reset'
   static readonly registerReferral = `${Paths.register}`
   static readonly registerEmail = `${Paths.register}`
   static readonly registerEmailUID = `${Paths.register}`
@@ -136,7 +137,9 @@ class User {
   static readonly logoutButton = 'Sign Out'
   static readonly resetButton = 'Reset'
 
+  static readonly resetFailure = "Unable to reset password"
   static readonly resetSuccess = "Please check your email for instructions as to how to complete your password reset. You may need to check your spam/junk folder."
+  static readonly resetPasswordSuccess = "Reset Success"
 
   static readonly first = "First name"
   static readonly last = "Last name"

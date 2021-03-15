@@ -9,6 +9,7 @@ class Local {
   static readonly signIn = '/signIn'
   static readonly register = '/register'
   static readonly reset = '/reset'
+  static readonly resetPassword = '/reset-password'
   static readonly registerReferral = `${Local.register}/:uid/:referral`
   static readonly registerEmail = `${Local.register}/:email`
   static readonly registerEmailUID = `${Local.register}/:uid/:referral/:email`
@@ -37,6 +38,7 @@ class Remote {
   static readonly miniDappVideo = 'https://www.youtube.com/watch?v=osjVMAyeg6I'
 
   static readonly userLogin = '/auth/login'
+  static readonly passwordResetRequest = '/auth/password/request'
   static readonly userPath = '/users/me'
   static readonly itemsPath = '/items'
   static readonly rewardsPath = '/reward'

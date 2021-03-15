@@ -22,7 +22,7 @@ import {
 } from '../../store/types'
 
 import { setActivePage } from '../../store/app/appData/actions'
-import { initTx, initUser, resetPassword } from '../../store/app/server/actions'
+import { initTx, initUser, reset } from '../../store/app/server/actions'
 
 import { Local, Paths, GeneralError, Help, User, Misc } from '../../config'
 
@@ -40,7 +40,7 @@ interface DispatchProps {
   setActivePage: (page: PageTypes) => void
   initUser: () => void
   initTx: () => void
-  resetPassword: (user: UserReset) => void
+  reset: (user: UserReset) => void
 }
 
 type Props = StateProps & DispatchProps
@@ -74,9 +74,9 @@ const display = (props: Props) => {
 
           pushTimeout = setTimeout(() => {
             props.initTx()
-            props.setActivePage(PageTypes.SIGNIN)
-            history.push(`${Local.welcome}`)
-          }, Misc.successLoginDelay)
+            props.setActivePage(PageTypes.RESETPASSWORD)
+            history.push(`${Local.resetPassword}`)
+          }, Misc.referralDelay)
         }
       }
 
@@ -99,7 +99,7 @@ const display = (props: Props) => {
       const userInfo: UserReset = {
           email: values.email
       }
-      props.resetPassword(userInfo)
+      props.reset(userInfo)
     },
   })
 
@@ -184,7 +184,7 @@ const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
    setActivePage: (page: PageTypes) => dispatch(setActivePage(page)),
    initUser: () => dispatch(initUser()),
    initTx: () => dispatch(initTx()),
-   resetPassword: (user: UserReset) => dispatch(resetPassword(user)),
+   reset: (user: UserReset) => dispatch(reset(user)),
  }
 }
 

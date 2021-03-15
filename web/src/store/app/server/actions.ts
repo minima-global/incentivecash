@@ -8,6 +8,7 @@ import {
   UserActionTypes,
   User,
   Reset,
+  UserResetPassword,
   UserRegister,
   UserRegisterPassword,
   CreateUser,
@@ -63,7 +64,7 @@ export const register = (user: UserRegister) => {
   return async (dispatch: AppDispatch) => {
 
     const pass = shortid.generate()
-    let body = RegisterConfig.welcome
+    let body = `<p>${RegisterConfig.welcome}</p>`
     body += `<p>${RegisterConfig.preBody}</p>`
     body += `<p>${pass}</p>`
     body += `<p>${RegisterConfig.postBody}</p>`
@@ -334,7 +335,71 @@ export const getUser = () => {
   }
 }
 
-export const resetPassword = (user: Reset) => {
+export const reset = (user: Reset) => {
+  return async (dispatch: AppDispatch) => {
+
+    let d = new Date(Date.now())
+    let dateText = d.toString()
+
+    const userData = {
+      email: user.email,
+      reset_url: `${web}${Local.resetPassword}`
+    }
+
+    const url = `${dbase}${Remote.passwordResetRequest}`
+    //console.log("User: ", userData, url)
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userData)
+    })
+    .then(response => {
+
+      if (!response.ok) {
+          const status = response.status
+          const statusText = response.statusText
+          return response.json()
+          .then(data => {
+              const txData = {
+                code: status.toString(),
+                summary: `${UserConfig.resetFailure}: ${statusText}`,
+                time: `${dateText}`
+              }
+              throw new Error(statusText)
+          })
+      } else {
+
+        console.log("did I get here?", response)
+        return response.json()
+      }
+    })
+    .then(data => {
+
+      const txData = {
+          code: "200",
+          summary: `${UserConfig.resetSuccess}`,
+          time: `${dateText}`
+      }
+      dispatch(write({data: txData})(TxActionTypes.TX_SUCCESS))
+
+    })
+   .catch(error => {
+
+     console.log("Oops: ", error)
+     const txData = {
+        code: "200",
+        summary: `${UserConfig.resetFailure}`,
+        time: `${dateText}`
+     }
+     dispatch(write({data: txData})(TxActionTypes.TX_FAILURE))
+   })
+  }
+}
+
+export const resetPassword = (user: UserResetPassword) => {
   return async (dispatch: AppDispatch, getState: Function) => {
 
     const state = getState()
@@ -376,6 +441,7 @@ export const postPublicData = (url: string, data: object) => {
               throw new Error(statusText)
           })
       }
+      console.log("did I get here too?", response)
       return response.json()
     })
     .then(data => {
