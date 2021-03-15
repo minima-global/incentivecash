@@ -153,7 +153,7 @@ class Register {
   static readonly token = 'Token'
   static readonly referral = 'Referral Code'
 
-  static readonly from = "steve.huckle@minima.global"
+  static readonly from = "community@minima.global"
   static readonly registerSubject = "Welcome to the Minima Incentive Scheme"
   static readonly preBody = "Hello! This is your token:  "
   static readonly postBody = "  :Please input that exact (case-sensitive) token into the browser window that generated this email. If you close that window, you will need to re-register and generate another token. Many thanks. The Minima Team."
