@@ -159,9 +159,15 @@ export const registerPassword = (user: UserRegisterPassword) => {
       .then(response => {
         if (!response.ok) {
             const status = response.status
-            const statusText = response.statusText
+            let statusText = response.statusText
             return response.json()
             .then(data => {
+
+                if (data.errors[0].message.length) {
+                  if (data.errors[0].message.includes("ER_DUP_ENTRY")) {
+                    statusText = "existing account"
+                  }
+                }
                 txData = {
                     code: status.toString(),
                     summary: `${RegisterConfig.passwordFailure}: ${statusText}`,
