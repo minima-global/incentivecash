@@ -1,8 +1,9 @@
+import { Router } from '@angular/router';
 import { DirectusService } from './directus.service';
 import { Injectable } from '@angular/core';
 import { ReplaySubject, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { Minima } from 'minima';
+import { Coin, Minima } from 'minima';
 
 export interface LastAccess {
   milliseconds: number
@@ -79,8 +80,9 @@ export class StoreService {
   rewards: Subject<Rewards[]> = new ReplaySubject<Rewards[]>(1);
   referralCode: Subject<ReferralCode[]> = new ReplaySubject<ReferralCode[]>(1);
   lastAccess: Subject<LastAccess> = new ReplaySubject<LastAccess>(1);
+  userRewards: Subject<string> = new ReplaySubject<string>(1);
 
-  constructor(private _directus: DirectusService) {
+  constructor(private _directus: DirectusService, private route: Router) {
     // track this script
     Minima.cmd('extrascript \"'+this.timescript_v2+"\"", (res: any) => {});
     this.getUserDetailsOnce().then((res: UserDetails) => {
@@ -98,14 +100,13 @@ export class StoreService {
       let current_time = new Date().getTime();
       let refresh_token = res.loginData.refresh_token;
 
-
       let time_apart = expiry_time - current_time;
       console.log(time_apart);
       if (time_apart <= 300000) {
         console.log('LESS THAN 5 mins LEFT, Time to update access_token');
         // time to get a new access_token
-        if (refresh_token && refresh_token.length > 0)
         this.updateAccessToken(refresh_token);
+        
       }
 
 
@@ -117,6 +118,7 @@ export class StoreService {
     const data = {
       refresh_token: refresh_token
     }
+    console.log(data);
     const url = 'https://incentivedb.minima.global/auth/refresh';
     fetch(url, {
       method: 'POST',
@@ -155,7 +157,9 @@ export class StoreService {
 
         this.data.next(temp);
         console.log(temp);
-      });
+      }).catch(err => {
+        console.log(err);
+      })
 
     })
   }
@@ -166,6 +170,7 @@ export class StoreService {
   }
 
   fetchRewards(uid: string) {
+    console.log('Getting Rewards');
     this._directus.fetchRewards(uid)
     .then((res: any) => {
       if (!res.ok) {
@@ -179,8 +184,12 @@ export class StoreService {
       } else {
         console.log('Observable rewards updated.');
         this.rewards.next(data);
+        const json = JSON.stringify(data);
+        this.userRewards.next(json);
       }
     }).catch((error) => {
+      alert('Session expired!  You have been signed out!');
+      this.route.navigate(['/home']);
       console.log(error);
     });
   }
@@ -201,29 +210,12 @@ export class StoreService {
 
     }).then(data => {
       console.log(data);
+      let json = JSON.stringify(data);
+      Minima.file.save(json, 'tokenid.txt', (res: any) => {});
       this.tokenId.next(data);
     }).catch(error => {
       console.log(error);
     })
-
-    // this._directus.getTokenId()
-    // .then(res => {
-    //   console.log(res);
-    //   // if (!res.ok) {
-    //   //    console.log('/custom/minima/token failed to fetch resources.')
-    //   //    console.log(res);
-    //   // }
-    //   // return res.json()
-    // }).then(data => {
-    //   // console.log(data);
-    //   // if (data.errors) {
-    //   //   console.log(data.errors);
-    //   // } else {
-    //   //   this.tokenId.next(data)
-    //   // }
-    // }).catch((error) => {
-    //   console.log(error) }
-    // );
   }
 
   fetchRerral(uid: string) {
@@ -252,6 +244,7 @@ export class StoreService {
     Minima.cmd('coins relevant address:'+this.timeaddress_v2, (res: any) => {   
       this.tokenId.subscribe((token: IncentiveTokenID) => {
         if (res.status) {
+          console.log(res);
           let temp: IncentiveCash[] = [];
           res.response.coins.forEach((coin, i) => {
             // scaleFactor
@@ -270,13 +263,20 @@ export class StoreService {
             // difference
             let difference = total_ms - ms;
 
-            if (coin.data.coin.tokenid === token.tokenId) {
-              if (coin.data.prevstate[1] && (coin.data.prevstate[1].data > Minima.block)) {
-                temp.push({index: i+1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, scale: scale, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data, percent: percent})
-              } else if ((coin.data.prevstate[0] && coin.data.prevstate[1] && coin.data.prevstate[2]) && (coin.data.prevstate[1].data <= Minima.block && coin.data.prevstate[2].data >= Minima.block)) {                
-                temp.push({index: i+1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, scale: scale, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Ready', blockno: coin.data.prevstate[1].data, percent: percent})  
-              } else if ((coin.data.prevstate[0] && coin.data.prevstate[1] && coin.data.prevstate[2]) && (coin.data.prevstate[1].data <= Minima.block && coin.data.prevstate[2].data <= Minima.block)) {
-                temp.push({index: i+1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, scale: scale, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Missed', blockno: coin.data.prevstate[1].data, percent: percent})    
+            if (coin.data.coin.tokenid === "0x00") {
+              let state0 = coin.data.prevstate[0];
+              let state1 = coin.data.prevstate[1];
+              let state2 = coin.data.prevstate[2];
+              if (state0 && state1 && state2 && state1.data.length > 0 && state0.data.length > 0 && state2.data.length > 0) {
+                let unlocktime = coin.data.prevstate[1].data;
+                let window = coin.data.prevstate[2].data;
+                if (unlocktime > Minima.block) {
+                  temp.push({index: i+1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, scale: scale, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data, percent: percent});
+                } else if (unlocktime <= Minima.block && window >= Minima.block) {
+                  temp.push({index: i+1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, scale: scale, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Ready', blockno: coin.data.prevstate[1].data, percent: percent});
+                } else if (Minima.block > window) {
+                  temp.push({index: i+1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, scale: scale, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Missed', blockno: coin.data.prevstate[1].data, percent: percent});    
+                }
               }
             }
           });

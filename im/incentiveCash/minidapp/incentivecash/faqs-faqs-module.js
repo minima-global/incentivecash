@@ -130,6 +130,8 @@ let FaqsPage = class FaqsPage {
         this._storeService = _storeService;
     }
     ngOnInit() {
+    }
+    ionViewWillEnter() {
         this._storeService.checkRefreshToken();
     }
     signOut() {

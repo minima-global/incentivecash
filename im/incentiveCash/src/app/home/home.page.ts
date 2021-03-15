@@ -1,7 +1,7 @@
 import { DirectusService } from './../api/directus.service';
 import { LoginService } from './../api/login.service';
 import { StoreService, UserDetails } from './../api/store.service';
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Minima } from 'minima';
@@ -18,7 +18,7 @@ interface User {
   styleUrls: ['home.page.scss'],
 })
 
-export class HomePage  {
+export class HomePage {
 
   @ViewChild('getReferenceButton', {static: false}) getReferenceButton: IonButton;
 
@@ -69,17 +69,16 @@ export class HomePage  {
       }
     }).catch(error => {
       console.log(error);
-    }).finally(() => {
-      this.loginStatus = '';
-      this.getReferenceButton.disabled = false;
-    });
+    })
   }
 
   checkPubKey(user: UserDetails, data: any) {
     // check if current key exists on server
     if (data.publickeys && data.publickeys.length === 0) {
       // post a new key
-      this.postAKey(user.refID);
+      this.postAKey(user);
+      localStorage.setItem('isLogged', 'true');
+
     } else {
       // check current keys with remote keys to find a match
       let nodeKeys = [];
@@ -95,18 +94,24 @@ export class HomePage  {
         // matching keys found
         const intersection = nodeKeys.filter(element => serverKeys.includes(element.publickey));
         if (intersection.length === 0) {
-          this.postAKey(user.refID);
+          localStorage.setItem('isLogged', 'true');
+          this.postAKey(user);
         } else {
-          this.loginStatus = 'Login successful!';
+          this.loginStatus = 'Sign in successful!';
           this.lastAccess();
+          Minima.file.save(JSON.stringify({uid: user.refID}), 'uid.txt',  (res: any) => {});
 
           Minima.file.load('first.txt', (res: any) => {
             if (res.success) {
+              this.getReferenceButton.disabled = false;
               this.router.navigate(['/rewards']);
             } else {
+              this.getReferenceButton.disabled = false;
               this.router.navigate(['/welcome']);
             }
           });
+
+          localStorage.setItem('isLogged', 'true');
           
           this.loginForm.reset();
           this.loginStatus = '';
@@ -118,69 +123,55 @@ export class HomePage  {
     }
   }
 
-  postAKey(uid: string) {
+  postAKey(user: UserDetails) {
     const url = 'https://incentivedb.minima.global/custom/minima/key';
     Minima.cmd('keys new; newaddress', (response: any) => {
       if (Minima.util.checkAllResponses(response)) {
-        if (uid && uid.length > 0 && response[0] && response[1] && response[0].response.key.publickey && response[1].response.address.hexaddress) {
+        if (user.refID && user.refID.length > 0 && response[0] && response[1] && response[0].response.key.publickey && response[1].response.address.hexaddress) {
           const data = {
-            userid: uid,
+            userid: user.refID,
             publickey: response[0].response.key.publickey,
             address: response[1].response.address.hexaddress
           }
-
           this._directus.postAKey(data)
-          .then(res => {
-
-          })
-
-          fetch(url, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-          })
-          .then(res => {
-            console.log(res);
+          .then((res: any) => {
             if (!res.ok) {
-              this.loginStatus = 'Login failed!  Public key could not be posted!';
-              const statusText = response.statusText;
-              return res.json()
-              .then((data) => {
-                throw new Error(statusText);
-              })
+              this.loginStatus = 'Sign in failed!  Public key was not posted';
+              this.getReferenceButton.disabled = false;
             }
             return res.json()
-          })
-          .then(data => {
-            this.loginStatus = 'Login successful!';
+          }).then(data => {
+            if (data.errors) {
+              this.loginStatus = data.errors[0].message;
+              return;
+            }
+            this.loginStatus = 'Sign in successful!';
             this.lastAccess();
 
             Minima.file.load('first.txt', (res: any) => {
               if (res.success) {
+                this.getReferenceButton.disabled = false;
                 this.router.navigate(['/rewards']);
               } else {
+                this.getReferenceButton.disabled = false;
                 this.router.navigate(['/welcome']);
               }
             });
-            
             this.loginForm.reset();
-            this.loginStatus = '';
-            this._storeService.getUserDetailsOnce().then((user: UserDetails) => {
-              let temp = user;
-              temp.pKey = response[0].response.key.publickey;
-              this._storeService.data.next(temp);
-              // save this for service.js
-              Minima.file.save(JSON.stringify({uid: user.refID}), 'uid.txt',  (res: any) => {});
-            });
-          })
-          .catch(errors => {
-            alert(errors);
+            
+            let temp = user;
+            temp.pKey = response[0].response.key.publickey;
+            this._storeService.data.next(temp);
+            // save this for service.js
+            Minima.file.save(JSON.stringify({uid: user.refID}), 'uid.txt',  (res: any) => {});
+          }).catch(error => {
+            console.log(error)
+          }).finally(() => {
+            setTimeout(() => {
+              this.loginStatus = '';
+            }, 3000);
           })
         }
-      } else {
-        alert('POSTING FAILED!  Payload is wrong');
       }
     });
   }
@@ -209,15 +200,9 @@ export class HomePage  {
         }
       })
       .catch(error => console.warn(error))
-      .finally(() => {
-        setTimeout(() => {
-          this.getReferenceButton.disabled = false;
-          this.loginStatus = '';
-        }, 5000);
-      })
   }
 
-  async updateUserData(token: any) {
+  updateUserData(token: any) {
     const url = 'https://incentivedb.minima.global/users/me?access_token='+token.access_token+'';
     Minima.net.GET(url, (res: any) => {
       //console.log(res);
@@ -236,8 +221,8 @@ export class HomePage  {
           pKey: '',
           refID: data.data.id,
           loginData: {
-            access_token: token.accessToken,
-            refresh_token: token.refreshToken,
+            access_token: token.access_token,
+            refresh_token: token.refresh_token,
             expires: token.expires,
             sessions: {
               sessionStart: sessionStart,

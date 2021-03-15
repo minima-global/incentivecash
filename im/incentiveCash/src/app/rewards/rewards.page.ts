@@ -1,6 +1,6 @@
 import { IonSegment } from '@ionic/angular';
 import { StoreService, Rewards, UserDetails } from './../api/store.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 
 @Component({
@@ -10,7 +10,6 @@ import * as moment from 'moment';
 })
 export class RewardsPage implements OnInit {
   
-
   @ViewChild('claimedSegment', {static: false}) claimedSegment: IonSegment;
   rewardList: Rewards[] = [];
   totalClaimed = 0;
@@ -18,9 +17,14 @@ export class RewardsPage implements OnInit {
 
   constructor(private _storeService: StoreService) { }
 
-  ngOnInit() {
+  ionViewWillEnter() {
+    this._storeService.getUserDetailsOnce().then((user: UserDetails) => {
+      this._storeService.fetchRewards(user.refID);
+    });
     this._storeService.checkRefreshToken();
+  }
 
+  ngOnInit() {
     this._storeService.rewards.subscribe((res: Rewards[]) => {
       this.rewardList = [];
       this.totalClaimed = 0;

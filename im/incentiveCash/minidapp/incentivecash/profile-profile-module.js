@@ -74,7 +74,6 @@ let ProfilePage = class ProfilePage {
         this.user = { email: '', refID: '', pKey: '' };
     }
     ngOnInit() {
-        this._storeService.checkRefreshToken();
         this._storeService.getUserDetailsOnce().then((res) => {
             this.user = res;
         });
@@ -86,6 +85,9 @@ let ProfilePage = class ProfilePage {
             this.date = moment__WEBPACK_IMPORTED_MODULE_6__(this.lastAccess.milliseconds).format('DD-MM-YYYY');
             this.time = moment__WEBPACK_IMPORTED_MODULE_6__(this.lastAccess.milliseconds).format('HH:mm:ss');
         });
+    }
+    ionViewWillEnter() {
+        this._storeService.checkRefreshToken();
     }
     fetchUserDetails() {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {

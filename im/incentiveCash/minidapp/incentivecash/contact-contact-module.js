@@ -67,6 +67,8 @@ let ContactPage = class ContactPage {
         this._storeService = _storeService;
     }
     ngOnInit() {
+    }
+    ionViewWillEnter() {
         this._storeService.checkRefreshToken();
     }
     signOut() {

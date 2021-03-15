@@ -122,8 +122,13 @@ let RewardsPage = class RewardsPage {
         this.totalClaimed = 0;
         this.shownSegments = 'unclaimed';
     }
-    ngOnInit() {
+    ionViewWillEnter() {
+        this._storeService.getUserDetailsOnce().then((user) => {
+            this._storeService.fetchRewards(user.refID);
+        });
         this._storeService.checkRefreshToken();
+    }
+    ngOnInit() {
         this._storeService.rewards.subscribe((res) => {
             this.rewardList = [];
             this.totalClaimed = 0;

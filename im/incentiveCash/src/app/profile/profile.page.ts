@@ -19,7 +19,6 @@ export class ProfilePage implements OnInit {
   constructor(private _storeService: StoreService, public toastController: ToastController ) { }
 
   ngOnInit() {
-    this._storeService.checkRefreshToken();
 
     this._storeService.getUserDetailsOnce().then((res: UserDetails) => {
       this.user = res;
@@ -32,6 +31,10 @@ export class ProfilePage implements OnInit {
       this.date = moment(this.lastAccess.milliseconds).format('DD-MM-YYYY');
       this.time = moment(this.lastAccess.milliseconds).format('HH:mm:ss');
     });
+  }
+
+  ionViewWillEnter() {
+    this._storeService.checkRefreshToken();
   }
 
   async fetchUserDetails() {

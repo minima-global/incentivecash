@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
 import { MinimaService } from './api/minima.service';
 import { Component } from '@angular/core';
 import { Minima } from 'minima';
@@ -9,5 +9,16 @@ import { Minima } from 'minima';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor(private minima: MinimaService, private route: Router) {}
+  subscription: any;
+  browserRefresh: any;
+  constructor(private minima: MinimaService, private router: Router) {
+    this.subscription = router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        this.browserRefresh = !router.navigated;
+        if (this.browserRefresh) {
+          localStorage.removeItem('isLogged');
+        }
+      }
+    });
+  }
 }

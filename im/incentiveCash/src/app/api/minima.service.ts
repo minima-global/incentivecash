@@ -6,15 +6,11 @@ import { Minima } from 'minima';
 @Injectable({
   providedIn: 'root'
 })
-export class MinimaService {
-
+export class MinimaService {  
   constructor(private _StoreService: StoreService) {
     Minima.init((msg: any) => {
       if (msg.event === 'newblock') {
         this._StoreService.pollCash(); 
-        this._StoreService.getUserDetailsOnce().then((res: UserDetails) => {
-          this._StoreService.fetchRewards(res.refID);
-        });
       }
     });
   }
