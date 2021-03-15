@@ -1,7 +1,7 @@
 var tokenid = ''; var uid = '';
 function fetchTokenID() {
   Minima.file.load('tokenid.txt', function(res) {
-    Minima.log(res.data);
+    // Minima.log(res.data);
     const data = JSON.parse(res.data);
     if (res.success) {
       tokenid = data.tokenId;
@@ -10,7 +10,7 @@ function fetchTokenID() {
 }
 function getUID() {
   Minima.file.load('uid.txt', function(res) {
-    Minima.log(res.data);
+    // Minima.log(res.data);
     if (res.success) {
       const data = JSON.parse(res.data);
       uid = data.uid;
@@ -41,15 +41,15 @@ function getCash() {
   Minima.cmd('coins relevant address:'+timeaddress, function(res) {
 
     if (res.status) {
-      Minima.log('Looking for relevant transactions...');
+      // Minima.log('Looking for relevant transactions...');
 
       res.response.coins.forEach(function(coin, i) {
 
-        if (coin.data.coin.tokenid == "0x00") {
+        if (coin.data.coin.tokenid == tokenid) {
 
           if ((coin.data.prevstate[0] && coin.data.prevstate[1] && coin.data.prevstate[2]) && coin.data.prevstate[1].data <= Minima.block && coin.data.prevstate[2].data >= Minima.block) {
             Minima.log('Posting Incentive Cash...');
-            postTransaction(coin.data.coin.coinid, coin.data.coin.amount, coin.data.prevstate[0].data, "0x00", uid);              
+            postTransaction(coin.data.coin.coinid, coin.data.coin.amount, coin.data.prevstate[0].data, tokenid, uid);              
 
           }
 
