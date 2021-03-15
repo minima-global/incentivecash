@@ -68,6 +68,7 @@ const display = (props: Props) => {
 
   const [summary, setSummary] = useState("")
   const [storedToken, setStoredToken] = useState("")
+  const [isDisabled, setIsDisabled] = useState(false)
   let isFirstRun = useRef(true)
 
   let { uid } = useParams<{ uid: string }>()
@@ -100,7 +101,8 @@ const display = (props: Props) => {
     } else {
 
       const txSummary: string = props.tx.summary
-      if( txSummary != summary ) {
+      if( txSummary &&
+         ( txSummary != summary ) ) {
 
         setSummary(txSummary)
 
@@ -114,6 +116,10 @@ const display = (props: Props) => {
             props.initTx()
             history.push(`${Local.home}`)
           }, Misc.successLoginDelay)
+        } else {
+
+          console.log("am I here?", txSummary)
+          setIsDisabled(false)
         }
       }
 
@@ -144,6 +150,7 @@ const display = (props: Props) => {
           token:  values.token,
           password:  values.password
       }
+      setIsDisabled(true)
       props.registerPassword(userInfo)
     },
   })
@@ -151,7 +158,6 @@ const display = (props: Props) => {
   return (
 
     <>
-
       <Grid item container xs={12}>
 
         <Grid item container justify="center" xs={6}>
@@ -288,12 +294,13 @@ const display = (props: Props) => {
               color="primary"
               size='medium'
               variant="contained"
+              disabled={isDisabled}
               style={{
                 textTransform: 'none',
                 fontSize: "1em",
               }}
             >
-              {User.loginButton}
+              {Register.registerButton}
             </Button>
           </Grid>
         </form>

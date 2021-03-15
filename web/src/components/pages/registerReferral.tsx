@@ -55,6 +55,7 @@ const userRegister = (props: Props) => {
 
   const [summary, setSummary] = useState("")
   const [email, setEmail] = useState("")
+  const [isDisabled, setIsDisabled] = useState(false)
   const { uid } = useParams<{ uid: string }>()
   const { referral } = useParams<{ referral: string }>()
   const history = useHistory()
@@ -82,6 +83,9 @@ const userRegister = (props: Props) => {
           props.initTx()
           history.push(`${url}`)
         }, Misc.referralDelay)
+      } else {
+
+        setIsDisabled(false)
       }
     }
 
@@ -105,6 +109,8 @@ const userRegister = (props: Props) => {
         uid: uid,
         referral: referral
       }
+      
+      setIsDisabled(true)
       props.register(userInfo)
     },
   })
@@ -191,6 +197,7 @@ const userRegister = (props: Props) => {
               color="primary"
               size='medium'
               variant="contained"
+              disabled={isDisabled}
               style={{
                 textTransform: 'none',
                 fontSize: "1em"
