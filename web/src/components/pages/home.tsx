@@ -29,6 +29,7 @@ import {
 
 import {
   Login,
+  Reset,
   RegisterReferral,
   RegisterPassword
 } from '.'
@@ -108,7 +109,7 @@ const display = (props: Props) => {
 
       </Grid>
 
-      <Grid className={classes.rightContent} item container justify="center" xs={breakpoints}>
+      <Grid className={classes.rightContent} item container alignItems="center" xs={breakpoints}>
 
         { page == PageTypes.REGISTER ?
 
@@ -122,9 +123,13 @@ const display = (props: Props) => {
 
             : (
 
+              page == PageTypes.RESET ?
+
+                <Reset />
+              :
+
               <Login />
             )
-
         )}
 
       </Grid>

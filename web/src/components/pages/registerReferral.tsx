@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { NavLink, useHistory, useParams } from "react-router-dom"
+import { Link, useHistory, useParams } from "react-router-dom"
 
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -8,10 +8,7 @@ import Typography from '@material-ui/core/Typography'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import Button from '@material-ui/core/Button'
-import ReactTooltip from 'react-tooltip'
 import TextField from '@material-ui/core/TextField'
-
-import hrFirst from '../../images/hrFirst.svg'
 
 import { themeStyles } from '../../styles'
 
@@ -115,58 +112,71 @@ const userRegister = (props: Props) => {
   return (
 
     <>
-      <Grid item container justify="flex-start" xs={6}>
+      <Grid item container xs={12}>
 
-        <Button
-          onClick={() => props.setActivePage(PageTypes.SIGNIN)}
-          color="primary"
-          data-for='loginButton'
-          data-tip
-          style={{
-            textTransform: 'none'
-          }}
-        >
-          {Paths.signIn}
-        </Button>
+        <Grid item container justify="center" xs={6}>
 
-        <img src={hrFirst} className={classes.hr}/>
+          <Link
+            className={classes.registerActiveLink}
+            to={Local.register}
+            onClick={() => props.setActivePage(PageTypes.REGISTER)}
+          >
+            {Paths.register}
+          </Link>
 
-      </Grid>
+          <Grid item container xs={12}>
+            <svg
+               xmlns="http://www.w3.org/2000/svg"
+               width="2000"
+               height="4"
+               style={{
+                 paddingRight: "10px"
+               }}
+            >
+              <line x2="2000" stroke="#317AFF" strokeWidth={4} />
+            </svg>
+          </Grid>
 
-      <Grid item container justify="flex-end" xs={6}>
+        </Grid>
 
-        <Button
-          onClick={() => props.setActivePage(PageTypes.REGISTER)}
-          color="primary"
-          data-for='registerButton'
-          data-tip
-          style={{
-            textTransform: 'none',
-            color: '#001C32'
-          }}
-        >
-          {Paths.register}
-        </Button>
+        <Grid item container justify="center" xs={6}>
 
-       <img src={hrFirst} className={classes.hr}/>
+          <Link
+            className={classes.registerInActiveLink}
+            to={Local.signIn}
+            onClick={() => props.setActivePage(PageTypes.SIGNIN)}
+          >
+            {Paths.signIn}
+          </Link>
 
-      </Grid>
+          <Grid item container xs={12}>
+            <svg
+               xmlns="http://www.w3.org/2000/svg"
+               width="2000"
+               height="4"
+               style={{
+                 paddingLeft: "10px"
+               }}
+            >
+              <line x2="2000" stroke="#AAAABE" strokeWidth={4} />
+            </svg>
+          </Grid>
 
-      <Grid item container className={classes.form} xs={12}>
+        </Grid>
 
         <form onSubmit={formik.handleSubmit} className={classes.formSubmit}>
           <Grid item container className={classes.formLabel} xs={12}>
             <label htmlFor="email">{User.email}</label>
           </Grid>
-          <Grid item container className={classes.formInput} xs={12}>
+          <Grid item container xs={12}>
             <TextField
               fullWidth
-              variant="outlined"
-              id="outlined-basic"
+              size="small"
               name="email"
               type="text"
               value={formik.values.email}
               onChange={formik.handleChange}
+              InputProps={{ disableUnderline: true }}
             />
           </Grid>
           <Grid item container className={classes.formError} xs={12}>
@@ -181,30 +191,22 @@ const userRegister = (props: Props) => {
               color="primary"
               size='medium'
               variant="contained"
-              data-for='registerButton'
-              data-tip
               style={{
                 textTransform: 'none',
-                fontSize: "1em",
+                fontSize: "1em"
               }}
             >
               {Register.registerButton}
             </Button>
-            <ReactTooltip
-              id='registerutton'
-              place="bottom"
-              effect="solid"
-            >
-              {Help.registerTip}
-            </ReactTooltip>
           </Grid>
         </form>
-      </Grid>
 
-      <Grid item container xs={12} alignItems="flex-start">
-        <Typography variant="h5">
-          {summary}
-        </Typography>
+        <Grid item container className={classes.formSummary} xs={12}>
+          <Typography variant="h5">
+            {summary}
+          </Typography>
+        </Grid>
+
       </Grid>
     </>
   )

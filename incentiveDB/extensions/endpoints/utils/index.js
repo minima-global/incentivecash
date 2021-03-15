@@ -1,8 +1,8 @@
-const axios = require('axios');
 const Joi = require("joi");
 
 const config = require ('../config');
 const logger = require ('../logger');
+const helpers = require ('../helpers');
 
 const keySchema = Joi.object({
   userid: Joi.string().required()
@@ -24,7 +24,7 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
 
     const logData = {
       loggingtypeid: config.uRLs.futureAddress.index,
-      loggingtype: "URL",
+      loggingtype: config.logTypes.URL,
       data: `get ${config.uRLs.futureAddress.url}`
     }
     logger.log(ItemsService, logData, req.schema)
@@ -36,31 +36,41 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
 
 	});
 
-  //curl --silent --header "Content-Type: application/json" --request POST --data '{"jsonrpc":"2.0","method":"send","params":[13,"MxQA55QJS7EIT3I2HQWIH566QWBM3EC2OP","0xCBDE084D0A44A8F6EBDBD2CBF448D448E88E06EC008F4A0E3C004EC234A50C21E59A9CE4D7C7ECE60351FE1E90A5D1E80DA816734C2BA2C3B5363448D9245B50",""],"id":1}'  http://localhost:8055/custom/utils/trigger | jq
-  //curl --silent --header "Content-Type: application/json" --request POST --data '{"jsonrpc":"2.0","method":"send","params":[15,"0x5AF1C7854D9C82EA1CC7E5DC2519ECE0FC09BA06","0x00",""],"id":1}'  http://localhost:8055/custom/utils/trigger
-  //curl --silent --header "Content-Type: application/json" --request POST --data '{"jsonrpc":"2.0","method":"gimme50","params":["0x5AF1C7854D9C82EA1CC7E5DC2519ECE0FC09BA06","0x00"],"id":2}'  http://localhost:8055/custom/utils/trigger
-
   router.post(config.uRLs.trigger.url, (req, res, next) => {
 
     const { error } = triggerSchema.validate(req.body);
     if (error) return next(new InvalidPayloadException(error.message));
-
 
     const jsonrpc = req.body.jsonrpc
     let method = req.body.method
     const params = req.body.params
     const id = req.body.id
 
+    const bad = {
+      jsonrpc: config.JSONRPCVERSION,
+      error: {
+        code: -32600,
+        message: ""
+      },
+      id: id
+    };
+
+    const good = {
+      jsonrpc: config.JSONRPCVERSION,
+      result: "OK",
+      id: id
+    }
+
     if ( jsonrpc == config.JSONRPCVERSION ) {
 
       const triggerService = new ItemsService(config.tables.trigger.table, { schema: req.schema });
   		triggerService
   			.readByQuery({ sort: 'id', fields: ['*'] })
-  			.then((results) => {
+  			.then( async (results) => {
 
           const logData = {
             loggingtypeid: config.uRLs.getTriggers.index,
-            loggingtype: "URL",
+            loggingtype: config.logTypes.TRIGGER,
             data: `post ${config.uRLs.trigger.url} ${id}`
           }
           logger.log(ItemsService, logData, req.schema)
@@ -79,78 +89,34 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
                 for (let j = 0; j < params.length; j++) {
                   command += params[j] + " "
                 }
-                command = command.trim()
 
-                //console.log("this command ", command);
+                const data = await helpers.postMinimaRPC(command.trim());
+                if ( data.hasOwnProperty('response') ) {
 
-                const urlOptions = {
-                  method: 'POST',
-                  url: results[i].url,
-                  headers: {
-                    'Content-Type': 'application/json'
-                  },
-                  data: command
-                };
+                  return res.send(JSON.stringify(good));
 
-                try {
+                } else {
 
-                  axios(urlOptions);
-
-                } catch (error) {
-
-                  console.error(error.message);
-                  console.error(error.message);
-                  const response = {
-                    jsonrpc: config.JSONRPCVERSION,
-                    error: {
-                      code: -32600,
-                      message: error.message
-                    },
-                    id: id
-                  };
-                  return res.send(JSON.stringify(response));
+                  return res.send(JSON.stringify(bad));
                 }
               }
             }
           }
 
-          const response = {
-            jsonrpc: config.JSONRPCVERSION,
-            result: "OK",
-            id: id
-          }
-
-          return res.send(JSON.stringify(response));
+          return res.send(JSON.stringify(good));
 
         })
   			.catch((error) => {
 
           console.error(error.message);
-          const response = {
-            jsonrpc: config.JSONRPCVERSION,
-            error: {
-              code: -32600,
-              message: error.message
-            },
-            id: id
-          };
-          return res.send(JSON.stringify(response));
+          bad.message = error.message;
+          return res.send(JSON.stringify(bad));
 
   			});
 
     } else {
 
-      console.error("unknown JSON RPC version");
-      console.error(error.message);
-      const response = {
-        jsonrpc: config.JSONRPCVERSION,
-        error: {
-          code: -32600,
-          message: error.message
-        },
-        id: id
-      };
-      return res.send(JSON.stringify(response));
+      return res.send(JSON.stringify(bad));
     }
 
   });
@@ -164,7 +130,7 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
 
         const logData = {
           loggingtypeid: config.uRLs.getTriggers.index,
-          loggingtype: "URL",
+          loggingtype: config.logTypes.TRIGGER,
           data: `get ${config.uRLs.getTriggers.url}`
         }
         logger.log(ItemsService, logData, req.schema)
@@ -209,7 +175,7 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
 
         const logData = {
           loggingtypeid: config.uRLs.getKey.index,
-          loggingtype: "URL",
+          loggingtype: config.logTypes.URL,
           data: `post ${config.uRLs.getKey.url} userid`
         }
         logger.log(ItemsService, logData, req.schema)

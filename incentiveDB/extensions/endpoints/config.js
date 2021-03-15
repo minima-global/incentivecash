@@ -95,6 +95,19 @@ const tables = {
   }
 }
 
+const logTypes = {
+	URL: "URL",
+	REWARD: "Reward",
+	REFERRAL: "Reward",
+	WALLET: "Wallet",
+	TRIGGER: "Trigger",
+  USER: "User",
+}
+
+const rewardTypes = {
+	CLAIMED: "Claimed"
+}
+
 exports.cmdURL = cmdURL;
 exports.devNull = devNull;
 exports.futureAddress = futureAddress;
@@ -113,3 +126,4 @@ exports.uRLs = uRLs;
 exports.tables = tables;
 exports.JSONRPCVERSION = JSONRPCVERSION;
 exports.minimaRPC = minimaRPC;
+exports.logTypes = logTypes;

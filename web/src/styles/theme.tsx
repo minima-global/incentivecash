@@ -40,11 +40,20 @@ let theme = createMuiTheme ({
     fontWeightMedium: 500,
     fontWeightBold: 700,
     h1: {
-      lineHeight: "1.5",
-      fontSize:  "2em",
-      fontWeight: 700,
-      fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-      color: '#F0F0FA'
+      [breakpoints.up('xs')]: {
+        lineHeight: "1.5",
+        fontSize:  "3em",
+        fontWeight: 700,
+        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+        color: '#F0F0FA'
+      },
+      [breakpoints.up('lg')]: {
+        lineHeight: "1.5",
+        fontSize:  "2em",
+        fontWeight: 700,
+        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+        color: '#F0F0FA'
+      }
     },
     h2: {
       lineHeight: "1.618",
@@ -54,11 +63,11 @@ let theme = createMuiTheme ({
       color: '#91919D'
     },
     h3: {
-      lineHeight: "1.618",
-      fontSize: "1.25em",
-      fontWeight: 400,
+      lineHeight: "2",
+      fontSize: "1.4em",
+      fontWeight: 700,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-      color: 'red'
+      color: '#001C32',
     },
     h4: {
       lineHeight: "1.618",
@@ -96,18 +105,36 @@ let theme = createMuiTheme ({
       color: '#F0F0FA'
     },
     body1: {
-      lineHeight: "1.5",
-      fontSize: "1",
-      fontWeight: 400,
-      fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-      color: '#F0F0FA',
+      [breakpoints.up('xs')]: {
+        lineHeight: "1.5",
+        fontSize: "1.5em",
+        fontWeight: 400,
+        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+        color: '#AAAABE'
+      },
+      [breakpoints.up('lg')]: {
+        lineHeight: "1.5",
+        fontSize: "1em",
+        fontWeight: 400,
+        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+        color: '#AAAABE'
+      }
     },
     body2: {
-      lineHeight: "1.5",
-      fontSize: "1",
-      fontWeight: 400,
-      fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-      color: '#AAAABE',
+      [breakpoints.up('xs')]: {
+        lineHeight: "1.5",
+        fontSize: "1.5em",
+        fontWeight: 400,
+        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+        color: '#001C32'
+      },
+      [breakpoints.up('lg')]: {
+        lineHeight: "1.5",
+        fontSize: "1em",
+        fontWeight: 400,
+        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+        color: '#001C32'
+      }
     },
     caption: {
       lineHeight: "1.618",
@@ -132,13 +159,13 @@ let theme = createMuiTheme ({
     },
     text: {
       primary: "#001C32",
-      secondary: "#001C32"
+      secondary: "#929396"
     },
     primary: {
-      main: '#929396'
+      main: '#001C32'
     },
     secondary: {
-      main: '#ff671e'
+      main: '#929396'
     },
     error: red,
     warning: orange,
@@ -151,20 +178,20 @@ theme = responsiveFontSizes(theme)
 
 const themeStyles = makeStyles({
   root: {
-    [breakpoints.up('xs')]: {
-      background: 'linear-gradient(#FAFAFF, #FAFAFF)',
-      height: "100vh",
-      width: "100%",
-      position: 'relative'
+    background: 'linear-gradient(#FAFAFF, #FAFAFF)',
+    height: "100vh",
+    width: "100%",
+    position: 'relative',
+    "& .MuiInputBase-input": {
+      border: '2px solid #C8C8D4',
+      borderRadius: '5px',
+      background: 'linear-gradient(#FFFFFF, #FFFFFF)',
+      color: "#001C32",
+      padding: theme.spacing(1)
     },
-    [breakpoints.up('lg')]: {
-      marginTop: "5vh",
-      marginBottom: "5vh",
-      marginLeft: "auto",
-      marginRight: "auto",
-      height: "90vh",
-      width: "80%",
-      position: 'relative'
+    "& .MuiInputBase-input:focus": {
+      border: '2px solid #317AFF',
+      borderRadius: '5px'
     }
   },
   header: {
@@ -246,8 +273,8 @@ const themeStyles = makeStyles({
     },
     [breakpoints.up('lg')]: {
       background: 'linear-gradient(#001C32, #001C32)',
-      paddingRight: theme.spacing(5),
-      paddingLeft: theme.spacing(5),
+      paddingRight: theme.spacing(12),
+      paddingLeft: theme.spacing(12),
       margin: "0",
       width: "100%",
       height: "100%"
@@ -262,8 +289,8 @@ const themeStyles = makeStyles({
     },
     [breakpoints.up('lg')]: {
       background: 'linear-gradient(#FAFAFF, #FAFAFF)',
-      paddingRight: theme.spacing(5),
-      paddingLeft: theme.spacing(5),
+      paddingRight: theme.spacing(12),
+      paddingLeft: theme.spacing(12),
       margin: "0",
       width: "100%",
       height: "100%"
@@ -425,44 +452,79 @@ const themeStyles = makeStyles({
       width: '30px'
     }
   },
-  form: {
-    paddingTop: theme.spacing(2),
-  },
   formSubmit: {
-    width: '100%',
-    /*'& .MuiTextField-root': {
-      border: '1px solid',
-      borderColour: '#000000',
-      borderRadius: '6px',
-      width: '100ch',
-    },*/
-  },
-  formInput: {
-    border: '2px solid #C8C8D4',
-    borderRadius: '5px',
-    background: 'linear-gradient(#FFFFFF, #FFFFFF)'
+    paddingTop: theme.spacing(2),
+    width: '100%'
   },
   formLabel: {
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
   },
   formError: {
-    paddingTop: theme.spacing(1),
+    padding: 0,
     color: 'red'
   },
   formButton: {
+    paddingTop: theme.spacing(4)
+  },
+  formSummary: {
     paddingTop: theme.spacing(2)
   },
   submitButton: {
     width: '100%',
     background: 'linear-gradient(#317AFF, #317AFF)',
+    '&:hover': {
+      background: 'linear-gradient(#346FE6, #346FE6)'
+    }
+  },
+  forgotLink: {
+    color: '#317AFF',
+    lineHeight: "2",
+    fontSize: "1.1em",
+    textDecoration: 'none',
+    fontWeight: 700,
+    '&:active': {
+      textDecoration: 'none'
+    },
+    '&:hover': {
+      textDecoration: 'none',
+      color: '#a1c8ff'
+    }
+  },
+  registerActiveLink: {
+    color: '#001C32',
+    lineHeight: "2",
+    fontSize: "1.4em",
+    textDecoration: 'none',
+    fontWeight: 700,
+    '&:active': {
+      textDecoration: 'none'
+    },
+    '&:hover': {
+      textDecoration: 'none',
+      color: '#a1c8ff'
+    }
+  },
+  registerInActiveLink: {
+    color: '#AAAABE',
+    lineHeight: "2",
+    fontSize: "1.4em",
+    textDecoration: 'none',
+    fontWeight: 400,
+    '&:active': {
+      textDecoration: 'none'
+    },
+    '&:hover': {
+      textDecoration: 'none',
+      color: '#a1c8ff'
+    }
   },
   activeLink: {
     color: '#317AFF',
     textDecoration: 'none',
     '&:active': {
       textDecoration: 'none',
-      fontWeight: 900
+      fontWeight: 700
     },
     '&:hover': {
       textDecoration: 'none',

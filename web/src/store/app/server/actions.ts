@@ -7,6 +7,7 @@ import {
   AppDispatch,
   UserActionTypes,
   User,
+  Reset,
   UserRegister,
   UserRegisterPassword,
   CreateUser,
@@ -62,9 +63,12 @@ export const register = (user: UserRegister) => {
   return async (dispatch: AppDispatch) => {
 
     const pass = shortid.generate()
-    let body = `${RegisterConfig.preBody}`
-    body += `${pass}`
-    body += `${RegisterConfig.postBody}`
+    let body = RegisterConfig.welcome
+    body += `<p>${RegisterConfig.preBody}</p>`
+    body += `<p>${pass}</p>`
+    body += `<p>${RegisterConfig.postBody}</p>`
+    body += `<p>${RegisterConfig.thanks}</p>`
+    body += `<p>${RegisterConfig.signature}</p>`
 
     Email.send({
       SecureToken: `${Smtp.token}`,
@@ -327,6 +331,13 @@ export const getUser = () => {
      .catch(error => {
           dispatch(write({data: txData})(TxActionTypes.TX_FAILURE))
      })
+  }
+}
+
+export const resetPassword = (user: Reset) => {
+  return async (dispatch: AppDispatch, getState: Function) => {
+
+    const state = getState()
   }
 }
 
