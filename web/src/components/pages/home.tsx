@@ -108,7 +108,7 @@ const display = (props: Props) => {
 
       </Grid>
 
-      <Grid className={classes.rightContent} item container justify="center" xs={breakpoints}>
+      <Grid className={classes.rightContent} item container alignItems="center" xs={breakpoints}>
 
         { page == PageTypes.REGISTER ?
 

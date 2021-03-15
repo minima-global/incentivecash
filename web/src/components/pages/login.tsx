@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { NavLink } from 'react-router-dom'
+import { Link } from "react-router-dom"
 import { connect } from 'react-redux'
 import { useHistory } from "react-router-dom"
 
@@ -10,9 +10,6 @@ import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
-import ReactTooltip from 'react-tooltip'
-
-import hrFirst from '../../images/hrFirst.svg'
 
 import { themeStyles } from '../../styles'
 
@@ -113,41 +110,57 @@ const userLogin = (props: Props) => {
   })
 
   return (
-
     <>
-      <Grid item container justify="flex-start" xs={6}>
+      <Grid item container xs={12}>
 
-        <Button
-          onClick={() => props.setActivePage(PageTypes.SIGNIN)}
-          style={{
-            textTransform: 'none',
-            color: '#001C32'
-          }}
-        >
-          {Paths.signIn}
-        </Button>
+        <Grid item container justify="center" xs={6}>
 
-        <img src={hrFirst} className={classes.hr}/>
-
-      </Grid>
-
-      <Grid item container justify="flex-end" xs={6}>
-
-          <Button
+          <Link
+            className={classes.registerInActiveLink}
+            to={Local.register}
             onClick={() => props.setActivePage(PageTypes.REGISTER)}
-            color="secondary"
-            style={{
-              textTransform: 'none'
-            }}
           >
             {Paths.register}
-          </Button>
+          </Link>
 
-       <img src={hrFirst} className={classes.hr}/>
+          <Grid item container justify="flex-start" xs={12}>
+            <svg
+               xmlns="http://www.w3.org/2000/svg"
+               width="2000"
+               height="4"
+               style={{
+                 paddingRight: "10px"
+               }}
+            >
+              <line x2="2000" stroke="#AAAABE" strokeWidth={4} />
+            </svg>
+          </Grid>
 
-      </Grid>
+        </Grid>
 
-      <Grid item container className={classes.form} xs={12}>
+        <Grid item container justify="center" xs={6}>
+
+          <Link
+            className={classes.registerActiveLink}
+            to={Local.signIn}
+            onClick={() => props.setActivePage(PageTypes.SIGNIN)}
+          >
+            {Paths.signIn}
+          </Link>
+
+          <Grid item container justify="flex-start" xs={12}>
+            <svg
+               xmlns="http://www.w3.org/2000/svg"
+               width="2000"
+               height="4"
+               style={{
+                 paddingLeft: "10px"
+               }}
+            >
+              <line x2="2000" stroke="#317AFF" strokeWidth={4} />
+            </svg>
+          </Grid>
+        </Grid>
 
         <form onSubmit={formik.handleSubmit} className={classes.formSubmit}>
           <Grid item container className={classes.formLabel} xs={12}>
@@ -195,32 +208,23 @@ const userLogin = (props: Props) => {
               color="primary"
               size='medium'
               variant="contained"
-              data-for='submitButton'
-              data-tip
               style={{
                 textTransform: 'none',
-                fontSize: "1em",
+                fontSize: "1em"
               }}
             >
               {User.loginButton}
             </Button>
-            <ReactTooltip
-              id='submitButton'
-              place="bottom"
-              effect="solid"
-            >
-              {Help.loginTip}
-            </ReactTooltip>
           </Grid>
+
+          <Grid item container className={classes.formSummary} xs={12}>
+            <Typography variant="h5">
+              {summary}
+            </Typography>
+          </Grid>
+
         </form>
       </Grid>
-
-      <Grid item container xs={12}>
-        <Typography variant="h5">
-          {summary}
-        </Typography>
-      </Grid>
-
     </>
   )
 }

@@ -178,27 +178,16 @@ theme = responsiveFontSizes(theme)
 
 const themeStyles = makeStyles({
   root: {
-    [breakpoints.up('xs')]: {
-      background: 'linear-gradient(#FAFAFF, #FAFAFF)',
-      height: "100vh",
-      width: "100%",
-      position: 'relative'
-    },
-    [breakpoints.up('lg')]: {
-      marginTop: "5vh",
-      marginBottom: "5vh",
-      marginLeft: "auto",
-      marginRight: "auto",
-      height: "90vh",
-      width: "80%",
-      position: 'relative'
-    },
+    background: 'linear-gradient(#FAFAFF, #FAFAFF)',
+    height: "100vh",
+    width: "100%",
+    position: 'relative',
     "& .MuiInputBase-input": {
       border: '2px solid #C8C8D4',
       borderRadius: '5px',
       background: 'linear-gradient(#FFFFFF, #FFFFFF)',
       color: "#001C32",
-      padding: theme.spacing(0.5)
+      padding: theme.spacing(1)
     },
     "& .MuiInputBase-input:focus": {
       border: '2px solid #317AFF',
@@ -463,33 +452,65 @@ const themeStyles = makeStyles({
       width: '30px'
     }
   },
-  form: {
-    paddingTop: theme.spacing(2),
-  },
   formSubmit: {
+    paddingTop: theme.spacing(2),
     width: '100%'
   },
   formLabel: {
-    paddingTop: theme.spacing(0),
-    paddingBottom: theme.spacing(0),
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
   },
   formError: {
-    paddingTop: theme.spacing(1),
+    padding: 0,
     color: 'red'
   },
   formButton: {
-    paddingTop: theme.spacing(1)
+    paddingTop: theme.spacing(3)
+  },
+  formSummary: {
+    paddingTop: theme.spacing(2)
   },
   submitButton: {
     width: '100%',
     background: 'linear-gradient(#317AFF, #317AFF)',
+    '&:hover': {
+      background: 'linear-gradient(#346FE6, #346FE6)'
+    }
+  },
+  registerActiveLink: {
+    color: '#001C32',
+    lineHeight: "2",
+    fontSize: "1.4em",
+    textDecoration: 'none',
+    fontWeight: 700,
+    '&:active': {
+      textDecoration: 'none'
+    },
+    '&:hover': {
+      textDecoration: 'none',
+      color: '#a1c8ff'
+    }
+  },
+  registerInActiveLink: {
+    color: '#AAAABE',
+    lineHeight: "2",
+    fontSize: "1.4em",
+    textDecoration: 'none',
+    fontWeight: 400,
+    '&:active': {
+      textDecoration: 'none'
+    },
+    '&:hover': {
+      textDecoration: 'none',
+      color: '#a1c8ff'
+    }
   },
   activeLink: {
     color: '#317AFF',
     textDecoration: 'none',
     '&:active': {
       textDecoration: 'none',
-      fontWeight: 900
+      fontWeight: 700
     },
     '&:hover': {
       textDecoration: 'none',

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { connect } from 'react-redux'
-import { NavLink, useHistory, useParams } from 'react-router-dom'
+import { Link, useHistory, useParams } from 'react-router-dom'
 
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -8,10 +8,7 @@ import Typography from '@material-ui/core/Typography'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import Button from '@material-ui/core/Button'
-import ReactTooltip from 'react-tooltip'
 import TextField from '@material-ui/core/TextField'
-
-import hrFirst from '../../images/hrFirst.svg'
 
 import { themeStyles } from '../../styles'
 
@@ -154,39 +151,58 @@ const display = (props: Props) => {
   return (
 
     <>
-      <Grid item container justify="flex-start" xs={6}>
 
-        <Button
-          onClick={() => props.setActivePage(PageTypes.SIGNIN)}
-          color="secondary"
-          style={{
-            textTransform: 'none'
-          }}
-        >
-          {Paths.signIn}
-        </Button>
+      <Grid item container xs={12}>
 
-        <img src={hrFirst} className={classes.hr}/>
+        <Grid item container justify="center" xs={6}>
 
-      </Grid>
+          <Link
+            className={classes.registerActiveLink}
+            to={Local.register}
+            onClick={() => props.setActivePage(PageTypes.REGISTER)}
+          >
+            {Paths.register}
+          </Link>
 
-      <Grid item container justify="flex-end" xs={6}>
+          <Grid item container justify="flex-start" xs={12}>
+            <svg
+               xmlns="http://www.w3.org/2000/svg"
+               width="2000"
+               height="4"
+               style={{
+                 paddingRight: "10px"
+               }}
+            >
+              <line x2="2000" stroke="#317AFF" strokeWidth={4} />
+            </svg>
+          </Grid>
 
-        <Button
-          onClick={() => props.setActivePage(PageTypes.REGISTER)}
-          style={{
-            textTransform: 'none',
-            color: '#001C32'
-          }}
-        >
-          {Paths.register}
-        </Button>
+        </Grid>
 
-       <img src={hrFirst} className={classes.hr}/>
+        <Grid item container justify="center" xs={6}>
 
-      </Grid>
+          <Link
+            className={classes.registerInActiveLink}
+            to={Local.signIn}
+            onClick={() => props.setActivePage(PageTypes.SIGNIN)}
+          >
+            {Paths.signIn}
+          </Link>
 
-      <Grid item container className={classes.form} xs={12}>
+          <Grid item container justify="flex-start" xs={12}>
+            <svg
+               xmlns="http://www.w3.org/2000/svg"
+               width="2000"
+               height="4"
+               style={{
+                 paddingLeft: "10px"
+               }}
+            >
+              <line x2="2000" stroke="#AAAABE" strokeWidth={4} />
+            </svg>
+          </Grid>
+
+        </Grid>
 
         <form onSubmit={formik.handleSubmit} className={classes.formSubmit}>
           <Grid item container className={classes.formLabel} xs={12}>
@@ -272,8 +288,6 @@ const display = (props: Props) => {
               color="primary"
               size='medium'
               variant="contained"
-              data-for='loginButton'
-              data-tip
               style={{
                 textTransform: 'none',
                 fontSize: "1em",
@@ -281,20 +295,15 @@ const display = (props: Props) => {
             >
               {User.loginButton}
             </Button>
-            <ReactTooltip
-              id='registerutton'
-              place="bottom"
-              effect="solid"
-            >
-              {Help.loginTip}
-            </ReactTooltip>
           </Grid>
         </form>
-      </Grid>
-      <Grid item container xs={12} alignItems="flex-start">
-        <Typography variant="h5">
-          {summary}
-        </Typography>
+
+        <Grid item container className={classes.formSummary} xs={12}>
+          <Typography variant="h5">
+            {summary}
+          </Typography>
+        </Grid>
+
       </Grid>
     </>
   )
