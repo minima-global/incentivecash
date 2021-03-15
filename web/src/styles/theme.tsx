@@ -63,11 +63,11 @@ let theme = createMuiTheme ({
       color: '#91919D'
     },
     h3: {
-      lineHeight: "1.618",
-      fontSize: "1.25em",
-      fontWeight: 400,
+      lineHeight: "2",
+      fontSize: "1.4em",
+      fontWeight: 700,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-      color: 'red'
+      color: '#001C32',
     },
     h4: {
       lineHeight: "1.618",
@@ -475,6 +475,20 @@ const themeStyles = makeStyles({
     background: 'linear-gradient(#317AFF, #317AFF)',
     '&:hover': {
       background: 'linear-gradient(#346FE6, #346FE6)'
+    }
+  },
+  forgotLink: {
+    color: '#317AFF',
+    lineHeight: "2",
+    fontSize: "1.1em",
+    textDecoration: 'none',
+    fontWeight: 700,
+    '&:active': {
+      textDecoration: 'none'
+    },
+    '&:hover': {
+      textDecoration: 'none',
+      color: '#a1c8ff'
     }
   },
   registerActiveLink: {

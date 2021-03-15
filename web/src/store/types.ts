@@ -25,6 +25,7 @@ export type AppDispatch = ThunkDispatch<ApplicationState, any, ActionProps>
 export const enum PageTypes {
   NONE = "",
   WELCOME = "welcome",
+  RESET = "reset",
   REGISTER = "register",
   REGISTERPASSWORD = "registerPassword",
   SIGNIN = "signin",
@@ -64,6 +65,10 @@ export interface UserRegisterPassword {
 export interface SignIn {
   email: string
   password: string
+}
+
+export interface Reset {
+  email: string
 }
 
 export interface CreateUser {

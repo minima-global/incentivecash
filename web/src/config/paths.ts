@@ -8,6 +8,7 @@ class Local {
 
   static readonly signIn = '/signIn'
   static readonly register = '/register'
+  static readonly reset = '/reset'
   static readonly registerReferral = `${Local.register}/:uid/:referral`
   static readonly registerEmail = `${Local.register}/:email`
   static readonly registerEmailUID = `${Local.register}/:uid/:referral/:email`

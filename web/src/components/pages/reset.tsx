@@ -17,21 +17,19 @@ import {
   ApplicationState,
   AppDispatch,
   PageTypes,
-  SignIn,
+  Reset as UserReset,
   TxData
 } from '../../store/types'
 
 import { setActivePage } from '../../store/app/appData/actions'
-import { login, initTx, initUser, getUser } from '../../store/app/server/actions'
+import { initTx, initUser, resetPassword } from '../../store/app/server/actions'
 
 import { Local, Paths, GeneralError, Help, User, Misc } from '../../config'
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()
     .email()
-    .required(`${GeneralError.required}`),
-  password: Yup.string()
-    .required(`${GeneralError.required}`),
+    .required(`${GeneralError.required}`)
 })
 
 interface StateProps {
@@ -42,15 +40,14 @@ interface DispatchProps {
   setActivePage: (page: PageTypes) => void
   initUser: () => void
   initTx: () => void
-  login: (user: SignIn) => void
-  getUser: () => void
+  resetPassword: (user: UserReset) => void
 }
 
 type Props = StateProps & DispatchProps
 
-const userLogin = (props: Props) => {
+const display = (props: Props) => {
 
-  const [user, setUser] = useState({email: "", password: ""})
+  const [user, setUser] = useState({email: ""})
   const [summary, setSummary] = useState("")
   const history = useHistory()
   let isFirstRun = useRef(true)
@@ -73,12 +70,11 @@ const userLogin = (props: Props) => {
 
         setSummary(txSummary)
 
-        if ( txSummary === `${User.loginSuccess}` ) {
+        if ( txSummary === `${User.resetSuccess}` ) {
 
-          props.getUser()
           pushTimeout = setTimeout(() => {
             props.initTx()
-            props.setActivePage(PageTypes.WELCOME)
+            props.setActivePage(PageTypes.SIGNIN)
             history.push(`${Local.welcome}`)
           }, Misc.successLoginDelay)
         }
@@ -94,18 +90,16 @@ const userLogin = (props: Props) => {
 
   const formik = useFormik({
     initialValues: {
-      email: user.email,
-      password: user.password
+      email: user.email
     },
     enableReinitialize: true,
     validationSchema: loginSchema,
     onSubmit: (values: any) => {
 
-      const userInfo: SignIn = {
-          email: values.email,
-          password:  values.password
+      const userInfo: UserReset = {
+          email: values.email
       }
-      props.login(userInfo)
+      props.resetPassword(userInfo)
     },
   })
 
@@ -113,53 +107,22 @@ const userLogin = (props: Props) => {
     <>
       <Grid item container xs={12}>
 
-        <Grid item container justify="center" xs={6}>
+        <Grid item container justify="center" xs={12}>
 
-          <Link
-            className={classes.registerInActiveLink}
-            to={Local.register}
-            onClick={() => props.setActivePage(PageTypes.REGISTER)}
-          >
-            {Paths.register}
-          </Link>
+          <Typography variant="h3">
+            {Paths.reset}
+          </Typography>
 
           <Grid item container justify="flex-start" xs={12}>
             <svg
                xmlns="http://www.w3.org/2000/svg"
                width="2000"
                height="4"
-               style={{
-                 paddingRight: "10px"
-               }}
-            >
-              <line x2="2000" stroke="#AAAABE" strokeWidth={4} />
-            </svg>
-          </Grid>
-
-        </Grid>
-
-        <Grid item container justify="center" xs={6}>
-
-          <Link
-            className={classes.registerActiveLink}
-            to={Local.signIn}
-            onClick={() => props.setActivePage(PageTypes.SIGNIN)}
-          >
-            {Paths.signIn}
-          </Link>
-
-          <Grid item container justify="flex-start" xs={12}>
-            <svg
-               xmlns="http://www.w3.org/2000/svg"
-               width="2000"
-               height="4"
-               style={{
-                 paddingLeft: "10px"
-               }}
             >
               <line x2="2000" stroke="#317AFF" strokeWidth={4} />
             </svg>
           </Grid>
+
         </Grid>
 
         <form onSubmit={formik.handleSubmit} className={classes.formSubmit}>
@@ -182,25 +145,6 @@ const userLogin = (props: Props) => {
               <div>{formik.errors.email}</div>
             ) : null}
           </Grid>
-          <Grid item container className={classes.formLabel} xs={12}>
-            <label htmlFor="password">{User.password}</label>
-          </Grid>
-          <Grid item container xs={12}>
-            <TextField
-              fullWidth
-              size="small"
-              name="password"
-              type="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              InputProps={{ disableUnderline: true }}
-            />
-          </Grid>
-          <Grid item container className={classes.formError} xs={12}>
-            {formik.errors.password && formik.touched.password ? (
-              <div>{formik.errors.password}</div>
-            ) : null}
-          </Grid>
           <Grid item container className={classes.formButton} xs={12}>
             <Button
               type='submit'
@@ -213,7 +157,7 @@ const userLogin = (props: Props) => {
                 fontSize: "1em"
               }}
             >
-              {User.loginButton}
+              {User.resetButton}
             </Button>
           </Grid>
 
@@ -221,16 +165,6 @@ const userLogin = (props: Props) => {
             <Typography variant="h5">
               {summary}
             </Typography>
-          </Grid>
-
-          <Grid item container justify="center" xs={12}>
-            <Link
-              className={classes.forgotLink}
-              to={Local.reset}
-              onClick={() => props.setActivePage(PageTypes.RESET)}
-            >
-              {User.forgotPassword}
-            </Link>
           </Grid>
 
         </form>
@@ -250,12 +184,11 @@ const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
    setActivePage: (page: PageTypes) => dispatch(setActivePage(page)),
    initUser: () => dispatch(initUser()),
    initTx: () => dispatch(initTx()),
-   login: (user: SignIn) => dispatch(login(user)),
-   getUser: () => dispatch(getUser())
+   resetPassword: (user: UserReset) => dispatch(resetPassword(user)),
  }
 }
 
-export const Login = connect<StateProps, DispatchProps, {}, ApplicationState>(
+export const Reset = connect<StateProps, DispatchProps, {}, ApplicationState>(
   mapStateToProps,
   mapDispatchToProps
-)(userLogin)
+)(display)

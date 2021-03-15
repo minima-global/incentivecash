@@ -29,6 +29,7 @@ import {
 
 import {
   Login,
+  Reset,
   RegisterReferral,
   RegisterPassword
 } from '.'
@@ -122,9 +123,13 @@ const display = (props: Props) => {
 
             : (
 
+              page == PageTypes.RESET ?
+
+                <Reset />
+              :
+
               <Login />
             )
-
         )}
 
       </Grid>

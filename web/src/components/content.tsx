@@ -40,6 +40,11 @@ export const Content = () => {
       />
 
       <Route
+        name={Paths.reset}
+        exact path={Local.reset}
+        render={() => <Home page={PageTypes.RESET}/>}
+      />
+      <Route
         name={Paths.register}
         exact path={Local.register}
         render={() => <Home page={PageTypes.REGISTER}/>}

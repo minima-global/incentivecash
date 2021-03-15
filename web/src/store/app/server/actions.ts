@@ -7,6 +7,7 @@ import {
   AppDispatch,
   UserActionTypes,
   User,
+  Reset,
   UserRegister,
   UserRegisterPassword,
   CreateUser,
@@ -330,6 +331,13 @@ export const getUser = () => {
      .catch(error => {
           dispatch(write({data: txData})(TxActionTypes.TX_FAILURE))
      })
+  }
+}
+
+export const resetPassword = (user: Reset) => {
+  return async (dispatch: AppDispatch, getState: Function) => {
+
+    const state = getState()
   }
 }
 
