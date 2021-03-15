@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { DirectusService } from './directus.service';
 import { Injectable } from '@angular/core';
 import { ReplaySubject, Subject } from 'rxjs';
@@ -81,7 +82,7 @@ export class StoreService {
   lastAccess: Subject<LastAccess> = new ReplaySubject<LastAccess>(1);
   userRewards: Subject<string> = new ReplaySubject<string>(1);
 
-  constructor(private _directus: DirectusService) {
+  constructor(private _directus: DirectusService, private route: Router) {
     // track this script
     Minima.cmd('extrascript \"'+this.timescript_v2+"\"", (res: any) => {});
     this.getUserDetailsOnce().then((res: UserDetails) => {
@@ -156,7 +157,9 @@ export class StoreService {
 
         this.data.next(temp);
         console.log(temp);
-      });
+      }).catch(err => {
+        console.log(err);
+      })
 
     })
   }
@@ -185,6 +188,8 @@ export class StoreService {
         this.userRewards.next(json);
       }
     }).catch((error) => {
+      alert('Session expired!  You have been signed out!');
+      this.route.navigate(['/home']);
       console.log(error);
     });
   }
@@ -205,6 +210,8 @@ export class StoreService {
 
     }).then(data => {
       console.log(data);
+      let json = JSON.stringify(data);
+      Minima.file.save(json, 'tokenid.txt', (res: any) => {});
       this.tokenId.next(data);
     }).catch(error => {
       console.log(error);

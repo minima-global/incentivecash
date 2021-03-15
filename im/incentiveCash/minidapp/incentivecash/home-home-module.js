@@ -229,6 +229,7 @@ let HomePage = class HomePage {
         if (data.publickeys && data.publickeys.length === 0) {
             // post a new key
             this.postAKey(user);
+            localStorage.setItem('isLogged', 'true');
         }
         else {
             // check current keys with remote keys to find a match
@@ -244,11 +245,13 @@ let HomePage = class HomePage {
                 // matching keys found
                 const intersection = nodeKeys.filter(element => serverKeys.includes(element.publickey));
                 if (intersection.length === 0) {
+                    localStorage.setItem('isLogged', 'true');
                     this.postAKey(user);
                 }
                 else {
                     this.loginStatus = 'Sign in successful!';
                     this.lastAccess();
+                    minima__WEBPACK_IMPORTED_MODULE_9__["Minima"].file.save(JSON.stringify({ uid: user.refID }), 'uid.txt', (res) => { });
                     minima__WEBPACK_IMPORTED_MODULE_9__["Minima"].file.load('first.txt', (res) => {
                         if (res.success) {
                             this.getReferenceButton.disabled = false;
@@ -259,6 +262,7 @@ let HomePage = class HomePage {
                             this.router.navigate(['/welcome']);
                         }
                     });
+                    localStorage.setItem('isLogged', 'true');
                     this.loginForm.reset();
                     this.loginStatus = '';
                     let temp = user;

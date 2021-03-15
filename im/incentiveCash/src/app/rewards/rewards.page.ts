@@ -10,13 +10,6 @@ import * as moment from 'moment';
 })
 export class RewardsPage implements OnInit {
   
-  @HostListener('window:beforeunload', ['$event'])
-  beforeunload($event: Event): void {
-    this._storeService.getUserDetailsOnce().then((usr: UserDetails) => {
-      localStorage.setItem('access_token', usr.loginData.access_token);
-    });
-  } 
-
   @ViewChild('claimedSegment', {static: false}) claimedSegment: IonSegment;
   rewardList: Rewards[] = [];
   totalClaimed = 0;
@@ -25,7 +18,6 @@ export class RewardsPage implements OnInit {
   constructor(private _storeService: StoreService) { }
 
   ionViewWillEnter() {
-    console.log('Entered Rewards Page');
     this._storeService.getUserDetailsOnce().then((user: UserDetails) => {
       this._storeService.fetchRewards(user.refID);
     });

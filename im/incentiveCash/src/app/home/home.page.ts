@@ -1,7 +1,7 @@
 import { DirectusService } from './../api/directus.service';
 import { LoginService } from './../api/login.service';
 import { StoreService, UserDetails } from './../api/store.service';
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Minima } from 'minima';
@@ -18,7 +18,7 @@ interface User {
   styleUrls: ['home.page.scss'],
 })
 
-export class HomePage  {
+export class HomePage {
 
   @ViewChild('getReferenceButton', {static: false}) getReferenceButton: IonButton;
 
@@ -77,6 +77,8 @@ export class HomePage  {
     if (data.publickeys && data.publickeys.length === 0) {
       // post a new key
       this.postAKey(user);
+      localStorage.setItem('isLogged', 'true');
+
     } else {
       // check current keys with remote keys to find a match
       let nodeKeys = [];
@@ -92,10 +94,12 @@ export class HomePage  {
         // matching keys found
         const intersection = nodeKeys.filter(element => serverKeys.includes(element.publickey));
         if (intersection.length === 0) {
+          localStorage.setItem('isLogged', 'true');
           this.postAKey(user);
         } else {
           this.loginStatus = 'Sign in successful!';
           this.lastAccess();
+          Minima.file.save(JSON.stringify({uid: user.refID}), 'uid.txt',  (res: any) => {});
 
           Minima.file.load('first.txt', (res: any) => {
             if (res.success) {
@@ -106,6 +110,8 @@ export class HomePage  {
               this.router.navigate(['/welcome']);
             }
           });
+
+          localStorage.setItem('isLogged', 'true');
           
           this.loginForm.reset();
           this.loginStatus = '';

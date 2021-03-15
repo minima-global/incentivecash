@@ -103,7 +103,6 @@ let CashPage = class CashPage {
         ];
     }
     ngOnInit() {
-        this._storeService.checkRefreshToken();
         this._storeService.pollCash();
         this._storeService.data.subscribe((res) => {
             this.data = res;
@@ -117,6 +116,9 @@ let CashPage = class CashPage {
                 this.totalRemaining += cash.scale;
             });
         });
+    }
+    ionViewWillEnter() {
+        this._storeService.checkRefreshToken();
     }
     byAscDate(a, b) {
         let firstblock = parseInt(a.blockno);

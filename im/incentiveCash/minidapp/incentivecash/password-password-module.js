@@ -131,6 +131,9 @@ let PasswordPage = class PasswordPage {
     }
     ngOnInit() {
     }
+    ionViewWillEnter() {
+        this._storeService.checkRefreshToken();
+    }
     signOut() {
         document.getElementById('sign-out-btn').style.opacity = '0.5';
         this._storeService.getUserDetailsOnce().then((res) => {

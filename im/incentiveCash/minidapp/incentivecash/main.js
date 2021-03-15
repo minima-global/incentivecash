@@ -78,28 +78,15 @@ let AuthGuardService = class AuthGuardService {
         this.router = router;
     }
     canActivate() {
-        if (!this.auth.isAuthenticated) {
-            this.router.navigate(['/home']);
+        if (!this.auth.isAuthenticated()) {
+            setTimeout(() => {
+                this.router.navigate(['/home']);
+            }, 150);
             return false;
         }
-        // return Promise.resolve(
-        //   this.auth.isAuthenticated().then((res: boolean) => {
-        //     if (res) {
-        //       console.log('AUTHENTICATED');
-        //       return true;
-        //     } else {
-        //       console.log('NOT AUTHENTICATED');
-        //       this.router.navigate(['/home']);
-        //       return false;
-        //     }
-        //   }));
-    }
-    getStatus() {
-        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
-            // return Promise.resolve(this.auth.isAuthenticated().then((res:boolean) => {
-            //   return res;
-            // }))
-        });
+        else {
+            return true;
+        }
     }
 };
 AuthGuardService.ctorParameters = () => [
@@ -155,12 +142,14 @@ const environment = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StoreService", function() { return StoreService; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "mrSG");
-/* harmony import */ var _directus_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./directus.service */ "o2mp");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs */ "qCKp");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "kU1M");
-/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! minima */ "Kmpd");
-/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(minima__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "tyNb");
+/* harmony import */ var _directus_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./directus.service */ "o2mp");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs */ "qCKp");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */ "kU1M");
+/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! minima */ "Kmpd");
+/* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(minima__WEBPACK_IMPORTED_MODULE_6__);
+
 
 
 
@@ -168,21 +157,22 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let StoreService = class StoreService {
-    constructor(_directus) {
+    constructor(_directus, route) {
         this._directus = _directus;
+        this.route = route;
         this.timescript = 'LET owner = PREVSTATE ( 0 ) LET time = PREVSTATE ( 1 ) RETURN SIGNEDBY ( owner ) AND @BLKNUM GTE time';
         this.timescript_v2 = 'LET owner = PREVSTATE ( 0 ) LET time = PREVSTATE ( 1 ) LET maxtime = PREVSTATE ( 2 ) RETURN SIGNEDBY ( owner ) AND @BLKNUM GTE time AND @BLKNUM LTE maxtime';
         this.timeaddress_v2 = '0xA9D9272A6D69466A2905796F7381F789DEE48C06';
         this.timeaddress = '0x73349B30EA22B0B0867C6081EE7F6B014D3C9E88';
-        this.data = new rxjs__WEBPACK_IMPORTED_MODULE_3__["ReplaySubject"](1);
-        this.cashlist = new rxjs__WEBPACK_IMPORTED_MODULE_3__["ReplaySubject"](1);
-        this.tokenId = new rxjs__WEBPACK_IMPORTED_MODULE_3__["ReplaySubject"](1);
-        this.rewards = new rxjs__WEBPACK_IMPORTED_MODULE_3__["ReplaySubject"](1);
-        this.referralCode = new rxjs__WEBPACK_IMPORTED_MODULE_3__["ReplaySubject"](1);
-        this.lastAccess = new rxjs__WEBPACK_IMPORTED_MODULE_3__["ReplaySubject"](1);
-        this.userRewards = new rxjs__WEBPACK_IMPORTED_MODULE_3__["ReplaySubject"](1);
+        this.data = new rxjs__WEBPACK_IMPORTED_MODULE_4__["ReplaySubject"](1);
+        this.cashlist = new rxjs__WEBPACK_IMPORTED_MODULE_4__["ReplaySubject"](1);
+        this.tokenId = new rxjs__WEBPACK_IMPORTED_MODULE_4__["ReplaySubject"](1);
+        this.rewards = new rxjs__WEBPACK_IMPORTED_MODULE_4__["ReplaySubject"](1);
+        this.referralCode = new rxjs__WEBPACK_IMPORTED_MODULE_4__["ReplaySubject"](1);
+        this.lastAccess = new rxjs__WEBPACK_IMPORTED_MODULE_4__["ReplaySubject"](1);
+        this.userRewards = new rxjs__WEBPACK_IMPORTED_MODULE_4__["ReplaySubject"](1);
         // track this script
-        minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].cmd('extrascript \"' + this.timescript_v2 + "\"", (res) => { });
+        minima__WEBPACK_IMPORTED_MODULE_6__["Minima"].cmd('extrascript \"' + this.timescript_v2 + "\"", (res) => { });
         this.getUserDetailsOnce().then((res) => {
             this.fetchRewards(res.refID);
             this.fetchRerral(res.refID);
@@ -246,11 +236,13 @@ let StoreService = class StoreService {
                 temp.loginData.sessions.sessionEnd = sessionEnd;
                 this.data.next(temp);
                 console.log(temp);
+            }).catch(err => {
+                console.log(err);
             });
         });
     }
     getUserDetailsOnce() {
-        return this.data.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["take"])(1))
+        return this.data.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["take"])(1))
             .toPromise();
     }
     fetchRewards(uid) {
@@ -273,6 +265,8 @@ let StoreService = class StoreService {
                 this.userRewards.next(json);
             }
         }).catch((error) => {
+            alert('Session expired!  You have been signed out!');
+            this.route.navigate(['/home']);
             console.log(error);
         });
     }
@@ -288,6 +282,8 @@ let StoreService = class StoreService {
             return response.json();
         }).then(data => {
             console.log(data);
+            let json = JSON.stringify(data);
+            minima__WEBPACK_IMPORTED_MODULE_6__["Minima"].file.save(json, 'tokenid.txt', (res) => { });
             this.tokenId.next(data);
         }).catch(error => {
             console.log(error);
@@ -316,7 +312,7 @@ let StoreService = class StoreService {
         });
     }
     pollCash() {
-        minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].cmd('coins relevant address:' + this.timeaddress_v2, (res) => {
+        minima__WEBPACK_IMPORTED_MODULE_6__["Minima"].cmd('coins relevant address:' + this.timeaddress_v2, (res) => {
             this.tokenId.subscribe((token) => {
                 if (res.status) {
                     console.log(res);
@@ -325,9 +321,9 @@ let StoreService = class StoreService {
                         // scaleFactor
                         let scale = coin.data.coin.amount * token.scaleFactor;
                         // progressBar
-                        let percent = ((minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].block / coin.data.prevstate[1].data) * 10) / 10;
+                        let percent = ((minima__WEBPACK_IMPORTED_MODULE_6__["Minima"].block / coin.data.prevstate[1].data) * 10) / 10;
                         // actualTime
-                        let diff = coin.data.prevstate[1].data - minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].block;
+                        let diff = coin.data.prevstate[1].data - minima__WEBPACK_IMPORTED_MODULE_6__["Minima"].block;
                         let today = new Date();
                         // todays milliseconds
                         let ms = today.getTime();
@@ -344,13 +340,13 @@ let StoreService = class StoreService {
                             if (state0 && state1 && state2 && state1.data.length > 0 && state0.data.length > 0 && state2.data.length > 0) {
                                 let unlocktime = coin.data.prevstate[1].data;
                                 let window = coin.data.prevstate[2].data;
-                                if (unlocktime > minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].block) {
+                                if (unlocktime > minima__WEBPACK_IMPORTED_MODULE_6__["Minima"].block) {
                                     temp.push({ index: i + 1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, scale: scale, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data, percent: percent });
                                 }
-                                else if (unlocktime <= minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].block && window >= minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].block) {
+                                else if (unlocktime <= minima__WEBPACK_IMPORTED_MODULE_6__["Minima"].block && window >= minima__WEBPACK_IMPORTED_MODULE_6__["Minima"].block) {
                                     temp.push({ index: i + 1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, scale: scale, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Ready', blockno: coin.data.prevstate[1].data, percent: percent });
                                 }
-                                else if (minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].block > window) {
+                                else if (minima__WEBPACK_IMPORTED_MODULE_6__["Minima"].block > window) {
                                     temp.push({ index: i + 1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, scale: scale, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Missed', blockno: coin.data.prevstate[1].data, percent: percent });
                                 }
                             }
@@ -363,10 +359,11 @@ let StoreService = class StoreService {
     }
 };
 StoreService.ctorParameters = () => [
-    { type: _directus_service__WEBPACK_IMPORTED_MODULE_1__["DirectusService"] }
+    { type: _directus_service__WEBPACK_IMPORTED_MODULE_2__["DirectusService"] },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }
 ];
 StoreService = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
-    Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Injectable"])({
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Injectable"])({
         providedIn: 'root'
     })
 ], StoreService);
@@ -398,9 +395,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let AppComponent = class AppComponent {
-    constructor(minima, route) {
+    constructor(minima, router) {
         this.minima = minima;
-        this.route = route;
+        this.router = router;
+        this.subscription = router.events.subscribe((event) => {
+            if (event instanceof _angular_router__WEBPACK_IMPORTED_MODULE_3__["NavigationStart"]) {
+                this.browserRefresh = !router.navigated;
+                if (this.browserRefresh) {
+                    localStorage.removeItem('isLogged');
+                }
+            }
+        });
     }
 };
 AppComponent.ctorParameters = () => [
@@ -454,14 +459,10 @@ let AuthService = class AuthService {
     constructor(jwtHelper, _StoreService) {
         this.jwtHelper = jwtHelper;
         this._StoreService = _StoreService;
-        this.session = 0;
-        this.currentTime = 0;
-        this.sessionEnd = 0;
     }
     isAuthenticated() {
-        return false;
-        // const token = await this.getToken(); 
-        // return !this.jwtHelper.isTokenExpired(token);
+        const isLogged = localStorage.getItem('isLogged');
+        return isLogged;
     }
 };
 AuthService.ctorParameters = () => [
@@ -962,6 +963,11 @@ const routes = [
         path: 'welcome',
         loadChildren: () => __webpack_require__.e(/*! import() | welcome-welcome-module */ "welcome-welcome-module").then(__webpack_require__.bind(null, /*! ./welcome/welcome.module */ "pi15")).then(m => m.WelcomePageModule),
         canActivate: [_api_auth_guard_service__WEBPACK_IMPORTED_MODULE_1__["AuthGuardService"]]
+    },
+    {
+        path: '**',
+        redirectTo: 'home',
+        pathMatch: 'full'
     }
 ];
 let AppRoutingModule = class AppRoutingModule {

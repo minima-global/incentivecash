@@ -51,6 +51,12 @@ const routes: Routes = [
     path: 'welcome',
     loadChildren: () => import('./welcome/welcome.module').then( m => m.WelcomePageModule),
     canActivate: [AuthGuard]
+  },
+  {
+    path: '**',
+    redirectTo: 'home',
+    pathMatch: 'full'
+
   }
 ];
 
