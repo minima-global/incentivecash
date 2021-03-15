@@ -1,6 +1,6 @@
 import { IonSegment } from '@ionic/angular';
 import { StoreService, Rewards, UserDetails } from './../api/store.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 
 @Component({
@@ -10,6 +10,12 @@ import * as moment from 'moment';
 })
 export class RewardsPage implements OnInit {
   
+  @HostListener('window:beforeunload', ['$event'])
+  beforeunload($event: Event): void {
+    this._storeService.getUserDetailsOnce().then((usr: UserDetails) => {
+      localStorage.setItem('access_token', usr.loginData.access_token);
+    });
+  } 
 
   @ViewChild('claimedSegment', {static: false}) claimedSegment: IonSegment;
   rewardList: Rewards[] = [];

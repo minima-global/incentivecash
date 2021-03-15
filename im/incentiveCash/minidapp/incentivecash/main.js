@@ -37,9 +37,6 @@ let MinimaService = class MinimaService {
         minima__WEBPACK_IMPORTED_MODULE_3__["Minima"].init((msg) => {
             if (msg.event === 'newblock') {
                 this._StoreService.pollCash();
-                this._StoreService.getUserDetailsOnce().then((res) => {
-                    this._StoreService.fetchRewards(res.refID);
-                });
             }
         });
     }
@@ -81,11 +78,28 @@ let AuthGuardService = class AuthGuardService {
         this.router = router;
     }
     canActivate() {
-        if (!this.auth.isAuthenticated()) {
+        if (!this.auth.isAuthenticated) {
             this.router.navigate(['/home']);
             return false;
         }
-        return true;
+        // return Promise.resolve(
+        //   this.auth.isAuthenticated().then((res: boolean) => {
+        //     if (res) {
+        //       console.log('AUTHENTICATED');
+        //       return true;
+        //     } else {
+        //       console.log('NOT AUTHENTICATED');
+        //       this.router.navigate(['/home']);
+        //       return false;
+        //     }
+        //   }));
+    }
+    getStatus() {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            // return Promise.resolve(this.auth.isAuthenticated().then((res:boolean) => {
+            //   return res;
+            // }))
+        });
     }
 };
 AuthGuardService.ctorParameters = () => [
@@ -166,6 +180,7 @@ let StoreService = class StoreService {
         this.rewards = new rxjs__WEBPACK_IMPORTED_MODULE_3__["ReplaySubject"](1);
         this.referralCode = new rxjs__WEBPACK_IMPORTED_MODULE_3__["ReplaySubject"](1);
         this.lastAccess = new rxjs__WEBPACK_IMPORTED_MODULE_3__["ReplaySubject"](1);
+        this.userRewards = new rxjs__WEBPACK_IMPORTED_MODULE_3__["ReplaySubject"](1);
         // track this script
         minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].cmd('extrascript \"' + this.timescript_v2 + "\"", (res) => { });
         this.getUserDetailsOnce().then((res) => {
@@ -185,8 +200,7 @@ let StoreService = class StoreService {
             if (time_apart <= 300000) {
                 console.log('LESS THAN 5 mins LEFT, Time to update access_token');
                 // time to get a new access_token
-                if (refresh_token && refresh_token.length > 0)
-                    this.updateAccessToken(refresh_token);
+                this.updateAccessToken(refresh_token);
             }
         });
     }
@@ -195,6 +209,7 @@ let StoreService = class StoreService {
         const data = {
             refresh_token: refresh_token
         };
+        console.log(data);
         const url = 'https://incentivedb.minima.global/auth/refresh';
         fetch(url, {
             method: 'POST',
@@ -239,6 +254,7 @@ let StoreService = class StoreService {
             .toPromise();
     }
     fetchRewards(uid) {
+        console.log('Getting Rewards');
         this._directus.fetchRewards(uid)
             .then((res) => {
             if (!res.ok) {
@@ -253,6 +269,8 @@ let StoreService = class StoreService {
             else {
                 console.log('Observable rewards updated.');
                 this.rewards.next(data);
+                const json = JSON.stringify(data);
+                this.userRewards.next(json);
             }
         }).catch((error) => {
             console.log(error);
@@ -274,24 +292,6 @@ let StoreService = class StoreService {
         }).catch(error => {
             console.log(error);
         });
-        // this._directus.getTokenId()
-        // .then(res => {
-        //   console.log(res);
-        //   // if (!res.ok) {
-        //   //    console.log('/custom/minima/token failed to fetch resources.')
-        //   //    console.log(res);
-        //   // }
-        //   // return res.json()
-        // }).then(data => {
-        //   // console.log(data);
-        //   // if (data.errors) {
-        //   //   console.log(data.errors);
-        //   // } else {
-        //   //   this.tokenId.next(data)
-        //   // }
-        // }).catch((error) => {
-        //   console.log(error) }
-        // );
     }
     fetchRerral(uid) {
         this._directus.getReferral(uid)
@@ -319,6 +319,7 @@ let StoreService = class StoreService {
         minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].cmd('coins relevant address:' + this.timeaddress_v2, (res) => {
             this.tokenId.subscribe((token) => {
                 if (res.status) {
+                    console.log(res);
                     let temp = [];
                     res.response.coins.forEach((coin, i) => {
                         // scaleFactor
@@ -336,15 +337,22 @@ let StoreService = class StoreService {
                         let total_ms = diff_ms + ms;
                         // difference
                         let difference = total_ms - ms;
-                        if (coin.data.coin.tokenid === token.tokenId) {
-                            if (coin.data.prevstate[1] && (coin.data.prevstate[1].data > minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].block)) {
-                                temp.push({ index: i + 1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, scale: scale, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data, percent: percent });
-                            }
-                            else if ((coin.data.prevstate[0] && coin.data.prevstate[1] && coin.data.prevstate[2]) && (coin.data.prevstate[1].data <= minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].block && coin.data.prevstate[2].data >= minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].block)) {
-                                temp.push({ index: i + 1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, scale: scale, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Ready', blockno: coin.data.prevstate[1].data, percent: percent });
-                            }
-                            else if ((coin.data.prevstate[0] && coin.data.prevstate[1] && coin.data.prevstate[2]) && (coin.data.prevstate[1].data <= minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].block && coin.data.prevstate[2].data <= minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].block)) {
-                                temp.push({ index: i + 1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, scale: scale, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Missed', blockno: coin.data.prevstate[1].data, percent: percent });
+                        if (coin.data.coin.tokenid === "0x00") {
+                            let state0 = coin.data.prevstate[0];
+                            let state1 = coin.data.prevstate[1];
+                            let state2 = coin.data.prevstate[2];
+                            if (state0 && state1 && state2 && state1.data.length > 0 && state0.data.length > 0 && state2.data.length > 0) {
+                                let unlocktime = coin.data.prevstate[1].data;
+                                let window = coin.data.prevstate[2].data;
+                                if (unlocktime > minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].block) {
+                                    temp.push({ index: i + 1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, scale: scale, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data, percent: percent });
+                                }
+                                else if (unlocktime <= minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].block && window >= minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].block) {
+                                    temp.push({ index: i + 1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, scale: scale, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Ready', blockno: coin.data.prevstate[1].data, percent: percent });
+                                }
+                                else if (minima__WEBPACK_IMPORTED_MODULE_5__["Minima"].block > window) {
+                                    temp.push({ index: i + 1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, scale: scale, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Missed', blockno: coin.data.prevstate[1].data, percent: percent });
+                                }
                             }
                         }
                     });
@@ -451,17 +459,9 @@ let AuthService = class AuthService {
         this.sessionEnd = 0;
     }
     isAuthenticated() {
-        return !!this.checkSessions();
-    }
-    checkSessions() {
-        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
-            yield this._StoreService.getUserDetailsOnce().then((user) => {
-                this.currentTime = new Date().getTime();
-                this.sessionEnd = user.loginData.sessions.sessionEnd.getTime();
-                this.session = this.sessionEnd - this.currentTime;
-                return this.session;
-            });
-        });
+        return false;
+        // const token = await this.getToken(); 
+        // return !this.jwtHelper.isTokenExpired(token);
     }
 };
 AuthService.ctorParameters = () => [

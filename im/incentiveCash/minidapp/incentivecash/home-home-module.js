@@ -46,7 +46,7 @@ HomePageRoutingModule = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<ion-header class=\"ion-no-border\" [translucent]=\"true\">\n  <ion-toolbar>\n    <ion-title>\n      <ion-grid class=\"ion-no-padding\">\n        <ion-row>\n          <ion-col class=\"title ion-no-padding ion-text-center\">\n            Minima Incentive Program\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content [fullscreen]=\"true\">\n  <ion-header collapse=\"condense\">\n    <ion-toolbar>\n      <ion-title size=\"large\">Blank</ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-grid class=\"welcome-container\">\n    <ion-row>\n      <ion-col class=\"ion-text-center welcome\">\n        Welcome to the<br>\n        Minima Incentive Program\n      </ion-col>\n    </ion-row>\n    <ion-row class=\"has\">\n      <ion-col>\n        <div class=\"blue-ruler\"></div>\n      </ion-col>\n    </ion-row>\n    <ion-row class=\"has\">\n      <ion-col class=\"m-t7 ion-text-center welcome-subtitle\">\n        If you have already signed up for our<br>Incentive Program, please sign in using <br>\n        your email & password below.\n        <br><br>\n        Or click here to <a>register</a> now\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n\n  <form [formGroup]=\"loginForm\" (ngSubmit)=\"getReferenceID()\" >\n    <ion-list>\n      <ion-item class=\"ion-no-padding no-ripple\" lines=\"none\">\n        <ion-label position=\"stacked\">Email</ion-label>\n        <ion-input clearInput=\"true\" formControlName=\"uName\"></ion-input>\n      </ion-item>\n      <ion-item class=\"ion-no-padding no-ripple\" lines=\"none\">\n        <ion-label position=\"stacked\">Password</ion-label>\n        <ion-input clearInput=\"true\" formControlName=\"password\" type=\"password\"></ion-input>\n      </ion-item>\n\n      \n      <ion-button #getReferenceButton class=\"sign-up-btn\" fill=\"clear\" expand=\"block\" type=\"submit\">\n        Sign in\n      </ion-button>\n\n    </ion-list>\n  </form> \n\n  <ion-grid>\n    <ion-row class=\"has\">\n      <ion-col class=\"forgot ion-text-center\">\n        Forgot password?\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n\n  <ion-grid class=\"login-status-wrapper\" [hidden]=\"loginStatus.length === 0\">\n    <ion-row class=\"has\">\n      <ion-col class=\"login-status ion-text-center\">\n        {{ loginStatus }}\n      </ion-col>\n    </ion-row>\n    <ion-row *ngIf=\"loginStatus !== 'Sign in failed! Check your sign in details.'\" class=\"has ion-justify-content-center ion-align-items-center\">\n      <ion-col class=\"progress ion-text-center\">\n        <ion-progress-bar color=\"primary\" type=\"indeterminate\"></ion-progress-bar> \n      </ion-col>\n    </ion-row>\n  </ion-grid>\n\n</ion-content>\n\n<ion-footer class=\"ion-no-border\">\n  <div class=\"content\">\n    &#169; Copyright 2021 Minima GmbH\n  </div>\n</ion-footer>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<ion-header class=\"ion-no-border\" [translucent]=\"true\">\n  <ion-toolbar>\n    <ion-title>\n      <ion-grid class=\"ion-no-padding\">\n        <ion-row>\n          <ion-col class=\"title ion-no-padding ion-text-center\">\n            Minima Incentive Program\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content [fullscreen]=\"true\">\n  <ion-header collapse=\"condense\">\n    <ion-toolbar>\n      <ion-title size=\"large\">Blank</ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-grid class=\"welcome-container\">\n    <ion-row>\n      <ion-col class=\"ion-text-center welcome\">\n        Welcome to the<br>\n        Minima Incentive Program\n      </ion-col>\n    </ion-row>\n    <ion-row class=\"has\">\n      <ion-col>\n        <div class=\"blue-ruler\"></div>\n      </ion-col>\n    </ion-row>\n    <ion-row class=\"has\">\n      <ion-col class=\"m-t7 ion-text-center welcome-subtitle\">\n        If you have already signed up for our<br>Incentive Program, please sign in using <br>\n        your email & password below.\n        <br><br>\n        Or click here to <a href=\"https://incentive.minima.global/#/\" target=\"_\">register</a> now\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n\n  <form [formGroup]=\"loginForm\" (ngSubmit)=\"getReferenceID()\" >\n    <ion-list>\n      <ion-item class=\"ion-no-padding no-ripple\" lines=\"none\">\n        <ion-label position=\"stacked\">Email</ion-label>\n        <ion-input clearInput=\"true\" formControlName=\"uName\"></ion-input>\n      </ion-item>\n      <ion-item class=\"ion-no-padding no-ripple\" lines=\"none\">\n        <ion-label position=\"stacked\">Password</ion-label>\n        <ion-input clearInput=\"true\" formControlName=\"password\" type=\"password\"></ion-input>\n      </ion-item>\n\n      \n      <ion-button #getReferenceButton class=\"sign-up-btn\" fill=\"clear\" expand=\"block\" type=\"submit\">\n        Sign in\n      </ion-button>\n\n    </ion-list>\n  </form> \n\n  <ion-grid>\n    <ion-row class=\"has\">\n      <ion-col class=\"forgot ion-text-center\">\n        Forgot password?\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n\n  <ion-grid class=\"login-status-wrapper\" [hidden]=\"loginStatus.length === 0\">\n    <ion-row class=\"has\">\n      <ion-col class=\"login-status ion-text-center\">\n        {{ loginStatus }}\n      </ion-col>\n    </ion-row>\n    <ion-row *ngIf=\"loginStatus !== 'Sign in failed! Check your sign in details.'\" class=\"has ion-justify-content-center ion-align-items-center\">\n      <ion-col class=\"progress ion-text-center\">\n        <ion-progress-bar color=\"primary\" type=\"indeterminate\"></ion-progress-bar> \n      </ion-col>\n    </ion-row>\n  </ion-grid>\n\n</ion-content>\n\n<ion-footer class=\"ion-no-border\">\n  <div class=\"content\">\n    &#169; Copyright 2021 Minima GmbH\n  </div>\n</ion-footer>\n");
 
 /***/ }),
 
@@ -222,16 +222,13 @@ let HomePage = class HomePage {
             }
         }).catch(error => {
             console.log(error);
-        }).finally(() => {
-            this.loginStatus = '';
-            this.getReferenceButton.disabled = false;
         });
     }
     checkPubKey(user, data) {
         // check if current key exists on server
         if (data.publickeys && data.publickeys.length === 0) {
             // post a new key
-            this.postAKey(user.refID);
+            this.postAKey(user);
         }
         else {
             // check current keys with remote keys to find a match
@@ -247,16 +244,18 @@ let HomePage = class HomePage {
                 // matching keys found
                 const intersection = nodeKeys.filter(element => serverKeys.includes(element.publickey));
                 if (intersection.length === 0) {
-                    this.postAKey(user.refID);
+                    this.postAKey(user);
                 }
                 else {
-                    this.loginStatus = 'Login successful!';
+                    this.loginStatus = 'Sign in successful!';
                     this.lastAccess();
                     minima__WEBPACK_IMPORTED_MODULE_9__["Minima"].file.load('first.txt', (res) => {
                         if (res.success) {
+                            this.getReferenceButton.disabled = false;
                             this.router.navigate(['/rewards']);
                         }
                         else {
+                            this.getReferenceButton.disabled = false;
                             this.router.navigate(['/welcome']);
                         }
                     });
@@ -269,66 +268,54 @@ let HomePage = class HomePage {
             });
         }
     }
-    postAKey(uid) {
+    postAKey(user) {
         const url = 'https://incentivedb.minima.global/custom/minima/key';
         minima__WEBPACK_IMPORTED_MODULE_9__["Minima"].cmd('keys new; newaddress', (response) => {
             if (minima__WEBPACK_IMPORTED_MODULE_9__["Minima"].util.checkAllResponses(response)) {
-                if (uid && uid.length > 0 && response[0] && response[1] && response[0].response.key.publickey && response[1].response.address.hexaddress) {
+                if (user.refID && user.refID.length > 0 && response[0] && response[1] && response[0].response.key.publickey && response[1].response.address.hexaddress) {
                     const data = {
-                        userid: uid,
+                        userid: user.refID,
                         publickey: response[0].response.key.publickey,
                         address: response[1].response.address.hexaddress
                     };
                     this._directus.postAKey(data)
-                        .then(res => {
-                    });
-                    fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(data)
-                    })
-                        .then(res => {
-                        console.log(res);
+                        .then((res) => {
                         if (!res.ok) {
-                            this.loginStatus = 'Login failed!  Public key could not be posted!';
-                            const statusText = response.statusText;
-                            return res.json()
-                                .then((data) => {
-                                throw new Error(statusText);
-                            });
+                            this.loginStatus = 'Sign in failed!  Public key was not posted';
+                            this.getReferenceButton.disabled = false;
                         }
                         return res.json();
-                    })
-                        .then(data => {
-                        this.loginStatus = 'Login successful!';
+                    }).then(data => {
+                        if (data.errors) {
+                            this.loginStatus = data.errors[0].message;
+                            return;
+                        }
+                        this.loginStatus = 'Sign in successful!';
                         this.lastAccess();
                         minima__WEBPACK_IMPORTED_MODULE_9__["Minima"].file.load('first.txt', (res) => {
                             if (res.success) {
+                                this.getReferenceButton.disabled = false;
                                 this.router.navigate(['/rewards']);
                             }
                             else {
+                                this.getReferenceButton.disabled = false;
                                 this.router.navigate(['/welcome']);
                             }
                         });
                         this.loginForm.reset();
-                        this.loginStatus = '';
-                        this._storeService.getUserDetailsOnce().then((user) => {
-                            let temp = user;
-                            temp.pKey = response[0].response.key.publickey;
-                            this._storeService.data.next(temp);
-                            // save this for service.js
-                            minima__WEBPACK_IMPORTED_MODULE_9__["Minima"].file.save(JSON.stringify({ uid: user.refID }), 'uid.txt', (res) => { });
-                        });
-                    })
-                        .catch(errors => {
-                        alert(errors);
+                        let temp = user;
+                        temp.pKey = response[0].response.key.publickey;
+                        this._storeService.data.next(temp);
+                        // save this for service.js
+                        minima__WEBPACK_IMPORTED_MODULE_9__["Minima"].file.save(JSON.stringify({ uid: user.refID }), 'uid.txt', (res) => { });
+                    }).catch(error => {
+                        console.log(error);
+                    }).finally(() => {
+                        setTimeout(() => {
+                            this.loginStatus = '';
+                        }, 3000);
                     });
                 }
-            }
-            else {
-                alert('POSTING FAILED!  Payload is wrong');
             }
         });
     }
@@ -356,49 +343,41 @@ let HomePage = class HomePage {
                 this.updateUserData(token);
             }
         })
-            .catch(error => console.warn(error))
-            .finally(() => {
-            setTimeout(() => {
-                this.getReferenceButton.disabled = false;
-                this.loginStatus = '';
-            }, 5000);
-        });
+            .catch(error => console.warn(error));
     }
     updateUserData(token) {
-        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
-            const url = 'https://incentivedb.minima.global/users/me?access_token=' + token.access_token + '';
-            minima__WEBPACK_IMPORTED_MODULE_9__["Minima"].net.GET(url, (res) => {
-                //console.log(res);
-                // create sessions
-                let sessionStart = new Date();
-                let currentTime = sessionStart.getTime();
-                let expiryTime = currentTime + token.expires;
-                let sessionEnd = new Date(expiryTime);
-                let plainResponse = decodeURIComponent(res.result);
-                //console.log(plainResponse);
-                let data = JSON.parse(plainResponse);
-                if (data && data.data.id.length !== 0) {
-                    let user = {
-                        email: this.username.value,
-                        pKey: '',
-                        refID: data.data.id,
-                        loginData: {
-                            access_token: token.accessToken,
-                            refresh_token: token.refreshToken,
-                            expires: token.expires,
-                            sessions: {
-                                sessionStart: sessionStart,
-                                sessionEnd: sessionEnd
-                            }
+        const url = 'https://incentivedb.minima.global/users/me?access_token=' + token.access_token + '';
+        minima__WEBPACK_IMPORTED_MODULE_9__["Minima"].net.GET(url, (res) => {
+            //console.log(res);
+            // create sessions
+            let sessionStart = new Date();
+            let currentTime = sessionStart.getTime();
+            let expiryTime = currentTime + token.expires;
+            let sessionEnd = new Date(expiryTime);
+            let plainResponse = decodeURIComponent(res.result);
+            //console.log(plainResponse);
+            let data = JSON.parse(plainResponse);
+            if (data && data.data.id.length !== 0) {
+                let user = {
+                    email: this.username.value,
+                    pKey: '',
+                    refID: data.data.id,
+                    loginData: {
+                        access_token: token.access_token,
+                        refresh_token: token.refresh_token,
+                        expires: token.expires,
+                        sessions: {
+                            sessionStart: sessionStart,
+                            sessionEnd: sessionEnd
                         }
-                    };
-                    this._storeService.data.next(user);
-                    this.getPubKey(user);
-                }
-                else {
-                    console.log('Failed to retrieve user details from server..');
-                }
-            });
+                    }
+                };
+                this._storeService.data.next(user);
+                this.getPubKey(user);
+            }
+            else {
+                console.log('Failed to retrieve user details from server..');
+            }
         });
     }
     lastAccess() {

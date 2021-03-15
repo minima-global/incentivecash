@@ -13,15 +13,27 @@ export class AuthService {
   a_token: string;
   constructor(public jwtHelper: JwtHelperService, private _StoreService: StoreService) { }
 
-  public async isAuthenticated(): Promise<boolean> {
-    const token = await this.getToken(); 
-    return !this.jwtHelper.isTokenExpired(token);
+  public isAuthenticated(): boolean {
+
+    
+
+    return true;
+
+    // return this._StoreService.data.subscribe((usr: UserDetails) => {
+    //   if (usr.loginData.access_token.length === 0) {
+    //     return false;
+    //   } else {
+    //     return true;
+    //   }
+    // })
+    // const token = await this.getToken(); 
+    // return !this.jwtHelper.isTokenExpired(token);
   }
 
-  async getToken() {
-    return Promise.resolve(this._StoreService.getUserDetailsOnce().then((usr: UserDetails) => {
-      return usr.loginData.access_token;
-    }));
-  }
+  // async getToken() {
+  //   return Promise.resolve(this._StoreService.getUserDetailsOnce().then((usr: UserDetails) => {
+  //     return usr.loginData.access_token || localStorage.getItem('access_token');
+  //   }));
+  // }
 
 }

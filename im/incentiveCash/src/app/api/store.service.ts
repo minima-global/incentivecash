@@ -2,7 +2,7 @@ import { DirectusService } from './directus.service';
 import { Injectable } from '@angular/core';
 import { ReplaySubject, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { Minima } from 'minima';
+import { Coin, Minima } from 'minima';
 
 export interface LastAccess {
   milliseconds: number
@@ -209,25 +209,6 @@ export class StoreService {
     }).catch(error => {
       console.log(error);
     })
-
-    // this._directus.getTokenId()
-    // .then(res => {
-    //   console.log(res);
-    //   // if (!res.ok) {
-    //   //    console.log('/custom/minima/token failed to fetch resources.')
-    //   //    console.log(res);
-    //   // }
-    //   // return res.json()
-    // }).then(data => {
-    //   // console.log(data);
-    //   // if (data.errors) {
-    //   //   console.log(data.errors);
-    //   // } else {
-    //   //   this.tokenId.next(data)
-    //   // }
-    // }).catch((error) => {
-    //   console.log(error) }
-    // );
   }
 
   fetchRerral(uid: string) {
@@ -256,6 +237,7 @@ export class StoreService {
     Minima.cmd('coins relevant address:'+this.timeaddress_v2, (res: any) => {   
       this.tokenId.subscribe((token: IncentiveTokenID) => {
         if (res.status) {
+          console.log(res);
           let temp: IncentiveCash[] = [];
           res.response.coins.forEach((coin, i) => {
             // scaleFactor
@@ -274,13 +256,20 @@ export class StoreService {
             // difference
             let difference = total_ms - ms;
 
-            if (coin.data.coin.tokenid === token.tokenId) {
-              if (coin.data.prevstate[1] && (coin.data.prevstate[1].data > Minima.block)) {
-                temp.push({index: i+1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, scale: scale, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data, percent: percent})
-              } else if ((coin.data.prevstate[0] && coin.data.prevstate[1] && coin.data.prevstate[2]) && (coin.data.prevstate[1].data <= Minima.block && coin.data.prevstate[2].data >= Minima.block)) {                
-                temp.push({index: i+1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, scale: scale, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Ready', blockno: coin.data.prevstate[1].data, percent: percent})  
-              } else if ((coin.data.prevstate[0] && coin.data.prevstate[1] && coin.data.prevstate[2]) && (coin.data.prevstate[1].data <= Minima.block && coin.data.prevstate[2].data <= Minima.block)) {
-                temp.push({index: i+1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, scale: scale, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Missed', blockno: coin.data.prevstate[1].data, percent: percent})    
+            if (coin.data.coin.tokenid === "0x00") {
+              let state0 = coin.data.prevstate[0];
+              let state1 = coin.data.prevstate[1];
+              let state2 = coin.data.prevstate[2];
+              if (state0 && state1 && state2 && state1.data.length > 0 && state0.data.length > 0 && state2.data.length > 0) {
+                let unlocktime = coin.data.prevstate[1].data;
+                let window = coin.data.prevstate[2].data;
+                if (unlocktime > Minima.block) {
+                  temp.push({index: i+1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, scale: scale, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Not Ready', blockno: coin.data.prevstate[1].data, percent: percent});
+                } else if (unlocktime <= Minima.block && window >= Minima.block) {
+                  temp.push({index: i+1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, scale: scale, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Ready', blockno: coin.data.prevstate[1].data, percent: percent});
+                } else if (Minima.block > window) {
+                  temp.push({index: i+1, collect_date: '...', millisecond: difference, cash_amount: coin.data.coin.amount, scale: scale, coinid: coin.data.coin.coinid, tokenid: coin.data.coin.tokenid, status: 'Missed', blockno: coin.data.prevstate[1].data, percent: percent});    
+                }
               }
             }
           });

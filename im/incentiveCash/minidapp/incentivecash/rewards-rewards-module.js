@@ -122,8 +122,19 @@ let RewardsPage = class RewardsPage {
         this.totalClaimed = 0;
         this.shownSegments = 'unclaimed';
     }
-    ngOnInit() {
+    beforeunload($event) {
+        this._storeService.getUserDetailsOnce().then((usr) => {
+            localStorage.setItem('access_token', usr.loginData.access_token);
+        });
+    }
+    ionViewWillEnter() {
+        console.log('Entered Rewards Page');
+        this._storeService.getUserDetailsOnce().then((user) => {
+            this._storeService.fetchRewards(user.refID);
+        });
         this._storeService.checkRefreshToken();
+    }
+    ngOnInit() {
         this._storeService.rewards.subscribe((res) => {
             this.rewardList = [];
             this.totalClaimed = 0;
@@ -158,6 +169,7 @@ RewardsPage.ctorParameters = () => [
     { type: _api_store_service__WEBPACK_IMPORTED_MODULE_3__["StoreService"] }
 ];
 RewardsPage.propDecorators = {
+    beforeunload: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_4__["HostListener"], args: ['window:beforeunload', ['$event'],] }],
     claimedSegment: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_4__["ViewChild"], args: ['claimedSegment', { static: false },] }]
 };
 RewardsPage = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([

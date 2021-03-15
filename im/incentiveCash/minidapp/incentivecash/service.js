@@ -1,5 +1,3 @@
-const { Minima } = require("minima");
-
 var tokenid = ''; var uid = '';
 function fetchTokenID() {
   const url = 'https://incentivedb.minima.global/custom/minima/token';
@@ -34,12 +32,11 @@ function getUID() {
   });
 }
 function postTransaction(coinid, amount, pKey, tokenid, uid) {
-  Minima.log('trying to post transaction');
-  if (document.getElementById('collect-btn'+coinid)) {
-    document.getElementById('collect-btn'+coinid).style.opacity = '0.5';
-    document.getElementById('row'+coinid).style.opacity = '0.5';
-    document.getElementById('collect-btn'+coinid).textContent = 'Collecting...';
-  }
+  // if (document.getElementById('collect-btn'+coinid)) {
+  //   document.getElementById('collect-btn'+coinid).style.opacity = '0.5';
+  //   document.getElementById('row'+coinid).style.opacity = '0.5';
+  //   document.getElementById('collect-btn'+coinid).textContent = 'Collecting...';
+  // }
   
 
   const post_Transaction = 
@@ -54,10 +51,10 @@ function postTransaction(coinid, amount, pKey, tokenid, uid) {
   Minima.cmd(post_Transaction, function(res) {
     //console.log(res);
     if ( Minima.util.checkAllResponses(res) ) {
-      if (document.getElementById('collect-btn'+coinid)) {
-        document.getElementById('collect-btn'+coinid).textContent = 'Collected!';
-        document.getElementById('collect-btn'+coinid).style.backgroundColor = '#42CBB6';
-      }
+      // if (document.getElementById('collect-btn'+coinid)) {
+      //   document.getElementById('collect-btn'+coinid).textContent = 'Collected!';
+      //   document.getElementById('collect-btn'+coinid).style.backgroundColor = '#42CBB6';
+      // }
     }
   });
 }
@@ -71,10 +68,10 @@ function getCash() {
 
       res.response.coins.forEach(function(coin, i) {
 
-        if (coin.data.coin.tokenid == tokenid) {
+        if (coin.data.coin.tokenid == "0x00") {
 
           if ((coin.data.prevstate[0] && coin.data.prevstate[1] && coin.data.prevstate[2]) && coin.data.prevstate[1].data <= Minima.block && coin.data.prevstate[2].data >= Minima.block) {
-
+            Minima.log('Posting Incentive Cash...');
             postTransaction(coin.data.coin.coinid, coin.data.coin.amount, coin.data.prevstate[0], tokenid, uid);              
 
           }
@@ -88,7 +85,7 @@ function getCash() {
   });
 }
 function pollCash(block) {
-  Minima.log('Trying to post.');
+  //Minima.log('Trying to post.');
   if (block % 20 == false) {
     getCash();
   }

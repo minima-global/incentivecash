@@ -109,7 +109,6 @@ let CashPage = class CashPage {
             this.data = res;
         });
         this._storeService.cashlist.subscribe((res) => {
-            console.log(res);
             this.totalRemaining = 0;
             this.cashlist = res;
             this.cashlist = this.cashlist.slice().sort(this.byAscDate);

@@ -76,7 +76,7 @@ export class HomePage  {
     // check if current key exists on server
     if (data.publickeys && data.publickeys.length === 0) {
       // post a new key
-      this.postAKey(user.refID);
+      this.postAKey(user);
     } else {
       // check current keys with remote keys to find a match
       let nodeKeys = [];
@@ -92,18 +92,18 @@ export class HomePage  {
         // matching keys found
         const intersection = nodeKeys.filter(element => serverKeys.includes(element.publickey));
         if (intersection.length === 0) {
-          this.postAKey(user.refID);
+          this.postAKey(user);
         } else {
-          this.loginStatus = 'Login successful!';
+          this.loginStatus = 'Sign in successful!';
           this.lastAccess();
 
           Minima.file.load('first.txt', (res: any) => {
             if (res.success) {
+              this.getReferenceButton.disabled = false;
               this.router.navigate(['/rewards']);
-              this.getReferenceButton.disabled = false;
             } else {
-              this.router.navigate(['/welcome']);
               this.getReferenceButton.disabled = false;
+              this.router.navigate(['/welcome']);
             }
           });
           
@@ -117,13 +117,13 @@ export class HomePage  {
     }
   }
 
-  postAKey(uid: string) {
+  postAKey(user: UserDetails) {
     const url = 'https://incentivedb.minima.global/custom/minima/key';
     Minima.cmd('keys new; newaddress', (response: any) => {
       if (Minima.util.checkAllResponses(response)) {
-        if (uid && uid.length > 0 && response[0] && response[1] && response[0].response.key.publickey && response[1].response.address.hexaddress) {
+        if (user.refID && user.refID.length > 0 && response[0] && response[1] && response[0].response.key.publickey && response[1].response.address.hexaddress) {
           const data = {
-            userid: uid,
+            userid: user.refID,
             publickey: response[0].response.key.publickey,
             address: response[1].response.address.hexaddress
           }
@@ -144,20 +144,20 @@ export class HomePage  {
 
             Minima.file.load('first.txt', (res: any) => {
               if (res.success) {
+                this.getReferenceButton.disabled = false;
                 this.router.navigate(['/rewards']);
               } else {
+                this.getReferenceButton.disabled = false;
                 this.router.navigate(['/welcome']);
               }
             });
             this.loginForm.reset();
-            this._storeService.getUserDetailsOnce().then((user: UserDetails) => {
-              let temp = user;
-              temp.pKey = response[0].response.key.publickey;
-              this._storeService.data.next(temp);
-              // save this for service.js
-              Minima.file.save(JSON.stringify({uid: user.refID}), 'uid.txt',  (res: any) => {});
-            });
-
+            
+            let temp = user;
+            temp.pKey = response[0].response.key.publickey;
+            this._storeService.data.next(temp);
+            // save this for service.js
+            Minima.file.save(JSON.stringify({uid: user.refID}), 'uid.txt',  (res: any) => {});
           }).catch(error => {
             console.log(error)
           }).finally(() => {
