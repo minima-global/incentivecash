@@ -17,12 +17,12 @@ import {
   AppDispatch,
   PageTypes,
   User as UserData,
-  UserRegisterPassword,
+  UserResetPassword,
   TxData
 } from '../../store/types'
 
 import { setActivePage } from '../../store/app/appData/actions'
-import { registerPassword, initTx } from '../../store/app/server/actions'
+import { resetPassword, initTx } from '../../store/app/server/actions'
 
 import {
   Local,
@@ -36,13 +36,8 @@ import {
 } from '../../config'
 
 const registerSchema = Yup.object().shape({
-  email: Yup.string()
-    .email()
-    .required(`${GeneralError.required}`),
-  storedToken: Yup.string()
-    .required(`${Register.tokenRequired}`),
   token: Yup.string()
-    .oneOf([Yup.ref('storedToken'), null], `${Register.tokenNotMatch}`),
+    .required(`${Register.tokenRequired}`),
   password: Yup.string()
     .min(8, `${Register.passTooShort}`)
     .required(`${GeneralError.required}`),
@@ -59,7 +54,7 @@ interface StateProps {
 interface DispatchProps {
   setActivePage: (page: PageTypes) => void
   initTx: () => void
-  registerPassword: (user: UserRegisterPassword) => void
+  resetPassword: (user: UserResetPassword) => void
 }
 
 type Props = StateProps & DispatchProps
@@ -67,8 +62,6 @@ type Props = StateProps & DispatchProps
 const display = (props: Props) => {
 
   const [summary, setSummary] = useState("")
-  const [storedToken, setStoredToken] = useState("")
-  const [isDisabled, setIsDisabled] = useState(false)
   let isFirstRun = useRef(true)
 
   let { uid } = useParams<{ uid: string }>()
@@ -87,26 +80,14 @@ const display = (props: Props) => {
 
       isFirstRun.current = false
 
-      if ( props.user.info ) {
-
-        setStoredToken(props.user.info.token)
-
-      } else {
-
-        props.setActivePage(PageTypes.SIGNIN)
-        history.push(`${Local.home}`)
-
-      }
-
     } else {
 
       const txSummary: string = props.tx.summary
-      if( txSummary &&
-         ( txSummary != summary ) ) {
+      if( txSummary != summary ) {
 
         setSummary(txSummary)
 
-        if (( txSummary === `${Register.passwordSuccess}` ) ||
+        if (( txSummary === `${User.resetPasswordSuccess}` ) ||
             ( txSummary === `${Post.postSuccess}`)) {
 
           setSummary(`${Register.login}`)
@@ -116,10 +97,6 @@ const display = (props: Props) => {
             props.initTx()
             history.push(`${Local.home}`)
           }, Misc.successLoginDelay)
-        } else {
-
-          console.log("am I here?", txSummary)
-          setIsDisabled(false)
         }
       }
 
@@ -133,8 +110,6 @@ const display = (props: Props) => {
 
   const formik = useFormik({
     initialValues: {
-      email: email,
-      storedToken: storedToken,
       token: "",
       password: "",
       password2: ""
@@ -143,41 +118,31 @@ const display = (props: Props) => {
     validationSchema: registerSchema,
     onSubmit: (values: any) => {
 
-      const userInfo: UserRegisterPassword = {
-          email: values.email,
-          uid: uid,
-          referral: referral,
+      const userInfo: UserResetPassword = {
           token:  values.token,
           password:  values.password
       }
-      setIsDisabled(true)
-      props.registerPassword(userInfo)
+      props.resetPassword(userInfo)
     },
   })
 
   return (
 
     <>
+
       <Grid item container xs={12}>
 
-        <Grid item container justify="center" xs={6}>
+        <Grid item container justify="center" xs={12}>
 
-          <Link
-            className={classes.registerActiveLink}
-            to={Local.register}
-            onClick={() => props.setActivePage(PageTypes.REGISTER)}
-          >
-            {Paths.register}
-          </Link>
+          <Typography variant="h3">
+            {Paths.reset}
+          </Typography>
 
           <Grid item container justify="flex-start" xs={12}>
             <svg
                xmlns="http://www.w3.org/2000/svg"
                width="2000"
                height="4"
-               style={{
-                 paddingRight: "10px"
-               }}
             >
               <line x2="2000" stroke="#317AFF" strokeWidth={4} />
             </svg>
@@ -185,51 +150,7 @@ const display = (props: Props) => {
 
         </Grid>
 
-        <Grid item container justify="center" xs={6}>
-
-          <Link
-            className={classes.registerInActiveLink}
-            to={Local.signIn}
-            onClick={() => props.setActivePage(PageTypes.SIGNIN)}
-          >
-            {Paths.signIn}
-          </Link>
-
-          <Grid item container justify="flex-start" xs={12}>
-            <svg
-               xmlns="http://www.w3.org/2000/svg"
-               width="2000"
-               height="4"
-               style={{
-                 paddingLeft: "10px"
-               }}
-            >
-              <line x2="2000" stroke="#AAAABE" strokeWidth={4} />
-            </svg>
-          </Grid>
-
-        </Grid>
-
         <form onSubmit={formik.handleSubmit} className={classes.formSubmit}>
-          <Grid item container className={classes.formLabel} xs={12}>
-            <label htmlFor="email">{User.email}</label>
-          </Grid>
-          <Grid item container xs={12}>
-            <TextField
-              fullWidth
-              size="small"
-              name="email"
-              type="text"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              InputProps={{ disableUnderline: true }}
-            />
-          </Grid>
-          <Grid item container className={classes.formError} xs={12}>
-            {formik.errors.email && formik.touched.email ? (
-              <div>{formik.errors.email}</div>
-            ) : null}
-          </Grid>
           <Grid item container className={classes.formLabel} xs={12}>
             <label htmlFor="token">{Register.token}</label>
           </Grid>
@@ -294,13 +215,12 @@ const display = (props: Props) => {
               color="primary"
               size='medium'
               variant="contained"
-              disabled={isDisabled}
               style={{
                 textTransform: 'none',
                 fontSize: "1em",
               }}
             >
-              {Register.registerButton}
+              {User.resetButton}
             </Button>
           </Grid>
         </form>
@@ -327,11 +247,11 @@ const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
  return {
    setActivePage: (page: PageTypes) => dispatch(setActivePage(page)),
    initTx: () => dispatch(initTx()),
-   registerPassword: (user: UserRegisterPassword) => dispatch(registerPassword(user))
+   resetPassword: (user: UserResetPassword) => dispatch(resetPassword(user))
  }
 }
 
-export const RegisterPassword = connect<StateProps, DispatchProps, {}, ApplicationState>(
+export const ResetPassword = connect<StateProps, DispatchProps, {}, ApplicationState>(
   mapStateToProps,
   mapDispatchToProps
 )(display)

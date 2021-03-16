@@ -65,40 +65,32 @@ const display = (props: Props) => {
   return (
 
     <>
-      <Grid className={classes.leftContent} item container justify="flex-start" xs={breakpoints}>
+      <Grid className={classes.leftContent} item container justify="flex-start" alignItems="center" xs={breakpoints}>
 
-        <Typography variant="h1">
-          <span style={{color: 'red' }}>{App.title}</span> {WelcomeConfig.info}
-          <br/>
-        </Typography>
-
-        <Typography variant="h3">
-          <br/>
-          {WelcomeConfig.heading}<br/>
-        </Typography>
-
-        <Typography variant="body1">
-          <br/>
-          {WelcomeConfig.moreInfo} <a className={classes.activeLink} href={App.website}>{App.website}</a>.<br/>
-          {WelcomeConfig.infoThird}<br/><br/>
-        </Typography>
+        <Grid item container alignItems="flex-start" xs={12}>
+          <Typography variant="h1">
+            <span style={{color: 'red' }}>{App.title}</span> {WelcomeConfig.info}
+          </Typography>
+          <Typography variant="h3">
+            {WelcomeConfig.heading}
+          </Typography>
+          <Typography variant="body1">
+            {WelcomeConfig.moreInfo} <a className={classes.activeLink} href={App.website}>{App.website}</a>.<br/><br/>
+            {WelcomeConfig.infoThird}
+          </Typography>
+        </Grid>
 
       </Grid>
 
-      <Grid className={classes.rightContent} item container xs={breakpoints}>
+      <Grid className={classes.rightContent} item container alignItems= "center" xs={breakpoints}>
 
         <Grid item container justify="flex-start" xs={12}>
 
           <Typography variant="h2">
             {WelcomeConfig.subHeading}
           </Typography>
-
-        </Grid>
-
-        <Grid item container justify="flex-start" xs={12}>
-
           <Typography variant="h4">
-            {WelcomeConfig.downloadAPK} <a href={Remote.aPKVideo}>{Remote.aPKVideo}</a>.<br/><br/>
+            {WelcomeConfig.downloadAPK} <a href={Remote.aPKVideo}>{Remote.aPKVideo}</a>.<br/>
           </Typography>
 
         </Grid>
@@ -135,8 +127,7 @@ const display = (props: Props) => {
         <Grid item container justify="flex-start" xs={12}>
 
           <Typography variant="h4">
-            <br/>
-            {WelcomeConfig.downloadMiniDapp} <a href={Remote.miniDappVideo}>{Remote.miniDappVideo}</a>.<br/><br/>
+            {WelcomeConfig.downloadMiniDapp} <a href={Remote.miniDappVideo}>{Remote.miniDappVideo}</a>.<br/>
           </Typography>
 
         </Grid>
@@ -173,8 +164,7 @@ const display = (props: Props) => {
         <Grid item container justify="flex-start" xs={12}>
 
           <Typography variant="h4">
-            <br/>
-            {WelcomeConfig.infoSecond}<br />
+            {WelcomeConfig.infoSecond}
           </Typography>
 
         </Grid>

@@ -26,6 +26,7 @@ export const enum PageTypes {
   NONE = "",
   WELCOME = "welcome",
   RESET = "reset",
+  RESETPASSWORD = "resetPassword",
   REGISTER = "register",
   REGISTERPASSWORD = "registerPassword",
   SIGNIN = "signin",
@@ -58,6 +59,11 @@ export interface UserRegisterPassword {
   email: string
   uid: string
   referral: string
+  token: string
+  password: string
+}
+
+export interface UserResetPassword {
   token: string
   password: string
 }
