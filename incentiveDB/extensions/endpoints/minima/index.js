@@ -25,6 +25,11 @@ const postRewardSchema = Joi.object({
   extrainfo: Joi.string()
 });
 
+const resetSchema = Joi.object({
+  userid: Joi.string().required(),
+  newPass: Joi.string().required()
+});
+
 module.exports = async function registerEndpoint(router, { services, exceptions }) {
 
   const { ItemsService, UsersService } = services;
@@ -371,6 +376,46 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
     }
 
 	});
+
+  /*router.post(config.uRLs.reset.url, (req, res, next) => {
+
+    const { error } = resetSchema.validate(req.body);
+    if (error) return next(new InvalidPayloadException(error.message));
+
+    const userid = req.body.userid;
+    const newPassword = {
+      password: req.body.newPass
+    };
+
+    const userService = new UsersService({ schema: req.schema });
+    userService
+      .update(newPassword, userid)
+      .then( async (results) => {
+
+        return res.send("OK");
+
+        //super inefficient, but I can't get .readByKey working :(
+        //console.log("My results: ", results)
+        for (let i = 0; i < results.length; i++) {
+
+          if (results[i].id == userid ) {
+
+              console.log("found id");
+              return res.send("OK");
+
+          } else {
+
+            return next(new ServiceUnavailableException(`Invalid userid: ${userid}`));
+
+          }
+        }
+      });
+      .catch((error) => {
+
+        console.error(error.message)
+        return next(new ServiceUnavailableException(error.message));
+      });
+  });*/
 
 };
 
