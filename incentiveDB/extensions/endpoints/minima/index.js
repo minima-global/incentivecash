@@ -377,10 +377,15 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
 
 	});
 
-  router.post(config.uRLs.reset.url, (req, res, next) => {
+  router.post(config.uRLs.resetPass.url, (req, res, next) => {
 
     const { error } = resetSchema.validate(req.body);
     if (error) return next(new InvalidPayloadException(error.message));
+		if ( ( req.accountability?.admin !== true ) ||
+         ( req.accountability?.user !== true ) ) {
+
+         return next(new ServiceUnavailableException("Unavailable"));
+    }
 
     const userid = req.body.userid;
     const newPassword = {
@@ -392,7 +397,6 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
       .update(newPassword, userid)
       .then( (results) => {
 
-        console.log(results)
         return res.send("OK");
       })
       .catch((error) => {

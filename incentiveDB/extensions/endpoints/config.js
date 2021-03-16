@@ -71,8 +71,8 @@ const uRLs = {
     url: "/getTriggers",
     index: 12
   },
-  reset: {
-    url: "/reset",
+  resetPass: {
+    url: "/resetPass",
     index: 13
   }
 }
