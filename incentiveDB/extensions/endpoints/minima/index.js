@@ -101,7 +101,7 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
         let userRewards = [];
         for (let i = 0; i < results.length; i++) {
           if ( results[i].userid == userid ) {
-            console.log("Userid: ", results[i].userid );
+            //console.log("Userid: ", results[i].userid );
             userRewards.push(results[i]);
           }
         }
