@@ -149,6 +149,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */ "kU1M");
 /* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! minima */ "Kmpd");
 /* harmony import */ var minima__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(minima__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ionic/angular */ "TEn/");
+
 
 
 
@@ -157,9 +159,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let StoreService = class StoreService {
-    constructor(_directus, route) {
+    constructor(_directus, route, alertController) {
         this._directus = _directus;
         this.route = route;
+        this.alertController = alertController;
         this.timescript = 'LET owner = PREVSTATE ( 0 ) LET time = PREVSTATE ( 1 ) RETURN SIGNEDBY ( owner ) AND @BLKNUM GTE time';
         this.timescript_v2 = 'LET owner = PREVSTATE ( 0 ) LET time = PREVSTATE ( 1 ) LET maxtime = PREVSTATE ( 2 ) RETURN SIGNEDBY ( owner ) AND @BLKNUM GTE time AND @BLKNUM LTE maxtime';
         this.timeaddress_v2 = '0xA9D9272A6D69466A2905796F7381F789DEE48C06';
@@ -179,6 +182,16 @@ let StoreService = class StoreService {
             this.fetchTokenID();
         });
     }
+    presentAlert() {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            const alert = yield this.alertController.create({
+                header: 'Session Expired!',
+                message: 'You have been signed out.',
+                buttons: ['OK']
+            });
+            yield alert.present();
+        });
+    }
     checkRefreshToken() {
         console.log('CHECK REFRESH TOKEN');
         this.getUserDetailsOnce().then((res) => {
@@ -187,11 +200,26 @@ let StoreService = class StoreService {
             let refresh_token = res.loginData.refresh_token;
             let time_apart = expiry_time - current_time;
             console.log(time_apart);
-            if (time_apart <= 300000) {
+            if (time_apart === 0) {
+                this.signOffUser();
+            }
+            else if (time_apart <= 300000) {
                 console.log('LESS THAN 5 mins LEFT, Time to update access_token');
                 // time to get a new access_token
                 this.updateAccessToken(refresh_token);
             }
+        });
+    }
+    signOffUser() {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            yield this.presentAlert();
+            yield this.getUserDetailsOnce().then((res) => {
+                let user = res;
+                user.loginData.access_token = '';
+                user.loginData.refresh_token = '';
+                this.data.next(user);
+                this.route.navigate(['/home']);
+            });
         });
     }
     updateAccessToken(refresh_token) {
@@ -224,9 +252,9 @@ let StoreService = class StoreService {
                 let temp = user;
                 console.log('Old User Data');
                 console.log(temp);
-                temp.loginData.access_token = data.access_token;
-                temp.loginData.refresh_token = data.refresh_token;
-                temp.loginData.expires = data.expires;
+                temp.loginData.access_token = data.data.access_token;
+                temp.loginData.refresh_token = data.data.refresh_token;
+                temp.loginData.expires = data.data.expires;
                 // update session times
                 let sessionStart = new Date();
                 let currentTime = sessionStart.getTime();
@@ -360,7 +388,8 @@ let StoreService = class StoreService {
 };
 StoreService.ctorParameters = () => [
     { type: _directus_service__WEBPACK_IMPORTED_MODULE_2__["DirectusService"] },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_7__["AlertController"] }
 ];
 StoreService = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Injectable"])({
