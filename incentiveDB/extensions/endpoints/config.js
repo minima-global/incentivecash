@@ -13,10 +13,11 @@ const tokensPerDay = 2;
 const numDaysPerBatch = 5;
 const tokenBatches = numDaysPerBatch * tokensPerDay;
 const blockTimeSeconds = 20;
-const blocksPerDay = 86400 / blockTimeSeconds;
-//const blocksPerDay = 4;
+//const blocksPerDay = 86400 / blockTimeSeconds;
+const blocksPerDay = 4;
 const blocksPerBatch = numDaysPerBatch * blocksPerDay;
-const blockWindow = 180;
+//const blockWindow = 180;
+const blockWindow = 10;
 
 const JSONRPCVERSION = "2.0";
 const minimaRPC = "MinimaRPC";
