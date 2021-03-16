@@ -80,15 +80,15 @@ module.exports = function registerEndpoint(router, { services, exceptions }) {
                  ( results[i].method == method ) ) {
 
               let command = results[i].command
-              //console.log("command ", command);
-
               if ( results[i].protocol == config.minimaRPC ) {
 
-                const setParams = results[i].setparams ? results[i].setparams + " " : " "
+                const setParams = results[i].setparams ? results[i].setparams + " " : ""
                 command += " " + setParams
                 for (let j = 0; j < params.length; j++) {
                   command += params[j] + " "
                 }
+
+                //console.log(command);
 
                 const data = await helpers.postMinimaRPC(command.trim());
                 if ( data.hasOwnProperty('response') ) {

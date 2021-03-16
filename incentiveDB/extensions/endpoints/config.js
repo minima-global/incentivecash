@@ -132,3 +132,4 @@ exports.tables = tables;
 exports.JSONRPCVERSION = JSONRPCVERSION;
 exports.minimaRPC = minimaRPC;
 exports.logTypes = logTypes;
+exports.rewardTypes = rewardTypes;
