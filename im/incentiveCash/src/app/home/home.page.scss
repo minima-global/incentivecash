@@ -74,12 +74,12 @@ ion-col div.blue-ruler {
     --padding-end: 95px
   }
 }
-ion-row.has ion-col.forgot {
+ion-row.has ion-col.forgot a {
   font-size: 18px;
   color: #AAAABE;
   font-family: manrope-medium;
 }
-ion-row.has ion-col.forgot:hover {
+ion-row.has ion-col.forgot a:hover {
   color: var(--ion-color-primary);
   cursor: pointer;
 }
