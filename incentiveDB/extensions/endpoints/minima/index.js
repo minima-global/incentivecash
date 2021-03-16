@@ -101,7 +101,7 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
         let userRewards = [];
         for (let i = 0; i < results.length; i++) {
           if ( results[i].userid == userid ) {
-            //console.log("Userid: ", results[i].userid );
+            console.log("Userid: ", results[i].userid );
             userRewards.push(results[i]);
           }
         }
@@ -377,7 +377,7 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
 
 	});
 
-  /*router.post(config.uRLs.reset.url, (req, res, next) => {
+  router.post(config.uRLs.reset.url, (req, res, next) => {
 
     const { error } = resetSchema.validate(req.body);
     if (error) return next(new InvalidPayloadException(error.message));
@@ -390,32 +390,17 @@ module.exports = async function registerEndpoint(router, { services, exceptions 
     const userService = new UsersService({ schema: req.schema });
     userService
       .update(newPassword, userid)
-      .then( async (results) => {
+      .then( (results) => {
 
+        console.log(results)
         return res.send("OK");
-
-        //super inefficient, but I can't get .readByKey working :(
-        //console.log("My results: ", results)
-        for (let i = 0; i < results.length; i++) {
-
-          if (results[i].id == userid ) {
-
-              console.log("found id");
-              return res.send("OK");
-
-          } else {
-
-            return next(new ServiceUnavailableException(`Invalid userid: ${userid}`));
-
-          }
-        }
-      });
+      })
       .catch((error) => {
 
         console.error(error.message)
         return next(new ServiceUnavailableException(error.message));
       });
-  });*/
+  });
 
 };
 
