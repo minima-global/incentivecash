@@ -3,7 +3,23 @@ import { DirectusService } from './directus.service';
 import { Injectable } from '@angular/core';
 import { ReplaySubject, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { Coin, Minima } from 'minima';
+import { Minima } from 'minima';
+import { AlertController } from '@ionic/angular';
+
+interface JWT {
+  access_token: string
+  expires: number
+  refresh_token: string
+  sessions: {
+    sessionStart: Date 
+    sessionEnd: Date
+  }
+}
+
+interface IncentiveTokenID {
+  tokenId: string
+  scaleFactor: number
+}
 
 export interface LastAccess {
   milliseconds: number
@@ -21,16 +37,6 @@ export interface Rewards {
   date_created: any,
   extrainfo: string,
   reason: string
-}
-
-interface JWT {
-  access_token: string
-  expires: number
-  refresh_token: string
-  sessions: {
-    sessionStart: Date 
-    sessionEnd: Date
-  }
 }
 
 export interface UserDetails {
@@ -51,11 +57,6 @@ export interface IncentiveCash {
   status: string
   blockno: string
   percent?: number
-}
-
-interface IncentiveTokenID {
-  tokenId: string
-  scaleFactor: number
 }
 
 export interface ReferralCode {
@@ -82,7 +83,7 @@ export class StoreService {
   lastAccess: Subject<LastAccess> = new ReplaySubject<LastAccess>(1);
   userRewards: Subject<string> = new ReplaySubject<string>(1);
 
-  constructor(private _directus: DirectusService, private route: Router) {
+  constructor(private _directus: DirectusService, private route: Router, public alertController: AlertController) {
     // track this script
     Minima.cmd('extrascript \"'+this.timescript_v2+"\"", (res: any) => {});
     this.getUserDetailsOnce().then((res: UserDetails) => {
@@ -90,6 +91,15 @@ export class StoreService {
       this.fetchRerral(res.refID);
       this.fetchTokenID();
     })
+  }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Session Expired!',
+      message: 'You have been signed out.',
+      buttons: ['OK']
+    });
+    await alert.present();
   }
 
   checkRefreshToken() {
@@ -102,7 +112,9 @@ export class StoreService {
 
       let time_apart = expiry_time - current_time;
       console.log(time_apart);
-      if (time_apart <= 300000) {
+      if (time_apart === 0) {
+        this.signOffUser();
+      } else if (time_apart <= 300000) {
         console.log('LESS THAN 5 mins LEFT, Time to update access_token');
         // time to get a new access_token
         this.updateAccessToken(refresh_token);
@@ -110,6 +122,18 @@ export class StoreService {
       }
 
 
+    });
+  }
+
+  async signOffUser() {
+    await this.presentAlert();
+    
+    await this.getUserDetailsOnce().then((res: UserDetails) => {
+      let user = res;
+      user.loginData.access_token = '';
+      user.loginData.refresh_token = '';
+      this.data.next(user);
+      this.route.navigate(['/home']);
     });
   }
 
@@ -144,9 +168,9 @@ export class StoreService {
         let temp = user;
         console.log('Old User Data'); 
         console.log(temp);
-        temp.loginData.access_token = data.access_token;
-        temp.loginData.refresh_token = data.refresh_token;
-        temp.loginData.expires = data.expires;
+        temp.loginData.access_token = data.data.access_token;
+        temp.loginData.refresh_token = data.data.refresh_token;
+        temp.loginData.expires = data.data.expires;
         // update session times
         let sessionStart = new Date();
         let currentTime = sessionStart.getTime();
