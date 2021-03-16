@@ -287,7 +287,7 @@ export class StoreService {
             // difference
             let difference = total_ms - ms;
 
-            if (coin.data.coin.tokenid === "0x00") {
+            if (coin.data.coin.tokenid === token.tokenId) {
               let state0 = coin.data.prevstate[0];
               let state1 = coin.data.prevstate[1];
               let state2 = coin.data.prevstate[2];
