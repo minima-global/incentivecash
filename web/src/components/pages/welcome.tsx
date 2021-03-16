@@ -45,8 +45,12 @@ type Props = StateProps & DispatchProps
 
 const display = (props: Props) => {
 
-  const history = useHistory()
+  let dappURL = Remote.devMiniDappURL
+  if ( process.env.NODE_ENV === 'development' ) {
+    dappURL = Remote.prodMiniDappURL
+  }
 
+  const history = useHistory()
   const theme = useTheme()
   const breakpoints = useMediaQuery(theme.breakpoints.up('lg')) ? 6 : 12
   const classes = themeStyles()
@@ -134,7 +138,7 @@ const display = (props: Props) => {
 
         <Grid item container justify="center">
 
-          <a href={Remote.miniDappURL} style={{textDecoration: 'none'}}>
+          <a href={dappURL} style={{textDecoration: 'none'}}>
             <Button
               className={classes.submitButton}
               color="primary"
@@ -173,17 +177,6 @@ const display = (props: Props) => {
     </>
   )
 }
-
-/*
-<Grid item container xs={12}>
-  <svg
-     xmlns="http://www.w3.org/2000/svg"
-     viewBox="0 0 2000 4"
-  >
-    <line x2="2000" stroke="#317aff" strokeWidth={4} />
-  </svg>
-</Grid>
-*/
 
 const mapStateToProps = (state: ApplicationState): StateProps => {
   return {
